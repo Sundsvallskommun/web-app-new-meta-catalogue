@@ -1,0 +1,39 @@
+@layer components {
+  // Sparkle icon scss
+  .sparkle-icon {
+    @apply inline-block ml-sm;
+
+  }
+
+  @keyframes TopScaleAndShow {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes BottomScaleAndShow {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  .slowpulse {
+    transform-origin: right top;
+    animation: 0.6s ease-in-out infinite alternate TopScaleAndShow;
+  }
+
+  .fastpulse {
+    transform-origin: center bottom;
+    animation: 1.0s ease-in-out infinite alternate BottomScaleAndShow;
+  }
+}

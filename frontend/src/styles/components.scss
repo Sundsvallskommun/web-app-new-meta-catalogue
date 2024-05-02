@@ -1,0 +1,133 @@
+@import './components/comments-sidebar.scss';
+@import './components/progressbar';
+@import './components/sidebar';
+@import './components/sparkle';
+@import './components/forms';
+
+@layer components {
+  .container {
+    @apply px-2 lg:px-0;
+  }
+
+  .form-error-message {
+    @apply mb-4;
+  }
+
+  .max-width-content {
+    @apply max-w-[165rem];
+  }
+
+  .header-container .header-content,
+  .TabMenu > .tab-wrapper,
+  .container {
+    @apply max-width-content;
+  }
+
+  //:START @sk-web-gui
+  .sk-zebratable {
+    @apply table-fixed lg:table-auto;
+
+    &-tbody-td:last-of-type {
+      @apply text-left;
+    }
+
+    &-tbody-tr.highlighted {
+      @apply border-0 shadow-[inset_0_0_0_4px_rgb(0,85,149)];
+    }
+  }
+  .last-th-right {
+    .sk-zebratable {
+      &-thead-th,
+      &-tbody-td {
+        &:last-of-type {
+          @apply lg:text-right;
+        }
+      }
+    }
+  }
+  .PersonEditor {
+    .sk-zebratable {
+      &-thead-th,
+      &-tbody-td {
+        &:last-of-type {
+          @apply px-sm lg:pl-0;
+        }
+
+        &:first-of-type {
+          @apply pl-sm;
+        }
+      }
+    }
+  }
+
+  .narrow-table {
+    .sk-zebratable {
+      &-thead-th,
+      &-tbody-td {
+        &:last-of-type {
+          @apply px-sm lg:pl-0;
+        }
+
+        &:first-of-type {
+          @apply pl-sm;
+        }
+      }
+    }
+  }
+
+  .usermenu {
+    [role='img'] {
+      @apply bg-top;
+    }
+  }
+
+  .btn {
+    @apply max-w-full;
+
+    &-link {
+      @apply underline hover:no-underline focus-within:no-underline;
+    }
+  }
+
+  button.link[aria-disabled='true'] {
+    @apply opacity-75 pointer-events-none;
+  }
+
+  .form-field-outline[aria-invalid='true'] {
+    @apply border;
+  }
+
+  .form-input {
+    &-addon,
+    &-addin {
+      @apply px-2;
+    }
+  }
+
+  .sk-sidemenu-item {
+    &.separator {
+      @apply bg-transparent;
+    }
+  }
+
+  .draftShowAs {
+    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-primary-active hover:text-white hover:transition-all hover:duration-300;
+  }
+
+  .activecard {
+    @apply bg-primary text-white;
+  }
+  .activelist {
+    @apply bg-primary text-white;
+  }
+
+  .moretip {
+    @apply w-[150px] absolute z-50 px-sm py-sm bg-white rounded shadow-md;
+  }
+
+  .Modal {
+    @apply hidden;
+  }
+
+  //:END
+}

@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/database/database.db"
+}
+
+model UserSettings {
+  id     Int    @id @default(autoincrement())
+  userId String @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  readCommentsClearedDate DateTime?
+}
+
+model AlertMessage {
+  id     Int    @id @default(autoincrement())
+  message String
+  severity String
+  fromDate DateTime?
+  toDate DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}

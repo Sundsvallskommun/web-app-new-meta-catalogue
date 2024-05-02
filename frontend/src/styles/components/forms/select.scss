@@ -1,0 +1,140 @@
+@layer components {
+  .sk-form-select {
+    @apply h-fit;
+    @apply w-fit;
+    @apply box-border;
+    @apply focus:border-transparent;
+    @apply text-body;
+    @apply placeholder:text-body;
+    @apply hover:placeholder:text-body;
+    @apply focus:placeholder:text-body;
+    @apply hover:text-body;
+    @apply focus:text-body;
+    // @apply py-6;
+    //   @apply focus:ring focus:ring-ring focus:ring-offset;
+    //   @apply focus:outline-0;
+
+    backgroundimage: url("data:image/svg+xml;utf-8,${chevronDown('rgb(68,68,80)')}");
+    &:hover,
+    &:focus {
+      backgroundimage: url("data:image/svg+xml;utf-8,${chevronDown('rgb(28,28,40)')}");
+    }
+
+    //Droprown
+    //   * {
+    //     @apply bg-background-content;
+    //   }
+
+    //Invalid
+    //   &[aria-invalid='true'] {
+    //     @apply border-2 border-error-surface-primary;
+    //   }
+
+    //Disabled
+    //   &[aria-disabled='true'] {
+    //     @apply opacity-100;
+    //     @apply text-dark-disabled;
+    //     @apply placeholder:text-dark-disabled;
+    //     @apply bg-tertiary-surface-disabled;
+    //     backgroundimage url("data:image/svg+xml;utf-8,${chevronDown('rgba(28,28,40, 0.5)')}");
+    //   }
+
+    &-sm {
+      @apply h-[3.2rem];
+      @apply text-sm;
+      // @apply rounded-button-sm;
+      * {
+        @apply text-sm;
+      }
+    }
+    &-md {
+      @apply h-[4.4rem];
+      @apply text-base;
+      // @apply rounded-button-md;
+      * {
+        @apply text-base;
+      }
+    }
+    &-lg {
+      @apply h-[4.8rem];
+      @apply text-lg;
+      // @apply rounded-button-lg;
+      * {
+        @apply text-lg;
+      }
+    }
+
+    &-primary {
+      @apply border;
+      // @apply border-primitives-overlay-darken-6;
+      // @apply dark:border-primitives-overlay-lighten-6;
+      // @apply hover:border-primitives-overlay-darken-8;
+      // @apply dark:hover:border-primitives-overlay-lighten-4;
+      // @apply bg-primitives-overlay-lighten-10;
+      // @apply dark:bg-primitives-overlay-darken-6;
+      // @apply hover:bg-primitives-overlay-lighten-10;
+      // @apply dark:hover:bg-primitives-overlay-darken-6;
+
+      &.sk-form-select-sm {
+        //Padding - border width
+        @apply pl-[1.3rem];
+        //Background position - border width
+        @apply bg-[center_right_0.9rem];
+        //Padding + icon width - border width
+        @apply pr-[3.3rem];
+
+        //   &[aria-invalid='true'] {
+        //     //Padding - border width
+        //     @apply pl-12;
+        //     //Background position - border width
+        //     @apply bg-right-8;
+        //     //Padding + icon width - border width
+        //     @apply pr-[3.2rem];
+        //   }
+      }
+      &.sk-form-select-md {
+        //Padding - border width
+        @apply pl-[1.7rem];
+        //Background position - border width
+        @apply bg-[center_right_1.3rem];
+        //Padding + icon width - border width
+        @apply pr-[4.3rem];
+
+        //   &[aria-invalid='true'] {
+        //     //Padding - border width
+        //     @apply pl-16;
+        //     //Background position - border width
+        //     @apply bg-right-12;
+        //     //Padding + icon width - border width
+        //     @apply pr-[4.2rem];
+        //   }
+      }
+      &.sk-form-select-lg {
+        //Padding - border width
+        @apply pl-[1.9rem];
+        //Background position - border width
+        @apply bg-[center_right_1.7rem];
+        //Padding + icon width - border width
+        @apply pr-[4.9rem];
+
+        //   &[aria-invalid="true"] {
+        //     //Padding - border width
+        //     @apply pl-18;
+        //     //Background position - border width
+        //     @apply bg-right-16;
+        //     //Padding + icon width - border width
+        //     @apply pr-[4.8rem];
+        //   },
+      }
+      //Disabled
+      // &[aria-disabled="true"] {
+      //   @apply bg-primitives-overlay-darken-1;
+      //   @apply dark:bg-primitives-overlay-lighten-1;
+      //   @apply border-primitives-overlay-darken-3;
+      //   @apply dark:border-primitives-overlay-lighten-3;
+      //   @apply hover:border-primitives-overlay-darken-3;
+      //   @apply dark:hover:border-primitives-overlay-lighten-3;
+      // },
+    }
+  }
+}

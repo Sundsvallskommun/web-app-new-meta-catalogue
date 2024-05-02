@@ -1,0 +1,41 @@
+@layer components {
+  .Sidebar {
+    @apply space-y-xl 2xl:space-y-0 2xl:flex 2xl:gap-lg;
+
+    aside {
+      @apply lg:w-[540px] max-h-[95vh];
+    }
+
+    main {
+      @apply w-full;
+    }
+
+    &.container {
+      @apply px-0;
+    }
+  }
+
+  .SidebarOrganization {
+    @apply lg:-ml-[100px] flex-none custom-scroll-sm overflow-y-hidden;
+
+    > * {
+      @apply lg:pl-[100px] w-full;
+    }
+
+    .sk-sidemenu {
+      @apply w-full;
+
+      &-item-label {
+        @apply block truncate max-w-[18rem] sm:max-w-full;
+      }
+    }
+
+    &.OrgChange {
+      .sk-sidemenu {
+        .sk-sidemenu-header {
+          @apply p-0;
+        }
+      }
+    }
+  }
+}

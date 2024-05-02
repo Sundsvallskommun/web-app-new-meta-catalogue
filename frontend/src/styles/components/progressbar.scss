@@ -1,0 +1,59 @@
+.Progressbar {
+  @apply flex justify-around;
+
+  &-section {
+    @apply w-full flex flex-col justify-end;
+
+    &.active {
+      .Progressbar {
+        &-label {
+          @apply block font-bold text-body;
+        }
+      }
+    }
+
+    &:nth-child(n + 2) .Progressbar-line {
+      @apply rounded-l-none ml-[4px] w-[calc(100%_-_4px)];
+
+      &::before {
+        position: absolute;
+        content: '';
+        width: 4px;
+        height: 8px;
+        left: -4px;
+        background-color: inherit;
+        clip-path: path('M0,0 L4,0 L4,8 L0,8 A4,4,0,0,0,0,0');
+      }
+    }
+
+    &:nth-child(n + 2) .Progressbar-dormentline {
+      @apply rounded-l-none ml-[4px] w-[calc(100%_-_4px)];
+
+      &::before {
+        position: absolute;
+        content: '';
+        width: 4px;
+        height: 8px;
+        left: -4px;
+        background-color: inherit;
+        clip-path: path('M0,0 L4,0 L4,8 L0,8 A4,4,0,0,0,0,0');
+      }
+    }
+  }
+
+  &-label {
+    @apply hidden sm:block text-[13px] leading-[24px] text-gray;
+  }
+
+  &-line {
+    @apply h-[8px] rounded-full relative;
+  }
+
+  &-dormentline {
+    @apply bg-[#E4E4E5] h-[8px] rounded-full relative;
+  }
+
+  &-prephase {
+    @apply border-2 border-bjornstigen;
+  }
+}
