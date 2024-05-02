@@ -179,9 +179,9 @@ export class OrgChangeDraftController {
   }
 
   @Get(`${API_PREFIX}/draft/:draftId/runbook`)
-  @OpenAPI({ summary: 'Return draft comments' })
+  @OpenAPI({ summary: 'Return runbook' })
   @ResponseSchema(DraftRunbookApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
   async getRunbook(@Param('draftId') draftId: string): Promise<ApiResponse<Runbook>> {
     const url = `${API_URL}/draft/${draftId}/runbook`;
     return await this.apiService.get<Runbook>({ url });
