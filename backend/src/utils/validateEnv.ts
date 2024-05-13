@@ -5,7 +5,7 @@ const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/; // same as used in envalid
 const emails = makeValidator(emailString => {
   const mailAdresses = emailString.split(',');
   mailAdresses.forEach(email => {
-    if (!emailRegex.test(email)) throw new Error('Emails not formatted correctly. Should be "a@b.com" or "a@b.com,c@d.com"');
+    if (!emailRegex.test(email)) throw new Error('Emails not formatted correctly. Should be "a@example.com" or "a@example.com,b@example.com"');
   });
   return emailString;
 });
