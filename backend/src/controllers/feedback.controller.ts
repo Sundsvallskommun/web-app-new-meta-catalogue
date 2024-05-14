@@ -1,4 +1,4 @@
-import { Controller, Body, Post, HttpCode, UseBefore } from 'routing-controllers';
+import { Controller, Body, Post, HttpCode, UseBefore, Req } from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi';
 import { validationMiddleware } from '@middlewares/validation.middleware';
 import { IsString } from 'class-validator';
@@ -6,8 +6,9 @@ import sanitizeHtml from 'sanitize-html';
 import authMiddleware from '@/middlewares/auth.middleware';
 import ApiService from '@/services/api.service';
 import { MAIL_PERSONDETAILS, MAIL_PERSON, MAIL_RESPONSIBILITY, MAIL_OPERATION, MAIL_SYSTEM, MAIL_SUPPORT, MAIL_OTHER } from '@config';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
-const messageHTML = userData => {
+const messageHTML = (userData, username) => {
   const lines = sanitizeHtml(userData.body, {
     allowedTags: [],
     allowedAttributes: {},
@@ -26,6 +27,7 @@ const messageHTML = userData => {
 </head>
 <body>
     <h1>Vald feltyp: ${userData.typeLabel}</h1>
+    <p><strong>Användarnamn</strong>: ${username}</p>
     <p><strong>Användarens feedback:</strong></p>
     ${lines}
 </body>
@@ -70,7 +72,9 @@ export class FeedbackController {
   @HttpCode(201)
   @OpenAPI({ summary: 'Send feedback through email' })
   @UseBefore(authMiddleware, validationMiddleware(FeedbackDto, 'body'))
-  async sendFeedback(@Body() userData: FeedbackDto): Promise<any> {
+  async sendFeedback(@Body() userData: FeedbackDto, @Req() req: RequestWithUser): Promise<any> {
+    const { username } = req.user;
+
     const emailString = typeToEmail[userData.type];
     if (emailString) {
       const mailAdresses = emailString.split(',');
@@ -84,7 +88,7 @@ export class FeedbackController {
           subject: 'Feedback för Masterdata',
           message: message(userData.body),
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
-          htmlMessage: base64Encode(messageHTML(userData)),
+          htmlMessage: base64Encode(messageHTML(userData, username)),
         };
         const url = 'messaging/3.3/email';
         await this.apiService.post({ url, data: sendFeedback });
