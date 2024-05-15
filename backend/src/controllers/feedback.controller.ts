@@ -27,7 +27,7 @@ const messageHTML = (userData, username) => {
 </head>
 <body>
     <h1>Vald feltyp: ${userData.typeLabel}</h1>
-    <p><strong>Användarnamn</strong>: ${username}</p>
+    <p><strong>Användarnamn:</strong> ${username}</p>
     <p><strong>Användarens feedback:</strong></p>
     ${lines}
 </body>
