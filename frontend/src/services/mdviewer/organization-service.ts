@@ -6,6 +6,7 @@ import { devtools, persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { emptyOrganization } from './defaults/organization';
 import { getCompanyOrganizations, getOrgTree, getRootOrg } from './api-calls/organization';
+import { flatten } from '@utils/flatten';
 
 interface State {
   organization: OrganizationTree;
@@ -16,6 +17,7 @@ interface State {
   selectedOrganizationId: number | null;
   company: OrganizationTree;
   orgTree: OrganizationTree[];
+  orgTreeOrganizations: Organization[];
   companyIsLoading: boolean;
   orgTreeIsLoading: boolean;
   selectedCompanyOrgId: number;
@@ -58,6 +60,7 @@ const initialState: State = {
   selectedOrganizationId: null,
   company: emptyOrganization,
   orgTree: [],
+  orgTreeOrganizations: [],
   companyIsLoading: false,
   orgTreeIsLoading: false,
   selectedCompanyOrgId: 13,
@@ -123,7 +126,14 @@ export const useOrganizationStore = createWithEqualityFn<
         getOrgTree: async () => {
           await set(() => ({ orgTreeIsLoading: true }));
           const data = get().company.subItems;
-          await set(() => ({ orgTree: data, orgTreeIsLoading: false }));
+          let orgTreeOrganizations = [];
+          orgTreeOrganizations = flatten(
+            data,
+            (x) => x.subItems,
+            data,
+            (x, parent) => Object.assign(x, { orgFromName: parent.label })
+          );
+          await set(() => ({ orgTree: data, orgTreeIsLoading: false, orgTreeOrganizations }));
           return { data, error: false };
         },
         getCompany: async (selectedCompanyOrgId?) => {
