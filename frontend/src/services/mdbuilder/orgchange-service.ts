@@ -815,7 +815,7 @@ export const useOrgChangeStore = createWithEqualityFn<
       }),
       {
         name: 'org-change-storage',
-        version: 6,
+        version: 7,
         partialize: ({
           sideMenuShowFilters,
           orgChangeEmployeeFilter,

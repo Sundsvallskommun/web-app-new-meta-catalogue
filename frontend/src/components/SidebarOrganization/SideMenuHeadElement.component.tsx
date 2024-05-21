@@ -3,6 +3,7 @@ import { IFilterDataMenu } from '@interfaces/organization';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
+import { useUserStore } from '@services/user-service/user-service';
 import { Combobox, Select } from '@sk-web-gui/forms';
 import { FilterItem, FormControl, FormLabel, IFilterData, Link } from '@sk-web-gui/react';
 import { useAriaKeyboard } from '@utils/use-ariakeyboard';
@@ -46,6 +47,16 @@ export default function SideMenuHeadElement() {
   const sidemenuHeadMenuRef = useRef(null);
   const panelRef = useRef(null);
   const [selectedTreeImage, setSelectedTreeImage] = useState<TreeImage>(treeImages[treeImageId]);
+
+  const user = useUserStore((s) => s.user);
+
+  const sideMenuShowFiltersFiltered = sideMenuShowFilters.filter((x) => {
+    if (x.propertyName == 'abbreviation' || !x.isShown) return false;
+    if (x.propertyName === 'responsibilityCode') {
+      if (!user.permissions.canViewDrafts) return false;
+    }
+    return true;
+  });
 
   const handleSideMenuShowFilterChange = (filter: IFilterDataMenu) => {
     const newFilters = sideMenuShowFilters.map((x: IFilterDataMenu) =>
@@ -118,7 +129,7 @@ export default function SideMenuHeadElement() {
   }, [filterOpen, panelRef?.current]);
 
   useAriaKeyboard(sidemenuHeadMenuRef);
-  console.log('orgTreeOrganizations', orgTreeOrganizations);
+
   return (
     <Sticky
       mode="top"
@@ -217,12 +228,12 @@ export default function SideMenuHeadElement() {
                             className="filter-container [&>.filter-item]:!border-primary-active [&>.filter-item]:!px-0"
                             style={{ all: 'unset' }}
                           >
-                            {sideMenuShowFilters.map((filter: IFilterData, i) => (
+                            {sideMenuShowFiltersFiltered.map((filter: IFilterData, i) => (
                               <FilterItem
                                 key={`${filter.id}`}
                                 className={`!border-t-0 select-none [&>label>.form-checkbox-label]:text-white [&.disabled>label>.form-checkbox-label]:text-svartvik-100 [&>label>input]:bg-white [&>label>input:focus-within]:outline-none ${
                                   filter.disabled ? '!disabled' : ''
-                                } ${i == sideMenuShowFilters.length - 1 ? '!border-b !border-solid' : ''}`}
+                                } ${i == sideMenuShowFiltersFiltered.length - 1 ? '!border-b !border-solid' : ''}`}
                                 item={filter}
                                 itemChange={handleSideMenuShowFilterChange}
                                 size={'sm'}

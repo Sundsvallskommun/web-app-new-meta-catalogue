@@ -63,7 +63,7 @@ export const sideMenuShowFiltersDefaults: IFilterDataMenu[] = [
     propertyName: 'orgName',
     value: true,
     disabled: true,
-    isShown: true,
+    isShown: false,
   },
 ];
 

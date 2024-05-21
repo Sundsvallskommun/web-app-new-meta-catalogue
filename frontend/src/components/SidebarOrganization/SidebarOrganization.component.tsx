@@ -81,7 +81,7 @@ const SidebarOrganization = ({ mainRef }) => {
             <>
               <span>
                 <span className={cx(`relative`, active && 'underline', itemData.level == 6 && 'pr-md')}>
-                  <span>{showFilter.abbreviation ? `${itemData.label}` : `${itemData.orgName}`}</span>
+                  <span>{itemData.label}</span>
                 </span>
                 {showFilter.responsibilityCode && (
                   <span className={`absolute top-0 ${active ? 'left-[12px]' : 'left-[6px]'}`}>
