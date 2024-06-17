@@ -27,7 +27,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change Object', () => {
           data: orgChangeEmployeeDetails,
           message: 'success',
         }).as('getEmployeeDetail');
-        cy.intercept('GET', '**/api/orgchange/object/13', {
+        cy.intercept('GET', '**/api/orgchange/object/1', {
           data: orgChangeObjects,
           message: 'success',
         }).as('getObjects');

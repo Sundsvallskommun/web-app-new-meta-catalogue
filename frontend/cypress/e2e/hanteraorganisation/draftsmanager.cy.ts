@@ -74,9 +74,10 @@ describe('/hanteraorganisation', () => {
     cy.intercept('GET', '**/api/orgchange/draft/comments/id-hash-Draftname3', { data: [], message: 'success' }).as(
       'getOrgTree'
     );
-    cy.intercept('GET', '**/api/organization/13/company', { data: companyOrganizations, message: 'success' }).as(
-      'getCompanyOrganizations'
-    );
+    cy.intercept('GET', '**/api/mdviewer/organization/1/company', {
+      data: companyOrganizations,
+      message: 'success',
+    }).as('getCompanyOrganizations');
 
     cy.wait('@getDrafts').then(() => {
       cy.get('button[data-cy="orgchange-new-draft"]').should('exist').click();

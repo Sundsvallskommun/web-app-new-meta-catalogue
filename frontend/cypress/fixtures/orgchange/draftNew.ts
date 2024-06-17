@@ -6,7 +6,7 @@ export const draftNew: Draft = {
   draftId: 'id-hash-Draftname3',
   name: 'Draftname3',
   description: 'SIMULATED-NEW-DRAFT',
-  companyId: 13,
+  companyId: 1,
   cutOffDate: '2999-07-01',
   phase: DraftPhaseEnum.DRAFT,
   phaseChangeDT: '2023-05-26T09:13:20.7005285',
