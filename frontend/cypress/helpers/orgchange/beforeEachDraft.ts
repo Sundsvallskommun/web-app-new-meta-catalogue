@@ -21,7 +21,7 @@ export const beforeEachDraft = ({ orgTree = orgTreeNewNode, intercepts = () => (
   cy.intercept('GET', '**/api/orgchange/draft/id-hash-Draftname3/tree', { data: orgTree, message: 'success' }).as(
     'getOrgTree'
   );
-  cy.intercept('GET', '**/api/mdviewer/organization/13/company', { data: companyOrganizations, message: 'success' }).as(
+  cy.intercept('GET', '**/api/mdviewer/organization/1/company', { data: companyOrganizations, message: 'success' }).as(
     'getCompanyOrganizations'
   );
 

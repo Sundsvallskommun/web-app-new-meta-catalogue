@@ -140,7 +140,8 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
   };
 
   const resetFormDefaults = async (responsibility) => {
-    setLeftValue(getResponsibilityCodeLeft() || '');
+    const leftValue = getResponsibilityCodeLeft() || '';
+    setLeftValue(leftValue);
     const suggestedCode = await _getNewResponsibilityCodeSuggestion(responsibility.responsibilityTypeId, false);
     reset({
       ...responsibility,
