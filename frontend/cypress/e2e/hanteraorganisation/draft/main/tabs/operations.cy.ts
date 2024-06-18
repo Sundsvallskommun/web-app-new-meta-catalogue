@@ -82,7 +82,7 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
   });
 
   it('Connect operation', () => {
-    cy.intercept('GET', '**/api/orgchange/operation/13', {
+    cy.intercept('GET', '**/api/orgchange/operation/1', {
       data: orgChangeOperationsByCompany,
       message: 'success',
     }).as('getOperations');
@@ -109,7 +109,7 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
   });
 
   it('Disconnect operation', () => {
-    cy.intercept('GET', '**/api/orgchange/operation/13', {
+    cy.intercept('GET', '**/api/orgchange/operation/1', {
       data: orgChangeOperationsByCompany,
       message: 'success',
     }).as('getOperations');

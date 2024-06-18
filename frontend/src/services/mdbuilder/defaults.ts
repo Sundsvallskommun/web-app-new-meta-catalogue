@@ -6,7 +6,8 @@ import {
   OrgChangeResponsibilityResponsibilityTypeIdEnum,
   VerifyResult,
 } from '@data-contracts/backend/data-contracts';
-import { EditOrganizationDto, IFilterDataMenu } from '@interfaces/orgchange';
+import { IFilterDataMenu } from '@interfaces/organization';
+import { EditOrganizationDto } from '@interfaces/orgchange';
 import { IFilterData } from '@sk-web-gui/react';
 
 export const emptyVerifyResult: VerifyResult = {
@@ -62,7 +63,7 @@ export const sideMenuShowFiltersDefaults: IFilterDataMenu[] = [
     propertyName: 'orgName',
     value: true,
     disabled: true,
-    isShown: true,
+    isShown: false,
   },
 ];
 

@@ -1,5 +1,4 @@
 import { Popover } from '@headlessui/react';
-import { IFilterDataMenu } from '@interfaces/orgchange';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import InsertToList from '@public/svg/InsertToList.svg';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -13,6 +12,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Sticky from 'react-sticky-el';
 import ChooseBranchToChangeModal from './Modals/ChooseBranchToChangeModal.component';
 import CreateNewBranchFormModal from './Modals/CreateNewBranchFormModal.component';
+import { IFilterDataMenu } from '@interfaces/organization';
 
 export default function SideMenuHeadElementOrgChange() {
   const sideMenuShowFilters = useOrgChangeStore((s) => s.sideMenuShowFilters);

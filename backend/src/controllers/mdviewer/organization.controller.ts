@@ -112,6 +112,7 @@ export class MDVOrganizationController {
 
     const data = modifyOrganizationModel(res.data) as OrganizationModified[];
 
-    return { data: data, message: 'success' };
+    // the company organisation is included, filter it out
+    return { data: data.filter(x => x.level !== 1), message: 'success' };
   }
 }

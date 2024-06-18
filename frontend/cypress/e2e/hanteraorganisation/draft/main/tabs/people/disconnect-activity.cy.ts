@@ -27,7 +27,7 @@ describe('/hanteraorganisation - main - Tabs - People - Disconnect Activity', ()
           data: orgChangeEmployeeDetails,
           message: 'success',
         }).as('getEmployeeDetail');
-        cy.intercept('GET', '**/api/orgchange/activity/13', {
+        cy.intercept('GET', '**/api/orgchange/activity/1', {
           data: orgChangeActivities,
           message: 'success',
         }).as('getActivities');

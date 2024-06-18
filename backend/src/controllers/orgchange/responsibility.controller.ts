@@ -67,7 +67,7 @@ export class OrgChangeResponsibilityController {
   }
 
   @Put(`${API_PREFIX}/responsibility/close`)
-  @OpenAPI({ summary: 'Closes a resposnibility' })
+  @OpenAPI({ summary: 'Closes a responsibility' })
   @HttpCode(204)
   @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(CloseResponsibilityDto, 'body'))
   async closeResponsibility(@Req() req: RequestWithUser, @Body() body: CloseResponsibilityDto): Promise<ApiResponse<{}>> {

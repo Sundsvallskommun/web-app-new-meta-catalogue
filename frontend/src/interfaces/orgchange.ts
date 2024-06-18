@@ -5,7 +5,6 @@ import {
   OrgChangeOrganizationOperation,
   OrgChangeOrganizationTree,
 } from '@data-contracts/backend/data-contracts';
-import { IFilterData } from '@sk-web-gui/react';
 
 export interface SaveDraft extends Partial<DraftRenameDto & DraftChangeCutOffDateDto & Pick<Draft, 'phase'>> {
   description?: string;
@@ -14,10 +13,6 @@ export interface SaveDraft extends Partial<DraftRenameDto & DraftChangeCutOffDat
 
 export interface DraftTreeOrganization extends OrgChangeOrganizationTree {
   orgFromName: string;
-}
-
-export interface IFilterDataMenu extends IFilterData {
-  propertyName: string;
 }
 
 export type OrgChangeOrganizationOperationSelectList = Pick<

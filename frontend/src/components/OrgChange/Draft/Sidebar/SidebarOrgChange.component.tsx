@@ -1,5 +1,4 @@
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import { IFilterDataMenu } from '@interfaces/orgchange';
 import BlockIcon from '@mui/icons-material/Block';
 import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -9,9 +8,10 @@ import { calculatePositionDifference } from '@utils/calculatePositionDifference'
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useEffect, useRef, useState } from 'react';
 import DragAndDropFormModal from './Modals/DragAndDropFormModal.component';
-import SideMenuHeadElementOrgChange from './SideMenuHeadElement.component';
+import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
 import SparkleIcon from './SparkleNewItem.component';
 import ErrorIcon from '@mui/icons-material/Error';
+import { IFilterDataMenu } from '@interfaces/organization';
 
 const SidebarOrgChange = ({ mainRef }) => {
   const orgTreeIsLoading = useOrgChangeStore((s) => s.orgTreeIsLoading);

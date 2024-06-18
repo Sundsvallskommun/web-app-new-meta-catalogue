@@ -19,7 +19,7 @@ describe('/organization - Main - Tabs - People', () => {
     cy.visit('/');
 
     cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('BOU Norra grundskola').should('exist').click();
+    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
   });
 
   it('Filter table columns', () => {
