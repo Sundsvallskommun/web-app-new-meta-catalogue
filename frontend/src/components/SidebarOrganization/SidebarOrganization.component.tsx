@@ -1,45 +1,23 @@
+import { OrganizationTree } from '@data-contracts/backend/data-contracts';
+import { IFilterDataMenu } from '@interfaces/organization';
+import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { FormControl, FormLabel, SideMenu } from '@sk-web-gui/react';
+import { SideMenu, cx } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
 import { useEffect, useRef, useState } from 'react';
-interface TreeImage {
-  id: number;
-  imageName: string;
-}
-
-const treeImages: TreeImage[] = [
-  {
-    id: 0,
-    imageName: 'Masterdata',
-  },
-  {
-    id: 1,
-    imageName: 'HR',
-  },
-  {
-    id: 2,
-    imageName: 'Ekonomi',
-  },
-];
+import SideMenuHeadElement from './SideMenuHeadElement.component';
 
 const SidebarOrganization = ({ mainRef }) => {
-  const {
-    treeImageId,
-    setTreeImageId,
-    treeImage,
-    getTreeImage,
-    getCompany,
-    selectedCompanyOrgId,
-    selectedOrganizationId,
-    setSelectedCompanyOrgId,
-    orgTreeIsLoading,
-    setSelectedOrganizationId,
-    orgTree,
-  } = useOrganizationStore();
-  const [selectedTreeImage, setSelectedTreeImage] = useState<TreeImage>(treeImages[treeImageId]);
+  const { getTreeImage, getCompany, selectedOrganizationId, orgTreeIsLoading, setSelectedOrganizationId, orgTree } =
+    useOrganizationStore();
+  const sideMenuShowFilters = useOrgChangeStore((s) => s.sideMenuShowFilters);
   const [sidebarHeight, setSidebarHeight] = useState(0);
   const asideRef = useRef(null);
+
+  const showFilter: { [key: IFilterDataMenu['propertyName']]: boolean } = {};
+  sideMenuShowFilters.forEach((x) => {
+    showFilter[x.propertyName] = x.value;
+  });
 
   /**
    * Handles clicks from the SideMenu
@@ -47,15 +25,6 @@ const SidebarOrganization = ({ mainRef }) => {
    */
   const onMenuChangeHandler = (data) => {
     setSelectedOrganizationId(data.id);
-  };
-
-  /**
-   * Sets the treeImageId
-   */
-  const onTreeImageChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const value = parseInt(e.target.value);
-    setTreeImageId(value);
-    setSelectedTreeImage(treeImages.find((x) => x.id === value));
   };
 
   const fixSidebarHeight = () => {
@@ -80,11 +49,6 @@ const SidebarOrganization = ({ mainRef }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainRef]);
 
-  const onCompanyChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const value = parseInt(e.target.value);
-    setSelectedCompanyOrgId(value);
-  };
-
   useEffect(() => {
     if (!orgTreeIsLoading && orgTree?.length && asideRef && asideRef.current) {
       setTimeout(() => {
@@ -107,56 +71,46 @@ const SidebarOrganization = ({ mainRef }) => {
     >
       <SideMenu
         ariaMenuLabel="Organisationsmeny"
-        label="Organisation"
         menuData={orgTree}
         linkCallback={onMenuChangeHandler}
         activeId={selectedOrganizationId as number}
         loading={orgTreeIsLoading}
-        headElement={
-          <form>
-            <div className="mb-md">
-              <FormControl id="sidemenu-image">
-                <FormLabel className="label-small">
-                  <strong>Avbildning</strong>
-                </FormLabel>
-                <Select
-                  size="md"
-                  className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
-                  id="sidemenu-image"
-                  name="sidemenu-image"
-                  aria-labelledby="sidemenu-image-label"
-                  onChange={onTreeImageChange}
-                  value={selectedTreeImage?.id.toString() ?? undefined}
-                >
-                  {treeImages.map((c) => (
-                    <Select.Option key={`${c.id}`} value={c.id}>
-                      {c.imageName}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl className="my-[20px]" id="sidemenu-company">
-                <FormLabel className="label-small">
-                  <strong>Bolag</strong>
-                </FormLabel>
-                <Select
-                  size="md"
-                  className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
-                  id="sidemenu-company"
-                  name="sidemenu-company"
-                  onChange={onCompanyChange}
-                  value={selectedCompanyOrgId?.toString() ?? ''}
-                >
-                  {treeImage?.map((c) => (
-                    <Select.Option key={`${c.orgName}`} value={c.id}>
-                      {c.orgName}
-                    </Select.Option>
-                  )) || []}
-                </Select>
-              </FormControl>
-            </div>
-          </form>
-        }
+        headElement={<SideMenuHeadElement />}
+        renderMenuItemLabel={(itemData: OrganizationTree, active) => {
+          return (
+            <>
+              <span>
+                <span className={cx(`relative`, active && 'underline', itemData.level == 6 && 'pr-md')}>
+                  <span>{itemData.label}</span>
+                </span>
+                {showFilter.responsibilityCode && (
+                  <span className={`absolute top-0 ${active ? 'left-[12px]' : 'left-[6px]'}`}>
+                    {showFilter.responsibilityCode && (
+                      <>
+                        <span className="sr-only">, Kod: </span>
+                        {itemData.responsibilityCode}
+                      </>
+                    )}
+                  </span>
+                )}
+                {showFilter.level && <span className="sr-only">, Nivå: {itemData.level}</span>}
+              </span>
+              {showFilter.level && !itemData.subItems && (
+                <span className="absolute leading-none top-[7px] right-[4px] text-xs">{`N${itemData.level}`}</span>
+              )}
+            </>
+          );
+        }}
+        renderMenuItemExpand={(itemData, open, defaultElement) => {
+          return (
+            <>
+              {defaultElement}
+              {showFilter.level && (
+                <span className="absolute leading-none top-[7px] right-[4px] text-xs">{`N${itemData.level}`}</span>
+              )}
+            </>
+          );
+        }}
       />
     </aside>
   );

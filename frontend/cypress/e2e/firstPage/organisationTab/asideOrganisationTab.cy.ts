@@ -65,17 +65,17 @@ describe('/organization - Aside', () => {
 
     cy.get('.sk-sidemenu-item .sk-sidemenu-item-link').first().click();
 
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('BOU Norra grundskola').should('exist');
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('BOU Norra grundskola').click();
+    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').should('exist');
+    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').click();
 
     cy.get(`.sk-sidemenu-item.lvl-2[data-id="37"]`).find('.sk-sidemenu-item-link').first().click();
 
-    cy.get('.sk-sidemenu-item-link').contains('BOU NG Bosvedjeskolan').click();
+    cy.get('.sk-sidemenu-item-link').contains('Bosvedjeskolan').click();
 
     cy.get('.sk-sidemenu-item.lvl-4[data-id="180"]')
       .find('.sk-sidemenu-item-link')
       .first()
-      .contains('BOU NG Bosvedjeskolan')
+      .contains('Bosvedjeskolan')
       .should('exist');
 
     cy.get('.sk-sidemenu-body .sk-sidemenu-item-link').first().should('have.attr', 'aria-expanded', 'true');
@@ -87,8 +87,8 @@ describe('/organization - Aside', () => {
     cy.intercept('GET', '**/api/mdviewer/employment/**/employeesallleaves', employees);
     cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
 
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('BOU Norra grundskola').should('exist');
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('BOU Norra grundskola').click();
+    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').should('exist');
+    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').click();
 
     // Ensure the first row contains 'Förstelärare (Sundsvalls kommun)'
     cy.get('tbody.sk-zebratable-tbody tr:first-child').contains('Förstelärare (Sundsvalls kommun)').should('exist');

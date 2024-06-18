@@ -25,6 +25,10 @@
     .sk-sidemenu {
       @apply w-full;
 
+      .sk-sidemenu-header {
+        @apply p-0;
+      }
+
       &-item-label {
         @apply block truncate max-w-[18rem] sm:max-w-full;
       }

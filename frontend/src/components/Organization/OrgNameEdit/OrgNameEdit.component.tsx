@@ -95,7 +95,7 @@ const OrgNameEdit = ({ newItem, organization, isEdit = false, orgTree, orgChange
           {organization && !organization.isLeafLevel && organization.abbreviation ?
             <span className=" px-sm border-l border-neutral-100 font-normal">{organization.abbreviation}</span>
           : ''}
-          {organization && organization.responsibilityCode && user.role !== 'meta_read' ?
+          {organization && organization.responsibilityCode && user.permissions.canViewDrafts ?
             <span className=" px-sm border-l border-neutral-100 font-normal">{organization.responsibilityCode}</span>
           : ''}
           {orgChangeOrg && orgChangeOrg.structureChangeStatus === 'DELETED' && (

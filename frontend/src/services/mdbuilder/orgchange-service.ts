@@ -31,7 +31,7 @@ import {
   RunBookActionTriggerDtoCommandEnum,
   VerifyResult,
 } from '@data-contracts/backend/data-contracts';
-import { DraftTreeOrganization, IFilterDataMenu, SaveDraft, VerifyResultByOrgId } from '@interfaces/orgchange';
+import { DraftTreeOrganization, SaveDraft, VerifyResultByOrgId } from '@interfaces/orgchange';
 import { ServiceResponse } from '@interfaces/service';
 import FileIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -96,6 +96,7 @@ import {
   sideMenuShowFiltersDefaults,
 } from './defaults';
 import { verifyErrorsByOrgId } from './data-handlers/draft';
+import { IFilterDataMenu } from '@interfaces/organization';
 
 export const draftListEntry = (draft: Draft) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -814,7 +815,7 @@ export const useOrgChangeStore = createWithEqualityFn<
       }),
       {
         name: 'org-change-storage',
-        version: 6,
+        version: 7,
         partialize: ({
           sideMenuShowFilters,
           orgChangeEmployeeFilter,
