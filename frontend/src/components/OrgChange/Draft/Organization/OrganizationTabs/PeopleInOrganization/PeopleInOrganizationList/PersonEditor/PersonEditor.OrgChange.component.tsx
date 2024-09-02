@@ -332,7 +332,6 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             <NextLink
               legacyBehavior
               href={{
-                pathname: window.location.pathname,
                 query: { ...router.query, feedback: 'PERSONDETAILS' },
               }}
               shallow

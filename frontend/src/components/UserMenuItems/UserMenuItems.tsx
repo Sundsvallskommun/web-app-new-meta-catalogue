@@ -22,7 +22,6 @@ export const useMenuItems = () => {
             <NextLink
               key={'feedback'}
               href={{
-                pathname: window.location.pathname,
                 query: { ...router.query, feedback: 'SYSTEM' },
               }}
               shallow

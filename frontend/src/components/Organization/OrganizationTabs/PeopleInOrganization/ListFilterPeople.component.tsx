@@ -96,7 +96,6 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
             <NextLink
               legacyBehavior
               href={{
-                pathname: window.location.pathname,
                 query: { ...router.query, feedback: 'PERSON' },
               }}
               shallow

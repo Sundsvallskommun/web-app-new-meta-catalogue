@@ -219,27 +219,25 @@ const PersonEditor = (props: EmployeeEditorProps) => {
                   <FormLabel className="m-0">
                     <strong>Arbetsmobil</strong>
                   </FormLabel>
-                  {employeeDetails.workMobile ? (
+                  {employeeDetails.workMobile ?
                     <span>{employeeDetails.workMobile}</span>
-                  ) : (
-                    <span> Inga uppgifter </span>
-                  )}
+                  : <span> Inga uppgifter </span>}
                 </div>
                 <div>
                   <FormLabel className="m-0">
                     <strong>Registrerat tilltalsnamn</strong>
                   </FormLabel>
-                  {employeeDetails.friendlyGivenname ? (
+                  {employeeDetails.friendlyGivenname ?
                     <span>{employeeDetails.friendlyGivenname}</span>
-                  ) : (
-                    <span> Inga uppgifter </span>
-                  )}
+                  : <span> Inga uppgifter </span>}
                 </div>
                 <div>
                   <FormLabel className="m-0">
                     <strong>Arbetstelefon</strong>
                   </FormLabel>
-                  {employeeDetails.workPhone ? <span>{employeeDetails.workPhone}</span> : <span> Inga uppgifter </span>}
+                  {employeeDetails.workPhone ?
+                    <span>{employeeDetails.workPhone}</span>
+                  : <span> Inga uppgifter </span>}
                 </div>
               </div>
             </div>
@@ -282,7 +280,6 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             <NextLink
               legacyBehavior
               href={{
-                pathname: window.location.pathname,
                 query: { ...router.query, feedback: 'PERSONDETAILS' },
               }}
               shallow
