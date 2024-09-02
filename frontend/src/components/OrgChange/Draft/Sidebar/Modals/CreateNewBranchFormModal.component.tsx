@@ -47,7 +47,9 @@ export default function CreateNewBranchFormModal() {
       organization.level
     }`;
     showConfirmation(title, message, 'Ja skapa gren', 'Avbryt', undefined, undefined, 'h2').then((result) => {
-      result && CallCreateBranch();
+      if (result) {
+        CallCreateBranch();
+      }
     });
   };
 

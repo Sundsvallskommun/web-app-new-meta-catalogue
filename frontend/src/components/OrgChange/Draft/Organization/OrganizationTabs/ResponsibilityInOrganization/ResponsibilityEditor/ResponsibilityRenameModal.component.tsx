@@ -92,7 +92,7 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
     const title = 'Är du säker på att du vill ta bort ansvaret?';
     const _message = `Ansvar (${responsibility.description}) kommer att tas bort från gren ${organization.orgName} (Nivå ${organization.level})`;
     showConfirmation(title, _message, 'Ja, ta bort ansvaret', 'Avbryt').then((result) => {
-      result === true &&
+      if (result === true) {
         closeResponsibility(dataBody).then((res) => {
           if (!res.error) {
             setIsLoading(false);
@@ -108,6 +108,7 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
             setIsLoading(false);
           }
         });
+      }
     });
   };
 

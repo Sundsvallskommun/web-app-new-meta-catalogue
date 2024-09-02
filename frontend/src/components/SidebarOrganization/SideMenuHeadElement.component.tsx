@@ -72,7 +72,9 @@ export default function SideMenuHeadElement() {
 
   const setInitialFocus = () => {
     setTimeout(() => {
-      initialFocus.current && initialFocus.current.focus();
+      if (initialFocus.current) {
+        initialFocus.current.focus();
+      }
     });
   };
 
@@ -200,7 +202,9 @@ export default function SideMenuHeadElement() {
                   data-cy="orgchange-sidemenu-filter"
                   onKeyDown={(e) => {
                     handleFilterMenuKeyDown(e);
-                    filterOpen && close();
+                    if (filterOpen) {
+                      close();
+                    }
                   }}
                   onClick={() => setFilterOpen((open) => !open)}
                 >

@@ -106,7 +106,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
     const title = 'Är du säker på att du vill koppla bort verksamheten?';
     const _message = `Verksamheten (${operation.description}) kommer att kopplas bort från gren ${organization.orgName} (Nivå ${organization.level})`;
     showConfirmation(title, _message, 'Ja, koppla bort', 'Avbryt').then((result) => {
-      result === true &&
+      if (result === true) {
         disconnectOperation({ organizationOperationId: operation.organizationOperationId }).then((res) => {
           if (!res.error) {
             message({
@@ -120,6 +120,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
             });
           }
         });
+      }
     });
   };
 

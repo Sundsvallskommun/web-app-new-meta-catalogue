@@ -45,7 +45,9 @@ export default function MoveFormModal(props: IMoveFormProps) {
       confirmLabel = 'Ja, flytta gren';
     }
     showConfirmation(title, message, confirmLabel, 'Avbryt').then((result) => {
-      result === true && onSubmit();
+      if (result === true) {
+        onSubmit();
+      }
     });
   };
 
