@@ -35,6 +35,7 @@ const validateEnv = () => {
     MAIL_SYSTEM: emails(),
     MAIL_SUPPORT: emails(),
     MAIL_OTHER: emails(),
+    MUNICIPALITY_ID: str(),
   });
 };
 
