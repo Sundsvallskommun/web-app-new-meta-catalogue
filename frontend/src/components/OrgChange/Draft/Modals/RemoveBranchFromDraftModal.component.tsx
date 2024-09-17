@@ -42,7 +42,9 @@ export default function RemoveBranchFromDraft(props: IRemoveBranchProps) {
       !organization.isLeafLevel ? ' samt dess underliggande grenstruktur' : ''
     }. Alla förändringar som berör grenen kommer att försvinna.`;
     showConfirmation(title, message, 'Ja, uteslut', 'Avbryt').then((result) => {
-      result === true && CallRemoveFromDraft();
+      if (result === true) {
+        CallRemoveFromDraft();
+      }
     });
   };
 
