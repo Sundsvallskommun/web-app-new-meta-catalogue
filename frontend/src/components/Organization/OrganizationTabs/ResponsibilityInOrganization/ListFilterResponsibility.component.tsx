@@ -97,7 +97,6 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
             <NextLink
               legacyBehavior
               href={{
-                pathname: window.location.pathname,
                 query: { ...router.query, feedback: 'RESPONSIBILITY' },
               }}
               shallow

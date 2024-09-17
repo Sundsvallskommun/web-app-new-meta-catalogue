@@ -53,12 +53,16 @@ const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProvide
   };
 
   const handleOk = () => {
-    resolver.current && resolver.current(true);
+    if (resolver.current) {
+      resolver.current(true);
+    }
     onHide();
   };
 
   const handleCancel = () => {
-    resolver.current && resolver.current(false);
+    if (resolver.current) {
+      resolver.current(false);
+    }
     onHide();
   };
 

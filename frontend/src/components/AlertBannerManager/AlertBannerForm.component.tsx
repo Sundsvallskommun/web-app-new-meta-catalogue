@@ -47,7 +47,9 @@ const AlertBannerForm = ({
 
   const setInitialFocus = () => {
     setTimeout(() => {
-      initialFocus.current && initialFocus.current.focus();
+      if (initialFocus.current) {
+        initialFocus.current.focus();
+      }
     });
   };
 

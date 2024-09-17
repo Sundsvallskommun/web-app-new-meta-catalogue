@@ -50,7 +50,9 @@ export default function SideMenuHeadElementOrgChange() {
 
   const setInitialFocus = () => {
     setTimeout(() => {
-      initialFocus.current && initialFocus.current.focus();
+      if (initialFocus.current) {
+        initialFocus.current.focus();
+      }
     });
   };
 
@@ -145,7 +147,9 @@ export default function SideMenuHeadElementOrgChange() {
                 data-cy="orgchange-sidemenu-filter"
                 onKeyDown={(e) => {
                   handleFilterMenuKeyDown(e);
-                  filterOpen && close();
+                  if (filterOpen) {
+                    close();
+                  }
                 }}
                 onClick={() => (!isDraft ? undefined : setFilterOpen((open) => !open))}
               >

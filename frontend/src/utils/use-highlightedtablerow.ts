@@ -10,7 +10,9 @@ export const useHighlightedTableRow = (highlightedTableRow, setHighlightedTableR
       const itemIndex = tableList.findIndex((item) => item[highlightedTableRow.property] === highlightedTableRow.value);
       if (itemIndex !== -1) {
         setHighlightedItemIndex(itemIndex);
-        ref && ref.current && ref.current.scrollIntoView({ behavior: 'smooth' });
+        if (ref && ref.current) {
+          ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
         if (timeoutRef) clearTimeout(timeoutRef);
         setTimeoutRef(
           setTimeout(() => {

@@ -57,7 +57,9 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
     const title = 'Är du säker på att du vill ta bort utkastet?';
     const message = 'Alla ändringar i organisationsstrukturer kommer att försvinna tillsammans med utkastet';
     showConfirmation(title, message, 'Ja, ta bort', 'Avbryt').then((result) => {
-      result === true && CallDeleteDraft();
+      if (result === true) {
+        CallDeleteDraft();
+      }
     });
   };
 

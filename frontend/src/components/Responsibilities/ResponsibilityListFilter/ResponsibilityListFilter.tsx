@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, SearchBar, DropdownFilter, FormControl } from '@sk-web-gui/react';
 import { useDebouncedCallback } from '@react-hookz/web';
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
-import { useUserStore } from '@services/user-service/user-service';
-import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
-import { Select } from '@sk-web-gui/forms';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
+import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
+import { useUserStore } from '@services/user-service/user-service';
+import { Select } from '@sk-web-gui/forms';
+import { Button, DropdownFilter, FormControl, SearchBar } from '@sk-web-gui/react';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 interface IResponsibilityListFilter {
   searchQuery?: string;
   setSearchQuery?: (value: string) => void;
@@ -90,7 +90,6 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
           <NextLink
             legacyBehavior
             href={{
-              pathname: window.location.pathname,
               query: { ...router.query, feedback: 'RESPONSIBILITY' },
             }}
             shallow

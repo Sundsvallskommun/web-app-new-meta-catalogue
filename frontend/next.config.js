@@ -16,9 +16,4 @@ module.exports = withBundleAnalyzer({
   sassOptions: {
     prependData: `$basePath: '${process.env.BASE_PATH || ''}';`,
   },
-  experimental: {
-    swcPlugins: [
-      ['swc-plugin-coverage-instrument', {}], // used to instrument code for cypress e2e test coverage
-    ],
-  },
 });
