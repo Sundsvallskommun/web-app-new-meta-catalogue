@@ -14,7 +14,7 @@ const APIS = [
   },
   {
     name: 'messaging',
-    version: '3.3',
+    version: '5.0',
   },
   {
     name: 'mdbuilder',

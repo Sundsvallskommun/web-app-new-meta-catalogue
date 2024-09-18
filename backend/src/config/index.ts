@@ -31,4 +31,5 @@ export const {
   MAIL_SYSTEM,
   MAIL_SUPPORT,
   MAIL_OTHER,
+  MUNICIPALITY_ID,
 } = process.env;
