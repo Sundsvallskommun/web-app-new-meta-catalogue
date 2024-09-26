@@ -5,7 +5,16 @@ import { IsString } from 'class-validator';
 import sanitizeHtml from 'sanitize-html';
 import authMiddleware from '@/middlewares/auth.middleware';
 import ApiService from '@/services/api.service';
-import { MAIL_PERSONDETAILS, MAIL_PERSON, MAIL_RESPONSIBILITY, MAIL_OPERATION, MAIL_SYSTEM, MAIL_SUPPORT, MAIL_OTHER } from '@config';
+import {
+  MAIL_PERSONDETAILS,
+  MAIL_PERSON,
+  MAIL_RESPONSIBILITY,
+  MAIL_OPERATION,
+  MAIL_SYSTEM,
+  MAIL_SUPPORT,
+  MAIL_OTHER,
+  MUNICIPALITY_ID,
+} from '@config';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 
 const messageHTML = (userData, username) => {
@@ -90,7 +99,7 @@ export class FeedbackController {
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
-        const url = 'messaging/3.3/email';
+        const url = `messaging/5.0/${MUNICIPALITY_ID}/email`;
         await this.apiService.post({ url, data: sendFeedback });
       });
     }
