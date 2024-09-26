@@ -125,16 +125,17 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
     cy.intercept('POST', '**/api/orgchange/responsibility', { data: true, message: 'success' }).as(
       'postNewResponsibility'
     );
-    // assumption 000 is Löneansvar
-    cy.intercept('GET', '**/api/orgchange/responsibility/**/newcode?responsibilityType=L%C3%96NEANSVAR', {
-      data: '94000000',
-      message: 'success',
-    }).as('getNewRespCode');
+
     // assumption 001 is Ansvar
     cy.intercept('GET', '**/api/orgchange/responsibility/**/newcode?responsibilityType=ANSVAR', {
       data: '94000001',
       message: 'success',
-    }).as('getNewRespCodeAnsvar');
+    }).as('getNewRespCode');
+    // assumption 002 is Löneansvar
+    cy.intercept('GET', '**/api/orgchange/responsibility/**/newcode?responsibilityType=PSEUDOANSVAR', {
+      data: '94000002',
+      message: 'success',
+    }).as('getNewRespCodePseudoansvar');
 
     cy.get('button').filter(':visible').contains('Skapa nytt ansvar').click();
 
@@ -143,23 +144,24 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
     cy.get('div[aria-modal="true"] label').filter(':visible').contains('Ansvartitel').click();
     cy.focused().type('Nytt ansvar');
 
-    // default Löneansvar
+    // default Ansvar
     cy.get('div[aria-modal="true"] label').filter(':visible').contains('Ansvarskod').click();
-    cy.focused().should('have.value', '000');
-    cy.get('#responsibilityTypeId option:selected').should('have.text', 'Löneansvar');
+    cy.focused().should('have.value', '001');
+    cy.get('#responsibilityTypeId option:selected').should('have.text', 'Ansvar');
 
-    // change to Ansvar
+    // change responsibility code manually
     cy.get('div[aria-modal="true"] label').contains('Ansvarskod').click();
     cy.focused().invoke('val', '');
-    cy.focused().type('002');
-    cy.focused().should('have.value', '002');
+    cy.focused().type('003');
+    cy.focused().should('have.value', '003');
 
-    cy.get('select#responsibilityTypeId').select('Ansvar');
+    // change to Pseudoansvar
+    cy.get('select#responsibilityTypeId').select('Pseudoansvar');
 
-    cy.wait('@getNewRespCodeAnsvar');
+    cy.wait('@getNewRespCodePseudoansvar');
 
     cy.get('div[aria-modal="true"] label').contains('Ansvarskod').click();
-    cy.focused().should('have.value', '001');
+    cy.focused().should('have.value', '002');
 
     cy.get('div[aria-modal="true"] button').contains('Spara').click();
 
@@ -188,14 +190,14 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
     cy.intercept('PUT', '**/api/orgchange/responsibility/close', { data: true, message: 'success' }).as(
       'putCloseResponsibility'
     );
-    cy.get('button[title="Öppna ansvaret"][aria-label="löneansvar Bob"]').click();
+    cy.get('button[title="Öppna ansvaret"][aria-label="Bob"]').click();
 
-    cy.get('button').contains('Ta bort ansvar').click();
+    cy.get('button').contains('Stäng ansvar').click();
 
-    cy.get('h1').contains('Är du säker på att du vill ta bort ansvaret?').should('be.visible');
+    cy.get('h1').contains('Är du säker på att du vill stänga ansvaret?').should('be.visible');
 
-    cy.get('button').contains('Ja, ta bort ansvaret').click();
+    cy.get('button').contains('Ja, stäng ansvar').click();
 
-    cy.get('div').contains('Ansvaret har tagits bort').should('be.visible');
+    cy.get('div').contains('Ansvaret har stängts').should('be.visible');
   });
 });

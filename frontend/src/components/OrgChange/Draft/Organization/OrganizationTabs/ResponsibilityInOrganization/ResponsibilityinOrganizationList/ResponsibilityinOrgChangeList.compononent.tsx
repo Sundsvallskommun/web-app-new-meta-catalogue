@@ -17,7 +17,7 @@ import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import ResponsibilityRenameModal from '../ResponsibilityEditor/ResponsibilityRenameModal.component';
+import ResponsibilityEditModal from '../ResponsibilityEditor/ResponsibilityEditModal.component';
 
 interface IResponsibilityinOrgChangeListProps {
   searchQuery;
@@ -337,7 +337,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
         </div>
       : <div className="mt-sm mx-8 px-2">Inga ansvar att visa.</div>}
 
-      {isOpen && <ResponsibilityRenameModal onClose={onCloseHandler} responsibility={selectedResp} />}
+      {isOpen && <ResponsibilityEditModal onClose={onCloseHandler} responsibility={selectedResp} />}
     </div>
   );
 };
