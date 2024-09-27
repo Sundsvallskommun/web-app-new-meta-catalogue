@@ -37,7 +37,6 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
   // orgchangestore
   const createConnectResponsibility = useOrgChangeStore((s) => s.createConnectResponsibility);
   const responsibilitiesByOrg = useOrgChangeStore((s) => s.responsibilitiesByOrg);
-  console.log('responsibilitiesByOrg', responsibilitiesByOrg);
 
   const hasLoneansvarInOrg = responsibilitiesByOrg.find(
     (x) => x.responsibilityTypeId === OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR
