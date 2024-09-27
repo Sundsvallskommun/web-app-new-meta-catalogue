@@ -12,17 +12,18 @@ import {
 } from '@sk-web-gui/react';
 import React, { useMemo, useState } from 'react';
 
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
-import { isEqual } from 'lodash';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { emptyResponsibility } from '@services/mdviewer/defaults/responsibility';
 import {
   OrgChangeResponsibility,
   OrgChangeResponsibilityResponsibilityChangeStatusEnum,
+  OrgChangeResponsibilityResponsibilityTypeIdEnum,
 } from '@data-contracts/backend/data-contracts';
+import { yupResolver } from '@hookform/resolvers/yup';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { emptyResponsibility } from '@services/mdviewer/defaults/responsibility';
+import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
+import { isEqual } from 'lodash';
+import { useForm } from 'react-hook-form';
 
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -32,7 +33,7 @@ interface ResponsibilityRenameProps {
   responsibility: OrgChangeResponsibility;
 }
 
-const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: ResponsibilityRenameProps) => {
+const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: ResponsibilityRenameProps) => {
   // orgchangestore
   const renameResponsibility = useOrgChangeStore((s) => s.renameResponsibility);
   const closeResponsibility = useOrgChangeStore((s) => s.closeResponsibility);
@@ -89,9 +90,9 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
       responsibilityId: responsibility.responsibilityId,
     };
 
-    const title = 'Är du säker på att du vill ta bort ansvaret?';
+    const title = 'Är du säker på att du vill stänga ansvaret?';
     const _message = `Ansvar (${responsibility.description}) kommer att tas bort från gren ${organization.orgName} (Nivå ${organization.level})`;
-    showConfirmation(title, _message, 'Ja, ta bort ansvaret', 'Avbryt').then((result) => {
+    showConfirmation(title, _message, 'Ja, stäng ansvar', 'Avbryt').then((result) => {
       if (result === true) {
         closeResponsibility(dataBody).then((res) => {
           if (!res.error) {
@@ -99,7 +100,7 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
             reset();
             onClose();
             message({
-              message: `Ansvaret har tagits bort`,
+              message: `Ansvaret har stängts`,
               status: 'success',
             });
           } else {
@@ -177,19 +178,20 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
 
           <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
             <div>
-              {responsibility.responsibilityChangeStatus ==
-                OrgChangeResponsibilityResponsibilityChangeStatusEnum.NEW && (
+              {(responsibility.responsibilityTypeId === OrgChangeResponsibilityResponsibilityTypeIdEnum.ANSVAR ||
+                responsibility.responsibilityChangeStatus ===
+                  OrgChangeResponsibilityResponsibilityChangeStatusEnum.NEW) && (
                 <div className="mb-sm">
                   <Button
                     type="button"
                     className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
                     size="md"
                     variant="outline"
-                    aria-label={`Ta bort ansvar ${watch().description}`}
+                    aria-label={`Stäng ansvar ${watch().description}`}
                     onClick={onRemoveHandler}
                     leftIcon={<DeleteOutlineIcon fontSize="large" />}
                   >
-                    Ta bort ansvar
+                    Stäng ansvar
                   </Button>
                 </div>
               )}
@@ -224,4 +226,4 @@ const ResponsibilityRenameModal = ({ onClose, responsibility = undefined }: Resp
   );
 };
 
-export default ResponsibilityRenameModal;
+export default ResponsibilityEditModal;

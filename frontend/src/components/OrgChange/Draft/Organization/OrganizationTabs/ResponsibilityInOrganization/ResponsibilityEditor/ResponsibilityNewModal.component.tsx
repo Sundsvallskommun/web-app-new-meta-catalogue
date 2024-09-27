@@ -1,5 +1,6 @@
 import {
   OrgChangeResponsibility,
+  OrgChangeResponsibilityResponsibilityTypeIdEnum,
   OrganizationTree,
   ResponsibilityCreateDto,
 } from '@data-contracts/backend/data-contracts';
@@ -35,6 +36,11 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
 
   // orgchangestore
   const createConnectResponsibility = useOrgChangeStore((s) => s.createConnectResponsibility);
+  const responsibilitiesByOrg = useOrgChangeStore((s) => s.responsibilitiesByOrg);
+
+  const hasLoneansvarInOrg = responsibilitiesByOrg.find(
+    (x) => x.responsibilityTypeId === OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR
+  );
 
   const message = useMessage();
 
@@ -139,12 +145,15 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
     setResponsibilityCode(e.target.value);
   };
 
-  const resetFormDefaults = async (responsibility) => {
+  const resetFormDefaults = async (responsibility: OrgChangeResponsibility) => {
     const leftValue = getResponsibilityCodeLeft() || '';
     setLeftValue(leftValue);
-    const suggestedCode = await _getNewResponsibilityCodeSuggestion(responsibility.responsibilityTypeId, false);
+    const responsibilityTypeId =
+      hasLoneansvarInOrg ? OrgChangeResponsibilityResponsibilityTypeIdEnum.ANSVAR : responsibility.responsibilityTypeId;
+    const suggestedCode = await _getNewResponsibilityCodeSuggestion(responsibilityTypeId, false);
     reset({
       ...responsibility,
+      responsibilityTypeId: responsibilityTypeId,
       responsibilityCode: leftValue + suggestedCode,
     });
   };
@@ -247,11 +256,15 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
                     className="w-full"
                     onChange={selectTypeOfResponsibilityHandler}
                   >
-                    {responsibilityTypes.map((type) => (
-                      <Select.Option key={`${type.label}`} value={type.id}>
-                        {type.label}
-                      </Select.Option>
-                    ))}
+                    {responsibilityTypes
+                      .filter((x) =>
+                        hasLoneansvarInOrg ? x.id !== OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR : true
+                      )
+                      .map((type) => (
+                        <Select.Option key={`${type.label}`} value={type.id}>
+                          {type.label}
+                        </Select.Option>
+                      ))}
                   </Select>
                   <ErrorMessage
                     errors={errors}
