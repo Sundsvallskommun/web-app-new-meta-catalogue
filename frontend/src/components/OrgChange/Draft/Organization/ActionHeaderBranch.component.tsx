@@ -8,6 +8,7 @@ import MoveFormModal from '../Modals/MoveFormModal.component';
 import RemoveBranchFromDraft from '../Modals/RemoveBranchFromDraftModal.component';
 import TerminateNode from '../Modals/TerminateNodeModal.component';
 import UndoTerminatedNode from '../Modals/UndoTerminatedNode.component';
+import { useUserStore } from '@services/user-service/user-service';
 
 export default function ActionHeaderBranch(props: { organization: DraftTreeOrganization }) {
   const { organization } = props;
@@ -17,6 +18,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
   const [activeOrganization, setActiveOrganization] = useState<
     { label: string; data: DraftTreeOrganization } | undefined
   >();
+  const user = useUserStore((s) => s.user);
 
   const actionHeaderRef = useRef(null);
 
@@ -37,7 +39,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
 
   return (
     <div className="py-8 px-[1.6rem] bg-background-one">
-      {organization.structureChangeStatus !== 'DELETED' ? (
+      {organization.structureChangeStatus !== 'DELETED' ?
         <ul
           ref={actionHeaderRef}
           role="menubar"
@@ -45,22 +47,24 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
           aria-label="Gren-meny"
           className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0"
         >
-          <li className="mr-auto">
-            <Button
-              role="menuitem"
-              aria-haspopup="true"
-              onClick={handleMoveBranch}
-              className="text-base text-primary"
-              variant="link"
-              leftIcon={<MoveDownOutlinedIcon className="!text-2xl mr-sm" />}
-            >
-              Flytta gren
-            </Button>
-          </li>
+          {user.permissions.canEditOrganizationStructure && (
+            <li className="mr-auto">
+              <Button
+                role="menuitem"
+                aria-haspopup="true"
+                onClick={handleMoveBranch}
+                className="text-base text-primary"
+                variant="link"
+                leftIcon={<MoveDownOutlinedIcon className="!text-2xl mr-sm" />}
+              >
+                Flytta gren
+              </Button>
+            </li>
+          )}
           <li>
             <RemoveBranchFromDraft organization={organization} />
           </li>
-          {organization.structureChangeStatus !== 'NEW' && (
+          {organization.structureChangeStatus !== 'NEW' && user.permissions.canEditOrganizationStructure && (
             <li>
               <Button
                 role="menuitem"
@@ -75,8 +79,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
             </li>
           )}
         </ul>
-      ) : (
-        <ul
+      : <ul
           ref={actionHeaderRef}
           role="menubar"
           aria-orientation="horizontal"
@@ -87,7 +90,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
             <UndoTerminatedNode />
           </li>
         </ul>
-      )}
+      }
 
       {isMoveBranchOpen && (
         <MoveFormModal

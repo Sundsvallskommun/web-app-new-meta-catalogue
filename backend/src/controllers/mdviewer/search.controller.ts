@@ -18,19 +18,14 @@ export class MDVSearchController {
   @ResponseSchema(SearchResultsApiResponse)
   @UseBefore(authMiddleware, hasRoles(['meta_read']))
   async getCompanyOperations(@Req() req: RequestWithUser, @Param('query') query: string): Promise<ApiResponse<ObjectSearchResult[]>> {
-    const { role } = req.user;
+    const { permissions } = req.user;
     const url = `${API_URL}/${query}/search`;
     const res = await this.apiService.get<ObjectSearchResult[]>({ url });
 
     const data = res.data.filter(x => {
-      switch (role) {
-        case 'meta_read':
-          if (x.objectType == 'RESPONSIBILITY') return false;
-          if (x.objectType == 'OPERATION') return false;
-          return true;
-        default:
-          return true;
-      }
+      if (x.objectType == 'RESPONSIBILITY') return permissions.canViewResponsibility;
+      if (x.objectType == 'OPERATION') return permissions.canViewOperation;
+      return true;
     });
 
     return { data: data, message: 'success' };

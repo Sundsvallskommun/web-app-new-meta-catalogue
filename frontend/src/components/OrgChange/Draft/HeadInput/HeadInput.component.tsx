@@ -13,6 +13,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { HeadInputFormCutOffdate } from './components/HeadInputFormCutOffdate.component';
 import { HeadInputFormName } from './components/HeadInputFormName.component';
+import { useUserStore } from '@services/user-service/user-service';
 
 const HeadInput = () => {
   const draft = useOrgChangeStore((s) => s.draft);
@@ -21,6 +22,7 @@ const HeadInput = () => {
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
   const { draftIsReadOnly } = useDraftPhaseState();
   const windowSize = useWindowSize();
+  const user = useUserStore((s) => s.user);
 
   const message = useMessage();
   const router = useRouter();
@@ -103,7 +105,7 @@ const HeadInput = () => {
       <div className="lg:w-[440px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-sm text-gray lg:flex lg:justify-between lg:items-end">
-            {draftIsReadOnly ?
+            {draftIsReadOnly || !user.permissions.canEditDrafts ?
               <div className="flex w-full items-end gap-[1rem]">
                 <div className="flex items-end w-fit">
                   <span className="font-bold mr-sm inline-block">Brytdatum: </span>
@@ -122,7 +124,7 @@ const HeadInput = () => {
             </div>
           </div>
           <div className="flex gap-md">
-            {draftIsReadOnly ?
+            {draftIsReadOnly || !user.permissions.canEditDrafts ?
               <h1 className="text-2xl">{draft.name}</h1>
             : <HeadInputFormName />}
 

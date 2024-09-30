@@ -9,17 +9,25 @@ export class Permissions implements IPermissions {
   @IsBoolean()
   canEditSystemMessages: boolean;
   @IsBoolean()
-  canViewEmployeeDetails: boolean;
+  canViewEmployees: boolean;
   @IsBoolean()
-  canViewDrafts: boolean;
+  canViewEmployeeDetails: boolean;
   @IsBoolean()
   canEditEmployeeDetails: boolean;
   @IsBoolean()
+  canViewResponsibility: boolean;
+  @IsBoolean()
   canEditResponsibility: boolean;
+  @IsBoolean()
+  canViewOperation: boolean;
   @IsBoolean()
   canEditOperation: boolean;
   @IsBoolean()
   canEditOrganization: boolean;
+  @IsBoolean()
+  canViewDrafts: boolean;
+  @IsBoolean()
+  canEditDrafts: boolean;
   @IsBoolean()
   canEditOrganizationStructure: boolean;
   @IsBoolean()

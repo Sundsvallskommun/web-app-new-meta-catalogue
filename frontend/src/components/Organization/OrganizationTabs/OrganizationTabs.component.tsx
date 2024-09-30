@@ -89,34 +89,39 @@ export default function OrganizationTabs({ organization }: OrganizationTabsProps
       className="py-md mb-sm"
       listClassName="mx-lg w-[calc(100%_-_4.8rem)] h-auto lg:h-[3rem]"
       tabs={[
-        {
-          id: 'employees',
-          icon: employeesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar personer" /> : undefined,
-          label: employeesByOrgIsLoading ? 'Personer' : `Personer (${employeesByOrg.length})`,
-          children: !employeesByOrgIsLoading && <PeopleInOrganization />,
-        },
-        ...(user.role !== 'meta_read'
-          ? [
-              {
-                id: 'responsibilities',
-                icon: responsibilitiesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar ansvar" /> : undefined,
-                label: responsibilitiesByOrgIsLoading
-                  ? 'Kopplade ansvar'
-                  : `Kopplade ansvar (${responsibilitiesByOrg.length})`,
-                children: !responsibilitiesByOrgIsLoading && <ResponsibilityInOrganization />,
-              },
-            ]
-          : []),
-        ...(user.role !== 'meta_read'
-          ? [
-              {
-                id: 'operations',
-                icon: operationsByOrgIsLoading ? <Loader size="md" aria-label="Hämtar verksamheter" /> : undefined,
-                label: operationsByOrgIsLoading ? 'Verksamheter' : `Verksamheter (${operationsByOrg.length})`,
-                children: !operationsByOrgIsLoading && <OperationInOrganization />,
-              },
-            ]
-          : []),
+        ...(user.permissions.canViewEmployees ?
+          [
+            {
+              id: 'employees',
+              icon: employeesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar personer" /> : undefined,
+              label: employeesByOrgIsLoading ? 'Personer' : `Personer (${employeesByOrg.length})`,
+              children: !employeesByOrgIsLoading && <PeopleInOrganization />,
+            },
+          ]
+        : []),
+        ...(user.permissions.canViewResponsibility ?
+          [
+            {
+              id: 'responsibilities',
+              icon: responsibilitiesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar ansvar" /> : undefined,
+              label:
+                responsibilitiesByOrgIsLoading ? 'Kopplade ansvar' : (
+                  `Kopplade ansvar (${responsibilitiesByOrg.length})`
+                ),
+              children: !responsibilitiesByOrgIsLoading && <ResponsibilityInOrganization />,
+            },
+          ]
+        : []),
+        ...(user.permissions.canViewOperation ?
+          [
+            {
+              id: 'operations',
+              icon: operationsByOrgIsLoading ? <Loader size="md" aria-label="Hämtar verksamheter" /> : undefined,
+              label: operationsByOrgIsLoading ? 'Verksamheter' : `Verksamheter (${operationsByOrg.length})`,
+              children: !operationsByOrgIsLoading && <OperationInOrganization />,
+            },
+          ]
+        : []),
       ]}
       onTabClick={handleTabsOnClickCallback}
     />

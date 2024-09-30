@@ -5,7 +5,7 @@ import { Body, Controller, Get, HttpCode, Param, Post, Put, QueryParam, Req, Use
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import { API_URL, API_PREFIX } from './config';
 import { OrgChangeResponsibilitiesApiResponse, OrgChangeResponsibilityNewCodeApiResponse } from '@/responses/orgchange.responsibility.response';
 import { Responsibility } from '@/data-contracts/mdbuilder/data-contracts';
@@ -18,7 +18,7 @@ export class OrgChangeResponsibilityController {
   @Get(`${API_PREFIX}/responsibility/:draftId`)
   @OpenAPI({ summary: 'Return responsibilities for the orgId' })
   @ResponseSchema(OrgChangeResponsibilitiesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewResponsibility']))
   async getOrgResponsibilities(
     @Req() req: RequestWithUser,
     @Param('draftId') draftId: string,
@@ -36,7 +36,7 @@ export class OrgChangeResponsibilityController {
   @Get(`${API_PREFIX}/responsibility/:responsibilityCodePart/newcode`)
   @OpenAPI({ summary: 'Return responsibilityCode from responsibilityCodePart' })
   @ResponseSchema(OrgChangeResponsibilityNewCodeApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasPermissions(['canEditResponsibility']))
   async getNewCode(
     @Param('responsibilityCodePart') responsibilityCodePart: string,
     @QueryParam('responsibilityType') responsibilityType: string,
@@ -48,7 +48,7 @@ export class OrgChangeResponsibilityController {
   @Post(`${API_PREFIX}/responsibility`)
   @OpenAPI({ summary: 'Create responsibility' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(ResponsibilityCreateDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditResponsibility']), validationMiddleware(ResponsibilityCreateDto, 'body'))
   async createResponsibility(@Req() req: RequestWithUser, @Body() body: ResponsibilityCreateDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/responsibility`;
@@ -59,7 +59,7 @@ export class OrgChangeResponsibilityController {
   @Put(`${API_PREFIX}/responsibility/rename`)
   @OpenAPI({ summary: 'Edits the name of a responsibility' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(RenameResponsibilityDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditResponsibility']), validationMiddleware(RenameResponsibilityDto, 'body'))
   async renameResponsibility(@Req() req: RequestWithUser, @Body() body: RenameResponsibilityDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/responsibility/rename`;
@@ -69,7 +69,7 @@ export class OrgChangeResponsibilityController {
   @Put(`${API_PREFIX}/responsibility/close`)
   @OpenAPI({ summary: 'Closes a responsibility' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(CloseResponsibilityDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditResponsibility']), validationMiddleware(CloseResponsibilityDto, 'body'))
   async closeResponsibility(@Req() req: RequestWithUser, @Body() body: CloseResponsibilityDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/responsibility/close`;

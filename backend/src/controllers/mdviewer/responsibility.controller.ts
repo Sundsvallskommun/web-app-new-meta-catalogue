@@ -2,7 +2,7 @@ import { OrganizationResponsibility } from '@/data-contracts/mdviewer/data-contr
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { ResponsibilitiesApiResponse } from '@/responses/mdviewer.responsibility.response';
 import ApiService from '@/services/api.service';
 import { Controller, Get, Param, Req, UseBefore } from 'routing-controllers';
@@ -16,7 +16,7 @@ export class MDVResponsibilityController {
   @Get(`${API_PREFIX}/responsibility/:companyId/responsibilitysallcompany`)
   @OpenAPI({ summary: 'Return responsibilities for a company' })
   @ResponseSchema(ResponsibilitiesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_operator']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewResponsibility']))
   async index(@Req() req: RequestWithUser, @Param('companyId') companyId: number): Promise<ApiResponse<OrganizationResponsibility[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {
@@ -30,7 +30,7 @@ export class MDVResponsibilityController {
   @Get(`${API_PREFIX}/responsibility/:orgId/responsibilitysallleaves`)
   @OpenAPI({ summary: 'Return responsibilities for an organization, descending orgs' })
   @ResponseSchema(ResponsibilitiesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_operator']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewResponsibility']))
   async getCompanyResponsibilities(@Req() req: RequestWithUser, @Param('orgId') orgId: number): Promise<ApiResponse<OrganizationResponsibility[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {
@@ -44,7 +44,7 @@ export class MDVResponsibilityController {
   @Get(`${API_PREFIX}/responsibility/:orgId/responsibilities`)
   @OpenAPI({ summary: 'Return responsibilities' })
   @ResponseSchema(ResponsibilitiesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_operator']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewResponsibility']))
   async getOrgResponsibilities(@Req() req: RequestWithUser, @Param('orgId') orgId: number): Promise<ApiResponse<OrganizationResponsibility[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {

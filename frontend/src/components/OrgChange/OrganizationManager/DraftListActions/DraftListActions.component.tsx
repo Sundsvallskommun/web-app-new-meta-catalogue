@@ -222,7 +222,7 @@ export default function DraftListActions(props: DraftListActions) {
           ))}
         </Select>
       </span>
-      {user.role === 'meta_admin' && (
+      {user.permissions.canEditDrafts && (
         <span className="w-full">
           <Button
             type="button"

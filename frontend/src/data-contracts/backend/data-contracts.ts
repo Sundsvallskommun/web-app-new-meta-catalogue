@@ -82,12 +82,16 @@ export interface PatchUserSettingsDto {
 
 export interface Permissions {
   canEditSystemMessages: boolean;
+  canViewEmployees: boolean;
   canViewEmployeeDetails: boolean;
-  canViewDrafts: boolean;
   canEditEmployeeDetails: boolean;
+  canViewResponsibility: boolean;
   canEditResponsibility: boolean;
+  canViewOperation: boolean;
   canEditOperation: boolean;
   canEditOrganization: boolean;
+  canViewDrafts: boolean;
+  canEditDrafts: boolean;
   canEditOrganizationStructure: boolean;
   canCommentDraft: boolean;
 }
@@ -271,6 +275,27 @@ export interface VerifyResult {
   noChildren: VerifyNoChildren[];
 }
 
+export interface RunbookSteps {
+  stepNo: number;
+  action: RunbookStepsActionEnum;
+  state: RunbookStepsStateEnum;
+  result?: string | null;
+  isWaitAction: boolean;
+  triggerBtnText?: string | null;
+  description?: string | null;
+  waitingForTrigger: RunbookStepsWaitingForTriggerEnum;
+  emailRecipient?: string | null;
+  reminderIntervalHours?: number | null;
+  firstReminderDT?: string | null;
+  latestReminderDT?: string | null;
+}
+
+export interface DraftRunbook {
+  runbookId: number;
+  currentStep: number;
+  runner: RunbookSteps[];
+}
+
 export interface Draft {
   draftId?: string;
   name?: string | null;
@@ -282,11 +307,11 @@ export interface Draft {
   phase: DraftPhaseEnum;
   phaseChangeDT?: string | null;
   nodes?: string[] | null;
-  verifyResult: VerifyResult | null;
+  verifyResult?: VerifyResult | null;
+  runbook?: DraftRunbook | null;
   changes?: number | null;
   isArchived?: boolean;
   createdDT?: string;
-  runbook?: DraftRunbook | null;
 }
 
 export interface OrgChangeDraftApiResponse {
@@ -349,27 +374,6 @@ export interface DraftComment {
 export interface DraftCommentsApiResponse {
   data: DraftComment[];
   message: string;
-}
-
-export interface RunbookSteps {
-  stepNo: number;
-  action: RunbookStepsActionEnum;
-  state: RunbookStepsStateEnum;
-  result?: string | null;
-  isWaitAction: boolean;
-  triggerBtnText?: string | null;
-  description?: string | null;
-  waitingForTrigger: RunbookStepsWaitingForTriggerEnum;
-  emailRecipient?: string | null;
-  reminderIntervalHours?: number | null;
-  firstReminderDT?: string | null;
-  latestReminderDT?: string | null;
-}
-
-export interface DraftRunbook {
-  runbookId: number;
-  currentStep: number;
-  runner: RunbookSteps[];
 }
 
 export interface DraftRunbookApiResponse {
@@ -522,6 +526,15 @@ export interface CompanyObjectsApiResponse {
   message: string;
 }
 
+export interface ConnectOperationDto {
+  operationId: number;
+  orgId: number;
+}
+
+export interface DisconnectOperationDto {
+  organizationOperationId: number;
+}
+
 export interface OrgChangeOrganizationOperation {
   organizationOperationId?: number;
   operationId?: number;
@@ -550,15 +563,6 @@ export interface OrgChangeOperation {
 export interface CompanyOperationsApiResponse {
   data: OrgChangeOperation[];
   message: string;
-}
-
-export interface ConnectOperationDto {
-  operationId: number;
-  orgId: number;
-}
-
-export interface DisconnectOperationDto {
-  organizationOperationId: number;
 }
 
 export interface InitialOrgStructureToExport {
@@ -740,6 +744,38 @@ export enum RunBookActionTriggerDtoCommandEnum {
   STARTHRStep3 = 'START_HR_Step3',
 }
 
+export enum RunbookStepsActionEnum {
+  Verify = 'Verify',
+  ExportToHRStep1 = 'ExportTo_HR_Step1',
+  ApproveHRStep1 = 'Approve_HR_Step1',
+  Merge = 'Merge',
+  MergeMeta = 'MergeMeta',
+  MergeStratsys = 'MergeStratsys',
+  ExportToRDStep1 = 'ExportTo_RD_Step1',
+  ExportToRDStep2 = 'ExportTo_RD_Step2',
+  ExportToRDStep3 = 'ExportTo_RD_Step3',
+  ExportToRDStep4 = 'ExportTo_RD_Step4',
+  ExportToHRStep2 = 'ExportTo_HR_Step2',
+  Archive = 'Archive',
+  StartHRStep3 = 'Start_HR_Step3',
+  ExportToHRStep3 = 'ExportTo_HR_Step3',
+  Done = 'Done',
+}
+
+export enum RunbookStepsStateEnum {
+  Queued = 'Queued',
+  Waiting = 'Waiting',
+  Running = 'Running',
+  Completed = 'Completed',
+  Fail = 'Fail',
+}
+
+export enum RunbookStepsWaitingForTriggerEnum {
+  APPROVE_DRAFT = 'APPROVE_DRAFT',
+  APPROVEHRStep1 = 'APPROVE_HR_Step1',
+  STARTHRStep3 = 'START_HR_Step3',
+}
+
 export enum DraftPhaseEnum {
   DRAFT = 'DRAFT',
   APPROVED = 'APPROVED',
@@ -781,33 +817,6 @@ export enum OrgChangeOrganizationTreeRespCodePartChangeStatusEnum {
   RENAMED = 'RENAMED',
   RESPCODE_CHANGED = 'RESPCODE_CHANGED',
   DELETED = 'DELETED',
-}
-
-export enum RunbookStepsActionEnum {
-  Verify = 'Verify',
-  ExportToHRStep1 = 'ExportTo_HR_Step1',
-  ApproveHRStep1 = 'Approve_HR_Step1',
-  Merge = 'Merge',
-  ExportToRD = 'ExportTo_RD',
-  ExportToHRStep2 = 'ExportTo_HR_Step2',
-  Archive = 'Archive',
-  StartHRStep3 = 'Start_HR_Step3',
-  ExportToHRStep3 = 'ExportTo_HR_Step3',
-  Done = 'Done',
-}
-
-export enum RunbookStepsStateEnum {
-  Queued = 'Queued',
-  Waiting = 'Waiting',
-  Running = 'Running',
-  Completed = 'Completed',
-  Fail = 'Fail',
-}
-
-export enum RunbookStepsWaitingForTriggerEnum {
-  APPROVE_DRAFT = 'APPROVE_DRAFT',
-  APPROVEHRStep1 = 'APPROVE_HR_Step1',
-  STARTHRStep3 = 'START_HR_Step3',
 }
 
 export enum OrgChangeOrganizationOperationChangeStatusEnum {

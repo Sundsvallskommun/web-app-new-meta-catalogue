@@ -3,12 +3,16 @@ import { Permissions, User, UserRoleEnum } from '@data-contracts/backend/data-co
 
 export const defaultPermissions: Permissions = {
   canEditSystemMessages: false,
+  canViewEmployees: false,
   canViewEmployeeDetails: false,
-  canViewDrafts: false,
   canEditEmployeeDetails: false,
+  canViewResponsibility: false,
   canEditResponsibility: false,
+  canViewOperation: false,
   canEditOperation: false,
   canEditOrganization: false,
+  canViewDrafts: false,
+  canEditDrafts: false,
   canEditOrganizationStructure: false,
   canCommentDraft: false,
 };
