@@ -144,8 +144,6 @@ export const getPermissions = (groups: InternalRole[] | ADRole[], internalGroups
  * @returns role with most permissions
  */
 export const getRole = (groups: ADRole[]) => {
-  if (groups.length == 1) return roleADMapping[groups[0]]; // meta_read
-
   const roles: InternalRole[] = [];
   groups.forEach(group => {
     const groupLower = group.toLowerCase();
@@ -155,5 +153,5 @@ export const getRole = (groups: ADRole[]) => {
     }
   });
 
-  return roles.sort((a, b) => (RoleOrderEnum[a] > RoleOrderEnum[b] ? 1 : 0))[0];
+  return roles.sort((a, b) => RoleOrderEnum[b] - RoleOrderEnum[a])[0];
 };
