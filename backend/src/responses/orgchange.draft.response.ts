@@ -45,6 +45,59 @@ export class VerifyResult implements _VerifyResult {
   @Type(() => VerifyNoChildren)
   noChildren: VerifyNoChildren[];
 }
+
+// Runbook
+export class RunbookSteps implements _RunbookSteps {
+  @IsNumber()
+  stepNo: number;
+  @IsEnum(RBStepAction)
+  action: RBStepAction;
+  @IsEnum(RBStepState)
+  state: RBStepState;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  result?: string;
+  @IsBoolean()
+  isWaitAction?: boolean;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  triggerBtnText?: string;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  description?: string;
+  @IsEnum(DraftTriggerCommand)
+  waitingForTrigger?: DraftTriggerCommand;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  emailRecipient?: string;
+  @IsNumber()
+  @IsOptional()
+  @IsNullable()
+  reminderIntervalHours?: number;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  firstReminderDT?: string;
+  @IsString()
+  @IsOptional()
+  @IsNullable()
+  latestReminderDT?: string;
+}
+
+export class DraftRunbook implements _Runbook {
+  @IsNumber()
+  runbookId: number;
+  @IsNumber()
+  currentStep: number;
+  @ValidateNested({ each: true })
+  @Type(() => RunbookSteps)
+  runner: RunbookSteps[];
+}
+
 export class Draft implements _Draft {
   @IsString()
   @IsOptional()
@@ -94,6 +147,11 @@ export class Draft implements _Draft {
   @IsNullable()
   @IsOptional()
   verifyResult?: VerifyResult | null;
+  @ValidateNested()
+  @Type(() => DraftRunbook)
+  @IsNullable()
+  @IsOptional()
+  runbook?: DraftRunbook;
   @IsNumber()
   @IsOptional()
   @IsNullable()
@@ -313,58 +371,6 @@ export class DraftCommentsApiResponse implements ApiResponse<DraftComment[]> {
   data: DraftComment[];
   @IsString()
   message: string;
-}
-
-// Runbook
-export class RunbookSteps implements _RunbookSteps {
-  @IsNumber()
-  stepNo: number;
-  @IsEnum(RBStepAction)
-  action: RBStepAction;
-  @IsEnum(RBStepState)
-  state: RBStepState;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  result?: string;
-  @IsBoolean()
-  isWaitAction?: boolean;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  triggerBtnText?: string;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  description?: string;
-  @IsEnum(DraftTriggerCommand)
-  waitingForTrigger?: DraftTriggerCommand;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  emailRecipient?: string;
-  @IsNumber()
-  @IsOptional()
-  @IsNullable()
-  reminderIntervalHours?: number;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  firstReminderDT?: string;
-  @IsString()
-  @IsOptional()
-  @IsNullable()
-  latestReminderDT?: string;
-}
-
-export class DraftRunbook implements _Runbook {
-  @IsNumber()
-  runbookId: number;
-  @IsNumber()
-  currentStep: number;
-  @ValidateNested({ each: true })
-  @Type(() => RunbookSteps)
-  runner: RunbookSteps[];
 }
 
 export class DraftRunbookApiResponse implements ApiResponse<DraftRunbook> {

@@ -104,7 +104,11 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               status: 'success',
             });
           } else {
-            setErrorMessage(errorMessage);
+            setErrorMessage(res.message);
+            message({
+              message: `Ansvaret kunde inte stängas: ${res.message}`,
+              status: 'error',
+            });
             setError(true);
             setIsLoading(false);
           }

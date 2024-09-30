@@ -32,11 +32,9 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
   const dropDownFilter =
     isOrgChange ?
       orgChangeResponsibilityFilter.map((x) =>
-        x.id == 7 ? { ...x, isShown: user.permissions.canEditOperation && !draftIsReadOnly } : x
+        x.id == 7 ? { ...x, isShown: user.permissions.canEditResponsibility && !draftIsReadOnly } : x
       )
-    : orgResponsibilityFilter.map((x) =>
-        x.id == 7 ? { ...x, isShown: user.permissions.canEditOperation && !draftIsReadOnly } : x
-      );
+    : orgResponsibilityFilter;
   const setDropdownFilter = isOrgChange ? setOrgChangeResponsibilityFilter : setOrgResponsibilityFilter;
 
   const openModalHandler = () => {

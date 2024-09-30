@@ -209,7 +209,7 @@ export default function SideMenuHeadElement() {
                   onClick={() => setFilterOpen((open) => !open)}
                 >
                   <Link as="span" className="text-white hover:text-white hover:no-underline">
-                    Visa/sök
+                    {user.permissions.canViewDrafts ? 'Visa/sök' : 'Sök'}
                     <ArrowDropDownOutlinedIcon
                       className={`!text-2xl !ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`}
                     />
@@ -223,29 +223,31 @@ export default function SideMenuHeadElement() {
                     className="absolute left-0 right-0 z-10 mt-[2.1rem] rounded-[.2rem] p-md bg-primary text-white"
                   >
                     <ul aria-label="Sökfilter" role="menu" aria-orientation="vertical">
-                      <li>
-                        <div className="dropdown-filter" style={{ all: 'unset' }}>
-                          <ul
-                            aria-label="Ändra sidomenyn"
-                            role="listbox"
-                            aria-orientation="vertical"
-                            className="filter-container [&>.filter-item]:!border-primary-active [&>.filter-item]:!px-0"
-                            style={{ all: 'unset' }}
-                          >
-                            {sideMenuShowFiltersFiltered.map((filter: IFilterData, i) => (
-                              <FilterItem
-                                key={`${filter.id}`}
-                                className={`!border-t-0 select-none [&>label>.form-checkbox-label]:text-white [&.disabled>label>.form-checkbox-label]:text-svartvik-100 [&>label>input]:bg-white [&>label>input:focus-within]:outline-none ${
-                                  filter.disabled ? '!disabled' : ''
-                                } ${i == sideMenuShowFiltersFiltered.length - 1 ? '!border-b !border-solid' : ''}`}
-                                item={filter}
-                                itemChange={handleSideMenuShowFilterChange}
-                                size={'sm'}
-                              />
-                            ))}
-                          </ul>
-                        </div>
-                      </li>
+                      {user.permissions.canViewDrafts ?
+                        <li>
+                          <div className="dropdown-filter" style={{ all: 'unset' }}>
+                            <ul
+                              aria-label="Ändra sidomenyn"
+                              role="listbox"
+                              aria-orientation="vertical"
+                              className="filter-container [&>.filter-item]:!border-primary-active [&>.filter-item]:!px-0"
+                              style={{ all: 'unset' }}
+                            >
+                              {sideMenuShowFiltersFiltered.map((filter: IFilterData, i) => (
+                                <FilterItem
+                                  key={`${filter.id}`}
+                                  className={`!border-t-0 select-none [&>label>.form-checkbox-label]:text-white [&.disabled>label>.form-checkbox-label]:text-svartvik-100 [&>label>input]:bg-white [&>label>input:focus-within]:outline-none ${
+                                    filter.disabled ? '!disabled' : ''
+                                  } ${i == sideMenuShowFiltersFiltered.length - 1 ? '!border-b !border-solid' : ''}`}
+                                  item={filter}
+                                  itemChange={handleSideMenuShowFilterChange}
+                                  size={'sm'}
+                                />
+                              ))}
+                            </ul>
+                          </div>
+                        </li>
+                      : <></>}
                       <li
                         onKeyDown={(e: React.KeyboardEvent) => {
                           if (e.code === 'Tab' && !e.shiftKey) {

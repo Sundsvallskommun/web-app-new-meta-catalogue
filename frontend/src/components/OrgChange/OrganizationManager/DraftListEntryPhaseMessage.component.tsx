@@ -9,10 +9,12 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { draftListEntry, useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, cx, useConfirm } from '@sk-web-gui/react';
 import { MessageStatusIcon } from '../Draft/BottomInfoBar/ExportMessages.component';
+import { useUserStore } from '@services/user-service/user-service';
 
 export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) {
   const triggerDraft = useOrgChangeStore((s) => s.triggerDraft);
   const getDrafts = useOrgChangeStore((s) => s.getDrafts);
+  const user = useUserStore((s) => s.user);
 
   const { phaseRunbookStep } = draftListEntry(draft);
   const { showConfirmation } = useConfirm();
@@ -20,6 +22,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
   if (draft.phase !== DraftPhaseEnum.EXPORT || phaseRunbookStep === null) return <></>;
 
   if (
+    user.permissions.canEditDrafts &&
     phaseRunbookStep.state === RunbookStepsStateEnum.Waiting &&
     phaseRunbookStep.action === RunbookStepsActionEnum.StartHRStep3
   ) {

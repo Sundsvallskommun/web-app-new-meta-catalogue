@@ -107,7 +107,7 @@ const samlStrategy = new Strategy(
             .filter(x => x.includes('sg_appl_meta_masterdata_')) as ADRole[])
         : [];
 
-    const appGroups: ADRole[] = groupList.length > 0 ? groupList : groupList.concat('sg_appl_meta_masterdata_read');
+    const appGroups = groupList.concat('sg_appl_meta_masterdata_read');
 
     try {
       let personId = '';

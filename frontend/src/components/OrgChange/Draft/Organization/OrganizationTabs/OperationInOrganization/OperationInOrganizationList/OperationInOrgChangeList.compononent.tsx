@@ -55,12 +55,14 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
   const windowSize = useWindowSize();
 
   //table header
-  const headers: ZebraTableHeader[] = orgChangeOperationHeaders.map((header) => ({
-    element: <span className="font-bold">{header.label}</span>,
-    screenReaderOnly: header.screenReaderOnly,
-    isColumnSortable: header.isColumnSortable,
-    isShown: orgChangeOperationFilter.find((f) => f.id === header.filterId).value,
-  }));
+  const headers: ZebraTableHeader[] = orgChangeOperationHeaders
+    .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation : true))
+    .map((header) => ({
+      element: <span className="font-bold">{header.label}</span>,
+      screenReaderOnly: header.screenReaderOnly,
+      isColumnSortable: header.isColumnSortable,
+      isShown: orgChangeOperationFilter.find((f) => f.id === header.filterId).value,
+    }));
 
   const handleShowInOrg = (orgId, organizationOperationId) => {
     setSelectedOrganizationId(orgId);

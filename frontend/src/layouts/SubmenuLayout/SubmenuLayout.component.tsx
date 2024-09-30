@@ -38,15 +38,15 @@ export default function SubmenuLayout({
                   label: 'Organisation',
                   path: '/',
                 },
-                ...(user.role !== 'meta_read'
-                  ? [
-                      {
-                        id: 2,
-                        label: 'Ansvar',
-                        path: '/ansvar',
-                      },
-                    ]
-                  : []),
+                ...(user.permissions.canViewResponsibility ?
+                  [
+                    {
+                      id: 2,
+                      label: 'Ansvar',
+                      path: '/ansvar',
+                    },
+                  ]
+                : []),
               ]}
             >
               <GlobalSearch />

@@ -117,8 +117,11 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
 
   //table header
   const headers: ZebraTableHeader[] = employeeOrgChangeHeaders
-    .filter((x) => (x.filterId == 9 ? user.permissions.canEditOrganization : true))
-    .filter((x) => (x.filterId == 10 ? user.permissions.canEditOrganization : true))
+    .filter((x) => (x.filterId == 8 ? user.permissions.canViewEmployeeDetails : true))
+    .filter((x) => (x.filterId == 9 ? user.permissions.canViewEmployeeDetails : true))
+    .filter((x) => (x.filterId == 10 ? user.permissions.canViewEmployeeDetails : true))
+    .filter((x) => (x.filterId == 6 ? user.permissions.canViewEmployeeDetails : true))
+    .filter((x) => (x.filterId == 7 ? user.permissions.canEditEmployeeDetails : true))
     .map((header) => ({
       element: <span className="font-bold">{header.label}</span>,
       screenReaderOnly: header.screenReaderOnly,
@@ -377,7 +380,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             </div>
           </Fragment>
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canEditOrganization,
+        isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canViewEmployeeDetails,
       },
       !draftIsReadOnly && {
         element: (
@@ -394,7 +397,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             </div>
           </Fragment>
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 7)?.value && user.permissions.canEditOrganization,
+        isShown: orgEmployeeFilter.find((i) => i.id === 7)?.value && user.permissions.canEditEmployeeDetails,
       },
     ];
   });

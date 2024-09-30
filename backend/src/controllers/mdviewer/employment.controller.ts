@@ -1,7 +1,7 @@
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import ApiResponse from '@/interfaces/api-service.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import ApiService from '@/services/api.service';
 import { filterPersonNumberString } from '@/utils/filterPersonNumberString';
 import { Controller, Get, Param, Req, UseBefore } from 'routing-controllers';
@@ -28,7 +28,7 @@ export class MDVEmployeeController {
   @Get(`${API_PREFIX}/employment/:orgId/employees`)
   @OpenAPI({ summary: 'Return employees' })
   @ResponseSchema(EmployeesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_read']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployees']))
   async getEmployee(@Req() req: RequestWithUser, @Param('orgId') orgId: number): Promise<ApiResponse<MDVEmployee[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {
@@ -46,7 +46,7 @@ export class MDVEmployeeController {
   @Get(`${API_PREFIX}/employment/:orgId/employeesallleaves`)
   @OpenAPI({ summary: 'Return employees for an organization, descending orgs' })
   @ResponseSchema(EmployeesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_read']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployees']))
   async getCompanyResponsibilities(@Req() req: RequestWithUser, @Param('orgId') orgId: number): Promise<ApiResponse<MDVEmployee[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {
@@ -65,7 +65,7 @@ export class MDVEmployeeController {
   @Get(`${API_PREFIX}/employment/:personId/employeedetails`)
   @OpenAPI({ summary: 'Return employeedetails' })
   @ResponseSchema(EmployeeDetailsApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_operator']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployeeDetails']))
   async getEmployeeDetails(@Req() req: RequestWithUser, @Param('personId') personId: string): Promise<ApiResponse<MDVEmployee[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {

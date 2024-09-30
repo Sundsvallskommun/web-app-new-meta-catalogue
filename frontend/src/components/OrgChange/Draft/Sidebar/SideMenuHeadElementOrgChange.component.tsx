@@ -13,6 +13,7 @@ import Sticky from 'react-sticky-el';
 import ChooseBranchToChangeModal from './Modals/ChooseBranchToChangeModal.component';
 import CreateNewBranchFormModal from './Modals/CreateNewBranchFormModal.component';
 import { IFilterDataMenu } from '@interfaces/organization';
+import { useUserStore } from '@services/user-service/user-service';
 
 export default function SideMenuHeadElementOrgChange() {
   const sideMenuShowFilters = useOrgChangeStore((s) => s.sideMenuShowFilters);
@@ -27,6 +28,7 @@ export default function SideMenuHeadElementOrgChange() {
   const initialFocus = useRef(null);
   const sidemenuHeadMenuRef = useRef(null);
   const panelRef = useRef(null);
+  const user = useUserStore((s) => s.user);
 
   const handleSideMenuShowFilterChange = (filter: IFilterDataMenu) => {
     const newFilters = sideMenuShowFilters.map((x: IFilterDataMenu) =>
@@ -131,9 +133,11 @@ export default function SideMenuHeadElementOrgChange() {
                 Välj gren att ändra
               </Button>
             </li>
-            <li>
-              <CreateNewBranchFormModal />
-            </li>
+            {user.permissions.canEditOrganizationStructure && (
+              <li>
+                <CreateNewBranchFormModal />
+              </li>
+            )}
           </>
         )}
         <Popover as={Fragment}>

@@ -5,7 +5,7 @@ import { Body, Controller, Delete, HttpCode, Param, Post, Put, Req, UseBefore } 
 import { OpenAPI } from 'routing-controllers-openapi';
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import { API_URL, API_PREFIX } from './config';
 import { OrgnodeAddDto, OrgnodeCreateDto, OrgnodeRenameDto, OrgnodeMoveDto, OrgnodeChangeRespCodeDto } from '@/dtos/orgchange/orgnode.dto';
 
@@ -16,7 +16,7 @@ export class OrgChangeOrgNodeController {
   @Put(`${API_PREFIX}/orgnode/add`)
   @OpenAPI({ summary: 'Add node to draft' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(OrgnodeAddDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']), validationMiddleware(OrgnodeAddDto, 'body'))
   async addNode(@Req() req: RequestWithUser, @Body() body: OrgnodeAddDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/add`;
@@ -26,7 +26,7 @@ export class OrgChangeOrgNodeController {
   @Put(`${API_PREFIX}/orgnode/:orgId/remove`)
   @OpenAPI({ summary: 'Remove node from draft' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']))
   async removeNode(@Param('orgId') orgId: string): Promise<ApiResponse<{}>> {
     const url = `${API_URL}/orgnode/${orgId}/remove`;
     return await this.apiService.put({ url });
@@ -34,7 +34,7 @@ export class OrgChangeOrgNodeController {
 
   @Post(`${API_PREFIX}/orgnode`)
   @OpenAPI({ summary: 'Create node' })
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(OrgnodeCreateDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']), validationMiddleware(OrgnodeCreateDto, 'body'))
   async createNode(@Req() req: RequestWithUser, @Body() body: OrgnodeCreateDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode`;
@@ -44,7 +44,7 @@ export class OrgChangeOrgNodeController {
   @Delete(`${API_PREFIX}/orgnode/:orgId`)
   @OpenAPI({ summary: 'terminate node' })
   @HttpCode(200)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']))
   async terminateNode(@Req() req: RequestWithUser, @Param('orgId') orgId: string): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/${orgId}`;
@@ -54,7 +54,7 @@ export class OrgChangeOrgNodeController {
   @Put(`${API_PREFIX}/orgnode/rename`)
   @OpenAPI({ summary: 'Rename node' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(OrgnodeRenameDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']), validationMiddleware(OrgnodeRenameDto, 'body'))
   async renameNode(@Req() req: RequestWithUser, @Body() body: OrgnodeRenameDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/rename`;
@@ -64,7 +64,7 @@ export class OrgChangeOrgNodeController {
   @Put(`${API_PREFIX}/orgnode/move`)
   @OpenAPI({ summary: 'Move node' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(OrgnodeMoveDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']), validationMiddleware(OrgnodeMoveDto, 'body'))
   async moveNode(@Req() req: RequestWithUser, @Body() body: OrgnodeMoveDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/move`;
@@ -74,7 +74,7 @@ export class OrgChangeOrgNodeController {
   @Put(`${API_PREFIX}/orgnode/responsibilitycodepart`)
   @OpenAPI({ summary: 'Change code for node' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(OrgnodeChangeRespCodeDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']), validationMiddleware(OrgnodeChangeRespCodeDto, 'body'))
   async changeNodeRespCode(@Req() req: RequestWithUser, @Body() body: OrgnodeChangeRespCodeDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/responsibilitycodepart`;
@@ -83,7 +83,7 @@ export class OrgChangeOrgNodeController {
 
   @Post(`${API_PREFIX}/orgnode/undodelete/:orgId`)
   @OpenAPI({ summary: 'undo delete node' })
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasPermissions(['canEditOrganizationStructure']))
   async undoDelete(@Req() req: RequestWithUser, @Param('orgId') orgId: string): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/orgnode/undodelete/${orgId}`;
