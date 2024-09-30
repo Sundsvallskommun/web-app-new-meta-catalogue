@@ -16,19 +16,18 @@ export const useMenuItems = () => {
       showOnMobile: true,
       elements: [
         {
-          label: 'Rapportera systemfel',
-          permissions: user.permissions.canEditSystemMessages,
+          label: 'Rapportera fel',
           element: (active: boolean) => (
             <NextLink
               key={'feedback'}
               href={{
-                query: { ...router.query, feedback: 'SYSTEM' },
+                query: { ...router.query, feedback: 'OTHER' },
               }}
               shallow
               replace
               className={`usermenu-item ${active ? 'active' : ''}`}
             >
-              <span className="inline">Rapportera systemfel</span>
+              <span className="inline">Rapportera fel</span>
             </NextLink>
           ),
         },
