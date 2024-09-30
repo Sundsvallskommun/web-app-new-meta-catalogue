@@ -6,8 +6,8 @@ import ApiResponse from '@/interfaces/api-service.interface';
 import { hasRoles } from '@/middlewares/permissions.middleware';
 import { API_PREFIX, API_URL } from './config';
 import { SearchResultsApiResponse } from '@/responses/search.response';
-import { RequestWithUser } from 'passport-saml/lib/passport-saml/types';
 import { ObjectSearchResult } from '@/data-contracts/mdviewer/data-contracts';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 @Controller()
 export class MDVSearchController {
