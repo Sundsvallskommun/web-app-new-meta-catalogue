@@ -18,11 +18,11 @@ describe('Nav header', () => {
   it('should have usermenu showing the name', () => {
     cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
     cy.get('.sk-usermenu-body').should('be.visible');
-    cy.get('.sk-usermenu-body').contains('Rapportera systemfel').should('be.visible').click();
+    cy.get('.sk-usermenu-body').contains('Rapportera fel').should('be.visible').click();
     cy.get('div[aria-modal="true"]').contains('Rapportera fel').should('be.visible');
   });
 
-  const menuItemLabels = ['Rapportera systemfel', 'Hantera organisation', 'Logga ut'];
+  const menuItemLabels = ['Rapportera fel', 'Hantera organisation', 'Logga ut'];
 
   it('should show usermenu body when opened', () => {
     // Click the button.usermenu-header to open the dropdown menu
@@ -33,8 +33,8 @@ describe('Nav header', () => {
 
   // Loop through the menuItemLabels array
   menuItemLabels.forEach((label) => {
-    // Only perform the test for the 'Rapportera systemfel' menu item
-    if (label === 'Rapportera systemfel') {
+    // Only perform the test for the 'Rapportera fel' menu item
+    if (label === 'Rapportera fel') {
       it(`should show "${label}" popup when clicked`, () => {
         cy.intercept('POST', '**/api/feedback', rapporteraSystemfelFeedback);
 
@@ -50,9 +50,9 @@ describe('Nav header', () => {
         // Check if the modal/popup with the title 'Rapportera fel' is visible
         cy.contains('Rapportera fel').should('be.visible');
 
-        cy.contains('select', 'Fel i systemet (HR)').should('be.visible');
+        cy.contains('select', 'Övrigt (IT)').should('be.visible');
 
-        cy.contains('select', 'Fel i systemet (HR)').select('Anställd kopplad till fel organisation (HR)');
+        cy.contains('select', 'Övrigt (IT)').select('Anställd kopplad till fel organisation (HR)');
 
         cy.contains('select', 'Anställd kopplad till fel organisation (HR)').should('be.visible');
 
