@@ -8,7 +8,7 @@ import { RequestWithUser } from '@/interfaces/auth.interface';
 import { AlertBannerMessage } from '@/interfaces/alert-banner.interface';
 import { AlertBannerDto } from '@/dtos/alert-banner.dto';
 import prisma from '@/utils/prisma';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import { AlertBannerMessageApiResponse, AlertBannerMessageDeleteApiResponse } from '@/responses/alert.response';
 
 @Controller()
@@ -37,7 +37,7 @@ export class AlertController {
   @OnUndefined(204)
   @OpenAPI({ summary: 'Create new alert' })
   @ResponseSchema(AlertBannerMessageApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(AlertBannerDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditSystemMessages']), validationMiddleware(AlertBannerDto, 'body'))
   async newAlert(@Req() req: RequestWithUser, @Body() messageData: AlertBannerDto): Promise<ApiResponse<AlertBannerMessage>> {
     const { name } = req.user;
 
@@ -58,7 +58,7 @@ export class AlertController {
   @OnUndefined(204)
   @OpenAPI({ summary: 'Edit an alert' })
   @ResponseSchema(AlertBannerMessageApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(AlertBannerDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditSystemMessages']), validationMiddleware(AlertBannerDto, 'body'))
   async editAlert(
     @Req() req: RequestWithUser,
     @Param('id') id: number,
@@ -86,7 +86,7 @@ export class AlertController {
   @OnUndefined(204)
   @OpenAPI({ summary: 'Delete an alert' })
   @ResponseSchema(AlertBannerMessageDeleteApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']))
+  @UseBefore(authMiddleware, hasPermissions(['canEditSystemMessages']))
   async deleteAlert(@Req() req: RequestWithUser, @Param('id') id: number) {
     const { username } = req.user;
 

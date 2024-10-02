@@ -2,7 +2,7 @@ import { EmploymentWithChangeIntent, PersonEmployeeDetail } from '@/data-contrac
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import { validationMiddleware } from '@/middlewares/validation.middleware';
 import { OrgChangeOrganizationEmployeesApiResponse, OrgChangePersonEmployeeDetailApiResponse } from '@/responses/orgchange.employment.response';
 import ApiService from '@/services/api.service';
@@ -19,7 +19,7 @@ export class OrgChangeEmploymentController {
   @Put(`${API_PREFIX}/employment`)
   @OpenAPI({ summary: 'Takes a list of changes. PA-Team, Operation, Organization can be changed independently of eachother' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(EmploymentChangeArrayDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditEmployeeDetails']), validationMiddleware(EmploymentChangeArrayDto, 'body'))
   async changeEmployment(@Req() req: RequestWithUser, @Body() body: EmploymentChangeArrayDto): Promise<ApiResponse<{}>> {
     const { username } = req.user;
     const url = `${API_URL}/employment`;
@@ -42,7 +42,7 @@ export class OrgChangeEmploymentController {
   @Put(`${API_PREFIX}/employment/reset`)
   @OpenAPI({ summary: 'Resets a changed employment, returns a list of guids' })
   @HttpCode(204)
-  @UseBefore(authMiddleware, hasRoles(['meta_admin']), validationMiddleware(EmploymentChangeResetArrayDto, 'body'))
+  @UseBefore(authMiddleware, hasPermissions(['canEditEmployeeDetails']), validationMiddleware(EmploymentChangeResetArrayDto, 'body'))
   async resetEmployment(@Req() req: RequestWithUser, @Body() body: EmploymentChangeResetArrayDto): Promise<ApiResponse<{}>> {
     const url = `${API_URL}/employment/reset`;
 
@@ -52,7 +52,7 @@ export class OrgChangeEmploymentController {
   @Get(`${API_PREFIX}/employment/:orgId`)
   @OpenAPI({ summary: 'Return employees' })
   @ResponseSchema(OrgChangeOrganizationEmployeesApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewDrafts']))
   async getEmployees(@Req() req: RequestWithUser, @Param('orgId') orgId: number): Promise<ApiResponse<EmploymentWithChangeIntent[]>> {
     const controller = new AbortController();
     req.on('aborted', () => {
@@ -76,7 +76,7 @@ export class OrgChangeEmploymentController {
   @Get(`${API_PREFIX}/employment/:personId/detail`)
   @OpenAPI({ summary: 'Return employee details' })
   @ResponseSchema(OrgChangePersonEmployeeDetailApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployeeDetails']))
   async getEmployeeDetails(@Req() req: RequestWithUser, @Param('personId') personId: string): Promise<ApiResponse<PersonEmployeeDetail>> {
     const controller = new AbortController();
     req.on('aborted', () => {

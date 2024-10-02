@@ -11,6 +11,7 @@ import ShareModal from './Draft/Modals/ShareModal.component';
 import { Draft } from '@data-contracts/backend/data-contracts';
 import ExportInitialOrgStructureModal from './Draft/Modals/ExportInitialOrgStructureModal.component';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useUserStore } from '@services/user-service/user-service';
 
 interface IDraftContextMenu {
   draft?: Draft;
@@ -31,6 +32,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isExportStructureOpen, setIsExportStructureOpen] = useState(false);
   const { draftIsReadOnly } = useDraftPhaseState(draft);
+  const user = useUserStore((s) => s.user);
 
   const { showConfirmation } = useConfirm();
 
@@ -94,7 +96,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
           </Button>
         </ContextMenu.Item>
 
-        {!draftIsReadOnly ?
+        {!draftIsReadOnly && user.permissions.canEditDrafts && (
           <>
             <Divider orientation="horizontal" className="w-full" />
             <ContextMenu.Item>
@@ -103,7 +105,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
               </Button>
             </ContextMenu.Item>
           </>
-        : <></>}
+        )}
       </ContextMenu>
       {isShareOpen && <ShareModal draft={draft} onClose={() => setIsShareOpen(false)} />}
       {isExportStructureOpen && (

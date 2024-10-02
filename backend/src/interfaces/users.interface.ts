@@ -1,11 +1,15 @@
 export interface Permissions {
   canEditSystemMessages: boolean;
+  canViewEmployees: boolean;
   canViewEmployeeDetails: boolean;
-  canViewDrafts: boolean;
   canEditEmployeeDetails: boolean;
+  canViewResponsibility: boolean;
   canEditResponsibility: boolean;
+  canViewOperation: boolean;
   canEditOperation: boolean;
   canEditOrganization: boolean;
+  canViewDrafts: boolean;
+  canEditDrafts: boolean;
   canEditOrganizationStructure: boolean;
   canCommentDraft: boolean;
 }

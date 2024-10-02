@@ -3,7 +3,7 @@ import { HttpException } from '@/exceptions/HttpException';
 import ApiResponse from '@/interfaces/api-service.interface';
 import { OrganizationModified, OrganizationTreeModified } from '@/interfaces/organization.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import { OrganizationApiResponse, OrganizationTreeApiResponse, OrganizationsApiResponse } from '@/responses/organization.response';
 import { refitKeys } from '@/utils/refitKeys';
 import ApiService from '@services/api.service';
@@ -98,10 +98,11 @@ export class MDVOrganizationController {
     return { data: [data], message: 'success' };
   }
 
+  // Only used in builder to choose branch, hence the permission
   @Get(`${API_PREFIX}/organization/:companyId/company`)
-  @OpenAPI({ summary: 'Return drafts' })
+  @OpenAPI({ summary: 'Return company' })
   @ResponseSchema(OrganizationsApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewDrafts']))
   async getCompanyOrganizations(@Param('companyId') companyId: string): Promise<ApiResponse<OrganizationModified[]>> {
     const url = `${API_URL}/${companyId}/company`;
     const res = await this.apiService.get<Organization[]>({ url });

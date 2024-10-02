@@ -6,8 +6,8 @@ import ApiResponse from '@/interfaces/api-service.interface';
 import { hasRoles } from '@/middlewares/permissions.middleware';
 import { API_PREFIX, API_URL } from './config';
 import { SearchResultsApiResponse } from '@/responses/search.response';
-import { RequestWithUser } from 'passport-saml/lib/passport-saml/types';
 import { ObjectSearchResult } from '@/data-contracts/mdviewer/data-contracts';
+import { RequestWithUser } from '@/interfaces/auth.interface';
 
 @Controller()
 export class MDVSearchController {
@@ -18,19 +18,14 @@ export class MDVSearchController {
   @ResponseSchema(SearchResultsApiResponse)
   @UseBefore(authMiddleware, hasRoles(['meta_read']))
   async getCompanyOperations(@Req() req: RequestWithUser, @Param('query') query: string): Promise<ApiResponse<ObjectSearchResult[]>> {
-    const { role } = req.user;
+    const { permissions } = req.user;
     const url = `${API_URL}/${query}/search`;
     const res = await this.apiService.get<ObjectSearchResult[]>({ url });
 
     const data = res.data.filter(x => {
-      switch (role) {
-        case 'meta_read':
-          if (x.objectType == 'RESPONSIBILITY') return false;
-          if (x.objectType == 'OPERATION') return false;
-          return true;
-        default:
-          return true;
-      }
+      if (x.objectType == 'RESPONSIBILITY') return permissions.canViewResponsibility;
+      if (x.objectType == 'OPERATION') return permissions.canViewOperation;
+      return true;
     });
 
     return { data: data, message: 'success' };

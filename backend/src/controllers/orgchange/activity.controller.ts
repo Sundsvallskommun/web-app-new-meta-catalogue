@@ -1,7 +1,7 @@
 import { Activity } from '@/data-contracts/mdbuilder/data-contracts';
 import ApiResponse from '@/interfaces/api-service.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { CompanyActivitysApiResponse } from '@/responses/orgchange.activity.response';
 import ApiService from '@/services/api.service';
 import { Controller, Get, Param, UseBefore } from 'routing-controllers';
@@ -15,7 +15,7 @@ export class OrgChangeActivityController {
   @Get(`${API_PREFIX}/activity/:companyId`)
   @OpenAPI({ summary: 'Return activities for companyId' })
   @ResponseSchema(CompanyActivitysApiResponse)
-  @UseBefore(authMiddleware, hasRoles(['meta_verifier']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewDrafts']))
   async getCompanyActivitys(@Param('companyId') companyId: number): Promise<ApiResponse<Activity[]>> {
     const url = `${API_URL}/activity/${companyId}`;
     return await this.apiService.get<Activity[]>({ url });

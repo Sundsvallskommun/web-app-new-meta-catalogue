@@ -9,12 +9,16 @@ import { Permissions, InternalRole, ADRole } from '@interfaces/users.interface';
 
 export const defaultPermissions: () => Permissions = () => ({
   canEditSystemMessages: false,
+  canViewEmployees: false,
   canViewEmployeeDetails: false,
-  canViewDrafts: false,
   canEditEmployeeDetails: false,
+  canViewResponsibility: false,
   canEditResponsibility: false,
+  canViewOperation: false,
   canEditOperation: false,
   canEditOrganization: false,
+  canViewDrafts: false,
+  canEditDrafts: false,
   canEditOrganizationStructure: false,
   canCommentDraft: false,
 });
@@ -31,12 +35,16 @@ const roles = new Map<InternalRole, Partial<Permissions>>([
     'meta_admin',
     {
       canEditSystemMessages: true,
+      canViewEmployees: true,
       canViewEmployeeDetails: true,
-      canViewDrafts: true,
       canEditEmployeeDetails: true,
+      canViewResponsibility: true,
       canEditResponsibility: true,
+      canViewOperation: true,
       canEditOperation: true,
       canEditOrganization: true,
+      canViewDrafts: true,
+      canEditDrafts: true,
       canEditOrganizationStructure: true,
       canCommentDraft: true,
     },
@@ -44,12 +52,17 @@ const roles = new Map<InternalRole, Partial<Permissions>>([
   [
     'meta_operator',
     {
+      canEditSystemMessages: false,
+      canViewEmployees: true,
       canViewEmployeeDetails: true,
-      canViewDrafts: true,
       canEditEmployeeDetails: true,
+      canViewResponsibility: true,
       canEditResponsibility: true,
+      canViewOperation: true,
       canEditOperation: true,
       canEditOrganization: true,
+      canViewDrafts: true,
+      canEditDrafts: false,
       canEditOrganizationStructure: true,
       canCommentDraft: true,
     },
@@ -57,12 +70,39 @@ const roles = new Map<InternalRole, Partial<Permissions>>([
   [
     'meta_verifier',
     {
+      canEditSystemMessages: false,
+      canViewEmployees: true,
       canViewEmployeeDetails: true,
+      canEditEmployeeDetails: false,
+      canViewResponsibility: true,
+      canEditResponsibility: false,
+      canViewOperation: true,
+      canEditOperation: false,
+      canEditOrganization: false,
       canViewDrafts: true,
+      canEditDrafts: false,
+      canEditOrganizationStructure: false,
       canCommentDraft: true,
     },
   ],
-  ['meta_read', {}],
+  [
+    'meta_read',
+    {
+      canEditSystemMessages: false,
+      canViewEmployees: true,
+      canViewEmployeeDetails: false,
+      canEditEmployeeDetails: false,
+      canViewResponsibility: false,
+      canEditResponsibility: false,
+      canViewOperation: false,
+      canEditOperation: false,
+      canEditOrganization: false,
+      canViewDrafts: false,
+      canEditDrafts: false,
+      canEditOrganizationStructure: false,
+      canCommentDraft: false,
+    },
+  ],
 ]);
 
 type RoleADMapping = {
@@ -104,8 +144,6 @@ export const getPermissions = (groups: InternalRole[] | ADRole[], internalGroups
  * @returns role with most permissions
  */
 export const getRole = (groups: ADRole[]) => {
-  if (groups.length == 1) return roleADMapping[groups[0]]; // meta_read
-
   const roles: InternalRole[] = [];
   groups.forEach(group => {
     const groupLower = group.toLowerCase();
@@ -115,5 +153,5 @@ export const getRole = (groups: ADRole[]) => {
     }
   });
 
-  return roles.sort((a, b) => (RoleOrderEnum[a] > RoleOrderEnum[b] ? 1 : 0))[0];
+  return roles.sort((a, b) => RoleOrderEnum[b] - RoleOrderEnum[a])[0];
 };

@@ -71,7 +71,7 @@ export default function ActionBottomDraft() {
                   Lämna utkast
                 </Button>
               </Link>
-              {!(draftIsApproved || draftIsExportPhase) && (
+              {!(draftIsApproved || draftIsExportPhase) && user.permissions.canEditDrafts && (
                 <Button
                   onClick={onExport}
                   disabled={draft.changes === 0}

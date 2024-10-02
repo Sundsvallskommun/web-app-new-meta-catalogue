@@ -1,7 +1,7 @@
 import { HttpException } from '@/exceptions/HttpException';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import ApiService from '@/services/api.service';
 import { Controller, Get, Header, Param, QueryParam, Req, UseBefore } from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi';
@@ -12,7 +12,7 @@ export class EmployeeController {
 
   @Get('/employee/:personId/personimage')
   @OpenAPI({ summary: 'Return employee image' })
-  @UseBefore(authMiddleware, hasRoles(['meta_read']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployees']))
   @Header('Content-Type', 'image/jpeg')
   @Header('Cross-Origin-Embedder-Policy', 'require-corp')
   @Header('Cross-Origin-Resource-Policy', 'cross-origin')
@@ -30,7 +30,7 @@ export class EmployeeController {
 
   @Get('/employee/personimage')
   @OpenAPI({ summary: 'Return logged in person image' })
-  @UseBefore(authMiddleware, hasRoles(['meta_read']))
+  @UseBefore(authMiddleware, hasPermissions(['canViewEmployees']))
   @Header('Content-Type', 'image/jpeg')
   @Header('Cross-Origin-Embedder-Policy', 'require-corp')
   @Header('Cross-Origin-Resource-Policy', 'cross-origin')

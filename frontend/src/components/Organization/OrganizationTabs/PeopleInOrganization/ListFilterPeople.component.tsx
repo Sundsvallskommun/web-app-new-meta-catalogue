@@ -41,7 +41,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
           return { ...x, isShown: user.permissions.canViewEmployeeDetails };
         }
         if (x.id == 7) {
-          return { ...x, isShown: user.permissions.canEditOrganization && !draftIsReadOnly };
+          return { ...x, isShown: user.permissions.canEditEmployeeDetails && !draftIsReadOnly };
         }
         return x;
       })
