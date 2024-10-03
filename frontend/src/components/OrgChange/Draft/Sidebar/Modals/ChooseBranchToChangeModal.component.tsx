@@ -67,7 +67,7 @@ export default function ChooseBranchToChangeModal(props) {
           className="w-full"
           id="orgchange-choosebranch-searchnode"
           aria-labelledby="choosebranch"
-          placeholder="Välj gren"
+          placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod..."
           onChange={onOrganizationSelectHandler}
           value={activeOrganization?.data?.id?.toString() ?? undefined}
           defaultValue={activeOrganization?.data?.id?.toString() ?? undefined}
@@ -75,7 +75,17 @@ export default function ChooseBranchToChangeModal(props) {
           <Combobox.List>
             {companyOrganizations.map((item, index) => (
               <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                {`${item.label.trim()} - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`}`}
+                {`${item.label.trim()} ${
+                  item.concatAbbreviation || item.abbreviation ?
+                    `(${item.concatAbbreviation ? `${item.concatAbbreviation}` : ''}${
+                      item.abbreviation ?
+                        item.concatAbbreviation ?
+                          ` ${item.abbreviation}`
+                        : `${item.abbreviation}`
+                      : ''
+                    })`
+                  : ''
+                } - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`} `}
               </Combobox.Option>
             ))}
           </Combobox.List>
