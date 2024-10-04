@@ -5,6 +5,7 @@ import { rapporteraSystemfelFeedback } from '../../fixtures/rapporteraSystemfelF
 describe('Nav header', () => {
   beforeEach(() => {
     cy.visit('/');
+    cy.intercept('GET', '**/me', user);
   });
 
   it('should have a visible header', () => {
@@ -103,6 +104,7 @@ describe('Nav header', () => {
 
         // Find the menu item by its label and click on it
         cy.get('.usermenu-item').contains(label).click();
+        cy.wait('@getDrafts');
 
         // // Wait for the URL to change to the expected path
         cy.location('pathname').should('eq', '/hanteraorganisation');
@@ -113,12 +115,6 @@ describe('Nav header', () => {
       it(`should navigate to the correct page when "${label}" is clicked`, () => {
         cy.intercept('GET', '**/me', user).as('logout');
 
-        cy.wait('@logout').then(() => {
-          cy.intercept('GET', '**/me', (req) => {
-            req.continue();
-          });
-        });
-
         // Click the button.usermenu-header to open the dropdown menu
         cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
 
@@ -127,6 +123,7 @@ describe('Nav header', () => {
 
         // Find the menu item by its label and click on it
         cy.get('.usermenu-item').contains(label).click();
+        cy.wait('@logout');
 
         // // // // Wait for the URL to change to the expected path
         cy.url().should('contain', '/logout');

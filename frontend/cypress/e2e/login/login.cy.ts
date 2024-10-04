@@ -3,18 +3,12 @@ import { user } from '../../fixtures/mockUser';
 describe('Login', () => {
   beforeEach(() => {
     cy.visit('/login');
+    cy.intercept('GET', '**/api/me', user).as('getUser');
+    cy.wait('@getUser');
   });
 
   it('main and h1 exists when logged out (otherwise autologin)', () => {
-    cy.intercept('GET', '**/api/me', {
-      statusCode: 401,
-      body: {
-        ...user.data,
-      },
-    }).as('getUser');
-
     cy.visit('/login?loggedout');
-    cy.wait('@getUser');
     cy.get('main').should('exist');
     cy.get('h1').should('exist');
   });
@@ -34,7 +28,6 @@ describe('Login', () => {
         return false;
       });
     }).as('samlLogin');
-
     cy.visit('/login?path=/');
   });
 });
