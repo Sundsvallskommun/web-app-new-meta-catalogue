@@ -4,10 +4,8 @@ import { rapporteraSystemfelFeedback } from '../../fixtures/rapporteraSystemfelF
 
 describe('Nav header', () => {
   beforeEach(() => {
-    cy.visit('/');
     cy.intercept('GET', '**/me', user).as('getMe');
-    cy.wait('@getMe');
-    cy.wait(5000);
+    cy.visit('/');
   });
 
   it('should have a visible header', () => {
@@ -106,7 +104,6 @@ describe('Nav header', () => {
 
         // Find the menu item by its label and click on it
         cy.get('.usermenu-item').contains(label).click();
-        cy.wait('@getDrafts');
 
         // // Wait for the URL to change to the expected path
         cy.location('pathname').should('eq', '/hanteraorganisation');
@@ -126,8 +123,8 @@ describe('Nav header', () => {
         cy.get('.usermenu-item').contains(label).click();
 
         // // // // Wait for the URL to change to the expected path
-        cy.url().should('contain', '/logout');
         cy.wait('@getMe');
+        cy.url().should('contain', '/logout');
       });
     }
   });
