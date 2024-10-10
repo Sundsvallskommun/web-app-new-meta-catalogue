@@ -39,6 +39,7 @@ export const handleGetCompanyOrg: (data: Organization[]) => Organization[] = (re
     label: data.label,
     orgNameShort: data.orgNameShort,
     abbreviation: data.abbreviation,
+    concatAbbreviation: data.concatAbbreviation,
     parentId: data.parentId,
     isLeafLevel: data.isLeafLevel,
     level: data.level,
