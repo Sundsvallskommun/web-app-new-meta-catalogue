@@ -4,6 +4,7 @@ import { rapporteraSystemfelFeedback } from '../../fixtures/rapporteraSystemfelF
 
 describe('Nav header', () => {
   beforeEach(() => {
+    cy.intercept('GET', '**/me', user).as('getMe');
     cy.visit('/');
   });
 
@@ -111,14 +112,7 @@ describe('Nav header', () => {
 
     if (label === 'Logga ut') {
       it(`should navigate to the correct page when "${label}" is clicked`, () => {
-        cy.intercept('GET', '**/me', user).as('logout');
-
-        cy.wait('@logout').then(() => {
-          cy.intercept('GET', '**/me', (req) => {
-            req.continue();
-          });
-        });
-
+        cy.intercept('GET', '**/me', user).as('getMe');
         // Click the button.usermenu-header to open the dropdown menu
         cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
 
@@ -129,6 +123,7 @@ describe('Nav header', () => {
         cy.get('.usermenu-item').contains(label).click();
 
         // // // // Wait for the URL to change to the expected path
+        cy.wait('@getMe');
         cy.url().should('contain', '/logout');
       });
     }
