@@ -12,11 +12,7 @@ import {
 } from '@sk-web-gui/react';
 import React, { useMemo, useState } from 'react';
 
-import {
-  OrgChangeResponsibility,
-  OrgChangeResponsibilityResponsibilityChangeStatusEnum,
-  OrgChangeResponsibilityResponsibilityTypeIdEnum,
-} from '@data-contracts/backend/data-contracts';
+import { OrgChangeResponsibility } from '@data-contracts/backend/data-contracts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -182,23 +178,19 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
 
           <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
             <div>
-              {(responsibility.responsibilityTypeId === OrgChangeResponsibilityResponsibilityTypeIdEnum.ANSVAR ||
-                responsibility.responsibilityChangeStatus ===
-                  OrgChangeResponsibilityResponsibilityChangeStatusEnum.NEW) && (
-                <div className="mb-sm">
-                  <Button
-                    type="button"
-                    className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
-                    size="md"
-                    variant="outline"
-                    aria-label={`Stäng ansvar ${watch().description}`}
-                    onClick={onRemoveHandler}
-                    leftIcon={<DeleteOutlineIcon fontSize="large" />}
-                  >
-                    Stäng ansvar
-                  </Button>
-                </div>
-              )}
+              <div className="mb-sm">
+                <Button
+                  type="button"
+                  className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
+                  size="md"
+                  variant="outline"
+                  aria-label={`Stäng ansvar ${watch().description}`}
+                  onClick={onRemoveHandler}
+                  leftIcon={<DeleteOutlineIcon fontSize="large" />}
+                >
+                  Stäng ansvar
+                </Button>
+              </div>
 
               <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
                 {'Avbryt'}
