@@ -1,9 +1,6 @@
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
-import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
-import { BlobProvider } from '@react-pdf/renderer';
-import { Button, Link, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useMessage } from '@sk-web-gui/react';
 import { appURL } from '@utils/app-url';
-import { PdfDocument } from '../PdfDocument.component';
 
 export default function ShareModal(props) {
   const { onClose, draft } = props;
@@ -37,19 +34,6 @@ export default function ShareModal(props) {
         >
           Kopiera länk
         </Button>
-
-        <BlobProvider document={PdfDocument()}>
-          {({ url }) => (
-            <Link className="text-body" href={url} target="_blank">
-              <span>
-                <span>
-                  <MoveToInboxIcon className="!text-2xl mr-sm" />
-                </span>
-                <span>Skapa PDF</span>
-              </span>
-            </Link>
-          )}
-        </BlobProvider>
       </div>
     </Modal>
   );
