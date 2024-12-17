@@ -5,13 +5,13 @@ import { Spinner } from '@sk-web-gui/react';
 import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
+import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DraftContextMenu from '../../DraftContextMenu.component';
 import DraftListEntryPhaseMessage from '../DraftListEntryPhaseMessage.component';
 import DraftListEntryPhaseState from '../DraftListEntryPhaseState.component';
 import DraftListEntryPhaseTitle from '../DraftListEntryPhaseTitle.component';
-import { useWindowSize } from '@utils/use-window-size.hook';
 
 interface DraftDataListProps {
   draftData: Draft[];
@@ -69,12 +69,13 @@ export const DraftList = (props: DraftDataListProps) => {
       {
         element: (
           <Fragment>
-            <span className="inline-flex w-full flex-row-reverse lg:flex-row">
+            <span className="inline-flex w-full flex-row-reverse lg:flex-row lg:items-center">
               <span className="ml-[-10px] mr-md relative">
                 {!d.isArchived && <DraftContextMenu menuSide={windowSize.lg ? 'left' : 'right'} dense draft={d} />}
               </span>
-              <h2 className="text-lg leading-lg grow">
+              <h2 className="mt-sm text-lg leading-lg w-full flex flex-col gap-y-[.4rem]">
                 <DraftListEntryPhaseTitle draft={d} />
+                <div className="font-[Arial] w-full leading-[2rem] font-normal text-sm">Skapad av {d.loginname}</div>
               </h2>
             </span>
           </Fragment>
