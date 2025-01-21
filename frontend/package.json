@@ -29,7 +29,6 @@
     "@mui/material": "^6.0.1",
     "@next/bundle-analyzer": "14.2.7",
     "@react-hookz/web": "^24.0.4",
-    "@react-pdf/renderer": "^3.4.4",
     "@sk-web-gui/core": "0.1.93",
     "@sk-web-gui/forms": "1.0.5",
     "@sk-web-gui/react": "0.1.136",
