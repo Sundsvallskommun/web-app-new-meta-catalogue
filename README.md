@@ -7,7 +7,7 @@ Dessa APIer används i projektet, applikationsanvändaren i WSO2 måste prenumer
 | API       | Version |
 | --------- | ------: |
 | Employee  |     1.0 |
-| Messaging |     5.0 |
+| Messaging |     6.1 |
 | MDBuilder |     1.0 |
 | MDViewer  |     1.0 |
 

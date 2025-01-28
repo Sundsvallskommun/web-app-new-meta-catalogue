@@ -39,7 +39,7 @@ export interface WebMessageParty {
    * The message party id
    * @format uuid
    */
-  partyId: string;
+  partyId?: string;
   /** External references */
   externalReferences?: ExternalReference[];
 }
@@ -49,6 +49,8 @@ export interface WebMessageRequest {
   party: WebMessageParty;
   /** Message */
   message: string;
+  /** Sender */
+  sender?: WebMessageSender;
   /**
    * Determines if the message should be added to the internal or external OeP instance
    * @example "internal"
@@ -59,6 +61,15 @@ export interface WebMessageRequest {
    * @minItems 0
    */
   attachments?: WebMessageAttachment[];
+}
+
+/** Sender */
+export interface WebMessageSender {
+  /**
+   * The user ID of the sender. I.e. employee ID
+   * @example "joe01doe"
+   */
+  userId?: string;
 }
 
 export interface Problem {
@@ -268,6 +279,50 @@ export interface Sms {
   name: string;
 }
 
+/** Addresses that gets a letter copy */
+export interface Address {
+  /**
+   * The first name of the recipient
+   * @example "John"
+   */
+  firstName?: string;
+  /**
+   * The last name of the recipient
+   * @example "Doe"
+   */
+  lastName?: string;
+  /**
+   * The address
+   * @example "Main Street 1"
+   */
+  address?: string;
+  /**
+   * The apartment number
+   * @example "1101"
+   */
+  apartmentNumber?: string;
+  /**
+   * The care of
+   * @example "c/o John Doe"
+   */
+  careOf?: string;
+  /**
+   * The zip code
+   * @example "12345"
+   */
+  zipCode?: string;
+  /**
+   * The city
+   * @example "Main Street"
+   */
+  city?: string;
+  /**
+   * The country
+   * @example "Sweden"
+   */
+  country?: string;
+}
+
 /** Attachment */
 export interface LetterAttachment {
   /**
@@ -285,8 +340,8 @@ export interface LetterAttachment {
 
 /** Party */
 export interface LetterParty {
-  /** @minItems 1 */
-  partyIds: string[];
+  partyIds?: string[];
+  addresses?: Address[];
   /** External references */
   externalReferences?: ExternalReference[];
 }
@@ -640,6 +695,111 @@ export interface ThrowableProblem {
 export interface Violation {
   field?: string;
   message?: string;
+}
+
+/** Message attachment model */
+export interface MessageAttachment {
+  /**
+   * The attachment content type
+   * @example "application/pdf"
+   */
+  contentType?: string;
+  /**
+   * The attachment file name
+   * @example "attachment.pdf"
+   */
+  fileName?: string;
+}
+
+/** PagingMetaData model */
+export interface PagingMetaData {
+  /**
+   * Current page
+   * @format int32
+   * @example 5
+   */
+  page?: number;
+  /**
+   * Displayed objects per page
+   * @format int32
+   * @example 20
+   */
+  limit?: number;
+  /**
+   * Displayed objects on current page
+   * @format int32
+   * @example 13
+   */
+  count?: number;
+  /**
+   * Total amount of hits based on provided search parameters
+   * @format int64
+   * @example 98
+   */
+  totalRecords?: number;
+  /**
+   * Total amount of pages based on provided search parameters
+   * @format int32
+   * @example 23
+   */
+  totalPages?: number;
+}
+
+/** Recipient model */
+export interface Recipient {
+  /**
+   * The person identifier
+   * @example "199001011234"
+   */
+  personId?: string;
+  /**
+   * The message type
+   * @example "SNAIL_MAIL"
+   */
+  messageType?: string;
+  /**
+   * The message status
+   * @example "SENT"
+   */
+  status?: string;
+}
+
+/** User message model */
+export interface UserMessage {
+  /**
+   * The message id
+   * @example "b971e0f8-2942-4b45-9fa3-bd2cc22ed76b"
+   */
+  messageId?: string;
+  /**
+   * The message issuer
+   * @example "and06sod"
+   */
+  issuer?: string;
+  /**
+   * The system that the message originated from
+   * @example "CASEDATA"
+   */
+  origin?: string;
+  /**
+   * When the message was sent
+   * @format date-time
+   */
+  sent?: string;
+  /**
+   * The message subject
+   * @example "Important message"
+   */
+  subject?: string;
+  recipients?: Recipient[];
+  attachments?: MessageAttachment[];
+}
+
+/** User messages model */
+export interface UserMessages {
+  /** PagingMetaData model */
+  _meta?: PagingMetaData;
+  messages?: UserMessage[];
 }
 
 export interface LetterStatistics {

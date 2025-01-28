@@ -99,8 +99,8 @@ export class FeedbackController {
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
-        const url = `messaging/5.0/${MUNICIPALITY_ID}/email`;
-        await this.apiService.post({ url, data: sendFeedback });
+        const url = `messaging/6.1/${MUNICIPALITY_ID}/email`;
+        await this.apiService.post({ url, data: sendFeedback, headers: { 'x-issuer': username } });
       });
     }
 
