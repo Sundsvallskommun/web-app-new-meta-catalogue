@@ -20,6 +20,7 @@
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
   },
   "dependencies": {
+    "@node-saml/passport-saml": "^5.0.1",
     "@prisma/client": "^5.13.0",
     "axios": "^1.6.8",
     "bcrypt": "5.1.1",
@@ -40,7 +41,6 @@
     "memorystore": "^1.6.7",
     "morgan": "^1.10.0",
     "passport": "^0.7.0",
-    "passport-saml": "^3.2.4",
     "qs": "^6.12.1",
     "reflect-metadata": "^0.2.2",
     "routing-controllers": "^0.10.4",
