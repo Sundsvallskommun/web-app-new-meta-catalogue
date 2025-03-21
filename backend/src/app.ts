@@ -21,7 +21,7 @@ import {
 } from '@config';
 import { logger, stream } from '@utils/logger';
 import { existsSync, mkdirSync } from 'fs';
-import { Strategy, VerifiedCallback } from 'passport-saml';
+import { Strategy, VerifiedCallback } from '@node-saml/passport-saml';
 import { getMetadataArgsStorage, useExpressServer } from 'routing-controllers';
 
 import errorMiddleware from '@middlewares/error.middleware';
@@ -69,11 +69,13 @@ const samlStrategy = new Strategy(
     callbackUrl: SAML_CALLBACK_URL,
     entryPoint: SAML_ENTRY_SSO,
     privateKey: SAML_PRIVATE_KEY,
-    cert: SAML_IDP_PUBLIC_CERT,
+    idpCert: SAML_IDP_PUBLIC_CERT,
     issuer: SAML_ISSUER,
     wantAssertionsSigned: false,
     logoutCallbackUrl: SAML_LOGOUT_CALLBACK_URL,
     acceptedClockSkewMs: 1000,
+    wantAuthnResponseSigned: false,
+    audience: false,
   },
   async function (profile: Profile, done: VerifiedCallback) {
     const { givenname, sn: surname, uid: username, groups } = profile;
@@ -134,6 +136,9 @@ const samlStrategy = new Strategy(
       }
       done(err);
     }
+  },
+  async function (profile: Profile, done: VerifiedCallback) {
+    return done(null, {});
   },
 );
 
