@@ -1,6 +1,6 @@
 import { RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Link } from '@sk-web-gui/react';
+import { Button, Link, useMessage } from '@sk-web-gui/react';
 import { useEffect } from 'react';
 import ExportMessages from './ExportMessages.component';
 import { repeater } from '@utils/repeater';
@@ -11,6 +11,7 @@ export default function ExportPhaseInfo() {
   const setLockedView = useOrgChangeStore((s) => s.setLockedView);
   const getRunbook = useOrgChangeStore((s) => s.getRunbook);
   const runbook = useOrgChangeStore((s) => s.runbook);
+  const message = useMessage();
 
   let severityBackground = 'bg-info-light';
   if (runbook?.currentStep > 0) {
@@ -31,7 +32,12 @@ export default function ExportPhaseInfo() {
 
   const updateRunBook = async () => {
     // get initial runbook
-    await getRunbook();
+    await getRunbook().catch((e) => {
+      message({
+        message: `Det gick inte att hämta exportstatus: ${e.message}`,
+        status: 'error',
+      });
+    });
     // update runbook every 5 seconds 2 times
     runbookIntervals['short'] = await repeater(getRunbook, 2, 5000);
     // update every 5 minutes for 30 mins (6 times)
