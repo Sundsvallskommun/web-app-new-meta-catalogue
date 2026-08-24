@@ -93,7 +93,7 @@ export class FeedbackController {
             name: 'Masterdata',
             address: 'no-reply@sundsvall.se',
           },
-          emailAddress: email,
+          recipients: [email],
           subject: 'Feedback för Masterdata',
           message: message(userData.body),
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
