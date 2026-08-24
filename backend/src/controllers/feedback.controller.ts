@@ -100,7 +100,7 @@ export class FeedbackController {
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
         const url = `messaging/7.11/${MUNICIPALITY_ID}/email`;
-        await this.apiService.post({ url, data: sendFeedback });
+        await this.apiService.post({ url, data: sendFeedback, headers: { 'X-Sent-By': `type=adAccount; ${username.toLowerCase()}` } });
       });
     }
 
