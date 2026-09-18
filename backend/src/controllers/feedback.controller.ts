@@ -93,14 +93,14 @@ export class FeedbackController {
             name: 'Masterdata',
             address: 'no-reply@sundsvall.se',
           },
-          emailAddress: email,
+          recipients: [email],
           subject: 'Feedback för Masterdata',
           message: message(userData.body),
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
-        const url = `messaging/6.1/${MUNICIPALITY_ID}/email`;
-        await this.apiService.post({ url, data: sendFeedback, headers: { 'x-issuer': username } });
+        const url = `messaging/7.11/${MUNICIPALITY_ID}/email`;
+        await this.apiService.post({ url, data: sendFeedback, headers: { 'X-Sent-By': `type=adAccount; ${username.toLowerCase()}` } });
       });
     }
 

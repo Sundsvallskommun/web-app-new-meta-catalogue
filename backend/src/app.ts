@@ -18,6 +18,7 @@ import {
   SECRET_KEY,
   SESSION_MEMORY,
   SWAGGER_ENABLED,
+  MUNICIPALITY_ID
 } from '@config';
 import { logger, stream } from '@utils/logger';
 import { existsSync, mkdirSync } from 'fs';
@@ -114,7 +115,7 @@ const samlStrategy = new Strategy(
     try {
       let personId = '';
       if (!['test_guest', 'test_operator'].includes(username as string)) {
-        const employeeDetails = await apiService.get<any>({ url: `employee/1.0/portalpersondata/PERSONAL/${username}` });
+        const employeeDetails = await apiService.get<any>({ url: `employee/2.0/${MUNICIPALITY_ID}/portalpersondata/PERSONAL/${username}` });
         const { personid: employeePersonId } = employeeDetails.data;
         personId = employeePersonId;
       }

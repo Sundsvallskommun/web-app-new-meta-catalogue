@@ -9,84 +9,103 @@
  * ---------------------------------------------------------------
  */
 
-/** External references */
-export interface ExternalReference {
-  /**
-   * The external reference key
-   * @example "flowInstanceId"
-   */
-  key: string;
-  /**
-   * The external reference value
-   * @example "356t4r34f"
-   */
-  value: string;
-}
-
-/** Attachment */
-export interface WebMessageAttachment {
-  /** File name */
-  fileName?: string;
-  /** Mime-type */
-  mimeType?: string;
-  /** BASE64-encoded file, max size 10 MB */
-  base64Data?: string;
-}
-
-/** Party */
-export interface WebMessageParty {
-  /**
-   * The message party id
-   * @format uuid
-   */
-  partyId?: string;
-  /** External references */
-  externalReferences?: ExternalReference[];
-}
-
-export interface WebMessageRequest {
-  /** Party */
-  party: WebMessageParty;
-  /** Message */
-  message: string;
-  /** Sender */
-  sender?: WebMessageSender;
-  /**
-   * Determines if the message should be added to the internal or external OeP instance
-   * @example "internal"
-   */
-  oepInstance?: WebMessageRequestOepInstanceEnum;
-  /**
-   * @maxItems 10
-   * @minItems 0
-   */
-  attachments?: WebMessageAttachment[];
-}
-
-/** Sender */
-export interface WebMessageSender {
-  /**
-   * The user ID of the sender. I.e. employee ID
-   * @example "joe01doe"
-   */
-  userId?: string;
-}
-
 export interface Problem {
   /** @format uri */
   instance?: string;
   /** @format uri */
   type?: string;
-  parameters?: Record<string, object>;
-  status?: StatusType;
   title?: string;
   detail?: string;
+  /** @format int32 */
+  status?: number;
 }
 
-export interface StatusType {
-  /** @format int32 */
-  statusCode?: number;
-  reasonPhrase?: string;
+/** Response model for a mailbox */
+export interface Mailbox {
+  /** partyId for the person the mailbox belongs to */
+  partyId?: string;
+  /** If not reachable, the reason why */
+  reason?: string;
+  /** Name of the mailbox, e.g. Kivra */
+  supplier?: string;
+  /** If it's possible to send messages to this mailbox */
+  reachable?: boolean;
+}
+
+/** Attachment */
+export interface DigitalMailAttachment {
+  /** Content type */
+  contentType?: DigitalMailAttachmentContentTypeEnum;
+  /**
+   * Content (BASE64-encoded)
+   * @minLength 1
+   */
+  content: string;
+  /**
+   * Filename
+   * @minLength 1
+   */
+  filename: string;
+}
+
+export interface DigitalMailParty {
+  /** @minItems 1 */
+  partyIds: string[];
+  /** External references */
+  externalReferences?: ExternalReference[];
+}
+
+export interface DigitalMailRequest {
+  /** Party */
+  party: DigitalMailParty;
+  /** Sender */
+  sender?: DigitalMailSender;
+  /** Subject */
+  subject?: string | null;
+  /** Department and unit that should be billed for the message */
+  department?: string | null;
+  /** Content type */
+  contentType?: DigitalMailRequestContentTypeEnum;
+  /** Body (plain text if contentType is set to 'text/plain', BASE64-encoded if contentType is set to 'application/html') */
+  body?: string;
+  /** Attachments */
+  attachments?: DigitalMailAttachment[];
+}
+
+export interface DigitalMailSender {
+  /** Support info */
+  supportInfo: DigitalMailSenderSupportInfo;
+}
+
+/** Support info */
+export interface DigitalMailSenderSupportInfo {
+  /**
+   * Text
+   * @minLength 1
+   */
+  text: string;
+  /**
+   * E-mail address
+   * @format email
+   */
+  emailAddress?: string;
+  /** Phone number */
+  phoneNumber?: string;
+  /** URL */
+  url?: string;
+}
+
+export interface ExternalReference {
+  /**
+   * The external reference key
+   * @minLength 1
+   */
+  key: string;
+  /**
+   * The external reference value
+   * @minLength 1
+   */
+  value: string;
 }
 
 /** Delivery result */
@@ -102,6 +121,17 @@ export interface DeliveryResult {
   status?: MessageStatus;
 }
 
+/** Message batch result */
+export interface MessageBatchResult {
+  /**
+   * The batch id
+   * @format uuid
+   */
+  batchId?: string;
+  /** The individual message results */
+  messages?: MessageResult[];
+}
+
 /** Message result */
 export interface MessageResult {
   /**
@@ -113,7 +143,6 @@ export interface MessageResult {
   deliveries?: DeliveryResult[];
 }
 
-/** Status */
 export enum MessageStatus {
   PENDING = 'PENDING',
   AWAITING_FEEDBACK = 'AWAITING_FEEDBACK',
@@ -124,7 +153,6 @@ export enum MessageStatus {
   NO_CONTACT_WANTED = 'NO_CONTACT_WANTED',
 }
 
-/** Message type */
 export enum MessageType {
   MESSAGE = 'MESSAGE',
   EMAIL = 'EMAIL',
@@ -137,6 +165,115 @@ export enum MessageType {
   SLACK = 'SLACK',
 }
 
+/** Attachment */
+export interface WebMessageAttachment {
+  /** File name */
+  fileName?: string;
+  /** Mime-type */
+  mimeType?: string;
+  /** BASE64-encoded file, max size 50 MB */
+  base64Data?: string;
+}
+
+export interface WebMessageParty {
+  /**
+   * The message party id
+   * @format uuid
+   */
+  partyId?: string;
+  /** External references */
+  externalReferences?: ExternalReference[];
+}
+
+export interface WebMessageRequest {
+  /** Party */
+  party: WebMessageParty;
+  /**
+   * Message
+   * @minLength 1
+   */
+  message: string;
+  /** The sender */
+  sender?: WebMessageSender;
+  /**
+   * Send as owner
+   * @default false
+   */
+  sendAsOwner?: boolean;
+  /** Determines if the message should be added to the internal or external OeP instance */
+  oepInstance?: WebMessageRequestOepInstanceEnum;
+  /**
+   * @maxItems 10
+   * @minItems 1
+   */
+  attachments?: WebMessageAttachment[];
+}
+
+/** Sender */
+export interface WebMessageSender {
+  /** The user ID of the sender. I.e. employee ID */
+  userId?: string;
+}
+
+export interface Address {
+  /** The first name of the recipient */
+  firstName?: string;
+  /** The last name of the recipient */
+  lastName?: string;
+  /** The organization name of the recipient */
+  organizationName?: string;
+  /** The address */
+  address?: string;
+  /** The apartment number */
+  apartmentNumber?: string;
+  /** The care of */
+  careOf?: string;
+  /** The zip code */
+  zipCode?: string;
+  /** The city */
+  city?: string;
+  /** The country */
+  country?: string;
+}
+
+/** Attachment */
+export interface SnailmailAttachment {
+  /**
+   * The attachment filename
+   * @minLength 1
+   */
+  filename: string;
+  /** The attachment content type */
+  contentType?: string;
+  /** The attachment (file) content as a BASE64-encoded string */
+  content: string;
+}
+
+export interface SnailmailParty {
+  /** The message party id */
+  partyId?: string;
+  /** External references */
+  externalReferences?: ExternalReference[];
+}
+
+export interface SnailmailRequest {
+  /** Party */
+  party?: SnailmailParty;
+  /** Address */
+  address?: Address;
+  /**
+   * Department and unit that should be billed
+   * @minLength 1
+   */
+  department: string;
+  /** If the letter to send deviates from the standard */
+  deviation?: string;
+  /** @minItems 1 */
+  attachments?: SnailmailAttachment[];
+  /** Used by snailmail-sender to set the name of the organization folder */
+  folderName?: string;
+}
+
 export interface SmsRequest {
   /** Party */
   party?: SmsRequestParty;
@@ -144,23 +281,23 @@ export interface SmsRequest {
    * The sender of the SMS, swedish letters(å,ä,ö) will be replaced by (a,a,o) respectively
    * @minLength 3
    * @maxLength 11
-   * @example "sender"
    */
   sender?: string;
   /** Mobile number. Should start with +467x */
   mobileNumber: string;
-  /** Message */
+  /**
+   * Message
+   * @minLength 1
+   */
   message: string;
   /** Priority (optional, will be defaulted to NORMAL if not present) */
   priority?: SmsRequestPriorityEnum;
+  /** Department */
+  department?: string;
 }
 
-/** Party */
 export interface SmsRequestParty {
-  /**
-   * The message party id
-   * @example "f427952b-247c-4d3b-b081-675a467b3619"
-   */
+  /** The message party id */
   partyId?: string;
   /** External references */
   externalReferences?: ExternalReference[];
@@ -171,83 +308,86 @@ export interface SmsBatchRequest {
    * The sender of the SMS, swedish letters(å,ä,ö) will be replaced by (a,a,o) respectively
    * @minLength 3
    * @maxLength 11
-   * @example "sender"
    */
   sender?: string;
-  /** Message to send as sms */
+  /**
+   * Message to send as sms
+   * @minLength 1
+   */
   message: string;
   /** Priority (optional, will be defaulted to NORMAL if not present) */
   priority?: SmsBatchRequestPriorityEnum;
-  /** Parties to send the sms message to */
+  /** Department */
+  department?: string;
+  /**
+   * Parties to send the sms message to
+   * @minItems 1
+   */
   parties: SmsBatchRequestParty[];
 }
 
-/** Parties to send the sms message to */
 export interface SmsBatchRequestParty {
-  /**
-   * The message party id (optional)
-   * @example "f427952b-247c-4d3b-b081-675a467b3619"
-   */
+  /** The message party id (optional) */
   partyId?: string;
   /** Mobile number, which should start with +467x */
   mobileNumber: string;
 }
 
-/** Message batch result */
-export interface MessageBatchResult {
-  /**
-   * The batch id
-   * @format uuid
-   */
-  batchId?: string;
-  /** The individual message results */
-  messages?: MessageResult[];
-}
-
 export interface SlackRequest {
-  /** App/bot token */
+  /**
+   * App/bot token
+   * @minLength 1
+   */
   token: string;
-  /** Channel name/id */
+  /**
+   * Channel name/id
+   * @minLength 1
+   */
   channel: string;
-  /** Message (supports Slack markdown formatting) */
+  /**
+   * Message (supports Slack markdown formatting)
+   * @minLength 1
+   */
   message: string;
 }
 
 export interface Email {
-  /** The sender of the e-mail */
+  /**
+   * The sender of the e-mail
+   * @minLength 1
+   */
   name: string;
   /**
    * Sender e-mail address
-   * @example "sender@sender.se"
+   * @format email
+   * @minLength 1
    */
   address: string;
   /**
    * Reply-to e-mail address
-   * @example "sender@sender.se"
+   * @format email
    */
   replyTo?: string;
 }
 
-/** The messages to be sent */
 export interface Message {
   /** Party */
   party: MessageParty;
-  /**
-   * Filters
-   * @example {"someAttributeName":["someAttributeValue"]}
-   */
+  /** Filters */
   filters?: Record<string, string[]>;
   /** Sender */
   sender?: MessageSender;
   /** The message subject (for E-mails) */
   subject?: string;
-  /** Plain-text message text */
+  /**
+   * Plain-text message text
+   * @minLength 1
+   */
   message: string;
   /** HTML message text, for e-mails (BASE64-encoded) */
   htmlMessage?: string;
 }
 
-/** Party */
 export interface MessageParty {
   /**
    * The message party id
@@ -259,11 +399,13 @@ export interface MessageParty {
 }
 
 export interface MessageRequest {
-  /** The messages to be sent */
+  /**
+   * The messages to be sent
+   * @minItems 1
+   */
   messages: Message[];
 }
 
-/** Sender */
 export interface MessageSender {
   email?: Email;
   sms?: Sms;
@@ -274,71 +416,28 @@ export interface Sms {
    * The sender of the SMS
    * @minLength 0
    * @maxLength 11
-   * @example "sender"
    */
   name: string;
 }
 
-/** Addresses that gets a letter copy */
-export interface Address {
-  /**
-   * The first name of the recipient
-   * @example "John"
-   */
-  firstName?: string;
-  /**
-   * The last name of the recipient
-   * @example "Doe"
-   */
-  lastName?: string;
-  /**
-   * The address
-   * @example "Main Street 1"
-   */
-  address?: string;
-  /**
-   * The apartment number
-   * @example "1101"
-   */
-  apartmentNumber?: string;
-  /**
-   * The care of
-   * @example "c/o John Doe"
-   */
-  careOf?: string;
-  /**
-   * The zip code
-   * @example "12345"
-   */
-  zipCode?: string;
-  /**
-   * The city
-   * @example "Main Street"
-   */
-  city?: string;
-  /**
-   * The country
-   * @example "Sweden"
-   */
-  country?: string;
-}
-
 /** Attachment */
 export interface LetterAttachment {
-  /**
-   * Delivery mode, to indicate whether an attachment is intended/allowed to be used for
-   * digital mail, snail-mail or any of them
-   */
+  /** Delivery mode */
   deliveryMode: LetterAttachmentDeliveryModeEnum;
-  /** Filename */
+  /**
+   * Filename
+   * @minLength 1
+   */
   filename: string;
   /** Content type */
   contentType?: LetterAttachmentContentTypeEnum;
-  /** Content (BASE64-encoded) */
+  /**
+   * Content (BASE64-encoded)
+   * @minLength 1
+   */
   content: string;
 }
 
-/** Party */
 export interface LetterParty {
   partyIds?: string[];
   addresses?: Address[];
@@ -359,19 +458,15 @@ export interface LetterRequest {
   body?: string;
   /**
    * Department and unit that should be billed in case of snailmail
-   * @example "SBK(Gatuavdelningen, Trafiksektionen)"
+   * @minLength 1
    */
   department: string;
-  /**
-   * If the letter to send deviates from the standard
-   * @example "A3 Ritning"
-   */
+  /** If the letter to send deviates from the standard */
   deviation?: string;
   /** @minItems 1 */
   attachments: LetterAttachment[];
 }
 
-/** Sender */
 export interface LetterSender {
   /** Support info */
   supportInfo: LetterSenderSupportInfo;
@@ -379,9 +474,15 @@ export interface LetterSender {
 
 /** Support info */
 export interface LetterSenderSupportInfo {
-  /** Text */
+  /**
+   * Text
+   * @minLength 1
+   */
   text: string;
-  /** E-mail address */
+  /**
+   * E-mail address
+   * @format email
+   */
   emailAddress?: string;
   /** Phone number */
   phoneNumber?: string;
@@ -393,27 +494,30 @@ export interface LetterSenderSupportInfo {
 export interface EmailAttachment {
   /**
    * The attachment filename
-   * @example "test.txt"
+   * @minLength 1
    */
   name: string;
-  /**
-   * The attachment content type
-   * @example "text/plain"
-   */
+  /** The attachment content type */
   contentType?: string;
-  /**
-   * The attachment (file) content as a BASE64-encoded string
-   * @example "aGVsbG8gd29ybGQK"
-   */
+  /** The attachment (file) content as a BASE64-encoded string */
   content: string;
 }
 
 export interface EmailRequest {
   /** Party */
   party?: EmailRequestParty;
-  /** Recipient e-mail address */
-  emailAddress: string;
-  /** E-mail subject */
+  /**
+   * Recipient e-mail address. Deprecated, use 'recipients' instead
+   * @deprecated
+   * @format email
+   */
+  emailAddress?: string;
+  recipients?: string[];
+  cc?: string[];
+  /**
+   * E-mail subject
+   * @minLength 1
+   */
   subject: string;
   /** E-mail plain-text body */
   message?: string;
@@ -426,7 +530,6 @@ export interface EmailRequest {
   headers?: Record<string, string[]>;
 }
 
-/** Party */
 export interface EmailRequestParty {
   /**
    * The message party id
@@ -439,23 +542,31 @@ export interface EmailRequestParty {
 
 /** Sender */
 export interface EmailSender {
-  /** The sender of the e-mail */
+  /**
+   * The sender of the e-mail
+   * @minLength 1
+   */
   name: string;
   /**
    * Sender e-mail address
-   * @example "sender@sender.se"
+   * @format email
+   * @minLength 1
    */
   address: string;
   /**
    * Reply-to e-mail address
-   * @example "sender@sender.se"
+   * @format email
    */
   replyTo?: string;
 }
 
 export interface EmailBatchRequest {
+  /** @minItems 1 */
   parties: Party[];
-  /** E-mail subject */
+  /**
+   * E-mail subject
+   * @minLength 1
+   */
   subject: string;
   /** E-mail plain-text body */
   message?: string;
@@ -472,70 +583,14 @@ export interface Party {
   /**
    * The message parties id
    * @format uuid
-   * @example "e8660aab-6df9-4ed5-86d1-d9b90a5f7e87"
    */
   partyId?: string;
   /**
    * Recipient e-mail address
-   * @example "someone@somewhere.com"
+   * @format email
+   * @minLength 1
    */
   emailAddress: string;
-}
-
-/** Attachment */
-export interface DigitalMailAttachment {
-  /** Content type */
-  contentType?: DigitalMailAttachmentContentTypeEnum;
-  /** Content (BASE64-encoded) */
-  content: string;
-  /** Filename */
-  filename: string;
-}
-
-/** Party */
-export interface DigitalMailParty {
-  /** @minItems 1 */
-  partyIds: string[];
-  /** External references */
-  externalReferences?: ExternalReference[];
-}
-
-export interface DigitalMailRequest {
-  /** Party */
-  party: DigitalMailParty;
-  /** Sender */
-  sender?: DigitalMailSender;
-  /** Subject */
-  subject?: string | null;
-  /**
-   * Department and unit that should be billed for the message
-   * @example "SBK(Gatuavdelningen, Trafiksektionen)"
-   */
-  department?: string | null;
-  /** Content type */
-  contentType: DigitalMailRequestContentTypeEnum;
-  /** Body (plain text if contentType is set to 'text/plain', BASE64-encoded if contentType is set to 'application/html') */
-  body: string;
-  /** Attachments */
-  attachments?: DigitalMailAttachment[];
-}
-
-/** Sender */
-export interface DigitalMailSender {
-  /** Support info */
-  supportInfo: DigitalMailSenderSupportInfo;
-}
-
-/** Support info */
-export interface DigitalMailSenderSupportInfo {
-  /** Text */
-  text: string;
-  /** E-mail address */
-  emailAddress?: string;
-  /** Phone number */
-  phoneNumber?: string;
-  /** URL */
-  url?: string;
 }
 
 /** Invoice details */
@@ -543,41 +598,41 @@ export interface Details {
   /**
    * The invoice amount
    * @format float
-   * @example 123.45
+   * @min 0
    */
   amount: number;
   /**
    * The invoice due date
    * @format date
-   * @example "2023-10-09"
    */
   dueDate: string;
   paymentReferenceType: DetailsPaymentReferenceTypeEnum;
   /**
    * The payment reference number
+   * @minLength 1
    * @maxLength 25
-   * @example "426523791"
    */
   paymentReference: string;
   accountType: DetailsAccountTypeEnum;
   /**
    * The receiving account (a valid BANKGIRO or PLUSGIRO number)
-   * @example "12345"
+   * @minLength 1
    */
   accountNumber: string;
 }
 
-/** Files */
 export interface DigitalInvoiceFile {
   /** Content type */
   contentType: DigitalInvoiceFileContentTypeEnum;
   /** Content (BASE64-encoded) */
   content: string;
-  /** Filename */
+  /**
+   * Filename
+   * @minLength 1
+   */
   filename: string;
 }
 
-/** Party */
 export interface DigitalInvoiceParty {
   /**
    * The recipient party id
@@ -595,10 +650,7 @@ export interface DigitalInvoiceRequest {
   type: DigitalInvoiceRequestTypeEnum;
   /** Subject */
   subject?: string | null;
-  /**
-   * Invoice reference
-   * @example "Faktura #12345"
-   */
+  /** Invoice reference */
   reference?: string;
   /**
    * Whether the invoice is payable
@@ -612,84 +664,28 @@ export interface DigitalInvoiceRequest {
 }
 
 export interface ConstraintViolationProblem {
-  cause?: ThrowableProblem;
-  stackTrace?: {
-    classLoaderName?: string;
-    moduleName?: string;
-    moduleVersion?: string;
-    methodName?: string;
-    fileName?: string;
-    /** @format int32 */
-    lineNumber?: number;
-    className?: string;
-    nativeMethod?: boolean;
-  }[];
   /** @format uri */
   type?: string;
-  status?: StatusType;
+  /** @format int32 */
+  status?: number;
   violations?: Violation[];
   title?: string;
-  message?: string;
   /** @format uri */
   instance?: string;
-  parameters?: Record<string, object>;
   detail?: string;
-  suppressed?: {
-    stackTrace?: {
-      classLoaderName?: string;
-      moduleName?: string;
-      moduleVersion?: string;
-      methodName?: string;
-      fileName?: string;
-      /** @format int32 */
-      lineNumber?: number;
-      className?: string;
-      nativeMethod?: boolean;
-    }[];
-    message?: string;
-    localizedMessage?: string;
-  }[];
-  localizedMessage?: string;
+  causeAsProblem?: ThrowableProblem;
 }
 
 export interface ThrowableProblem {
-  cause?: ThrowableProblem;
-  stackTrace?: {
-    classLoaderName?: string;
-    moduleName?: string;
-    moduleVersion?: string;
-    methodName?: string;
-    fileName?: string;
-    /** @format int32 */
-    lineNumber?: number;
-    className?: string;
-    nativeMethod?: boolean;
-  }[];
-  message?: string;
-  /** @format uri */
-  instance?: string;
   /** @format uri */
   type?: string;
-  parameters?: Record<string, object>;
-  status?: StatusType;
   title?: string;
+  /** @format int32 */
+  status?: number;
   detail?: string;
-  suppressed?: {
-    stackTrace?: {
-      classLoaderName?: string;
-      moduleName?: string;
-      moduleVersion?: string;
-      methodName?: string;
-      fileName?: string;
-      /** @format int32 */
-      lineNumber?: number;
-      className?: string;
-      nativeMethod?: boolean;
-    }[];
-    message?: string;
-    localizedMessage?: string;
-  }[];
-  localizedMessage?: string;
+  /** @format uri */
+  instance?: string;
+  causeAsProblem?: any;
 }
 
 export interface Violation {
@@ -699,15 +695,9 @@ export interface Violation {
 
 /** Message attachment model */
 export interface MessageAttachment {
-  /**
-   * The attachment content type
-   * @example "application/pdf"
-   */
+  /** The attachment content type */
   contentType?: string;
-  /**
-   * The attachment file name
-   * @example "attachment.pdf"
-   */
+  /** The attachment file name */
   fileName?: string;
 }
 
@@ -716,81 +706,61 @@ export interface PagingMetaData {
   /**
    * Current page
    * @format int32
-   * @example 5
    */
   page?: number;
   /**
    * Displayed objects per page
    * @format int32
-   * @example 20
    */
   limit?: number;
   /**
    * Displayed objects on current page
    * @format int32
-   * @example 13
    */
   count?: number;
   /**
    * Total amount of hits based on provided search parameters
    * @format int64
-   * @example 98
    */
   totalRecords?: number;
   /**
    * Total amount of pages based on provided search parameters
    * @format int32
-   * @example 23
    */
   totalPages?: number;
 }
 
 /** Recipient model */
 export interface Recipient {
-  /**
-   * The person identifier
-   * @example "199001011234"
-   */
+  /** The recipient address */
+  address?: Address;
+  /** The person identifier */
   personId?: string;
-  /**
-   * The message type
-   * @example "SNAIL_MAIL"
-   */
+  /** The message type */
   messageType?: string;
-  /**
-   * The message status
-   * @example "SENT"
-   */
+  /** The recipient mobile number */
+  mobileNumber?: string;
+  /** The message status */
   status?: string;
 }
 
 /** User message model */
 export interface UserMessage {
-  /**
-   * The message id
-   * @example "b971e0f8-2942-4b45-9fa3-bd2cc22ed76b"
-   */
+  /** The message id */
   messageId?: string;
-  /**
-   * The message issuer
-   * @example "and06sod"
-   */
+  /** The message issuer */
   issuer?: string;
-  /**
-   * The system that the message originated from
-   * @example "CASEDATA"
-   */
+  /** The system that the message originated from */
   origin?: string;
   /**
    * When the message was sent
    * @format date-time
    */
   sent?: string;
-  /**
-   * The message subject
-   * @example "Important message"
-   */
+  /** The message subject */
   subject?: string;
+  /** The message body */
+  body?: string;
   recipients?: Recipient[];
   attachments?: MessageAttachment[];
 }
@@ -800,6 +770,54 @@ export interface UserMessages {
   /** PagingMetaData model */
   _meta?: PagingMetaData;
   messages?: UserMessage[];
+}
+
+/** Batch information model */
+export interface Batch {
+  /** The batch id */
+  batchId?: string;
+  /** The original message type */
+  messageType?: string;
+  /** Message subject if such exists for message(s) attached to the batch */
+  subject?: string;
+  /**
+   * Timestamp when the batch was sent
+   * @format date-time
+   */
+  sent?: string;
+  /**
+   * The amount of documents attached to message(s) in the batch
+   * @format int32
+   */
+  attachmentCount?: number;
+  /**
+   * The amount of recipients included in the batch
+   * @format int32
+   */
+  recipientCount?: number;
+  /** Batch status model */
+  status?: Status;
+}
+
+/** Batch status model */
+export interface Status {
+  /**
+   * Amount of successfully sent messages
+   * @format int32
+   */
+  successful?: number;
+  /**
+   * Amount of failed messages
+   * @format int32
+   */
+  unsuccessful?: number;
+}
+
+/** User batches model */
+export interface UserBatches {
+  /** PagingMetaData model */
+  _meta?: PagingMetaData;
+  batches?: Batch[];
 }
 
 export interface LetterStatistics {
@@ -842,21 +860,37 @@ export interface DepartmentStatistics {
   DEPARTMENT_STATISTICS?: DepartmentLetterStatistics[];
 }
 
+export interface DepartmentStats {
+  ORIGIN?: string;
+  DEPARTMENT?: string;
+  SNAIL_MAIL?: StatisticsCounter;
+  DIGITAL_MAIL?: StatisticsCounter;
+  SMS?: StatisticsCounter;
+}
+
 export interface HistoryResponse {
-  messageType?: HistoryResponseMessageTypeEnum;
-  status?: HistoryResponseStatusEnum;
-  content?: object;
+  messageType?: MessageType;
+  status?: MessageStatus;
+  content?: any;
   /** @format date-time */
   timestamp?: string;
 }
 
-/**
- * Determines if the message should be added to the internal or external OeP instance
- * @example "internal"
- */
+/** Content type */
+export enum DigitalMailAttachmentContentTypeEnum {
+  ApplicationPdf = 'application/pdf',
+}
+
+/** Content type */
+export enum DigitalMailRequestContentTypeEnum {
+  TextPlain = 'text/plain',
+  TextHtml = 'text/html',
+}
+
+/** Determines if the message should be added to the internal or external OeP instance */
 export enum WebMessageRequestOepInstanceEnum {
-  Internal = 'internal',
-  External = 'external',
+  INTERNAL = 'INTERNAL',
+  EXTERNAL = 'EXTERNAL',
 }
 
 /** Priority (optional, will be defaulted to NORMAL if not present) */
@@ -871,10 +905,7 @@ export enum SmsBatchRequestPriorityEnum {
   NORMAL = 'NORMAL',
 }
 
-/**
- * Delivery mode, to indicate whether an attachment is intended/allowed to be used for
- * digital mail, snail-mail or any of them
- */
+/** Delivery mode */
 export enum LetterAttachmentDeliveryModeEnum {
   ANY = 'ANY',
   DIGITAL_MAIL = 'DIGITAL_MAIL',
@@ -888,17 +919,6 @@ export enum LetterAttachmentContentTypeEnum {
 
 /** Content type */
 export enum LetterRequestContentTypeEnum {
-  TextPlain = 'text/plain',
-  TextHtml = 'text/html',
-}
-
-/** Content type */
-export enum DigitalMailAttachmentContentTypeEnum {
-  ApplicationPdf = 'application/pdf',
-}
-
-/** Content type */
-export enum DigitalMailRequestContentTypeEnum {
   TextPlain = 'text/plain',
   TextHtml = 'text/html',
 }
@@ -922,28 +942,6 @@ export enum DigitalInvoiceFileContentTypeEnum {
 export enum DigitalInvoiceRequestTypeEnum {
   INVOICE = 'INVOICE',
   REMINDER = 'REMINDER',
-}
-
-export enum HistoryResponseMessageTypeEnum {
-  MESSAGE = 'MESSAGE',
-  EMAIL = 'EMAIL',
-  SMS = 'SMS',
-  WEB_MESSAGE = 'WEB_MESSAGE',
-  DIGITAL_MAIL = 'DIGITAL_MAIL',
-  DIGITAL_INVOICE = 'DIGITAL_INVOICE',
-  SNAIL_MAIL = 'SNAIL_MAIL',
-  LETTER = 'LETTER',
-  SLACK = 'SLACK',
-}
-
-export enum HistoryResponseStatusEnum {
-  PENDING = 'PENDING',
-  AWAITING_FEEDBACK = 'AWAITING_FEEDBACK',
-  SENT = 'SENT',
-  NOT_SENT = 'NOT_SENT',
-  FAILED = 'FAILED',
-  NO_CONTACT_SETTINGS_FOUND = 'NO_CONTACT_SETTINGS_FOUND',
-  NO_CONTACT_WANTED = 'NO_CONTACT_WANTED',
 }
 
 /** Message type */

@@ -5,6 +5,7 @@ import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
 import ApiService from '@/services/api.service';
 import { Controller, Get, Header, Param, QueryParam, Req, UseBefore } from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi';
+import { MUNICIPALITY_ID } from '@/config';
 
 @Controller()
 export class EmployeeController {
@@ -17,7 +18,7 @@ export class EmployeeController {
   @Header('Cross-Origin-Embedder-Policy', 'require-corp')
   @Header('Cross-Origin-Resource-Policy', 'cross-origin')
   async getEmployeeImage(@Param('personId') personId: string, @QueryParam('width') width): Promise<any> {
-    const url = `employee/1.0/${personId}/personimage`;
+    const url = `employee/2.0/${MUNICIPALITY_ID}/${personId}/personimage`;
     const res = await this.apiService.get<any>({
       url,
       responseType: 'arraybuffer',
@@ -41,7 +42,7 @@ export class EmployeeController {
       throw new HttpException(400, 'Bad Request');
     }
 
-    const url = `employee/1.0/${personId}/personimage`;
+    const url = `employee/2.0/${MUNICIPALITY_ID}/${personId}/personimage`;
     const res = await this.apiService.get<any>({
       url,
       responseType: 'arraybuffer',
