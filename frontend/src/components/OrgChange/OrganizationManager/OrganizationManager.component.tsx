@@ -8,6 +8,7 @@ import DraftCards from './DraftCards/DraftCards.component';
 import DraftList from './DraftList/DraftList.components';
 import DraftViewAs from './DraftViewAs/DraftViewAs.component';
 import { Draft } from '@data-contracts/backend/data-contracts';
+import { useUserStore } from '@services/user-service/user-service';
 
 interface OrganizationManagerProps {
   openEditModalHandler: () => void;
@@ -24,24 +25,29 @@ const DraftsView = ({ view, drafts, draftsIsLoading }) => {
   }
 };
 
-const EmptyWindow = ({ openEditModalHandler }) => (
-  <div className="pb-xl px-lg text-center">
-    <span className="block pt-lg pb-xl text-base">
-      Det finns inga organisationsförändringar som matchar sökningen eller filtreringen
-    </span>
-    <div className="flex justify-center">
-      <Button
-        type="button"
-        size="lg"
-        onClick={openEditModalHandler}
-        leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
-        className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-white hover:tranisition hover:duration-300"
-      >
-        Ny Organisationsförändring
-      </Button>
+const EmptyWindow = ({ openEditModalHandler }) => {
+  const user = useUserStore((s) => s.user);
+  return (
+    <div className="pb-xl px-lg text-center">
+      <span className="block pt-lg pb-xl text-base">
+        Det finns inga organisationsförändringar som matchar sökningen eller filtreringen
+      </span>
+      {user.permissions.canEditDrafts && (
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            size="lg"
+            onClick={openEditModalHandler}
+            leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-white hover:tranisition hover:duration-300"
+          >
+            Ny Organisationsförändring
+          </Button>
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export const OrganizationManager = (props: OrganizationManagerProps) => {
   const { openEditModalHandler, drafts } = props;
