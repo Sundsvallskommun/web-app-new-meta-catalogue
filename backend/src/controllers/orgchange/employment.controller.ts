@@ -2,7 +2,7 @@ import { EmploymentWithChangeIntent, PersonEmployeeDetail } from '@/data-contrac
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { validationMiddleware } from '@/middlewares/validation.middleware';
 import { OrgChangeOrganizationEmployeesApiResponse, OrgChangePersonEmployeeDetailApiResponse } from '@/responses/orgchange.employment.response';
 import ApiService from '@/services/api.service';

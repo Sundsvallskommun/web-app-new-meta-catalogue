@@ -1,7 +1,7 @@
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import ApiResponse from '@/interfaces/api-service.interface';
 import authMiddleware from '@/middlewares/auth.middleware';
-import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import ApiService from '@/services/api.service';
 import { filterPersonNumberString } from '@/utils/filterPersonNumberString';
 import { Controller, Get, Param, Req, UseBefore } from 'routing-controllers';

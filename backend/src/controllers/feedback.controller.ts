@@ -15,7 +15,10 @@ import {
   MAIL_OTHER,
   MUNICIPALITY_ID,
 } from '@config';
+import { getApiBase } from '@/config/api-config';
 import { RequestWithUser } from '@/interfaces/auth.interface';
+
+const messagingApiBase = getApiBase('messaging');
 
 const messageHTML = (userData, username) => {
   const lines = sanitizeHtml(userData.body, {
@@ -99,7 +102,7 @@ export class FeedbackController {
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
-        const url = `messaging/7.11/${MUNICIPALITY_ID}/email`;
+        const url = `${messagingApiBase}/${MUNICIPALITY_ID}/email`;
         await this.apiService.post({ url, data: sendFeedback, headers: { 'X-Sent-By': `type=adAccount; ${username.toLowerCase()}` } });
       });
     }

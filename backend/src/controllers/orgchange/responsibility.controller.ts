@@ -5,7 +5,7 @@ import { Body, Controller, Get, HttpCode, Param, Post, Put, QueryParam, Req, Use
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
-import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { API_URL, API_PREFIX } from './config';
 import { OrgChangeResponsibilitiesApiResponse, OrgChangeResponsibilityNewCodeApiResponse } from '@/responses/orgchange.responsibility.response';
 import { Responsibility } from '@/data-contracts/mdbuilder/data-contracts';

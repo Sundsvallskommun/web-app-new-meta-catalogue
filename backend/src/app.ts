@@ -18,8 +18,9 @@ import {
   SECRET_KEY,
   SESSION_MEMORY,
   SWAGGER_ENABLED,
-  MUNICIPALITY_ID
+  MUNICIPALITY_ID,
 } from '@config';
+import { getApiBase } from '@/config/api-config';
 import { logger, stream } from '@utils/logger';
 import { existsSync, mkdirSync } from 'fs';
 import { Strategy, VerifiedCallback } from '@node-saml/passport-saml';
@@ -55,6 +56,7 @@ const sessionTTL = 4 * 24 * 60 * 60;
 // NOTE: memory uses ms while file uses seconds
 const sessionStore = new SessionStoreCreate(SESSION_MEMORY ? { checkPeriod: sessionTTL * 1000 } : { sessionTTL, path: './data/sessions' });
 const apiService = new ApiService();
+const employeeApiBase = getApiBase('employee');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -115,7 +117,7 @@ const samlStrategy = new Strategy(
     try {
       let personId = '';
       if (!['test_guest', 'test_operator'].includes(username as string)) {
-        const employeeDetails = await apiService.get<any>({ url: `employee/2.0/${MUNICIPALITY_ID}/portalpersondata/PERSONAL/${username}` });
+        const employeeDetails = await apiService.get<any>({ url: `${employeeApiBase}/${MUNICIPALITY_ID}/portalpersondata/PERSONAL/${username}` });
         const { personid: employeePersonId } = employeeDetails.data;
         personId = employeePersonId;
       }
@@ -318,7 +320,7 @@ class App {
     const storage = getMetadataArgsStorage();
     const spec = routingControllersToSpec(storage, routingControllersOptions, {
       components: {
-        schemas: schemas as { [schema: string]: unknown },
+        schemas,
         securitySchemes: {
           basicAuth: {
             scheme: 'basic',

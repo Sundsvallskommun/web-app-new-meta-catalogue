@@ -24,10 +24,10 @@ export const defaultPermissions: () => Permissions = () => ({
 });
 
 enum RoleOrderEnum {
-  'meta_read',
-  'meta_verifier',
-  'meta_operator',
-  'meta_admin',
+  meta_read,
+  meta_verifier,
+  meta_operator,
+  meta_admin,
 }
 
 const roles = new Map<InternalRole, Partial<Permissions>>([
