@@ -81,7 +81,7 @@ export class FeedbackController {
   @HttpCode(201)
   @OpenAPI({ summary: 'Send feedback through email' })
   @UseBefore(authMiddleware, validationMiddleware(FeedbackDto, 'body'))
-  async sendFeedback(@Body() userData: FeedbackDto, @Req() req: RequestWithUser): Promise<any> {
+  sendFeedback(@Body() userData: FeedbackDto, @Req() req: RequestWithUser): any {
     const { username } = req.user;
 
     const emailString = typeToEmail[userData.type];
