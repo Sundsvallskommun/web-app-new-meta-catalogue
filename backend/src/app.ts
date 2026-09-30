@@ -182,9 +182,6 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.set('query parser', (str: string) =>
-      Object.fromEntries(Object.entries(parse(str)).map(([key, value]) => [key, Array.isArray(value) ? value.at(-1) : value])),
-    );
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(express.json());
