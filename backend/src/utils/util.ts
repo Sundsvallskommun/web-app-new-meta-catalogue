@@ -1,4 +1,4 @@
-import { API_BASE_URL, BASE_URL_PREFIX } from '@config';
+import { API_BASE_URL, BASE_URL_PREFIX, ORIGIN } from '@config';
 /**
  * @method isEmpty
  * @param {String | Number | Object} value
@@ -66,4 +66,18 @@ export const isValidUrl = (string: string) => {
     return false;
   }
   return url.protocol === 'http:' || url.protocol === 'https:';
+};
+
+/** Returns the url if it points to our own frontend (ORIGIN), otherwise the fallback. */
+export const safeRedirectUrl = (url: unknown, fallback = ORIGIN): string => {
+  if (typeof url !== 'string' || !isValidUrl(url)) {
+    return fallback;
+  }
+  const allowed = new URL(ORIGIN);
+  const target = new URL(url);
+  if (target.origin !== allowed.origin) {
+    return fallback;
+  }
+  // Rebuild from the trusted origin so only path, query and hash come from the input
+  return `${allowed.origin}${target.pathname}${target.search}${target.hash}`;
 };

@@ -33,13 +33,13 @@ import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import session from 'express-session';
 import helmet from 'helmet';
 import createMemoryStore from 'memorystore';
 import morgan from 'morgan';
 import passport from 'passport';
 import { join } from 'path';
-import { parse } from 'node:querystring';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import createFileStore from 'session-file-store';
 import swaggerUi from 'swagger-ui-express';
@@ -48,7 +48,7 @@ import { Profile } from './interfaces/profile.interface';
 import { ADRole } from './interfaces/users.interface';
 import ApiService from './services/api.service';
 import { getPermissions, getRole } from './services/authorization.service';
-import { isValidUrl } from './utils/util';
+import { safeRedirectUrl } from './utils/util';
 import { additionalConverters } from './utils/custom-validation-classes';
 
 const SessionStoreCreate = SESSION_MEMORY ? createMemoryStore(session) : createFileStore(session);
@@ -181,7 +181,10 @@ class App {
   }
 
   private initializeMiddlewares() {
+    // Trust the nearest reverse proxy so req.ip and rate limiting use the client address.
+    this.app.set('trust proxy', 1);
     this.app.use(morgan(LOG_FORMAT, { stream }));
+    this.app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 1000, standardHeaders: true, legacyHeaders: false }));
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(express.json());
@@ -222,13 +225,13 @@ class App {
     });
 
     this.app.get(`${BASE_URL_PREFIX}/saml/logout`, setRelayState, (req, res, next) => {
-      const successRedirect = req.query.successRedirect;
+      const successRedirect = safeRedirectUrl(req.query.successRedirect);
       samlStrategy.logout(req as any, () => {
         req.logout(err => {
           if (err) {
             return next(err);
           }
-          res.redirect(successRedirect as string);
+          res.redirect(successRedirect);
         });
       });
     });
@@ -239,40 +242,20 @@ class App {
           return next(err);
         }
 
-        let successRedirect, failureRedirect;
-        const relayState = req.query.RelayState;
-        if (typeof relayState === 'string' && isValidUrl(relayState)) {
-          successRedirect = relayState;
-        }
-
-        if (req.session.messages?.length > 0) {
-          failureRedirect = successRedirect + `?failMessage=${req.session.messages[0]}`;
-        } else {
-          failureRedirect = successRedirect + `?failMessage='SAML_UNKNOWN_ERROR'`;
-        }
-        if (failureRedirect) {
-          res.redirect(failureRedirect);
-        } else {
-          res.redirect(successRedirect);
-        }
+        const redirectUrl = new URL(safeRedirectUrl(req.query.RelayState));
+        redirectUrl.searchParams.set('failMessage', req.session.messages?.[0] ?? 'SAML_UNKNOWN_ERROR');
+        res.redirect(redirectUrl.toString());
       });
     });
 
     this.app.post(`${BASE_URL_PREFIX}/saml/login/callback`, bodyParser.urlencoded({ extended: false }), (req, res, next) => {
-      let successRedirect, failureRedirect;
-      if (isValidUrl(req.body.RelayState)) {
-        successRedirect = req.body.RelayState;
-      }
-
-      if (req.session.messages?.length > 0) {
-        failureRedirect = successRedirect + `?failMessage=${req.session.messages[0]}`;
-      } else {
-        failureRedirect = successRedirect + `?failMessage='SAML_UNKNOWN_ERROR'`;
-      }
+      const successRedirect = safeRedirectUrl(req.body?.RelayState);
+      const failureRedirect = new URL(successRedirect);
+      failureRedirect.searchParams.set('failMessage', req.session.messages?.[0] ?? 'SAML_UNKNOWN_ERROR');
 
       passport.authenticate('saml', {
         successReturnToOrRedirect: successRedirect,
-        failureRedirect: failureRedirect,
+        failureRedirect: failureRedirect.toString(),
         failureMessage: true,
       })(req, res, next);
     });
