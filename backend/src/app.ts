@@ -35,11 +35,11 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
-import hpp from 'hpp';
 import createMemoryStore from 'memorystore';
 import morgan from 'morgan';
 import passport from 'passport';
 import { join } from 'path';
+import { parse } from 'node:querystring';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import createFileStore from 'session-file-store';
 import swaggerUi from 'swagger-ui-express';
@@ -182,7 +182,9 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(hpp());
+    this.app.set('query parser', (str: string) =>
+      Object.fromEntries(Object.entries(parse(str)).map(([key, value]) => [key, Array.isArray(value) ? value.at(-1) : value])),
+    );
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(express.json());
@@ -202,22 +204,19 @@ class App {
     this.app.use(passport.session());
     passport.use('saml', samlStrategy);
 
-    this.app.get(
-      `${BASE_URL_PREFIX}/saml/login`,
-      (req, res, next) => {
-        if (req.session.returnTo) {
-          req.query.RelayState = req.session.returnTo;
-        } else if (req.query.successRedirect) {
-          req.query.RelayState = req.query.successRedirect;
-        }
-        next();
-      },
-      (req, res, next) => {
-        passport.authenticate('saml', {
-          failureRedirect: SAML_FAILURE_REDIRECT,
-        })(req, res, next);
-      },
-    );
+    const setRelayState: express.RequestHandler = (req, res, next) => {
+      const relayState = req.session.returnTo || req.query.successRedirect;
+      if (typeof relayState === 'string') {
+        req.body = { ...req.body, RelayState: relayState };
+      }
+      next();
+    };
+
+    this.app.get(`${BASE_URL_PREFIX}/saml/login`, setRelayState, (req, res, next) => {
+      passport.authenticate('saml', {
+        failureRedirect: SAML_FAILURE_REDIRECT,
+      })(req, res, next);
+    });
 
     this.app.get(`${BASE_URL_PREFIX}/saml/metadata`, (req, res) => {
       res.type('application/xml');
@@ -225,38 +224,28 @@ class App {
       res.status(200).send(metadata);
     });
 
-    this.app.get(
-      `${BASE_URL_PREFIX}/saml/logout`,
-      (req, res, next) => {
-        if (req.session.returnTo) {
-          req.query.RelayState = req.session.returnTo;
-        } else if (req.query.successRedirect) {
-          req.query.RelayState = req.query.successRedirect;
-        }
-        next();
-      },
-      (req, res, next) => {
-        const successRedirect = req.query.successRedirect;
-        samlStrategy.logout(req as any, () => {
-          req.logout(err => {
-            if (err) {
-              return next(err);
-            }
-            res.redirect(successRedirect as string);
-          });
+    this.app.get(`${BASE_URL_PREFIX}/saml/logout`, setRelayState, (req, res, next) => {
+      const successRedirect = req.query.successRedirect;
+      samlStrategy.logout(req as any, () => {
+        req.logout(err => {
+          if (err) {
+            return next(err);
+          }
+          res.redirect(successRedirect as string);
         });
-      },
-    );
+      });
+    });
 
-    this.app.get(`${BASE_URL_PREFIX}/saml/logout/callback`, bodyParser.urlencoded({ extended: false }), (req, res, next) => {
+    this.app.get(`${BASE_URL_PREFIX}/saml/logout/callback`, (req, res, next) => {
       req.logout(err => {
         if (err) {
           return next(err);
         }
 
         let successRedirect, failureRedirect;
-        if (isValidUrl(req.body.RelayState)) {
-          successRedirect = req.body.RelayState;
+        const relayState = req.query.RelayState;
+        if (typeof relayState === 'string' && isValidUrl(relayState)) {
+          successRedirect = relayState;
         }
 
         if (req.session.messages?.length > 0) {
