@@ -10,11 +10,11 @@ const PATH_TO_OUTPUT_DIR = path.resolve(process.cwd(), './src/data-contracts');
 const APIS = [
   {
     name: 'employee',
-    version: '1.0',
+    version: '2.0',
   },
   {
     name: 'messaging',
-    version: '5.0',
+    version: '7.11',
   },
   {
     name: 'mdbuilder',
@@ -38,7 +38,7 @@ const stdout = (error, stdout, stderr) => {
   console.log(`Data-contract-generator: ${stdout}`);
 };
 
-const main = async () => {
+const main = () => {
   console.log('Downloading and generating api-docs..');
   APIS.forEach(async api => {
     if (!fs.existsSync(`${PATH_TO_OUTPUT_DIR}/${api.name}`)) {

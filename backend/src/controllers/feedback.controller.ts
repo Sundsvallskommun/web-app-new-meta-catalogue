@@ -81,7 +81,7 @@ export class FeedbackController {
   @HttpCode(201)
   @OpenAPI({ summary: 'Send feedback through email' })
   @UseBefore(authMiddleware, validationMiddleware(FeedbackDto, 'body'))
-  async sendFeedback(@Body() userData: FeedbackDto, @Req() req: RequestWithUser): Promise<any> {
+  sendFeedback(@Body() userData: FeedbackDto, @Req() req: RequestWithUser): any {
     const { username } = req.user;
 
     const emailString = typeToEmail[userData.type];
@@ -93,14 +93,14 @@ export class FeedbackController {
             name: 'Masterdata',
             address: 'no-reply@sundsvall.se',
           },
-          emailAddress: email,
+          recipients: [email],
           subject: 'Feedback för Masterdata',
           message: message(userData.body),
           // TODO: seems like html message gets wrong encoding? ÅÄÖ not working.
           htmlMessage: base64Encode(messageHTML(userData, username)),
         };
-        const url = `messaging/5.0/${MUNICIPALITY_ID}/email`;
-        await this.apiService.post({ url, data: sendFeedback });
+        const url = `messaging/7.11/${MUNICIPALITY_ID}/email`;
+        await this.apiService.post({ url, data: sendFeedback, headers: { 'X-Sent-By': `type=adAccount; ${username.toLowerCase()}` } });
       });
     }
 
