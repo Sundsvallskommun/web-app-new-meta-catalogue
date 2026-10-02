@@ -5,7 +5,7 @@ import { Body, Controller, Delete, HttpCode, Param, Post, Put, Req, UseBefore } 
 import { OpenAPI } from 'routing-controllers-openapi';
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RequestWithUser } from '@/interfaces/auth.interface';
-import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { API_URL, API_PREFIX } from './config';
 import { OrgnodeAddDto, OrgnodeCreateDto, OrgnodeRenameDto, OrgnodeMoveDto, OrgnodeChangeRespCodeDto } from '@/dtos/orgchange/orgnode.dto';
 

@@ -3,28 +3,9 @@ import path from 'path';
 import fs from 'node:fs';
 
 import { API_BASE_URL } from './config/index';
+import { APIS } from './config/api-config';
 
 const PATH_TO_OUTPUT_DIR = path.resolve(process.cwd(), './src/data-contracts');
-
-//Subscribed APIS as lowercased
-const APIS = [
-  {
-    name: 'employee',
-    version: '2.0',
-  },
-  {
-    name: 'messaging',
-    version: '7.11',
-  },
-  {
-    name: 'mdbuilder',
-    version: '1.0',
-  },
-  {
-    name: 'mdviewer',
-    version: '1.0',
-  },
-];
 
 const stdout = (error, stdout, stderr) => {
   if (error) {

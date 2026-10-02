@@ -1,10 +1,9 @@
 import { BuilderOrganizationTree } from '@/data-contracts/mdbuilder/data-contracts';
 
-export interface DraftTree
-  extends Omit<
-    BuilderOrganizationTree,
-    'orgId' | 'name' | 'treeLevel' | 'shortName' | 'branches' | 'responsibilityCodePart' | 'responsibilityCodePartList'
-  > {
+export interface DraftTree extends Omit<
+  BuilderOrganizationTree,
+  'orgId' | 'name' | 'treeLevel' | 'shortName' | 'branches' | 'responsibilityCodePart' | 'responsibilityCodePartList'
+> {
   id?: BuilderOrganizationTree['orgId'];
   orgName?: BuilderOrganizationTree['name'];
   label?: BuilderOrganizationTree['shortName'];

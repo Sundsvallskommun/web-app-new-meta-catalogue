@@ -18,8 +18,9 @@ import {
   SECRET_KEY,
   SESSION_MEMORY,
   SWAGGER_ENABLED,
-  MUNICIPALITY_ID
+  MUNICIPALITY_ID,
 } from '@config';
+import { getApiBase } from '@/config/api-config';
 import { logger, stream } from '@utils/logger';
 import { existsSync, mkdirSync } from 'fs';
 import { Strategy, VerifiedCallback } from '@node-saml/passport-saml';
@@ -34,7 +35,6 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
-import hpp from 'hpp';
 import createMemoryStore from 'memorystore';
 import morgan from 'morgan';
 import passport from 'passport';
@@ -55,6 +55,7 @@ const sessionTTL = 4 * 24 * 60 * 60;
 // NOTE: memory uses ms while file uses seconds
 const sessionStore = new SessionStoreCreate(SESSION_MEMORY ? { checkPeriod: sessionTTL * 1000 } : { sessionTTL, path: './data/sessions' });
 const apiService = new ApiService();
+const employeeApiBase = getApiBase('employee');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -115,7 +116,7 @@ const samlStrategy = new Strategy(
     try {
       let personId = '';
       if (!['test_guest', 'test_operator'].includes(username as string)) {
-        const employeeDetails = await apiService.get<any>({ url: `employee/2.0/${MUNICIPALITY_ID}/portalpersondata/PERSONAL/${username}` });
+        const employeeDetails = await apiService.get<any>({ url: `${employeeApiBase}/${MUNICIPALITY_ID}/portalpersondata/PERSONAL/${username}` });
         const { personid: employeePersonId } = employeeDetails.data;
         personId = employeePersonId;
       }
@@ -180,7 +181,6 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
     this.app.use(express.json());
@@ -200,22 +200,19 @@ class App {
     this.app.use(passport.session());
     passport.use('saml', samlStrategy);
 
-    this.app.get(
-      `${BASE_URL_PREFIX}/saml/login`,
-      (req, res, next) => {
-        if (req.session.returnTo) {
-          req.query.RelayState = req.session.returnTo;
-        } else if (req.query.successRedirect) {
-          req.query.RelayState = req.query.successRedirect;
-        }
-        next();
-      },
-      (req, res, next) => {
-        passport.authenticate('saml', {
-          failureRedirect: SAML_FAILURE_REDIRECT,
-        })(req, res, next);
-      },
-    );
+    const setRelayState: express.RequestHandler = (req, res, next) => {
+      const relayState = req.session.returnTo || req.query.successRedirect;
+      if (typeof relayState === 'string') {
+        req.body = { ...req.body, RelayState: relayState };
+      }
+      next();
+    };
+
+    this.app.get(`${BASE_URL_PREFIX}/saml/login`, setRelayState, (req, res, next) => {
+      passport.authenticate('saml', {
+        failureRedirect: SAML_FAILURE_REDIRECT,
+      })(req, res, next);
+    });
 
     this.app.get(`${BASE_URL_PREFIX}/saml/metadata`, (req, res) => {
       res.type('application/xml');
@@ -223,38 +220,28 @@ class App {
       res.status(200).send(metadata);
     });
 
-    this.app.get(
-      `${BASE_URL_PREFIX}/saml/logout`,
-      (req, res, next) => {
-        if (req.session.returnTo) {
-          req.query.RelayState = req.session.returnTo;
-        } else if (req.query.successRedirect) {
-          req.query.RelayState = req.query.successRedirect;
-        }
-        next();
-      },
-      (req, res, next) => {
-        const successRedirect = req.query.successRedirect;
-        samlStrategy.logout(req as any, () => {
-          req.logout(err => {
-            if (err) {
-              return next(err);
-            }
-            res.redirect(successRedirect as string);
-          });
+    this.app.get(`${BASE_URL_PREFIX}/saml/logout`, setRelayState, (req, res, next) => {
+      const successRedirect = req.query.successRedirect;
+      samlStrategy.logout(req as any, () => {
+        req.logout(err => {
+          if (err) {
+            return next(err);
+          }
+          res.redirect(successRedirect as string);
         });
-      },
-    );
+      });
+    });
 
-    this.app.get(`${BASE_URL_PREFIX}/saml/logout/callback`, bodyParser.urlencoded({ extended: false }), (req, res, next) => {
+    this.app.get(`${BASE_URL_PREFIX}/saml/logout/callback`, (req, res, next) => {
       req.logout(err => {
         if (err) {
           return next(err);
         }
 
         let successRedirect, failureRedirect;
-        if (isValidUrl(req.body.RelayState)) {
-          successRedirect = req.body.RelayState;
+        const relayState = req.query.RelayState;
+        if (typeof relayState === 'string' && isValidUrl(relayState)) {
+          successRedirect = relayState;
         }
 
         if (req.session.messages?.length > 0) {
@@ -318,7 +305,7 @@ class App {
     const storage = getMetadataArgsStorage();
     const spec = routingControllersToSpec(storage, routingControllersOptions, {
       components: {
-        schemas: schemas as { [schema: string]: unknown },
+        schemas,
         securitySchemes: {
           basicAuth: {
             scheme: 'basic',
