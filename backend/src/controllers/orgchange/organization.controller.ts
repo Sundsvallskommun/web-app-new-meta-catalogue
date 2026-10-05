@@ -3,7 +3,7 @@ import ApiService from '@/services/api.service';
 import { Controller, Get, Param, QueryParam, UseBefore } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import ApiResponse from '@/interfaces/api-service.interface';
-import { hasPermissions, hasRoles } from '@/middlewares/permissions.middleware';
+import { hasPermissions } from '@/middlewares/permissions.middleware';
 import { API_PREFIX, API_URL } from './config';
 import { CheckedOutOrganizationLevel2ApiResponse, InitialOrgStructuresToExporApiResponse } from '@/responses/orgchange.organization';
 import { OrganizationExport, OrganizationLevel2 } from '@/data-contracts/mdbuilder/data-contracts';

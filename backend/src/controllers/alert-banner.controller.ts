@@ -101,7 +101,7 @@ export class AlertController {
         },
       });
       return { message: 'deleted' };
-    } catch (error) {
+    } catch {
       return { message: 'is deleted' };
     }
   }

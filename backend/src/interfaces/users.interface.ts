@@ -16,17 +16,14 @@ export interface Permissions {
 
 /** AD roles */
 export type ADRole =
-  | 'sg_appl_meta_masterdata_admin'
-  | 'sg_appl_meta_masterdata_operator'
-  | 'sg_appl_meta_masterdata_verifier'
-  | 'sg_appl_meta_masterdata_read';
+  'sg_appl_meta_masterdata_admin' | 'sg_appl_meta_masterdata_operator' | 'sg_appl_meta_masterdata_verifier' | 'sg_appl_meta_masterdata_read';
 /** Internal roles */
 export type InternalRole = 'meta_admin' | 'meta_operator' | 'meta_verifier' | 'meta_read';
 export enum InternalRoleEnum {
-  'meta_read',
-  'meta_verifier',
-  'meta_operator',
-  'meta_admin',
+  meta_read,
+  meta_verifier,
+  meta_operator,
+  meta_admin,
 }
 
 export type InternalRoleMap = Map<InternalRole, Partial<Permissions>>;

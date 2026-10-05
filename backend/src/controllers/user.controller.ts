@@ -39,9 +39,6 @@ export class UserController {
       });
     }
 
-    userSettings && delete userSettings.id;
-    userSettings && delete userSettings.userId;
-
     const userData: UserData = {
       name: name,
       username: username,
@@ -68,9 +65,6 @@ export class UserController {
         readCommentsClearedDate: userData.readCommentsClearedDate,
       },
     });
-
-    newSettings && delete newSettings.id;
-    newSettings && delete newSettings.userId;
 
     const newUserData: UserData = {
       name: name,
