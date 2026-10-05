@@ -341,7 +341,9 @@ export const useOrgChangeStore = createWithEqualityFn<
     persist(
       (set, get) => ({
         ...initialState,
-        setDrafts: async (drafts) => await set(() => ({ drafts })),
+        setDrafts: async (drafts) => {
+          await set(() => ({ drafts }));
+        },
         getDrafts: async (signal) => {
           set(() => ({ draftsIsLoading: true }));
           const res = await getDrafts(signal);
@@ -349,7 +351,9 @@ export const useOrgChangeStore = createWithEqualityFn<
           set(() => ({ drafts: data, draftsIsLoading: false }));
           return { data, error: res.error };
         },
-        setDraft: async (draft) => await set((s) => ({ draft: typeof draft === 'function' ? draft(s.draft) : draft })),
+        setDraft: async (draft) => {
+          await set((s) => ({ draft: typeof draft === 'function' ? draft(s.draft) : draft }));
+        },
         getDraft: async (draftId?, signal?) => {
           if (draftId === null) {
             await set(() => ({
@@ -578,7 +582,9 @@ export const useOrgChangeStore = createWithEqualityFn<
           }
           return { data: res.data, error: res.error, message: res.message };
         },
-        setSideMenuShowFilters: async (sideMenuShowFilters) => await set(() => ({ sideMenuShowFilters })),
+        setSideMenuShowFilters: async (sideMenuShowFilters) => {
+          await set(() => ({ sideMenuShowFilters }));
+        },
         getPaSearchResults: async (query) => {
           if (query.length > 1) {
             await set(() => ({ paSearchResultsIsLoading: true }));
@@ -616,7 +622,9 @@ export const useOrgChangeStore = createWithEqualityFn<
           await set(() => ({ employeesByOrg: data, employeesByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setOrgChangeEmployeeFilter: async (orgChangeEmployeeFilter) => await set(() => ({ orgChangeEmployeeFilter })),
+        setOrgChangeEmployeeFilter: async (orgChangeEmployeeFilter) => {
+          await set(() => ({ orgChangeEmployeeFilter }));
+        },
         getResponsibilitiesByOrg: async (orgId, signal) => {
           if (orgId === null) {
             await set(() => ({
@@ -631,8 +639,9 @@ export const useOrgChangeStore = createWithEqualityFn<
           await set(() => ({ responsibilitiesByOrg: data, responsibilitiesByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setOrgChangeResponsibilityFilter: async (orgChangeResponsibilityFilter) =>
-          await set(() => ({ orgChangeResponsibilityFilter })),
+        setOrgChangeResponsibilityFilter: async (orgChangeResponsibilityFilter) => {
+          await set(() => ({ orgChangeResponsibilityFilter }));
+        },
         createConnectResponsibility: async (body: ResponsibilityCreateDto) => {
           const res = await newResponsibility(body);
           if (!res.error) {
@@ -676,8 +685,9 @@ export const useOrgChangeStore = createWithEqualityFn<
           await set(() => ({ operationsByOrg: data, operationsByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setOrgChangeOperationFilter: async (orgChangeOperationFilter) =>
-          await set(() => ({ orgChangeOperationFilter })),
+        setOrgChangeOperationFilter: async (orgChangeOperationFilter) => {
+          await set(() => ({ orgChangeOperationFilter }));
+        },
         getOperationsByCompany: async (companyId, signal) => {
           if (companyId === null) {
             await set(() => ({

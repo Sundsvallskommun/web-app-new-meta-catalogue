@@ -4,7 +4,7 @@ import { OrgChangeOrganizationEmployee } from '@data-contracts/backend/data-cont
 
 interface ContextColumn {
   header: string;
-  element: (person: OrgChangeOrganizationEmployee) => JSX.Element;
+  element: (person: OrgChangeOrganizationEmployee) => React.JSX.Element;
 }
 
 interface MarkedPeopleListProps {

@@ -4,7 +4,7 @@ import Modal from './Modal.component';
 
 export const ConfirmModal: React.FC<{
   title: string;
-  message: string | JSX.Element;
+  message: string | React.JSX.Element;
   handleCancel;
   handleOk;
   onClose: () => void;

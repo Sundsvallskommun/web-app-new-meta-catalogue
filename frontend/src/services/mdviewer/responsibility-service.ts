@@ -99,8 +99,12 @@ export const useResponsibilityStore = createWithEqualityFn<
         setSelectedCompanyId: async (selectedCompanyId) => {
           await set(() => ({ selectedCompanyId }));
         },
-        setResponsibilityFilter: async (responsibilityFilter) => await set(() => ({ responsibilityFilter })),
-        setOrgResponsibilityFilter: async (orgResponsibilityFilter) => await set(() => ({ orgResponsibilityFilter })),
+        setResponsibilityFilter: async (responsibilityFilter) => {
+          await set(() => ({ responsibilityFilter }));
+        },
+        setOrgResponsibilityFilter: async (orgResponsibilityFilter) => {
+          await set(() => ({ orgResponsibilityFilter }));
+        },
         reset: async () => {
           await set(initialState);
         },
