@@ -88,7 +88,9 @@ export const useOrganizationStore = createWithEqualityFn<
     persist(
       (set, get) => ({
         ...initialState,
-        setOrganization: async (organization) => await set(() => ({ organization })),
+        setOrganization: async (organization) => {
+          await set(() => ({ organization }));
+        },
         getOrganization: async (selectedOrganizationId?) => {
           const organizationId = selectedOrganizationId || get().selectedOrganizationId;
           if (organizationId === null) {
@@ -101,7 +103,9 @@ export const useOrganizationStore = createWithEqualityFn<
           await set(() => ({ organization: data, organizationIsLoading: false }));
           return { data: data, error: res ? res.error : false };
         },
-        setCompanyOrganizations: async (companyOrganizations) => await set(() => ({ companyOrganizations })),
+        setCompanyOrganizations: async (companyOrganizations) => {
+          await set(() => ({ companyOrganizations }));
+        },
         getCompanyOrganizations: async (selectedCompanyId, signal) => {
           const companyId = selectedCompanyId || get().selectedCompanyId;
           if (companyId === null) {
@@ -121,8 +125,12 @@ export const useOrganizationStore = createWithEqualityFn<
           await set(() => ({ selectedOrganizationId }));
           await get().getOrganization(selectedOrganizationId);
         },
-        setCompany: async (company) => await set(() => ({ company })),
-        setOrgTree: async (orgTree) => await set(() => ({ orgTree })),
+        setCompany: async (company) => {
+          await set(() => ({ company }));
+        },
+        setOrgTree: async (orgTree) => {
+          await set(() => ({ orgTree }));
+        },
         getOrgTree: async () => {
           await set(() => ({ orgTreeIsLoading: true }));
           const data = get().company.subItems;
@@ -155,7 +163,9 @@ export const useOrganizationStore = createWithEqualityFn<
           await set(() => ({ selectedCompanyOrgId }));
           await get().getCompany(selectedCompanyOrgId);
         },
-        setOrganizationTabIndex: async (organizationTabIndex) => await set(() => ({ organizationTabIndex })),
+        setOrganizationTabIndex: async (organizationTabIndex) => {
+          await set(() => ({ organizationTabIndex }));
+        },
         setTreeImageId: async (treeImageId) => {
           await set(() => ({ treeImageId }));
           await get().getCompany();
@@ -167,7 +177,9 @@ export const useOrganizationStore = createWithEqualityFn<
           }
           return { data: res.data, error: res.error };
         },
-        setTreeImage: async (treeImage) => await set(() => ({ treeImage })),
+        setTreeImage: async (treeImage) => {
+          await set(() => ({ treeImage }));
+        },
         reset: async () => {
           await set(initialState);
         },

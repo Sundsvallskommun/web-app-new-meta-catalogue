@@ -9,7 +9,7 @@ module.exports = withBundleAnalyzer({
     defaultLocale: 'sv',
   },
   images: {
-    domains: [process.env.DOMAIN_NAME || 'localhost'],
+    remotePatterns: [{ hostname: process.env.DOMAIN_NAME || 'localhost' }],
     formats: ['image/avif', 'image/webp'],
   },
   basePath: process.env.BASE_PATH || '',

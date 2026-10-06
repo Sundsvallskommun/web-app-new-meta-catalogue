@@ -58,7 +58,9 @@ export const useOperationStore = createWithEqualityFn<
           await set(() => ({ operationsByOrg: data, operationsByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setOrgOperationFilter: async (orgOperationFilter) => await set(() => ({ orgOperationFilter })),
+        setOrgOperationFilter: async (orgOperationFilter) => {
+          await set(() => ({ orgOperationFilter }));
+        },
         reset: async () => {
           await set(initialState);
         },

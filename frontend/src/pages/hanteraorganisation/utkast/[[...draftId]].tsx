@@ -29,7 +29,7 @@ export const Index: React.FC = () => {
   const orgTreeIsLoading = useOrgChangeStore((s) => s.orgTreeIsLoading);
   const draft = useOrgChangeStore((s) => s.draft);
   const { draftIsReadOnly } = useDraftPhaseState();
-  const mainRef = useRef();
+  const mainRef = useRef<HTMLDivElement>(null);
   const [showEmployeeFocus, setShowEmployeeFocus] = useState(false);
   const employeesByOrg = useOrgChangeStore((s) => s.employeesByOrg);
   const { showFocus, mustEdit } = shouldEditEmployees();

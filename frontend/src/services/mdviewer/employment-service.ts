@@ -34,7 +34,9 @@ export const useEmployeesStore = createWithEqualityFn<
     persist(
       (set) => ({
         ...initialState,
-        setEmployeesByOrg: async (employeesByOrg) => await set(() => ({ employeesByOrg })),
+        setEmployeesByOrg: async (employeesByOrg) => {
+          await set(() => ({ employeesByOrg }));
+        },
         getEmployeesByOrg: async (orgId, signal) => {
           if (orgId === null) {
             await set(() => ({
@@ -49,7 +51,9 @@ export const useEmployeesStore = createWithEqualityFn<
           await set(() => ({ employeesByOrg: data, employeesByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setEmployeesByOrgIsLoading: async (employeesByOrgIsLoading) => await set(() => ({ employeesByOrgIsLoading })),
+        setEmployeesByOrgIsLoading: async (employeesByOrgIsLoading) => {
+          await set(() => ({ employeesByOrgIsLoading }));
+        },
         getEmployeesByOrgAndUnder: async (orgId, signal) => {
           await set(() => ({ employeesByOrgIsLoading: true }));
           const res = await getEmployeesByOrgAndUnder(orgId, signal);
@@ -57,7 +61,9 @@ export const useEmployeesStore = createWithEqualityFn<
           await set(() => ({ employeesByOrg: data, employeesByOrgIsLoading: false }));
           return { data, error: res.error };
         },
-        setOrgEmployeeFilter: async (orgEmployeeFilter) => await set(() => ({ orgEmployeeFilter })),
+        setOrgEmployeeFilter: async (orgEmployeeFilter) => {
+          await set(() => ({ orgEmployeeFilter }));
+        },
         reset: async () => {
           await set(initialState);
         },

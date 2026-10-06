@@ -22,7 +22,7 @@ const useModalShow = (): UseModalShowReturnType => {
 };
 
 type ModalContextType = {
-  showConfirmation: (title: string, message: string | JSX.Element) => Promise<boolean>;
+  showConfirmation: (title: string, message: string | React.JSX.Element) => Promise<boolean>;
 };
 
 type ConfirmationModalContextProviderProps = {
@@ -33,11 +33,11 @@ const ConfirmationModalContext = React.createContext<ModalContextType>({} as Mod
 
 const ConfirmationModalContextProvider: React.FC<ConfirmationModalContextProviderProps> = (props) => {
   const { setShow, show, onHide } = useModalShow();
-  const [content, setContent] = useState<{ title: string; message: string | JSX.Element } | null>();
+  const [content, setContent] = useState<{ title: string; message: string | React.JSX.Element } | null>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const resolver = useRef<any>();
+  const resolver = useRef<any>(undefined);
 
-  const handleShow = (title: string, message: string | JSX.Element): Promise<boolean> => {
+  const handleShow = (title: string, message: string | React.JSX.Element): Promise<boolean> => {
     setContent({
       title,
       message,

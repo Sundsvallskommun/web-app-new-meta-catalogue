@@ -5,7 +5,7 @@ import Organization from '@components/Organization/Organization.component';
 import { useRef } from 'react';
 
 export const Index: React.FC = () => {
-  const mainRef = useRef();
+  const mainRef = useRef<HTMLDivElement>(null);
 
   return (
     <SubmenuLayout preTitle="Organisation">
