@@ -4,7 +4,7 @@ import {
   OrgChangeOrganizationEmployee,
 } from '@data-contracts/backend/data-contracts';
 import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import UndoIcon from '@mui/icons-material/Undo';
+import { Undo2 } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -158,7 +158,7 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
       variant="link"
       onClick={resetPa}
       aria-label={`Återställ aktivitet`}
-      leftIcon={<UndoIcon className="material-icon !text-2xl" aria-hidden="true" />}
+      leftIcon={<Undo2 />}
     >
       Ångra och återställ
     </Button>

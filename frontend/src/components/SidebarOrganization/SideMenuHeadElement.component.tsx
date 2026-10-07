@@ -1,11 +1,11 @@
 import { Popover } from '@headlessui/react';
 import { IFilterDataMenu } from '@interfaces/organization';
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import { ChevronDown } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Combobox, Select } from '@sk-web-gui/forms';
-import { FilterItem, FormControl, FormLabel, IFilterData, Link } from '@sk-web-gui/react';
+import { FilterItem, FormControl, FormLabel, IFilterData, Link, Icon } from '@sk-web-gui/react';
 import { useAriaKeyboard } from '@utils/use-ariakeyboard';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import Sticky from 'react-sticky-el';
@@ -210,9 +210,7 @@ export default function SideMenuHeadElement() {
                 >
                   <Link as="span" className="text-white hover:text-white hover:no-underline">
                     {user.permissions.canViewDrafts ? 'Visa/sök' : 'Sök'}
-                    <ArrowDropDownOutlinedIcon
-                      className={`!text-2xl !ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`}
-                    />
+                    <Icon className={`!ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`} icon={<ChevronDown />} />
                   </Link>
                 </Popover.Button>
                 {filterOpen && (

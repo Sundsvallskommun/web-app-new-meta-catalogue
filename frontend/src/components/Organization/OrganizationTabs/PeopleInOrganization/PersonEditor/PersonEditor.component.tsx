@@ -6,7 +6,7 @@ import { Fragment } from 'react';
 // icons
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
 import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import OutlinedFlagIcon from '@mui/icons-material/OutlinedFlag';
+import { Flag } from 'lucide-react';
 import { emptyPersonEditor } from '@services/mdviewer/defaults/employment';
 import { apiURL } from '@utils/api-url';
 import dayjs from 'dayjs';
@@ -285,12 +285,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button
-                type="button"
-                variant="link"
-                className="mt-lg w-fit h-fit text-gray"
-                leftIcon={<OutlinedFlagIcon />}
-              >
+              <Button type="button" variant="link" className="mt-lg w-fit h-fit text-gray" leftIcon={<Flag />}>
                 Rapportera fel
               </Button>
             </NextLink>

@@ -20,13 +20,9 @@
     "test:coverage": "yarn cypress:headless"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@headlessui/react": "^1.7.19",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^5.2.2",
-    "@mui/icons-material": "^6.5.0",
-    "@mui/material": "^6.5.0",
     "@next/bundle-analyzer": "16.2.12",
     "@react-hookz/web": "^25.2.0",
     "@sk-web-gui/core": "4.6.2",
@@ -34,6 +30,7 @@
     "axios": "^1.20.0",
     "dayjs": "^1.11.19",
     "debounce-promise": "^3.1.2",
+    "lucide-react": "^1.52.0",
     "next": "16.2.12",
     "react": "^19.3.0",
     "react-csv": "^2.2.2",

@@ -1,4 +1,4 @@
-import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
+import { Link } from 'lucide-react';
 import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
 import { appURL } from '@utils/app-url';
 
@@ -26,12 +26,7 @@ export default function ShareModal(props) {
   return (
     <Modal className="max-w-[500px]" show={true} label={'Dela utkast'} onClose={onClose}>
       <div className="mt-16 flex justify-left gap-8">
-        <Button
-          onClick={onCopyLink}
-          className="text-body"
-          variant="link"
-          leftIcon={<InsertLinkOutlinedIcon className="!text-2xl" />}
-        >
+        <Button onClick={onCopyLink} className="text-body" variant="link" leftIcon={<Link />}>
           Kopiera länk
         </Button>
       </div>

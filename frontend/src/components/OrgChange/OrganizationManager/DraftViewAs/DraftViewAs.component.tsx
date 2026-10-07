@@ -1,5 +1,5 @@
-import RectangleIcon from '@mui/icons-material/Rectangle';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import { Icon } from '@sk-web-gui/react';
+import { List, Square } from 'lucide-react';
 
 const DraftViewAs = (props) => {
   const { setView, view } = props;
@@ -20,7 +20,7 @@ const DraftViewAs = (props) => {
           onClick={() => handleOnClick('card')}
           className={`${view === `card` ? `activecard` : `text-neutral-500`} draftShowAs`}
         >
-          <RectangleIcon sx={{ fontSize: '2.5rem' }}></RectangleIcon>
+          <Icon icon={<Square />} />
         </button>
       </span>
       <span>
@@ -30,7 +30,7 @@ const DraftViewAs = (props) => {
           onClick={() => handleOnClick('list')}
           className={`${view === `list` ? `activelist` : `text-neutral-500`} draftShowAs`}
         >
-          <FormatListBulletedIcon sx={{ fontSize: '2.5rem' }}></FormatListBulletedIcon>
+          <Icon icon={<List />} />
         </button>
       </span>
     </div>

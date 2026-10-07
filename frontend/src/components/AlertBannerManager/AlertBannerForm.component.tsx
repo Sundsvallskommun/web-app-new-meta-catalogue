@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Input, useConfirm, useSnackbar, Select } from '@sk-web-gui/react';
+import { Button, Input, useConfirm, useSnackbar, Select, Icon } from '@sk-web-gui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
+import { CircleAlert, Trash, X } from 'lucide-react';
 import {
   deleteAlertBannerMessage,
   editAlertBannerMessage,
   newAlertBannerMessage,
 } from '@services/alert-banner-service/alert-banner-service';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { emptyAlertBannerMessage } from '@services/alert-banner-service/defaults';
 import { AlertBannerDto, AlertBannerMessage } from '@data-contracts/backend/data-contracts';
 
@@ -171,7 +169,7 @@ const AlertBannerForm = ({
             type="button"
             onClick={onDelete}
             variant="link"
-            leftIcon={<DeleteOutlineIcon fontSize="large" className="mr-sm" />}
+            leftIcon={<Trash />}
           >
             Ta bort
           </Button>
@@ -182,14 +180,14 @@ const AlertBannerForm = ({
           onClick={onCloseHandler}
           className="p-sm -m-sm"
         >
-          <CloseOutlinedIcon className="material-icon !text-2xl" />
+          <Icon icon={<X />} />
         </button>
         {submitError && (
           <span
             data-cy="systemMessage-span-notAuthorized"
             className="bg-red bg-opacity-5 p-2 pr-4 rounded-md border text-red border-red"
           >
-            <ErrorOutlinedIcon className="material-icon mr-sm !text-2xl " />
+            <Icon className="mr-sm" icon={<CircleAlert />} />
             {submitErrorText}
           </span>
         )}

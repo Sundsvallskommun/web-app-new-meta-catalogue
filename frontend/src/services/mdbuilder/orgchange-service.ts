@@ -33,8 +33,7 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { DraftTreeOrganization, SaveDraft, VerifyResultByOrgId } from '@interfaces/orgchange';
 import { ServiceResponse } from '@interfaces/service';
-import FileIcon from '@mui/icons-material/InsertDriveFileOutlined';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import { File, LucideIcon, ThumbsUp } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { IFilterData } from '@sk-web-gui/dropdown-filter';
 import { __DEV__ } from '@sk-web-gui/utils';
@@ -109,7 +108,7 @@ export const draftListEntry = (draft: Draft) => {
       border: 'border-white',
       bg: 'bg-white',
     },
-    PhaseIcon = null;
+    PhaseIcon: LucideIcon = null;
 
   if (draftIsArchived) {
     phaseLabel = 'Exporterad och arkiverad';
@@ -118,15 +117,15 @@ export const draftListEntry = (draft: Draft) => {
   } else if (draft.phase === DraftPhaseEnum.APPROVED) {
     phaseLabel = 'Godkänd och väntar på export';
     phaseColor = { text: 'text-body', icon: 'text-success', border: 'border-success', bg: 'bg-[#E0F6DE]' };
-    PhaseIcon = ThumbUpOutlinedIcon;
+    PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.EXPORT) {
     phaseLabel = 'Godkänd och exporteras';
     phaseColor = { text: 'text-body', icon: 'text-success', border: 'border-success', bg: 'bg-[#E0F6DE]' };
-    PhaseIcon = ThumbUpOutlinedIcon;
+    PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.DRAFT) {
     phaseLabel = 'Utkast';
     phaseColor = { text: 'text-body', icon: 'text-[#5B1F78]', border: 'border-[#5B1F78]', bg: 'bg-[#D7DBF2]' };
-    PhaseIcon = FileIcon;
+    PhaseIcon = File;
   }
 
   const phaseRunbookStep = draft.runbook?.currentStep ? draft.runbook?.runner[draft.runbook.currentStep - 1] : null;

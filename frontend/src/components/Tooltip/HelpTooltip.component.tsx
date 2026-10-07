@@ -1,5 +1,5 @@
-import { Tooltip } from '@sk-web-gui/react';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { Tooltip, Icon } from '@sk-web-gui/react';
+import { CircleQuestionMark } from 'lucide-react';
 import { useState } from 'react';
 
 interface HelpToolTipProps {
@@ -25,7 +25,7 @@ export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps)
     >
       <button type="button" tabIndex={tabIndex} className="flex items-center" aria-label={ariaLabel} {...rest}>
         {!onlyIcon && <strong className="mr-2">Hjälp</strong>}
-        <HelpOutlineIcon sx={{ fontSize: 16 }} className="" />
+        <Icon icon={<CircleQuestionMark />} />
       </button>
       <Tooltip position="below" className={open ? 'absolute top-full left-0 z-10 w-max max-w-2xl' : 'hidden'}>
         {children}

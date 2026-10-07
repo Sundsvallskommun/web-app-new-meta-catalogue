@@ -14,6 +14,7 @@ module.exports = withBundleAnalyzer({
     formats: ['image/avif', 'image/webp'],
   },
   basePath: process.env.BASE_PATH || '',
+  transpilePackages: ['lucide-react'],
   sassOptions: {
     prependData: `$basePath: '${process.env.BASE_PATH || ''}';`,
   },

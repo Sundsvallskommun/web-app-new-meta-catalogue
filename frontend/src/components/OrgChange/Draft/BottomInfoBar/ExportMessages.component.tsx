@@ -3,11 +3,9 @@ import {
   RunbookSteps,
   RunbookStepsStateEnum,
 } from '@data-contracts/backend/data-contracts';
-import CheckIcon from '@mui/icons-material/Check';
-import CircleIcon from '@mui/icons-material/Circle';
-import ErrorIcon from '@mui/icons-material/Error';
+import { Check, Circle, CircleAlert } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Spinner, cx, useConfirm } from '@sk-web-gui/react';
+import { Button, Spinner, cx, useConfirm, Icon } from '@sk-web-gui/react';
 
 export const MessageStatusIcon = ({
   status,
@@ -18,15 +16,15 @@ export const MessageStatusIcon = ({
 }) => {
   switch (status) {
     case RunbookStepsStateEnum.Queued:
-      return <CircleIcon className={`text-info p-2 w-[1rem] h-[1rem] ${className}`} />;
+      return <Icon color="info" className={`p-2 ${className}`} icon={<Circle />} />;
     case RunbookStepsStateEnum.Waiting:
-      return <ErrorIcon className={`text-warning w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="warning" className={className} icon={<CircleAlert />} />;
     case RunbookStepsStateEnum.Running:
       return <Spinner className={`text-info w-[1.5rem] h-[1.5rem] ${className}`} />;
     case RunbookStepsStateEnum.Completed:
-      return <CheckIcon className={`text-success w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="success" className={className} icon={<Check />} />;
     case RunbookStepsStateEnum.Fail:
-      return <ErrorIcon className={`text-error w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="error" className={className} icon={<CircleAlert />} />;
 
     default:
       return <></>;

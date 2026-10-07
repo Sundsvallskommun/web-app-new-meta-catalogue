@@ -1,5 +1,5 @@
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { X } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
@@ -56,7 +56,7 @@ export default function RemoveBranchFromDraft(props: IRemoveBranchProps) {
       className="text-base text-red"
       variant="link"
       type="button"
-      leftIcon={<CloseOutlinedIcon className="!text-2xl mr-sm" />}
+      leftIcon={<X />}
     >
       Uteslut gren från utkast
     </Button>

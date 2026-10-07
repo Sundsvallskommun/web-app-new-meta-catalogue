@@ -14,8 +14,7 @@ import React, { useMemo, useState } from 'react';
 
 import { OrgChangeResponsibility } from '@data-contracts/backend/data-contracts';
 import { yupResolver } from '@hookform/resolvers/yup';
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Check, Trash } from 'lucide-react';
 import { emptyResponsibility } from '@services/mdviewer/defaults/responsibility';
 import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
 import { isEqual } from 'lodash';
@@ -186,7 +185,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
                   variant="secondary"
                   aria-label={`Stäng ansvar ${watch().description}`}
                   onClick={onRemoveHandler}
-                  leftIcon={<DeleteOutlineIcon fontSize="large" />}
+                  leftIcon={<Trash />}
                 >
                   Stäng ansvar
                 </Button>
@@ -208,7 +207,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               size="lg"
               color="primary"
               className="my-sm sm:my-6 w-full"
-              leftIcon={<CheckIcon fontSize="large" className="mr-sm" />}
+              leftIcon={<Check />}
               loading={isLoading}
               loadingText="Sparar"
             >

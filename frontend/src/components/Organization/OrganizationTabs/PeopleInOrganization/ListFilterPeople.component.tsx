@@ -1,6 +1,6 @@
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import OpenInNewSharpIcon from '@mui/icons-material/OpenInNewSharp';
+import { ExternalLink } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -89,7 +89,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 href={`https://e-arenden.sundsvall.se/oversikt/flowoverview/1920`}
                 external
               >
-                <Button as="span" variant="primary" color="primary" rightIcon={<OpenInNewSharpIcon />}>
+                <Button as="span" variant="primary" color="primary" rightIcon={<ExternalLink />}>
                   Lägg till ny person
                 </Button>
               </Link>

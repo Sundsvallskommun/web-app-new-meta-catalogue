@@ -1,6 +1,6 @@
 import { Draft } from '@data-contracts/backend/data-contracts';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import { Card, CardList, Spinner, cx } from '@sk-web-gui/react';
+import { Calendar } from 'lucide-react';
+import { Card, CardList, Spinner, cx, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
 import DraftContextMenu from '../../DraftContextMenu.component';
@@ -35,7 +35,7 @@ const DraftCards = (props: DraftDataListProps) => {
                 <div className="flex flex-col gap-y-[.4rem]">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center">
                     <div className="flex items-center">
-                      <CalendarTodayOutlinedIcon className="material-icon !w-[1.6rem] !h-[1.6rem]" />
+                      <Icon icon={<Calendar />} />
                       <span className="px-xs leading-[2rem]">
                         Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')}{' '}
                       </span>

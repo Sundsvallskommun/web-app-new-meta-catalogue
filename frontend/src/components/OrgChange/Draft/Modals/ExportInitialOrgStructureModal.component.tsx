@@ -1,8 +1,8 @@
 import OrgChangeCsvExporter from '@components/OrgChange/OrgChangeCsvExporter/OrgChangeCsvExporter.component';
 import { CheckedOutOrganizationLevel2, Draft } from '@data-contracts/backend/data-contracts';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Download } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, FormControl, FormLabel, Modal, useSnackbar } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 import { Spinner } from '@sk-web-gui/react';
 
@@ -70,7 +70,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
                   >
                     <span className="flex justify-center items-center gap-2">
                       <span>
-                        <FileDownloadIcon fontSize="large" />
+                        <Icon icon={<Download />} />
                       </span>
                       <span>{org.name}</span>
                     </span>

@@ -1,6 +1,7 @@
 import { useSaveStore } from '@services/save-service/save-service';
 import SavingSpinner from './SavingSpinner/SavingSpinner.component';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import { Icon } from '@sk-web-gui/react';
+import { CircleCheck } from 'lucide-react';
 
 export default function SavedChanges() {
   const isUnsaved = useSaveStore((s) => s.isUnsaved);
@@ -21,7 +22,7 @@ export default function SavedChanges() {
           ) : (
             <span className="flex items-center">
               Dina senaste ändringar är sparade
-              <CheckCircleOutlinedIcon className="material-icon ml-xs" />
+              <Icon className="ml-xs" icon={<CircleCheck />} />
             </span>
           )}
         </>

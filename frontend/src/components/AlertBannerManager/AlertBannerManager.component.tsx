@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button } from '@sk-web-gui/react';
-import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import { Alert, Button, Icon } from '@sk-web-gui/react';
+import { Pencil } from 'lucide-react';
 import AlertBannerForm from './AlertBannerForm.component';
 import { getAlertBannerMessage } from '@services/alert-banner-service/alert-banner-service';
 import { useUserStore } from '@services/user-service/user-service';
@@ -67,12 +67,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
       return (
         <Alert type="neutral">
           <Alert.Content>
-            <Button
-              onClick={handleNewAlert}
-              className="text-gray "
-              variant="link"
-              rightIcon={<ModeEditOutlinedIcon className="material-icon ml-4 !text-xl" />}
-            >
+            <Button onClick={handleNewAlert} className="text-gray " variant="link" rightIcon={<Pencil />}>
               Nytt Systemmeddelande ...
             </Button>
           </Alert.Content>
@@ -93,7 +88,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
             <span className="sr-only">Editera </span>
             {message.message}
           </span>{' '}
-          <ModeEditOutlinedIcon aria-hidden className="material-icon ml-4 !text-xl" />
+          <Icon className="ml-4" icon={<Pencil />} />
         </button>
       );
     } else {

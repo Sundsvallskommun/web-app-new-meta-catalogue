@@ -1,7 +1,7 @@
 import EmploymentContextMenu from '@components/OrgChange/Draft/Organization/OrganizationTabs/PeopleInOrganization/PeopleInOrganizationList/PersonEditor/EmploymentContextMenu.component';
 import { OrgChangePersonEmployeeDetail } from '@data-contracts/backend/data-contracts';
 import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import OutlinedFlagIcon from '@mui/icons-material/OutlinedFlag';
+import { Flag } from 'lucide-react';
 import { emptyPersonEditor } from '@services/mdbuilder/defaults';
 import { useUserStore } from '@services/user-service/user-service';
 import { Button, FormLabel, Modal, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
@@ -337,12 +337,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button
-                type="button"
-                variant="link"
-                className="mt-lg w-fit h-fit text-gray"
-                leftIcon={<OutlinedFlagIcon />}
-              >
+              <Button type="button" variant="link" className="mt-lg w-fit h-fit text-gray" leftIcon={<Flag />}>
                 Rapportera fel
               </Button>
             </NextLink>

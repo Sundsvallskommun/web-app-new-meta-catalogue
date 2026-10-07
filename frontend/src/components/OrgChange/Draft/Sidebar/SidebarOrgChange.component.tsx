@@ -1,16 +1,14 @@
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import BlockIcon from '@mui/icons-material/Block';
-import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined';
+import { Ban, CircleAlert, GripVertical } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Badge, IMenu, SideMenu, cx, useSnackbar } from '@sk-web-gui/react';
+import { Badge, IMenu, SideMenu, cx, useSnackbar, Icon } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useEffect, useRef, useState } from 'react';
 import DragAndDropFormModal from './Modals/DragAndDropFormModal.component';
 import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
 import SparkleIcon from './SparkleNewItem.component';
-import ErrorIcon from '@mui/icons-material/Error';
 import { IFilterDataMenu } from '@interfaces/organization';
 
 const SidebarOrgChange = ({ mainRef }) => {
@@ -128,17 +126,17 @@ const SidebarOrgChange = ({ mainRef }) => {
               <>
                 {itemData.structureChangeStatus === 'DELETED' && (
                   <span className="text-gray-stroke cursor-not-allowed">
-                    <BlockIcon className="sk-sidemenu-menuitem-movebutton-icon !text-2xl" />
+                    <Icon className="sk-sidemenu-menuitem-movebutton-icon" icon={<Ban />} />
                   </span>
                 )}
                 {itemData.structureChangeStatus === 'MOVED' && (
                   <span className="text-warning font-sans flex items-center pr-[57px]">
                     <span className="text-base mr-2">Flyttad</span>
-                    <DragIndicatorOutlinedIcon className="!text-2xl" />
+                    <Icon icon={<GripVertical />} />
                   </span>
                 )}
               </>
-            : <DragIndicatorOutlinedIcon className="sk-sidemenu-menuitem-movebutton-icon !text-2xl" />;
+            : <Icon className="sk-sidemenu-menuitem-movebutton-icon" icon={<GripVertical />} />;
         }}
         renderMenuItemLabel={(itemData: OrgChangeOrganizationTree, active) => {
           return (
@@ -169,7 +167,7 @@ const SidebarOrgChange = ({ mainRef }) => {
                     )}
                     {verifyResultsByOrgId && verifyResultsByOrgId[itemData.id] && (
                       <span className={showFilter.responsibilityCode && 'ml-[.5rem]'}>
-                        <ErrorIcon className="text-error !text-lg" />
+                        <Icon color="error" icon={<CircleAlert />} />
                       </span>
                     )}
                   </span>

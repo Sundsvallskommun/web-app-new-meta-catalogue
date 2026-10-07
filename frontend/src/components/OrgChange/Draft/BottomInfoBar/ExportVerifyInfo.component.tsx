@@ -1,7 +1,6 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ErrorIcon from '@mui/icons-material/Error';
+import { CircleAlert, CircleCheck } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Link } from '@sk-web-gui/react';
+import { Button, Link, Icon } from '@sk-web-gui/react';
 import useVerifyState from '@utils/use-verify-state';
 import { useEffect, useState } from 'react';
 import VerifyResult from './VerifyResults.component';
@@ -44,13 +43,13 @@ export default function ExportVerifyInfo() {
             {verifyHasErrors ?
               <>
                 <span>
-                  <ErrorIcon className="!text-2xl text-error mr-sm" />
+                  <Icon color="error" className="mr-sm" icon={<CircleAlert />} />
                   {`Senaste verifiering hittade fel..${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
                 </span>
                 {showResults && <div className="ml-[2em]">{draft.verifyResult && <VerifyResult />}</div>}
               </>
             : <span>
-                <CheckCircleOutlineIcon className="text-success mr-sm !text-2xl" />
+                <Icon color="success" className="mr-sm" icon={<CircleCheck />} />
                 {`Senaste verifiering hittade inga fel${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
               </span>
             }

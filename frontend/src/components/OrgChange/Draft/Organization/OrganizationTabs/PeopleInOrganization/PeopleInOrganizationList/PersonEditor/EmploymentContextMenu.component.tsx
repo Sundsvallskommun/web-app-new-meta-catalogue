@@ -1,7 +1,5 @@
-import { Badge, Button, PopupMenu } from '@sk-web-gui/react';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import DomainOutlinedIcon from '@mui/icons-material/DomainOutlined';
+import { Badge, Button, PopupMenu, Icon } from '@sk-web-gui/react';
+import { Building, EllipsisVertical, Users } from 'lucide-react';
 import { shouldEditEmployment } from '@utils/shouldeditemployment';
 import { useEffect, useState } from 'react';
 import ChangePaTeamModal from '@components/OrgChange/Draft/Modals/ChangePaTeamModal.component';
@@ -58,7 +56,7 @@ export default function EmploymentContextMenu({
           iconButton={windowSize.lg || undefined}
           rightIcon={
             <span className="relative">
-              <MoreVertIcon />
+              <Icon icon={<EllipsisVertical />} />
               {showFocus && (
                 <Badge
                   className="absolute -right-[0.5rem] top-[0.15rem]"
@@ -74,14 +72,14 @@ export default function EmploymentContextMenu({
         <PopupMenu.Panel className={className}>
           <PopupMenu.Items>
             <PopupMenu.Item>
-              <Button onClick={handleOpenPA} leftIcon={<PeopleOutlineOutlinedIcon />}>
+              <Button onClick={handleOpenPA} leftIcon={<Users />}>
                 <span>Ändra PA-Team {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
                 {showFocus && !mustEditPaTeam && <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="vattjom" />}
                 {mustEditPaTeam && <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="error" />}
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={handleOpenOperation} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={handleOpenOperation} leftIcon={<Building />}>
                 <span>Ändra verksamhet {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
                 {showFocus && !mustEditOperation && (
                   <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="vattjom" />
@@ -90,17 +88,17 @@ export default function EmploymentContextMenu({
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra objekt</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra aktivitet</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra projekt</span>
               </Button>
             </PopupMenu.Item>

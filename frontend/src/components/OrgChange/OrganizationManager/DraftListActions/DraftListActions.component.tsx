@@ -1,6 +1,6 @@
 import { Draft, DraftPhaseEnum, RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { DraftListFilters, DraftPhaseAction } from '@interfaces/orgchange';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useUserStore } from '@services/user-service/user-service';
 import { Button, SearchField, Select } from '@sk-web-gui/react';
 import dayjs from 'dayjs';
@@ -232,7 +232,7 @@ export default function DraftListActions(props: DraftListActions) {
             size="md"
             variant="primary"
             color="primary"
-            leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+            leftIcon={<Plus />}
           >
             Ny organisationsförändring
           </Button>

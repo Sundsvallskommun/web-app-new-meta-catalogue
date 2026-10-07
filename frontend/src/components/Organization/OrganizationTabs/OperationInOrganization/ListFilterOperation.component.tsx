@@ -1,7 +1,7 @@
 import OperationConnectorModal from '@components/OrgChange/Draft/Organization/OrganizationTabs/OperationInOrganization/OperationConnector/OperationConnectorModal.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOperationStore } from '@services/mdviewer/operation-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -98,7 +98,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 size="md"
                 variant="primary"
                 color="primary"
-                leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+                leftIcon={<Plus />}
               >
                 Koppla på verksamhet
               </Button>

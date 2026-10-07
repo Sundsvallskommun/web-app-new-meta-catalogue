@@ -1,5 +1,5 @@
-import { Link } from '@sk-web-gui/react';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Link, Icon } from '@sk-web-gui/react';
+import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { useUserStore } from '@services/user-service/user-service';
@@ -53,7 +53,7 @@ export const useMenuItems = () => {
           label: 'Logga ut',
           element: () => (
             <Link data-cy="nav-span-loggaUt" key={'logout'} href={`/logout`}>
-              <LogoutOutlinedIcon className="material-icon mr-sm" aria-hidden="true" />
+              <Icon className="mr-sm" icon={<LogOut />} />
               <span className="inline">Logga ut</span>
             </Link>
           ),

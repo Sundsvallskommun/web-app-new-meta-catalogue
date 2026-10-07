@@ -1,11 +1,11 @@
-import { cx } from '@sk-web-gui/react';
+import { cx, Icon } from '@sk-web-gui/react';
 import styles from './savingspinner.module.scss';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { RefreshCw } from 'lucide-react';
 
 export const SavingSpinner = ({ className }) => {
   return (
     <div className={cx(styles.spinner, className)}>
-      <AutorenewIcon sx={{ fontSize: '2rem' }} className="text-primary" />
+      <Icon color="primary" icon={<RefreshCw />} />
     </div>
   );
 };

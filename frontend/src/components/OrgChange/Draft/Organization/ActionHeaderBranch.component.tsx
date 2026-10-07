@@ -1,6 +1,5 @@
 import { DraftTreeOrganization } from '@interfaces/orgchange';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import MoveDownOutlinedIcon from '@mui/icons-material/MoveDownOutlined';
+import { MoveDown, Trash } from 'lucide-react';
 import { Button } from '@sk-web-gui/react';
 import { useAriaKeyboard } from '@utils/use-ariakeyboard';
 import { useRef, useState } from 'react';
@@ -55,7 +54,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
                 onClick={handleMoveBranch}
                 className="text-base text-primary"
                 variant="link"
-                leftIcon={<MoveDownOutlinedIcon className="!text-2xl mr-sm" />}
+                leftIcon={<MoveDown />}
               >
                 Flytta gren
               </Button>
@@ -72,7 +71,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
                 onClick={onTerminateBranch}
                 className="text-base text-red"
                 variant="link"
-                leftIcon={<DeleteOutlineOutlinedIcon className="!text-2xl mr-sm" />}
+                leftIcon={<Trash />}
               >
                 Stäng gren
               </Button>

@@ -1,6 +1,5 @@
-import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
-import { Button } from '@sk-web-gui/react';
-import CloseIcon from '@mui/icons-material/Close';
+import { CircleAlert, X } from 'lucide-react';
+import { Button, Icon } from '@sk-web-gui/react';
 import { useState } from 'react';
 import _ from 'lodash';
 
@@ -59,7 +58,7 @@ export default function FeedbackMessage({
         } flex`}
       >
         <span className="flex items-center h-[24px]">
-          <ErrorOutlinedIcon className="material-icon mr-sm !text-base " />
+          <Icon className="mr-sm" icon={<CircleAlert />} />
         </span>
         <span className="text-sm grow font-semibold" id={_id}>
           {children}
@@ -73,7 +72,7 @@ export default function FeedbackMessage({
             onClick={removeSelf}
             aria-controls={_id}
           >
-            <CloseIcon className="max-h-[16px]" />
+            <Icon icon={<X />} />
           </Button>
         )}
       </div>

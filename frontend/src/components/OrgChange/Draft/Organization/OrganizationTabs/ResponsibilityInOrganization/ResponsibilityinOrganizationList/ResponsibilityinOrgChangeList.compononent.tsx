@@ -1,7 +1,7 @@
 import CsvExporter from '@components/CsvExporter/CsvExporter.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree, OrgChangeResponsibility } from '@data-contracts/backend/data-contracts';
-import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import { Pencil } from 'lucide-react';
 import { getAccountStatus } from '@services/mdbuilder/data-handlers/responsibility';
 import { orgChangeResponsibilityHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -137,7 +137,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
           title="Öppna ansvaret"
           aria-label={`${r.description}`}
           onClick={openEditModalHandler(r)}
-          leftIcon={<ModeEditOutlinedIcon className="material-icon !text-2xl" aria-hidden="true" />}
+          leftIcon={<Pencil />}
         >
           <span className="lg:hidden">Öppna ansvaret</span>
         </Button>

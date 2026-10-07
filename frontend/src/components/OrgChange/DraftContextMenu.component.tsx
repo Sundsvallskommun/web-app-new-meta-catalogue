@@ -1,16 +1,12 @@
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import ShareIcon from '@mui/icons-material/Share';
+import { ChevronDown, Download, EllipsisVertical, Share2, Trash } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, PopupMenu, cx, useConfirm, useSnackbar } from '@sk-web-gui/react';
+import { Button, PopupMenu, cx, useConfirm, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import router from 'next/router';
 import { useState } from 'react';
 import ShareModal from './Draft/Modals/ShareModal.component';
 import { Draft } from '@data-contracts/backend/data-contracts';
 import ExportInitialOrgStructureModal from './Draft/Modals/ExportInitialOrgStructureModal.component';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useUserStore } from '@services/user-service/user-service';
 
 interface IDraftContextMenu {
@@ -70,9 +66,9 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
       <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
           <PopupMenu.Button title={`Hantera utkast ${draft.name}`} variant="secondary" className="border-0" iconButton>
-            <MoreVertIcon />
+            <Icon icon={<EllipsisVertical />} />
           </PopupMenu.Button>
-        : <PopupMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ExpandMoreIcon />}>
+        : <PopupMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ChevronDown />}>
             Hantera utkastet
           </PopupMenu.Button>
         }
@@ -81,13 +77,13 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
             <PopupMenu.Group>
               {!draftIsReadOnly && (
                 <PopupMenu.Item>
-                  <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<FileDownloadOutlinedIcon />}>
+                  <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<Download />}>
                     Exportera förlaga av organisationer
                   </Button>
                 </PopupMenu.Item>
               )}
               <PopupMenu.Item>
-                <Button onClick={() => setIsShareOpen(true)} leftIcon={<ShareIcon />}>
+                <Button onClick={() => setIsShareOpen(true)} leftIcon={<Share2 />}>
                   Dela
                 </Button>
               </PopupMenu.Item>
@@ -95,7 +91,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
             {!draftIsReadOnly && user.permissions.canEditDrafts && (
               <PopupMenu.Group>
                 <PopupMenu.Item>
-                  <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<DeleteOutlineOutlinedIcon />}>
+                  <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<Trash />}>
                     Ta bort utkast
                   </Button>
                 </PopupMenu.Item>

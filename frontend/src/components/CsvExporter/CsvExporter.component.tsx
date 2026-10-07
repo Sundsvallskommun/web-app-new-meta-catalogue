@@ -1,5 +1,6 @@
 import { CSVLink } from 'react-csv';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Icon } from '@sk-web-gui/react';
+import { Download } from 'lucide-react';
 
 export const CsvExporter = (props) => {
   const { csvData, csvHeaders, fileName } = props;
@@ -12,7 +13,7 @@ export const CsvExporter = (props) => {
       filename={fileName}
       className="text-base font-semibold text-svartvik-600 hover:text-hover transition-colors"
     >
-      <FileDownloadIcon fontSize="large" />
+      <Icon icon={<Download />} />
       <span>Exportera</span>
     </CSVLink>
   );

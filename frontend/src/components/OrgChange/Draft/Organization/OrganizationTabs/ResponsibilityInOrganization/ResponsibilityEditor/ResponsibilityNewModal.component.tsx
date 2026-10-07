@@ -6,7 +6,7 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
-import CheckIcon from '@mui/icons-material/Check';
+import { Check } from 'lucide-react';
 import { getNewResponsibilityCodeSuggestion } from '@services/mdbuilder/api-calls/responsibility';
 import { emptyResponsibility } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -299,7 +299,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
               size="lg"
               color="primary"
               className="my-sm sm:my-6 w-full"
-              leftIcon={<CheckIcon fontSize="large" className="mr-sm" />}
+              leftIcon={<Check />}
               loading={isLoading}
               loadingText="Sparar"
             >

@@ -1,9 +1,9 @@
-import { Badge, Checkbox, Pagination, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Badge, Checkbox, Pagination, ZebraTable, ZebraTableColumn, ZebraTableHeader, Icon } from '@sk-web-gui/react';
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationEmployee, OrgChangePersonEmployeeDetail } from '@data-contracts/backend/data-contracts';
-import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
+import { BookOpenText } from 'lucide-react';
 import { getEmployeeDetails } from '@services/mdbuilder/api-calls/employment';
 import { employeeOrgChangeHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -362,7 +362,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
                 onClick={() => openEditModal(p)}
                 leftIcon={
                   <span className="relative">
-                    <ReadMoreOutlinedIcon className="material-icon !text-2xl" aria-hidden="true" />
+                    <Icon icon={<BookOpenText />} />
                     {!draftIsReadOnly && showFocus && (
                       <Badge
                         className="absolute -right-[0.5rem] top-[0.15rem]"

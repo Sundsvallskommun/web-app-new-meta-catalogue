@@ -1,10 +1,10 @@
 import { Popover } from '@headlessui/react';
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import { ChevronDown } from 'lucide-react';
 import InsertToList from '@public/svg/InsertToList.svg';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Combobox } from '@sk-web-gui/forms';
-import { Button, FilterItem, IFilterData, Link } from '@sk-web-gui/react';
+import { Button, FilterItem, IFilterData, Link, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useAriaKeyboard } from '@utils/use-ariakeyboard';
 import Image from 'next/image';
@@ -159,9 +159,7 @@ export default function SideMenuHeadElementOrgChange() {
               >
                 <Link as="span" className="text-white hover:text-white hover:no-underline">
                   Visa/sök
-                  <ArrowDropDownOutlinedIcon
-                    className={`!text-2xl !ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`}
-                  />
+                  <Icon className={`!ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`} icon={<ChevronDown />} />
                 </Link>
               </Popover.Button>
               {filterOpen && (

@@ -5,7 +5,7 @@ import {
   RunbookStepsActionEnum,
   RunbookStepsStateEnum,
 } from '@data-contracts/backend/data-contracts';
-import ErrorIcon from '@mui/icons-material/Error';
+import { CircleAlert } from 'lucide-react';
 import { draftListEntry, useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, cx, useConfirm } from '@sk-web-gui/react';
 import { MessageStatusIcon } from '../Draft/BottomInfoBar/ExportMessages.component';
@@ -43,7 +43,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
         size="sm"
         variant="secondary"
         className="bg-white text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-white"
-        rightIcon={<ErrorIcon />}
+        rightIcon={<CircleAlert />}
         onClick={handleCloseNodes}
       >
         <span>Slutför stängning av grenar</span>

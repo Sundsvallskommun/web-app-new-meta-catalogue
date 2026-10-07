@@ -1,8 +1,5 @@
 import { Button, PopupMenu } from '@sk-web-gui/react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import PersonPinCircleOutlinedIcon from '@mui/icons-material/PersonPinCircleOutlined';
-import DomainOutlinedIcon from '@mui/icons-material/DomainOutlined';
+import { Building, ChevronDown, MapPinCheck, Users } from 'lucide-react';
 import MovePeopleModal from '@components/OrgChange/Draft/Modals/MovePeopleModal.component';
 import { useUserStore } from '@services/user-service/user-service';
 import ChangePaTeamModal from '@components/OrgChange/Draft/Modals/ChangePaTeamModal.component';
@@ -31,7 +28,7 @@ export default function HandleMarkedContextMenu({ peopleToHandle, className = ''
     <>
       <PopupMenu type="menu" align="end">
         <PopupMenu.Button
-          rightIcon={<ExpandMoreIcon />}
+          rightIcon={<ChevronDown />}
           disabled={peopleToHandle.length < 1}
           variant="secondary"
           className="border-0 mr-sm mb-xs"
@@ -44,33 +41,33 @@ export default function HandleMarkedContextMenu({ peopleToHandle, className = ''
               <Button
                 id="move-people-button"
                 onClick={() => setEmploymentMovePeopleIsOpen(true)}
-                leftIcon={<PersonPinCircleOutlinedIcon />}
+                leftIcon={<MapPinCheck />}
               >
                 <span>Flytta markerade till annan gren</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditPaTeamIsOpen(true)} leftIcon={<PeopleOutlineOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditPaTeamIsOpen(true)} leftIcon={<Users />}>
                 <span>Ändra PA-Team</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditOperationIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditOperationIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra verksamhet</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra objekt</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra aktivitet</span>
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
-              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
+              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<Building />}>
                 <span>Ändra projekt</span>
               </Button>
             </PopupMenu.Item>

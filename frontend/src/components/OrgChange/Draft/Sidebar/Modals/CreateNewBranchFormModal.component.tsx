@@ -1,5 +1,5 @@
 import { OrgnodeCreateDto } from '@data-contracts/backend/data-contracts';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
+import { FilePlus } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
@@ -62,7 +62,7 @@ export default function CreateNewBranchFormModal() {
       aria-disabled={!draft.draftId || !organization?.id ? 'true' : undefined}
       variant="link"
       className="flex text-white hover:text-white hover:no-underline focus-visible:ring-white"
-      leftIcon={<NoteAddOutlinedIcon className="!text-2xl !mr-[4px]" />}
+      leftIcon={<FilePlus />}
     >
       Skapa ny gren
     </Button>

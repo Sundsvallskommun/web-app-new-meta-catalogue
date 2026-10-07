@@ -1,7 +1,7 @@
 import PersonEditor from '@components/Organization/OrganizationTabs/PeopleInOrganization/PersonEditor/PersonEditor.component';
 import { useAppContext } from '@contexts/app.context';
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
-import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
+import { BookOpenText } from 'lucide-react';
 import { getEmployeeDetails } from '@services/mdviewer/api-calls/employment';
 import { employeeHeaders } from '@services/mdviewer/defaults/employment';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
@@ -247,7 +247,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
                 aria-label={`${p.givenname} ${p.lastname}`}
                 size="md"
                 onClick={() => openEditModal(p)}
-                leftIcon={<ReadMoreOutlinedIcon className="material-icon !text-2xl" aria-hidden="true" />}
+                leftIcon={<BookOpenText />}
               >
                 <span className="lg:hidden">Öppna persondetaljer</span>
               </Button>

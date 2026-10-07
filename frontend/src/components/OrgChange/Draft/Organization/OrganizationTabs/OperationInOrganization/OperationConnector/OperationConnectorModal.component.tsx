@@ -1,5 +1,5 @@
 import { ConnectOperationDto, OrgChangeOperation } from '@data-contracts/backend/data-contracts';
-import CheckIcon from '@mui/icons-material/Check';
+import { Check } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
@@ -118,7 +118,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             size="lg"
             color="primary"
             className="my-sm sm:my-6 w-full"
-            leftIcon={<CheckIcon fontSize="large" className="mr-sm" />}
+            leftIcon={<Check />}
             loading={isLoading}
             loadingText="Sparar"
             disabled={!activeOperation}

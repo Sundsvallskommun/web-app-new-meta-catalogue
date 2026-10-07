@@ -1,6 +1,6 @@
 import CenteredLoader from '@components/Loader/CenteredLoader.component';
 import Loader from '@components/Loader/Loader.component';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
@@ -39,7 +39,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
             type="button"
             size="lg"
             onClick={openEditModalHandler}
-            leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+            leftIcon={<Plus />}
             className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-white hover:tranisition hover:duration-300"
           >
             Ny Organisationsförändring

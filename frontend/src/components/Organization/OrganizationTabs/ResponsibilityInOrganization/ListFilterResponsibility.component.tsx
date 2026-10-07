@@ -1,7 +1,7 @@
 import ResponsibilityNewModal from '@components/OrgChange/Draft/Organization/OrganizationTabs/ResponsibilityInOrganization/ResponsibilityEditor/ResponsibilityNewModal.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
@@ -88,7 +88,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
                 size="md"
                 variant="primary"
                 color="primary"
-                leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+                leftIcon={<Plus />}
               >
                 Skapa nytt ansvar
               </Button>

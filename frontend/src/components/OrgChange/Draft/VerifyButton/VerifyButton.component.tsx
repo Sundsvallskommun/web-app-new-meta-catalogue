@@ -1,6 +1,6 @@
-import ShieldIcon from '@mui/icons-material/Shield';
+import { Shield } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button } from '@sk-web-gui/react';
+import { Button, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import useVerifyState from '@utils/use-verify-state';
 
@@ -14,21 +14,21 @@ export default function VerifyButton() {
     await runVerify();
   };
 
-  let shieldColor = 'text-info';
+  let shieldColor: 'info' | 'success' | 'error' | 'warning' = 'info';
   let title = '';
   if (draft.changes === 0) {
-    shieldColor = 'text-success';
+    shieldColor = 'success';
     title = `Inga ändringar gjorda`;
   } else if (verifyHasErrors) {
-    shieldColor = 'text-error';
+    shieldColor = 'error';
     title = `${draft.verifyResult?.numberOfValidationErrors} fel i utkastet hittades`;
   } else if (!verifyHasErrors) {
-    shieldColor = 'text-success';
+    shieldColor = 'success';
     title = `Inga fel i utkastet hittades`;
   }
 
   if (needsNewVerify) {
-    shieldColor = 'text-warning';
+    shieldColor = 'warning';
     title = `${title ? `${title}, ` : ''}Ny verifiering rekommenderas`;
   }
 
@@ -40,7 +40,7 @@ export default function VerifyButton() {
       disabled={draft.changes === 0}
       className="bg-white text-[#4b4b4b]"
       onClick={handleOnVerify}
-      leftIcon={<ShieldIcon className={shieldColor} />}
+      leftIcon={<Icon color={shieldColor} icon={<Shield />} />}
       title={title && title}
     >
       Verifiera utkastet

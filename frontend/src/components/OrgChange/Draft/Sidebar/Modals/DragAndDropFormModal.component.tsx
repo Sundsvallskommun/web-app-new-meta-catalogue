@@ -1,10 +1,10 @@
 import { OrgnodeMoveDto } from '@data-contracts/backend/data-contracts';
 import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
+import { ArrowRight } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
+import { Button, Modal, useSnackbar, Icon } from '@sk-web-gui/react';
 
 interface IDragAndDropFormModal {
   onClose;
@@ -59,7 +59,7 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
                 Förälder: {oldParent.label} Nivå {oldParent.level}
               </li>
               <li>
-                <ArrowForwardSharpIcon className="!text-3xl" />
+                <Icon icon={<ArrowRight />} />
               </li>
 
               <li className="max-w-[200px] w-full text-lg font-bold">

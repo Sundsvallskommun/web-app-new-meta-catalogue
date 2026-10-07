@@ -6,7 +6,7 @@ import {
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
 import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import UndoIcon from '@mui/icons-material/Undo';
+import { Undo2 } from 'lucide-react';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -123,7 +123,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
       variant="link"
       onClick={resetPa}
       aria-label={`Återställ verksamhet`}
-      leftIcon={<UndoIcon className="material-icon !text-2xl" aria-hidden="true" />}
+      leftIcon={<Undo2 />}
     >
       Ångra och återställ
     </Button>

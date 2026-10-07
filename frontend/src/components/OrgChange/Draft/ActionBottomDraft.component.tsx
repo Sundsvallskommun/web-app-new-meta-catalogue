@@ -1,8 +1,8 @@
 import { RunBookActionTriggerDtoCommandEnum } from '@data-contracts/backend/data-contracts';
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
+import { MessagesSquare } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Badge, Button, Link, useConfirm } from '@sk-web-gui/react';
+import { Badge, Button, Link, useConfirm, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
@@ -93,7 +93,7 @@ export default function ActionBottomDraft() {
                   className="lg:py-lg"
                   leftIcon={
                     <span className="relative">
-                      <QuestionAnswerOutlinedIcon fontSize="large" />
+                      <Icon icon={<MessagesSquare />} />
                       {showCommentsUnread && (
                         <Badge className="absolute right top-[0.01rem]" size="sm" color="warning" />
                       )}
