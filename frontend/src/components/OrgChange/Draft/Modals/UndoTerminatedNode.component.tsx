@@ -1,6 +1,6 @@
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import UndoIcon from '@mui/icons-material/Undo';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 
@@ -9,7 +9,7 @@ export default function UndoTerminatedNode() {
   const organization = useOrganizationStore((s) => s.organization);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const { showConfirmation } = useConfirm();
-  const message = useMessage(); //FIX ME: Needs api call function for undo
+  const message = useSnackbar(); //FIX ME: Needs api call function for undo
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
   const onUndoTerminateBranch = () => {

@@ -2,8 +2,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Organization, OrgnodeAddDto } from '@data-contracts/backend/data-contracts';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Combobox } from '@sk-web-gui/forms';
-import { Button, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
 import { useState } from 'react';
 
 export default function ChooseBranchToChangeModal(props) {
@@ -15,7 +14,7 @@ export default function ChooseBranchToChangeModal(props) {
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
   const [activeOrganization, setActiveOrganization] = useState<{ label: string; data: Organization } | undefined>();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onOrganizationSelectHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const val = e.target.value;
@@ -91,11 +90,11 @@ export default function ChooseBranchToChangeModal(props) {
           </Combobox.List>
         </Combobox>
         <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
+          <Button variant="primary" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
             Avbryt
           </Button>
           <Button
-            variant="solid"
+            variant="primary"
             onClick={onChooseOrganization}
             size="lg"
             color="primary"

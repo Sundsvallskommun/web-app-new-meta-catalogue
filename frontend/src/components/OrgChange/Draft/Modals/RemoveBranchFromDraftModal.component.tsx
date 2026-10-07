@@ -3,7 +3,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 
 interface IRemoveBranchProps {
   organization: OrgChangeOrganizationTree;
@@ -15,7 +15,7 @@ export default function RemoveBranchFromDraft(props: IRemoveBranchProps) {
   const removeNodeFromDraft = useOrgChangeStore((s) => s.removeNodeFromDraft);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
-  const message = useMessage();
+  const message = useSnackbar();
 
   const CallRemoveFromDraft = () => {
     setIsSaving(true);

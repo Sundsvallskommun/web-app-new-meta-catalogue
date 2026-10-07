@@ -11,18 +11,18 @@ import { useDebouncedCallback } from '@react-hookz/web';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment, getEmployeeDetails } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Combobox } from '@sk-web-gui/forms';
 import {
   Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Modal,
-  OptionValueType,
-  ProfilePicture,
-  Radio,
-  useMessage,
+  Avatar,
+  RadioButton,
+  useSnackbar,
+  Combobox,
 } from '@sk-web-gui/react';
+import { OptionValueType } from '@interfaces/option-value';
 import { apiURL } from '@utils/api-url';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { FormEvent, Fragment, useEffect, useState } from 'react';
@@ -45,7 +45,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
   const [manager, setManager] = useState<OrgChangePersonEmployeeDetail>();
   const [errorMessage, setErrorMessage] = useState('');
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const initialPaTeam: OptionValueType<PATeamSearchResult> = peopleToHandle.length === 1 && {
     label: renderNewOrOld(peopleToHandle[0]?.newPATeam, peopleToHandle[0]?.paTeam),
@@ -221,10 +221,10 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
               <div className="mt-lg">
                 {manager && (
                   <div className="flex gap-2 items-center">
-                    <ProfilePicture
+                    <Avatar
                       className="w-[64px] h-[64px]"
                       placeholderImage={`${process.env.NEXT_PUBLIC_BASE_PATH}/user-image-placeholder-square-48.png`}
-                      image={`${apiURL(`/employee/${manager.personId}/personimage`)}`}
+                      imageUrl={`${apiURL(`/employee/${manager.personId}/personimage`)}`}
                     />
                     <h3 className="font-normal text-base">
                       <strong className="block">Överordnad chef</strong>
@@ -245,7 +245,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                       {!manager ? `PA-Team (kopplade till ${activePaTeam.data.managerName})` : 'PA-Team'}
                     </h3>
 
-                    <Radio.Group>
+                    <RadioButton.Group>
                       <ul className="pb-lg">
                         {paTeamsByManager.map((pa) => {
                           const paObject = {
@@ -260,13 +260,12 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
 
                           return (
                             <li key={`li-${pa.paTeam}`} className="p-sm [&:has(input:checked)]:bg-[#D9E6EF]">
-                              <Radio
+                              <RadioButton
                                 value={pa.paTeam}
                                 key={pa.paTeam}
                                 name="pateam"
                                 className={`mr-md`}
-                                size="xl"
-                                color="primary"
+                                size="lg"
                                 required
                                 onChange={() => onRadioValueSelectHandler(paObject)}
                                 defaultChecked={activePaTeam?.data.paTeam === pa.paTeam}
@@ -274,12 +273,12 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                                 <span>
                                   {pa.paTeam} {pa.paTeamName}
                                 </span>
-                              </Radio>
+                              </RadioButton>
                             </li>
                           );
                         })}
                       </ul>
-                    </Radio.Group>
+                    </RadioButton.Group>
                   </div>
                 : <></>}
               </div>
@@ -326,11 +325,11 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
           </FormLabel>
         )}
         <LeadButtons>
-          <Button type="button" onClick={handleOnClose}>
+          <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
           <Button
-            variant="solid"
+            variant="primary"
             type="submit"
             color="primary"
             aria-disabled={activePaTeam?.data?.paTeam == initialPaTeam?.data?.paTeam ? 'true' : undefined}

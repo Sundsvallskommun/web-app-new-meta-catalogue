@@ -67,7 +67,7 @@ export default function ActionBottomDraft() {
           <div className="max-width-content mx-auto w-full lg:flex relative justify-end gap-xl">
             <div className="w-full space-y-md lg:space-y-0 lg:flex lg:justify-between py-lg gap-8">
               <Link className="w-full max-w-[60rem] flex-shrink" href="/hanteraorganisation">
-                <Button as="span" size="lg" variant="solid" className="w-full">
+                <Button as="span" size="lg" variant="primary" className="w-full">
                   Lämna utkast
                 </Button>
               </Link>
@@ -77,7 +77,7 @@ export default function ActionBottomDraft() {
                   disabled={draft.changes === 0}
                   className="w-full max-w-[60rem] flex-shrink"
                   size="lg"
-                  variant="solid"
+                  variant="primary"
                   color="primary"
                 >
                   Godkänn och exportera
@@ -95,13 +95,7 @@ export default function ActionBottomDraft() {
                     <span className="relative">
                       <QuestionAnswerOutlinedIcon fontSize="large" />
                       {showCommentsUnread && (
-                        <Badge
-                          className="absolute right top-[0.01rem]"
-                          size="sm"
-                          variant="solid"
-                          color="warning"
-                          position={'super-overlap'}
-                        />
+                        <Badge className="absolute right top-[0.01rem]" size="sm" color="warning" />
                       )}
                     </span>
                   }

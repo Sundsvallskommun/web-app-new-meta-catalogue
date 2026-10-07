@@ -74,7 +74,7 @@ export const ExportMessages = ({ className = '' }) => {
             {runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current ?
               <div>
                 <div>{runbookStep.result || runbookStep.description}</div>
-                <Button className="my-sm" onClick={() => handleTrigger(runbookStep)} variant="solid" color="primary">
+                <Button className="my-sm" onClick={() => handleTrigger(runbookStep)} variant="primary" color="primary">
                   {runbookStep.triggerBtnText ? runbookStep.triggerBtnText : 'Fortsätt med exporten'}
                 </Button>
               </div>

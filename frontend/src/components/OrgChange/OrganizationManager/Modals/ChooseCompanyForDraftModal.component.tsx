@@ -2,8 +2,7 @@ import { LeadButtons } from '@layouts/ButtonGroup/LeadButtons';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { getRootOrg } from '@services/mdviewer/api-calls/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Modal } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Modal, Select } from '@sk-web-gui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -97,12 +96,12 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
       </div>
 
       <LeadButtons>
-        <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
+        <Button variant="primary" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
           {'Avbryt'}
         </Button>
         <Button
           onClick={() => filterGoToDraft()}
-          variant="solid"
+          variant="primary"
           size="lg"
           type="submit"
           color="primary"

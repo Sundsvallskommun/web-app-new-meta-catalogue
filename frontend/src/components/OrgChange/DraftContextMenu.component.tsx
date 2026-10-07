@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, ContextMenu, Divider, cx, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, PopupMenu, cx, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import router from 'next/router';
 import { useState } from 'react';
@@ -36,7 +36,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
 
   const { showConfirmation } = useConfirm();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const CallDeleteDraft = () => {
     deleteDraft(draft.draftId).then((res) => {
@@ -67,46 +67,43 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
 
   return (
     <>
-      <ContextMenu menuSide={menuSide} classNameItems={cx(className)}>
+      <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
-          <ContextMenu.Button
-            title={`Hantera utkast ${draft.name}`}
-            size="fit"
-            variant="outline"
-            className="border-0"
-            iconButton
-          >
+          <PopupMenu.Button title={`Hantera utkast ${draft.name}`} variant="secondary" className="border-0" iconButton>
             <MoreVertIcon />
-          </ContextMenu.Button>
-        : <ContextMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ExpandMoreIcon />}>
+          </PopupMenu.Button>
+        : <PopupMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ExpandMoreIcon />}>
             Hantera utkastet
-          </ContextMenu.Button>
+          </PopupMenu.Button>
         }
-        {!draftIsReadOnly ?
-          <ContextMenu.Item className="w-full">
-            <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<FileDownloadOutlinedIcon />}>
-              Exportera förlaga av organisationer
-            </Button>
-          </ContextMenu.Item>
-        : <></>}
-
-        <ContextMenu.Item>
-          <Button onClick={() => setIsShareOpen(true)} leftIcon={<ShareIcon />}>
-            Dela
-          </Button>
-        </ContextMenu.Item>
-
-        {!draftIsReadOnly && user.permissions.canEditDrafts && (
-          <>
-            <Divider orientation="horizontal" className="w-full" />
-            <ContextMenu.Item>
-              <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<DeleteOutlineOutlinedIcon />}>
-                Ta bort utkast
-              </Button>
-            </ContextMenu.Item>
-          </>
-        )}
-      </ContextMenu>
+        <PopupMenu.Panel className={cx(className)}>
+          <PopupMenu.Items>
+            <PopupMenu.Group>
+              {!draftIsReadOnly && (
+                <PopupMenu.Item>
+                  <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<FileDownloadOutlinedIcon />}>
+                    Exportera förlaga av organisationer
+                  </Button>
+                </PopupMenu.Item>
+              )}
+              <PopupMenu.Item>
+                <Button onClick={() => setIsShareOpen(true)} leftIcon={<ShareIcon />}>
+                  Dela
+                </Button>
+              </PopupMenu.Item>
+            </PopupMenu.Group>
+            {!draftIsReadOnly && user.permissions.canEditDrafts && (
+              <PopupMenu.Group>
+                <PopupMenu.Item>
+                  <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<DeleteOutlineOutlinedIcon />}>
+                    Ta bort utkast
+                  </Button>
+                </PopupMenu.Item>
+              </PopupMenu.Group>
+            )}
+          </PopupMenu.Items>
+        </PopupMenu.Panel>
+      </PopupMenu>
       {isShareOpen && <ShareModal draft={draft} onClose={() => setIsShareOpen(false)} />}
       {isExportStructureOpen && (
         <ExportInitialOrgStructureModal draft={draft} onClose={() => setIsExportStructureOpen(false)} />

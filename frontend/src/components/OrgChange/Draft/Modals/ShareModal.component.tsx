@@ -1,10 +1,10 @@
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
-import { Button, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
 import { appURL } from '@utils/app-url';
 
 export default function ShareModal(props) {
   const { onClose, draft } = props;
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onCopyLink = async () => {
     navigator.clipboard.writeText(`${appURL()}/hanteraorganisation/utkast/${draft.draftId}`).then(

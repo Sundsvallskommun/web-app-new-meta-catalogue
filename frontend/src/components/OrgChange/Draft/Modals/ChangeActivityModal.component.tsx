@@ -8,16 +8,8 @@ import UndoIcon from '@mui/icons-material/Undo';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Combobox } from '@sk-web-gui/forms';
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  Modal,
-  OptionValueType,
-  useConfirm,
-  useMessage,
-} from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, Modal, useConfirm, useSnackbar, Combobox } from '@sk-web-gui/react';
+import { OptionValueType } from '@interfaces/option-value';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { MarkedPeopleList } from './components/MarkedPeopleList.component';
@@ -37,7 +29,7 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
   const [errorMessage, setErrorMessage] = useState('');
   const { showConfirmation } = useConfirm();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const peopleToHandleWithActivityCode = peopleToHandle.filter((x) =>
     renderNewOrOld(x.newActivityCode, x.activityCode)
@@ -229,7 +221,7 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
             <Button
               className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
               size="sm"
-              variant="outline"
+              variant="secondary"
               aria-describedby="activity-modal-disconnect-text"
               onClick={handleDisconnectActivity}
             >
@@ -242,11 +234,11 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
           </div>
         )}
         <LeadButtons>
-          <Button type="button" onClick={handleOnClose}>
+          <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
           <Button
-            variant="solid"
+            variant="primary"
             type="submit"
             color="primary"
             aria-disabled={!activeActivity?.data?.activityId ? 'true' : undefined}

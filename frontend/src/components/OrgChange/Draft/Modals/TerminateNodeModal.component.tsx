@@ -1,7 +1,7 @@
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, Modal, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useConfirm, useSnackbar } from '@sk-web-gui/react';
 
 interface ITerminateNodeProps {
   onClose;
@@ -14,7 +14,7 @@ export default function TerminateNode(props: ITerminateNodeProps) {
   const organization = useOrganizationStore((s) => s.organization);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
   const onTerminateBranch = () => {
@@ -58,12 +58,12 @@ export default function TerminateNode(props: ITerminateNodeProps) {
       </span>
 
       <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-        <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
+        <Button variant="primary" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
           Avbryt
         </Button>
         <Button
           size="lg"
-          variant="solid"
+          variant="primary"
           color="primary"
           className="my-sm sm:my-6 w-full"
           loadingText="Sparar"

@@ -12,8 +12,7 @@ import { emptyResponsibility } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { responsibilityTypes } from '@services/mdviewer/defaults/responsibility';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, useSnackbar, Select } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
 import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
 import { useEffect, useMemo, useState } from 'react';
@@ -42,7 +41,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
     (x) => x.responsibilityTypeId === OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR
   );
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const formSchema = yup
     .object({
@@ -284,13 +283,19 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
 
           <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
             <div>
-              <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={onCloseHandler}
+                className="my-sm sm:my-6 w-full"
+                type="button"
+              >
                 {'Avbryt'}
               </Button>
             </div>
             <Button
               type="submit"
-              variant="solid"
+              variant="primary"
               size="lg"
               color="primary"
               className="my-sm sm:my-6 w-full"

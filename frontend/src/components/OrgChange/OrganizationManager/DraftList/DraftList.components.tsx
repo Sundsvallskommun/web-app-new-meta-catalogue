@@ -146,7 +146,7 @@ export const DraftList = (props: DraftDataListProps) => {
     <div>
       {draftsIsLoading ?
         <div className="flex w-full min-h-[400px] justify-center align-middle items-center">
-          <Spinner size="xl" aria-label="Hämtar Utkast" />
+          <Spinner size={3} aria-label="Hämtar Utkast" />
         </div>
       : <div className="min-h-[400px]">
           <ZebraTable

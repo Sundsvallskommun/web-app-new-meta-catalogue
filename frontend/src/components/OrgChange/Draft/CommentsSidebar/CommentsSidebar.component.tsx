@@ -1,7 +1,7 @@
 import { PostDraftCommentDto } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Comments, Modal, useMessage } from '@sk-web-gui/react';
+import { Comments, Modal, useSnackbar } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 
 interface ICommentsSidebar {
@@ -21,7 +21,7 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
 
   const patchMe = useUserStore((s) => s.patchMe);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const [sidebarComments, setSidebarComments] = useState([]);
 

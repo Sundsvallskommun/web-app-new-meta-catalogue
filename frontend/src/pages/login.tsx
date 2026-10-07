@@ -79,7 +79,7 @@ export default function Start() {
               <p className="my-0">Beskrivning av appen</p>
             </div>
 
-            <Button variant="solid" color="primary" onClick={() => onLogin()} ref={initalFocus} data-cy="loginButton">
+            <Button variant="primary" color="primary" onClick={() => onLogin()} ref={initalFocus} data-cy="loginButton">
               Logga in
             </Button>
 

@@ -298,7 +298,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
 
           <LeadButtons className="!mt-sm">
             <Button
-              variant="solid"
+              variant="primary"
               color="primary"
               size="lg"
               onClick={handleOnClose}

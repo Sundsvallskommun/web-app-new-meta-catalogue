@@ -3,7 +3,7 @@ import BlockIcon from '@mui/icons-material/Block';
 import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Badge, IMenu, SideMenu, cx, useMessage } from '@sk-web-gui/react';
+import { Badge, IMenu, SideMenu, cx, useSnackbar } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useEffect, useRef, useState } from 'react';
@@ -27,7 +27,7 @@ const SidebarOrgChange = ({ mainRef }) => {
   const [newParent, setNewParent] = useState<IMenu>();
   const [oldParent, setOldParent] = useState<IMenu>();
   const [sidebarHeight, setSidebarHeight] = useState(0);
-  const message = useMessage();
+  const message = useSnackbar();
   const asideRef = useRef(null);
 
   const showFilter: { [key: IFilterDataMenu['propertyName']]: boolean } = {};
@@ -180,13 +180,9 @@ const SidebarOrgChange = ({ mainRef }) => {
                     <span className="sr-only">Ändringar: </span>
                     <Badge
                       className=""
-                      size="lg"
-                      variant="solid"
+                      size="md"
                       color="warning"
-                      max={99}
-                      counter={itemData.changes}
-                      position={'standard'}
-                      noBorder
+                      counter={itemData.changes > 99 ? '99+' : itemData.changes}
                     />
                   </span>
                 : <></>}

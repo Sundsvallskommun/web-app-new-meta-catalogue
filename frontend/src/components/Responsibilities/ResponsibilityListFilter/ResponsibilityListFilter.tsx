@@ -2,8 +2,7 @@ import { useDebouncedCallback } from '@react-hookz/web';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, DropdownFilter, FormControl, SearchBar } from '@sk-web-gui/react';
+import { Button, DropdownFilter, FormControl, SearchField, Select } from '@sk-web-gui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -74,12 +73,13 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
           </span>
           <span className="max-w-[460px]">
             <FormControl id="responsibilities-listfilter-searchbar">
-              <SearchBar
+              <SearchField
+                size="md"
                 rounded
                 aria-label="Sök i listan över ansvar"
                 placeholder="Sök i listan"
                 value={searchTerm}
-                onClose={onSearchCloseHandler}
+                onReset={onSearchCloseHandler}
                 onChange={onSearchChangeHandler}
                 onSearch={onSearchHandler}
               />
@@ -95,7 +95,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
             shallow
             replace
           >
-            <Button className="w-fit h-fit" size="md">
+            <Button variant="secondary" className="w-fit h-fit" size="md">
               Rapportera fel
             </Button>
           </NextLink>

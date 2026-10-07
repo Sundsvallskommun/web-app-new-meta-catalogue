@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { AlertBanner, AlertBannerProps, Button } from '@sk-web-gui/react';
+import { Alert, Button } from '@sk-web-gui/react';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import AlertBannerForm from './AlertBannerForm.component';
 import { getAlertBannerMessage } from '@services/alert-banner-service/alert-banner-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { emptyAlertBannerMessage } from '@services/alert-banner-service/defaults';
 import { AlertBannerMessage } from '@data-contracts/backend/data-contracts';
+import { AlertBannerSeverity } from '@interfaces/alert-banner';
 import dayjs from 'dayjs';
 
 interface AlertBannerManagerProps {
   className?: string;
 }
+
+const isWithinDates = (message: AlertBannerMessage) => {
+  const fromDate = dayjs(message.fromDate).toDate();
+  const toDate = dayjs(message.toDate).toDate();
+  const todayDate = new Date();
+  return !(todayDate < fromDate || toDate < todayDate);
+};
 
 const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
   const [showAlert, setShowAlert] = useState(false);
@@ -42,44 +50,33 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
   const getEditMessageContent = (showEditForm) => {
     if (showEditForm) {
       return (
-        <AlertBanner
-          severity={
-            showEditForm
-              ? (severityFromForm as AlertBannerProps['severity'])
-              : (messageData.severity as AlertBannerProps['severity'])
-          }
-          fromDate={dayjs(messageData.fromDate).toDate()}
-          toDate={dayjs(messageData.toDate).toDate()}
-          contentClassName="max-width-content"
-          childrenClassName="max-w-full no-underline"
-          showClose={false}
-        >
-          <AlertBannerForm
-            isEdit={isEdit}
-            onClose={handleAlertBannerClose}
-            onSuccess={fetchAlertBannerMessage}
-            messageData={messageData}
-            setSeverityFromForm={setSeverityFromForm}
-          />
-        </AlertBanner>
+        <Alert type={severityFromForm as AlertBannerSeverity}>
+          <Alert.Icon />
+          <Alert.Content>
+            <AlertBannerForm
+              isEdit={isEdit}
+              onClose={handleAlertBannerClose}
+              onSuccess={fetchAlertBannerMessage}
+              messageData={messageData}
+              setSeverityFromForm={setSeverityFromForm}
+            />
+          </Alert.Content>
+        </Alert>
       );
     } else {
       return (
-        <AlertBanner
-          severity="neutral"
-          contentClassName="max-width-content grayscale"
-          childrenClassName="max-w-full"
-          showClose={false}
-        >
-          <Button
-            onClick={handleNewAlert}
-            className="text-gray "
-            variant="link"
-            rightIcon={<ModeEditOutlinedIcon className="material-icon ml-4 !text-xl" />}
-          >
-            Nytt Systemmeddelande ...
-          </Button>
-        </AlertBanner>
+        <Alert type="neutral">
+          <Alert.Content>
+            <Button
+              onClick={handleNewAlert}
+              className="text-gray "
+              variant="link"
+              rightIcon={<ModeEditOutlinedIcon className="material-icon ml-4 !text-xl" />}
+            >
+              Nytt Systemmeddelande ...
+            </Button>
+          </Alert.Content>
+        </Alert>
       );
     }
   };
@@ -127,16 +124,11 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
   return (
     <div data-cy="alert-banner" className={`${className} alert-banner-edit`}>
       {user.permissions.canEditSystemMessages && !showAlert && <div>{getEditMessageContent(showEditForm)}</div>}
-      {showAlert && (
-        <AlertBanner
-          severity={messageData.severity as AlertBannerProps['severity']}
-          fromDate={dayjs(messageData.fromDate).toDate()}
-          toDate={dayjs(messageData.toDate).toDate()}
-          contentClassName="max-width-content"
-          contentType="tab"
-        >
-          {getMessageContent(messageData)}
-        </AlertBanner>
+      {showAlert && isWithinDates(messageData) && (
+        <Alert type={messageData.severity as AlertBannerSeverity}>
+          <Alert.Icon />
+          <Alert.Content>{getMessageContent(messageData)}</Alert.Content>
+        </Alert>
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOperationStore } from '@services/mdviewer/operation-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, IFilterData, SearchBar } from '@sk-web-gui/react';
+import { Button, DropdownFilter, FormControl, IFilterData, SearchField } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -72,7 +72,8 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
       <div className="flex justify-between w-full flex-wrap">
         <span className="pl-lg pr-4 flex-grow mb-8">
           <FormControl id="org-operation-listfilter-searchbar">
-            <SearchBar
+            <SearchField
+              size="md"
               aria-live="polite"
               aria-controls={
                 isOrgChange ? 'orgchange-tabs-operations-table-rowsstext' : 'org-tabs-operations-table-rowsstext'
@@ -83,7 +84,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
               rounded
               placeholder="Sök i listan"
               value={searchQuery}
-              onClose={onSearchCloseHandler}
+              onReset={onSearchCloseHandler}
               onChange={onSearchChangeHandler}
             />
           </FormControl>
@@ -95,7 +96,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 className="w-fit h-fit"
                 onClick={onModalHandler}
                 size="md"
-                variant="solid"
+                variant="primary"
                 color="primary"
                 leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
               >
@@ -110,7 +111,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
               shallow
               replace
             >
-              <Button className="w-fit h-fit" size="md">
+              <Button variant="secondary" className="w-fit h-fit" size="md">
                 Rapportera fel
               </Button>
             </NextLink>

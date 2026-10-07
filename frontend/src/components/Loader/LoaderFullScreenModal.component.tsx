@@ -4,7 +4,7 @@ export default function LoaderFullScreenModal({ show = false, label = 'Laddar in
   return (
     <Modal show={show} label={label} hideClosebutton disableCloseOutside className={'!w-[30rem]'}>
       <div className="flex place-items-center place-content-center">
-        <Spinner size="lg" aria-label={label} />
+        <Spinner size={2} aria-label={label} />
       </div>
     </Modal>
   );

@@ -7,7 +7,7 @@ import { orgHighlightedTableRowProperty, orgTabIndex } from '@services/mdviewer/
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Pagination, Spinner, Tag } from '@sk-web-gui/react';
+import { Pagination, Spinner, Label } from '@sk-web-gui/react';
 import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
@@ -161,9 +161,9 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Tag variant="solid" className={`text-body ${typeBg} ${border}`}>
+              <Label className={`text-body ${typeBg} ${border}`}>
                 {typeText}
-              </Tag>
+              </Label>
             </span>
           </Fragment>
         ),
@@ -234,7 +234,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
       </div>
       {responsibilitiesIsLoading ? (
         <div className="flex justify-center pt-lg ">
-          <Spinner size="xl" aria-label="Laddar ansvar" />
+          <Spinner size={3} aria-label="Laddar ansvar" />
         </div>
       ) : (
         <div className={'overflow-x-auto custom-scroll'}>

@@ -41,7 +41,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
     return (
       <Button
         size="sm"
-        variant="outline"
+        variant="secondary"
         className="bg-white text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-white"
         rightIcon={<ErrorIcon />}
         onClick={handleCloseNodes}

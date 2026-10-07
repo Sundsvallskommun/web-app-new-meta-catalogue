@@ -5,7 +5,7 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, Link, SearchBar } from '@sk-web-gui/react';
+import { Button, DropdownFilter, FormControl, Link, SearchField } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -66,7 +66,8 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
       <div className="flex justify-between w-full flex-wrap">
         <span className="pl-lg pr-4 flex-grow mb-8">
           <FormControl id="org-people-listfilter-searchbar">
-            <SearchBar
+            <SearchField
+              size="md"
               rounded
               aria-live="polite"
               aria-controls={isOrgChange ? 'orgchange-tabs-people-table-rowsstext' : 'org-tabs-people-table-rowsstext'}
@@ -75,7 +76,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
               }
               placeholder="Sök i listan"
               value={searchQuery}
-              onClose={onSearchCloseHandler}
+              onReset={onSearchCloseHandler}
               onChange={onSearchChangeHandler}
             />
           </FormControl>
@@ -88,7 +89,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 href={`https://e-arenden.sundsvall.se/oversikt/flowoverview/1920`}
                 external
               >
-                <Button as="span" variant="solid" color="primary" rightIcon={<OpenInNewSharpIcon />}>
+                <Button as="span" variant="primary" color="primary" rightIcon={<OpenInNewSharpIcon />}>
                   Lägg till ny person
                 </Button>
               </Link>
@@ -101,7 +102,9 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
               shallow
               replace
             >
-              <Button className="w-fit h-fit">Rapportera fel</Button>
+              <Button variant="secondary" className="w-fit h-fit">
+                Rapportera fel
+              </Button>
             </NextLink>
           </span>
         )}

@@ -4,7 +4,7 @@ import { objectType } from '@services/mdviewer/data-handlers/search';
 import { orgHighlightedTableRowProperty, orgTabIndex } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { Button, Link, Tag } from '@sk-web-gui/react';
+import { Button, Link, Label } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
 import { useRouter } from 'next/router';
 
@@ -100,12 +100,11 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
           <div className="lg:pr-lg">
             <div className="flex">
               <div>
-                <Tag
-                  variant="solid"
+                <Label
                   className={`mr-sm text-body ${objectType(item.objectType).bg} ${objectType(item.objectType).border}`}
                 >
                   {objectType(item.objectType).text}
-                </Tag>
+                </Label>
               </div>
               <div className="text-lg flex-grow font-bold">
                 <span dangerouslySetInnerHTML={{ __html: markMatches(item.header) }} />

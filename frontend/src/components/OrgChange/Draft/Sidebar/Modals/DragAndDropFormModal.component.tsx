@@ -4,7 +4,7 @@ import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
 
 interface IDragAndDropFormModal {
   onClose;
@@ -19,7 +19,7 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onSubmit = () => {
     const dataBody: OrgnodeMoveDto = {
@@ -68,11 +68,11 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
             </ul>
           </div>
           <LeadButtons>
-            <Button variant="solid" size="lg" onClick={onClose} className="my-sm sm:my-6 w-full" type="button">
+            <Button variant="primary" size="lg" onClick={onClose} className="my-sm sm:my-6 w-full" type="button">
               {'Avbryt'}
             </Button>
             <Button
-              variant="solid"
+              variant="primary"
               size="lg"
               color="primary"
               className="my-sm sm:my-6 w-full"

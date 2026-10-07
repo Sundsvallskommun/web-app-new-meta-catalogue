@@ -35,6 +35,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
       {user.permissions.canEditDrafts && (
         <div className="flex justify-center">
           <Button
+            variant="secondary"
             type="button"
             size="lg"
             onClick={openEditModalHandler}

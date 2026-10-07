@@ -8,7 +8,7 @@ import {
   Input,
   Modal,
   useConfirm,
-  useMessage,
+  useSnackbar,
 } from '@sk-web-gui/react';
 import React, { useMemo, useState } from 'react';
 
@@ -35,7 +35,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
   const closeResponsibility = useOrgChangeStore((s) => s.closeResponsibility);
 
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   const organization = useOrganizationStore((s) => s.organization);
 
@@ -183,7 +183,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
                   type="button"
                   className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
                   size="md"
-                  variant="outline"
+                  variant="secondary"
                   aria-label={`Stäng ansvar ${watch().description}`}
                   onClick={onRemoveHandler}
                   leftIcon={<DeleteOutlineIcon fontSize="large" />}
@@ -192,13 +192,19 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
                 </Button>
               </div>
 
-              <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={onCloseHandler}
+                className="my-sm sm:my-6 w-full"
+                type="button"
+              >
                 {'Avbryt'}
               </Button>
             </div>
             <Button
               type="submit"
-              variant="solid"
+              variant="primary"
               size="lg"
               color="primary"
               className="my-sm sm:my-6 w-full"

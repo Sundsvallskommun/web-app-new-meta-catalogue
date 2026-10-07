@@ -352,7 +352,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div className="lg:w-[50px]">
               <Button
-                variant={windowSize.lg ? 'outline' : 'solid'}
+                variant={windowSize.lg ? 'secondary' : 'primary'}
                 color={`primary`}
                 className="border-0"
                 iconButton={windowSize.lg || undefined}
@@ -367,9 +367,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
                       <Badge
                         className="absolute -right-[0.5rem] top-[0.15rem]"
                         size="sm"
-                        variant="solid"
-                        color={mustEdit ? 'error' : 'primary'}
-                        position={'super-overlap'}
+                        color={mustEdit ? 'error' : 'vattjom'}
                       />
                     )}
                   </span>

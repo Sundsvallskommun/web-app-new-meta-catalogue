@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Input, useConfirm, useMessage } from '@sk-web-gui/react';
-import { Select } from '@sk-web-gui/forms';
+import { Button, Input, useConfirm, useSnackbar, Select } from '@sk-web-gui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -54,7 +53,7 @@ const AlertBannerForm = ({
   };
 
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   // form state
   const { register, handleSubmit, watch, reset, setValue, trigger } = useForm({
@@ -162,7 +161,7 @@ const AlertBannerForm = ({
           </Select>
         </div>
 
-        <Button type="submit" data-cy="systemMessage-button-spara" color="primary" variant="solid" size="sm">
+        <Button type="submit" data-cy="systemMessage-button-spara" color="primary" variant="primary" size="sm">
           Spara
         </Button>
         {isEdit && (

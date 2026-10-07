@@ -239,7 +239,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
           <Fragment>
             <div className="mt-4 lg:mt-0 relative">
               <Button
-                variant={windowSize.lg ? 'outline' : 'solid'}
+                variant={windowSize.lg ? 'secondary' : 'primary'}
                 color={`primary`}
                 className="border-0"
                 iconButton={windowSize.lg || undefined}

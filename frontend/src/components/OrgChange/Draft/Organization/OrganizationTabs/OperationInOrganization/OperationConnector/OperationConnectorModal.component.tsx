@@ -2,8 +2,7 @@ import { ConnectOperationDto, OrgChangeOperation } from '@data-contracts/backend
 import CheckIcon from '@mui/icons-material/Check';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Combobox } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 
 interface IOperationConnectorModalProps {
@@ -17,7 +16,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
   const draft = useOrgChangeStore((s) => s.draft);
   const operationsByOrg = useOrgChangeStore((s) => s.operationsByOrg);
   const operationsByCompany = useOrgChangeStore((s) => s.operationsByCompany);
-  const message = useMessage();
+  const message = useSnackbar();
 
   const [activeOperation, setActiveOperation] = useState<{ label: string; data: OrgChangeOperation } | undefined>();
   const [isLoading, setIsLoading] = useState(false);
@@ -110,12 +109,12 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
           </Combobox.List>
         </Combobox>
         <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button type="button" variant="solid" size="lg" className="my-sm sm:my-6 w-full" onClick={onCloseHandler}>
+          <Button type="button" variant="primary" size="lg" className="my-sm sm:my-6 w-full" onClick={onCloseHandler}>
             Avbryt
           </Button>
           <Button
             type="submit"
-            variant="solid"
+            variant="primary"
             size="lg"
             color="primary"
             className="my-sm sm:my-6 w-full"

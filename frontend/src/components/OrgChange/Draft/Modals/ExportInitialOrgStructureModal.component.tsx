@@ -2,7 +2,7 @@ import OrgChangeCsvExporter from '@components/OrgChange/OrgChangeCsvExporter/Org
 import { CheckedOutOrganizationLevel2, Draft } from '@data-contracts/backend/data-contracts';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, FormControl, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useSnackbar } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 import { Spinner } from '@sk-web-gui/react';
 
@@ -25,7 +25,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const handleSetCsvData = async (org) => {
     const res = await getInitialOrgStructuresToExport([org.orgId]);
@@ -55,7 +55,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
       <form>
         <FormControl>
           <FormLabel className="text-base mb-md flex gap-4 items-center">
-            Välj organisation som du vill exportera {checkedOutOrganizationsLevel2IsLoading && <Spinner size="lg" />}
+            Välj organisation som du vill exportera {checkedOutOrganizationsLevel2IsLoading && <Spinner size={2} />}
           </FormLabel>
           {!checkedOutOrganizationsLevel2IsLoading && (
             <div className="flex flex-col space-y-md">
@@ -81,7 +81,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
           )}
         </FormControl>
         <div className="mt-16 flex">
-          <Button type="button" className="w-full" onClick={onClose}>
+          <Button variant="secondary" type="button" className="w-full" onClick={onClose}>
             Stäng
           </Button>
 

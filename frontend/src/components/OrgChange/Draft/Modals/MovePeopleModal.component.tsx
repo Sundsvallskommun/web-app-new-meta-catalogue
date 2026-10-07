@@ -8,7 +8,6 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Combobox } from '@sk-web-gui/forms';
 import {
   Button,
   Checkbox,
@@ -17,7 +16,8 @@ import {
   FormLabel,
   Modal,
   useConfirm,
-  useMessage,
+  useSnackbar,
+  Combobox,
 } from '@sk-web-gui/react';
 import { shouldEditEmployees } from '@utils/shouldeditemployees';
 import { useState } from 'react';
@@ -50,7 +50,7 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const isDirty = organization.id === newOrganization.id;
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onOrganizationSelectHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const val = e.target.value;
@@ -217,10 +217,10 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
             </FormControl>
           )}
         <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button type="button" onClick={handleOnClose}>
+          <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
-          <Button variant="solid" type="submit" color="primary" disabled={isDirty}>
+          <Button variant="primary" type="submit" color="primary" disabled={isDirty}>
             Spara
           </Button>
         </div>

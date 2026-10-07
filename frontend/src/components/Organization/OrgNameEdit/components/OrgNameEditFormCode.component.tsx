@@ -1,7 +1,6 @@
 import { OrganizationTree } from '@data-contracts/backend/data-contracts';
 import { IOrgNameEditForm } from '@interfaces/orgchange';
-import { FormControl, FormErrorMessage, FormLabel, Input } from '@sk-web-gui/react';
-import { Select } from '@sk-web-gui/forms';
+import { FormControl, FormErrorMessage, FormLabel, Input, Select } from '@sk-web-gui/react';
 import { useFormContext } from 'react-hook-form';
 
 interface OrgNameEditFormCodeProps {

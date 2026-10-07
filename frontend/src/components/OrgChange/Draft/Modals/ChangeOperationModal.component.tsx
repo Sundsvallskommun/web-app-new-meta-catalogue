@@ -10,8 +10,7 @@ import UndoIcon from '@mui/icons-material/Undo';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useSnackbar, Select } from '@sk-web-gui/react';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -64,7 +63,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
     mode: 'onChange',
   });
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const handleOnClose = async () => {
     if (formState.isDirty) {
@@ -188,10 +187,15 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
           />
         )}
         <LeadButtons>
-          <Button type="button" onClick={handleOnClose}>
+          <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
-          <Button variant="solid" type="submit" color="primary" aria-disabled={!formState.isDirty ? 'true' : undefined}>
+          <Button
+            variant="primary"
+            type="submit"
+            color="primary"
+            aria-disabled={!formState.isDirty ? 'true' : undefined}
+          >
             Spara
           </Button>
         </LeadButtons>

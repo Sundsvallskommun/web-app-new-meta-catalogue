@@ -52,7 +52,7 @@ const DraftCards = (props: DraftDataListProps) => {
                 </div>
               </div>
             </div>
-            <div>{!draftIsArchived && <DraftContextMenu dense draft={d} className="right-0" />}</div>
+            <div>{!draftIsArchived && <DraftContextMenu dense draft={d} />}</div>
           </div>
 
           <p className="lg:min-h-[48px] max-w-[386px]">
@@ -73,7 +73,7 @@ const DraftCards = (props: DraftDataListProps) => {
       <div className="h-full">
         {draftsIsLoading ?
           <div className="flex w-full min-h-[400px] justify-center align-middle items-center">
-            <Spinner size="xl" aria-label="Hämtar Utkast" />
+            <Spinner size={3} aria-label="Hämtar Utkast" />
           </div>
         : <div className="min-h-[400px]">
             <CardList className="lg:p-lg">{cards}</CardList>

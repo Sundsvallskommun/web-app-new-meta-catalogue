@@ -3,8 +3,8 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { DraftTreeOrganization } from '@interfaces/orgchange';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Combobox } from '@sk-web-gui/forms';
-import { Button, FormControl, FormLabel, Modal, OptionValueType, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useConfirm, useSnackbar, Combobox } from '@sk-web-gui/react';
+import { OptionValueType } from '@interfaces/option-value';
 import { useEffect } from 'react';
 
 interface IMoveFormProps {
@@ -35,7 +35,7 @@ export default function MoveFormModal(props: IMoveFormProps) {
 
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onChooseOrganization = () => {
     let title, message, confirmLabel;
@@ -119,12 +119,12 @@ export default function MoveFormModal(props: IMoveFormProps) {
           </Combobox>
         </FormControl>
         <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
+          <Button variant="primary" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
             Avbryt
           </Button>
           <Button
             size="lg"
-            variant="solid"
+            variant="primary"
             color="primary"
             className="my-sm sm:my-6 w-full"
             loadingText="Sparar"

@@ -36,6 +36,7 @@ export default function VerifyButton() {
 
   return (
     <Button
+      variant="secondary"
       disabled={draft.changes === 0}
       className="bg-white text-[#4b4b4b]"
       onClick={handleOnVerify}

@@ -5,7 +5,7 @@ const BadgeTitle = ({ errorCount }) => {
   return (
     <span className="flex gap-3">
       <span>
-        <Badge color="error" variant="solid" size="lg" max={99} counter={errorCount} noBorder />
+        <Badge color="error" size="md" counter={errorCount > 99 ? '99+' : errorCount} />
       </span>
       <span className="flex items-center content-center">Valideringsfel</span>
     </span>
@@ -21,10 +21,18 @@ export default function ValidationErrorsInOrganization(props: IErrorProps) {
 
   return (
     <div className="px-[20px]">
-      <Disclosure header={<BadgeTitle errorCount={errorMessages.length} />} error variant="solid" noMargin initalOpen>
-        <div>
-          <ValidationErrorsInOrganizationList errors={errorMessages} />
-        </div>
+      <Disclosure variant="alt" initalOpen>
+        <Disclosure.Header>
+          <Disclosure.Title>
+            <BadgeTitle errorCount={errorMessages.length} />
+          </Disclosure.Title>
+          <Disclosure.Button />
+        </Disclosure.Header>
+        <Disclosure.Content>
+          <div>
+            <ValidationErrorsInOrganizationList errors={errorMessages} />
+          </div>
+        </Disclosure.Content>
       </Disclosure>
     </div>
   );

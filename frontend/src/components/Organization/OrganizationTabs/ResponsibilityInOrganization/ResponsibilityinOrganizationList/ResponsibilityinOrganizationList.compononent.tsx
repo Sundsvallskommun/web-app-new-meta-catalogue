@@ -7,7 +7,7 @@ import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organiz
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, Tag } from '@sk-web-gui/react';
+import { Button, Pagination, Label } from '@sk-web-gui/react';
 import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
@@ -142,9 +142,9 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Tag variant="solid" className={`text-body ${typeBg} ${border}`}>
+              <Label className={`text-body ${typeBg} ${border}`}>
                 {typeText}
-              </Tag>
+              </Label>
             </span>
           </Fragment>
         ),

@@ -3,7 +3,7 @@ import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 
 export default function CreateNewBranchFormModal() {
   const { showConfirmation } = useConfirm();
@@ -12,7 +12,7 @@ export default function CreateNewBranchFormModal() {
   const draft = useOrgChangeStore((s) => s.draft);
   const organization = useOrganizationStore((s) => s.organization);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
-  const message = useMessage();
+  const message = useSnackbar();
 
   const CallCreateBranch = () => {
     const dataBody: OrgnodeCreateDto = {

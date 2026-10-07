@@ -59,22 +59,22 @@ export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeople
   });
 
   return (
-    <Disclosure
-      initalOpen={peopleToHandle.length === 1}
-      noMargin
-      className="mt-lg"
-      variant="outline"
-      header={`Valda personer (${peopleToHandle.length})`}
-    >
-      <ZebraTable
-        pageSize={4}
-        captionBody=""
-        captionTitle=""
-        headers={headers}
-        rows={peopleRows}
-        tableSortable={false}
-        summary=""
-      />
+    <Disclosure initalOpen={peopleToHandle.length === 1} className="mt-lg" variant="default">
+      <Disclosure.Header>
+        <Disclosure.Title>{`Valda personer (${peopleToHandle.length})`}</Disclosure.Title>
+        <Disclosure.Button />
+      </Disclosure.Header>
+      <Disclosure.Content>
+        <ZebraTable
+          pageSize={4}
+          captionBody=""
+          captionTitle=""
+          headers={headers}
+          rows={peopleRows}
+          tableSortable={false}
+          summary=""
+        />
+      </Disclosure.Content>
     </Disclosure>
   );
 };

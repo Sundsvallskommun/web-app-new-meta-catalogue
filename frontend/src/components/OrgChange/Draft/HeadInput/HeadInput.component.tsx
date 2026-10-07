@@ -2,7 +2,7 @@ import { Draft } from '@data-contracts/backend/data-contracts';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useMessage } from '@sk-web-gui/react';
+import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useSaveState } from '@utils/use-save-service.hook';
 import { useWindowSize } from '@utils/use-window-size.hook';
@@ -24,7 +24,7 @@ const HeadInput = () => {
   const windowSize = useWindowSize();
   const user = useUserStore((s) => s.user);
 
-  const message = useMessage();
+  const message = useSnackbar();
   const router = useRouter();
 
   const formSchema = yup
@@ -129,7 +129,7 @@ const HeadInput = () => {
             : <HeadInputFormName />}
 
             {isValid && isDirty && (
-              <Button data-cy="draft-submit" type="submit" variant="solid" color="primary" disabled={!isValid}>
+              <Button data-cy="draft-submit" type="submit" variant="primary" color="primary" disabled={!isValid}>
                 Spara
               </Button>
             )}

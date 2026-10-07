@@ -9,7 +9,7 @@ import { responsibilityType } from '@services/mdviewer/data-handlers/responsibil
 import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Badge, Button, Pagination, Tag } from '@sk-web-gui/react';
+import { Badge, Button, Pagination, Label } from '@sk-web-gui/react';
 import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
@@ -129,7 +129,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     if ((date >= today && !draftIsReadOnly) || organization.structureChangeStatus !== 'DELETED') {
       return (
         <Button
-          variant={windowSize.lg ? 'outline' : 'solid'}
+          variant={windowSize.lg ? 'secondary' : 'primary'}
           color={`primary`}
           className="border-0"
           iconButton={windowSize.lg || undefined}
@@ -196,9 +196,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Tag variant="solid" className={`text-body ${typeBg} ${border}`}>
-                {typeText}
-              </Tag>
+              <Label className={`text-body ${typeBg} ${border}`}>{typeText}</Label>
             </span>
           </Fragment>
         ),
@@ -236,7 +234,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
           <Fragment>
             <span className="inline font-bold lg:hidden">Status: </span>
             <span className="hidden lg:inline-block">
-              <Badge size="sm" variant="solid" color={`${dot}`} className="mr-xs" />
+              <Badge size="sm" color={`${dot}`} className="mr-xs" />
             </span>
             <span>{status}</span>
           </Fragment>

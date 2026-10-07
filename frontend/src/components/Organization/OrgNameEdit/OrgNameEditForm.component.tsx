@@ -8,7 +8,7 @@ import { IOrgNameEditForm } from '@interfaces/orgchange';
 import { ServiceResponse } from '@interfaces/service';
 import { emptyOrganizationForm } from '@services/mdbuilder/defaults';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, cx, useMessage } from '@sk-web-gui/react';
+import { Button, cx, useSnackbar } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
 import { useSaveState } from '@utils/use-save-service.hook';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -33,7 +33,7 @@ export const OrgNameEditForm: React.FC<{
   const [warningText, setWarningText] = useState<string>('');
   const [errorText, setErrorText] = useState<string>('');
   const [parentOrg, setParentOrg] = useState<OrganizationTree>(findIdInTree(orgTree, formData.parentId, 'subItems'));
-  const message = useMessage();
+  const message = useSnackbar();
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
   const parentOrgAbbreviations = (abbreviations, parentOrg: OrganizationTree) => {
@@ -228,7 +228,7 @@ export const OrgNameEditForm: React.FC<{
                 aria-describedby={!isDirty ? `save-describedby` : undefined}
                 aria-disabled={!isDirty ? 'true' : undefined}
                 color="primary"
-                variant="solid"
+                variant="primary"
                 size="sm"
                 type="submit"
               >

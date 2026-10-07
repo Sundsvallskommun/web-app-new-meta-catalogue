@@ -5,7 +5,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { orgChangeOperationHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, Pagination, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
@@ -21,7 +21,7 @@ interface IOrgChangeOperationInOrgInOrgChangeListProps {
 export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgChangeListProps) => {
   const { searchQuery } = props;
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   const { highlightedTableRow, setHighlightedTableRow } = useAppContext();
 
@@ -164,7 +164,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
               <Button
                 className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
                 size="md"
-                variant="outline"
+                variant="secondary"
                 aria-label={`Koppla bort ${r.description}`}
                 onClick={handleDisconnectOperation(r)}
               >
