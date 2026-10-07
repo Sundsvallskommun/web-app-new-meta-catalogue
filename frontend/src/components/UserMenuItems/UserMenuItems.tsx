@@ -11,13 +11,10 @@ export const useMenuItems = () => {
   const menuItems = [
     {
       label: 'Main',
-      showLabel: false,
-      showOnDesktop: true,
-      showOnMobile: true,
       elements: [
         {
           label: 'Rapportera fel',
-          element: (active: boolean) => (
+          element: () => (
             <NextLink
               key={'feedback'}
               href={{
@@ -25,7 +22,6 @@ export const useMenuItems = () => {
               }}
               shallow
               replace
-              className={`usermenu-item ${active ? 'active' : ''}`}
             >
               <span className="inline">Rapportera fel</span>
             </NextLink>
@@ -34,20 +30,16 @@ export const useMenuItems = () => {
         !router.pathname.includes('/hanteraorganisation') && {
           label: 'Hantera organisation',
           permissions: user.permissions.canViewDrafts,
-          element: (active: boolean) => (
-            <NextLink
-              key={'hanteraorganisation'}
-              href={`/hanteraorganisation`}
-              className={`usermenu-item ${active ? 'active' : ''}`}
-            >
+          element: () => (
+            <NextLink key={'hanteraorganisation'} href={`/hanteraorganisation`}>
               <span className="inline">Hantera organisation</span>
             </NextLink>
           ),
         },
         router.pathname.includes('/hanteraorganisation') && {
           label: 'Masterdata',
-          element: (active: boolean) => (
-            <NextLink key={'masterdata'} href={`/`} className={`usermenu-item ${active ? 'active' : ''}`}>
+          element: () => (
+            <NextLink key={'masterdata'} href={`/`}>
               <span className="inline">Masterdata</span>
             </NextLink>
           ),
@@ -56,19 +48,11 @@ export const useMenuItems = () => {
     },
     {
       label: 'Logga ut',
-      showLabel: true,
-      showOnDesktop: true,
-      showOnMobile: true,
       elements: [
         {
           label: 'Logga ut',
-          element: (active: boolean) => (
-            <Link
-              data-cy="nav-span-loggaUt"
-              key={'logout'}
-              href={`/logout`}
-              className={`usermenu-item ${active ? 'active' : ''}`}
-            >
+          element: () => (
+            <Link data-cy="nav-span-loggaUt" key={'logout'} href={`/logout`}>
               <LogoutOutlinedIcon className="material-icon mr-sm" aria-hidden="true" />
               <span className="inline">Logga ut</span>
             </Link>
