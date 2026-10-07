@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -15,5 +16,8 @@ module.exports = withBundleAnalyzer({
   basePath: process.env.BASE_PATH || '',
   sassOptions: {
     prependData: `$basePath: '${process.env.BASE_PATH || ''}';`,
+  },
+  experimental: {
+    optimizePackageImports: ['@sk-web-gui/core', '@sk-web-gui/react'],
   },
 });

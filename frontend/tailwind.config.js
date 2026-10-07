@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 module.exports = {
   mode: 'jit',
   content: [
@@ -41,5 +42,5 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
   },
-  presets: [require('@sk-web-gui/core').preset],
+  presets: [require('@sk-web-gui/core').preset()],
 };
