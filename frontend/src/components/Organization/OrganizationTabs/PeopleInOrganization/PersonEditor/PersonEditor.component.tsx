@@ -1,4 +1,4 @@
-import { Button, FormLabel, Modal, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Button, FormLabel, Modal } from '@sk-web-gui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { Fragment } from 'react';
@@ -11,6 +11,7 @@ import { emptyPersonEditor } from '@services/mdviewer/defaults/employment';
 import { apiURL } from '@utils/api-url';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface EmployeeEditorProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     closeCallback();
   };
 
-  const userHeaders: ZebraTableHeader[] = [
+  const userHeaders: DataTableHeader[] = [
     {
       element: <span className="font-bold">Användarnamn</span>,
       isShown: true,
@@ -42,7 +43,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const userRows: ZebraTableColumn[][] =
+  const userRows: DataTableColumn[][] =
     employeeDetails?.logins?.map((login) => {
       return [
         {
@@ -66,7 +67,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       ];
     }) || [];
 
-  const emailHeaders: ZebraTableHeader[] = [
+  const emailHeaders: DataTableHeader[] = [
     {
       element: <p className="font-bold">E-post</p>,
       isShown: true,
@@ -81,7 +82,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const emailRows: ZebraTableColumn[][] =
+  const emailRows: DataTableColumn[][] =
     employeeDetails?.emails?.map((email) => {
       return [
         {
@@ -105,7 +106,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       ];
     }) || [];
 
-  const employHeaders: ZebraTableHeader[] = [
+  const employHeaders: DataTableHeader[] = [
     {
       element: <p className="font-bold">Titel</p>,
       isShown: true,
@@ -138,7 +139,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const employRows: ZebraTableColumn[][] =
+  const employRows: DataTableColumn[][] =
     employeeDetails?.employments?.map((e) => {
       return [
         {
@@ -245,8 +246,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           <div className="lg:flex lg:justify-between mt-lg lg:space-x-[20px]">
             <div className="w-full">
               <h4 className="text-xl ml-sm">Användarinfo</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-zebratable-bottomwrapper]:px-sm">
-                <ZebraTable
+              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+                <DataTable
                   headers={userHeaders}
                   rows={userRows}
                   pageSize={2}
@@ -258,8 +259,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             </div>
             <div className="w-full">
               <h4 className="text-xl ml-sm">E-postadresser</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-zebratable-bottomwrapper]:px-sm">
-                <ZebraTable
+              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+                <DataTable
                   headers={emailHeaders}
                   rows={emailRows}
                   pageSize={2}
@@ -275,7 +276,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               Anställning ({employeeDetails?.employments?.length})
             </h4>
             <div className="min-h-[100px]">
-              <ZebraTable headers={employHeaders} rows={employRows} captionBody="" captionTitle="" summary="" />
+              <DataTable headers={employHeaders} rows={employRows} captionBody="" captionTitle="" summary="" />
             </div>
             <NextLink
               legacyBehavior

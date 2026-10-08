@@ -1,6 +1,7 @@
-import { Disclosure, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Disclosure } from '@sk-web-gui/react';
 import { Fragment } from 'react';
 import { OrgChangeOrganizationEmployee } from '@data-contracts/backend/data-contracts';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface ContextColumn {
   header: string;
@@ -13,13 +14,13 @@ interface MarkedPeopleListProps {
 }
 
 export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeopleListProps) => {
-  const headers: ZebraTableHeader[] = [
+  const headers: DataTableHeader[] = [
     { element: <span className="font-bold">Namn</span> },
     { element: <span className="font-bold">Anställning</span> },
     ...(contextColumn ? [{ element: <span className="font-bold">Nuvarande {contextColumn.header}</span> }] : []),
   ];
 
-  const peopleRows: ZebraTableColumn[][] = peopleToHandle.map((p) => {
+  const peopleRows: DataTableColumn[][] = peopleToHandle.map((p) => {
     return [
       {
         element: (
@@ -65,7 +66,7 @@ export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeople
         <Disclosure.Button />
       </Disclosure.Header>
       <Disclosure.Content>
-        <ZebraTable
+        <DataTable
           pageSize={4}
           captionBody=""
           captionTitle=""

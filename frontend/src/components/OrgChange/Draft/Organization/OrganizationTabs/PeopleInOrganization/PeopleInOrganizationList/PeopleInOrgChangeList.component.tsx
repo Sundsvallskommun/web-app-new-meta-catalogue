@@ -1,4 +1,4 @@
-import { Badge, Checkbox, Pagination, ZebraTable, ZebraTableColumn, ZebraTableHeader, Icon } from '@sk-web-gui/react';
+import { Badge, Checkbox, Pagination, Icon } from '@sk-web-gui/react';
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '@contexts/app.context';
@@ -21,6 +21,7 @@ import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import HandleMarkedContextMenu from './HandleMarkedContextMenu.component';
 import PersonEditor from './PersonEditor/PersonEditor.OrgChange.component';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IPeopleInOrgChange {
   searchQuery?;
@@ -116,7 +117,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
   }, [highlightedItemIndex, highlightedTableRow.clickFingerPrint]);
 
   //table header
-  const headers: ZebraTableHeader[] = employeeOrgChangeHeaders
+  const headers: DataTableHeader[] = employeeOrgChangeHeaders
     .filter((x) => (x.filterId == 8 ? user.permissions.canViewEmployeeDetails : true))
     .filter((x) => (x.filterId == 9 ? user.permissions.canViewEmployeeDetails : true))
     .filter((x) => (x.filterId == 10 ? user.permissions.canViewEmployeeDetails : true))
@@ -212,7 +213,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
   const pages = Math.ceil(employeeListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = employeeListRendered.map((p) => {
+  const rows: DataTableColumn[][] = employeeListRendered.map((p) => {
     const openEditModal = (p) => {
       openPersonEditorModal(p);
     };
@@ -431,13 +432,14 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
       </div>
       {rows.length > 0 ?
         <div className="overflow-x-auto custom-scroll">
-          <ZebraTable
+          <DataTable
             id="orgchange-tabs-people-table"
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
             changePage={(page) => setPage(page)}
             pages={0}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

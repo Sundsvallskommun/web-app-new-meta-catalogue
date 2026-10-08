@@ -4,7 +4,7 @@ import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { Flag } from 'lucide-react';
 import { emptyPersonEditor } from '@services/mdbuilder/defaults';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, FormLabel, Modal, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Button, FormLabel, Modal } from '@sk-web-gui/react';
 import { apiURL } from '@utils/api-url';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
@@ -13,6 +13,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface EmployeeEditorProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     closeCallback();
   };
 
-  const userHeaders: ZebraTableHeader[] = [
+  const userHeaders: DataTableHeader[] = [
     {
       element: <span className="font-bold">Användarnamn</span>,
       isShown: true,
@@ -48,7 +49,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const userRows: ZebraTableColumn[][] =
+  const userRows: DataTableColumn[][] =
     employeeDetails?.logins?.map((login) => {
       return [
         {
@@ -72,7 +73,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       ];
     }) || [];
 
-  const emailHeaders: ZebraTableHeader[] = [
+  const emailHeaders: DataTableHeader[] = [
     {
       element: <p className="font-bold">E-post</p>,
       isShown: true,
@@ -87,7 +88,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const emailRows: ZebraTableColumn[][] =
+  const emailRows: DataTableColumn[][] =
     employeeDetails?.emails?.map((email) => {
       return [
         {
@@ -111,7 +112,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       ];
     }) || [];
 
-  const employOrgChangeHeaders: ZebraTableHeader[] = [
+  const employOrgChangeHeaders: DataTableHeader[] = [
     {
       element: <p className="font-bold">Titel</p>,
       isShown: true,
@@ -156,7 +157,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     },
   ];
 
-  const employRows: ZebraTableColumn[][] =
+  const employRows: DataTableColumn[][] =
     employeeDetails?.employments?.map((e) => {
       return [
         {
@@ -291,8 +292,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           <div className="lg:flex lg:justify-between mt-lg lg:space-x-[20px]">
             <div className="w-full">
               <h4 className="text-xl ml-sm">Användarinfo</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-zebratable-bottomwrapper]:px-sm">
-                <ZebraTable
+              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+                <DataTable
                   headers={userHeaders}
                   rows={userRows}
                   pageSize={2}
@@ -304,8 +305,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             </div>
             <div className="w-full">
               <h4 className="text-xl ml-sm">E-postadresser</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-zebratable-bottomwrapper]:px-sm">
-                <ZebraTable
+              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+                <DataTable
                   headers={emailHeaders}
                   rows={emailRows}
                   pageSize={2}
@@ -321,13 +322,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               Anställning ({employeeDetails?.employments?.length})
             </h4>
             <div className="min-h-[100px]">
-              <ZebraTable
-                headers={employOrgChangeHeaders}
-                rows={employRows}
-                captionBody=""
-                captionTitle=""
-                summary=""
-              />
+              <DataTable headers={employOrgChangeHeaders} rows={employRows} captionBody="" captionTitle="" summary="" />
             </div>
             <NextLink
               legacyBehavior

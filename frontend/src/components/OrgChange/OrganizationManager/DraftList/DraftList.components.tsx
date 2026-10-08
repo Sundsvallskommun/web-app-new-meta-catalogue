@@ -2,7 +2,6 @@ import { useAppContext } from '@contexts/app.context';
 import { Draft } from '@data-contracts/backend/data-contracts';
 import { draftHeaders } from '@services/mdbuilder/defaults';
 import { Spinner } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
@@ -12,6 +11,7 @@ import DraftContextMenu from '../../DraftContextMenu.component';
 import DraftListEntryPhaseMessage from '../DraftListEntryPhaseMessage.component';
 import DraftListEntryPhaseState from '../DraftListEntryPhaseState.component';
 import DraftListEntryPhaseTitle from '../DraftListEntryPhaseTitle.component';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface DraftDataListProps {
   draftData: Draft[];
@@ -34,7 +34,7 @@ export const DraftList = (props: DraftDataListProps) => {
   const highlightedItemIndex = useHighlightedTableRow(highlightedTableRow, setHighlightedTableRow, draftList, tableRef);
 
   //table header
-  const headers: ZebraTableHeader[] = draftHeaders.map((header) => ({
+  const headers: DataTableHeader[] = draftHeaders.map((header) => ({
     element: <span className="font-bold">{header.label}</span>,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
@@ -64,7 +64,7 @@ export const DraftList = (props: DraftDataListProps) => {
   }, []);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = draftList.map((d) => {
+  const rows: DataTableColumn[][] = draftList.map((d) => {
     return [
       {
         element: (
@@ -149,7 +149,7 @@ export const DraftList = (props: DraftDataListProps) => {
           <Spinner size={3} aria-label="Hämtar Utkast" />
         </div>
       : <div className="min-h-[400px]">
-          <ZebraTable
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}

@@ -10,7 +10,6 @@ import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organiz
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Badge, Button, Pagination, Label } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
@@ -18,6 +17,7 @@ import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ResponsibilityEditModal from '../ResponsibilityEditor/ResponsibilityEditModal.component';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IResponsibilityinOrgChangeListProps {
   searchQuery;
@@ -64,7 +64,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   };
 
   //table header
-  const headers: ZebraTableHeader[] = orgChangeResponsibilityHeaders
+  const headers: DataTableHeader[] = orgChangeResponsibilityHeaders
     .filter((x) => (x.filterId == 7 ? user.permissions.canEditResponsibility : true))
     .map((header) => ({
       element: <span className="font-bold">{header.label}</span>,
@@ -165,7 +165,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   const pages = Math.ceil(responsibilityListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = responsibilityListRendered.map((r) => {
+  const rows: DataTableColumn[][] = responsibilityListRendered.map((r) => {
     const from = new Date(r.responsibilityFromDate.toString()).toLocaleDateString('sv-SE');
     const to = new Date(r.responsibilityToDate.toString()).toLocaleDateString('sv-SE');
     const { status, dot } = getAccountStatus(r.responsibilityFromDate, r.responsibilityToDate, r.responsibilityPassive);
@@ -304,12 +304,13 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
       </div>
       {rows.length > 0 ?
         <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
             changePage={(page) => setPage(page)}
             pages={0}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

@@ -5,12 +5,12 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { orgOperationHeaders } from '@services/mdviewer/defaults/operation';
 import { useOperationStore } from '@services/mdviewer/operation-service';
 import { Button, Pagination } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IOperationInOrganizationListProps {
   searchQuery;
@@ -45,7 +45,7 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
   const windowSize = useWindowSize();
 
   //table header
-  const headers: ZebraTableHeader[] = orgOperationHeaders.map((header) => ({
+  const headers: DataTableHeader[] = orgOperationHeaders.map((header) => ({
     element: <span className="font-bold">{header.label}</span>,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
@@ -93,7 +93,7 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
   const pages = Math.ceil(operationListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = operationListRendered.map((r) => {
+  const rows: DataTableColumn[][] = operationListRendered.map((r) => {
     return [
       {
         element: (
@@ -148,12 +148,13 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
       </h2>
       {rows.length > 0 ? (
         <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
             changePage={(page) => setPage(page)}
             pages={0}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

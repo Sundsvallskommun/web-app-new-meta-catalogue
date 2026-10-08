@@ -23,7 +23,7 @@
   }
 
   //:START @sk-web-gui
-  .sk-zebratable {
+  .sk-table {
     @apply table-fixed lg:table-auto;
 
     &-tbody-td:last-of-type {
@@ -35,8 +35,8 @@
     }
   }
   .last-th-right {
-    .sk-zebratable {
-      &-thead-th,
+    .sk-table {
+      &-th,
       &-tbody-td {
         &:last-of-type {
           @apply lg:text-right;
@@ -45,8 +45,8 @@
     }
   }
   .PersonEditor {
-    .sk-zebratable {
-      &-thead-th,
+    .sk-table {
+      &-th,
       &-tbody-td {
         &:last-of-type {
           @apply px-sm lg:pl-0;
@@ -60,8 +60,8 @@
   }
 
   .narrow-table {
-    .sk-zebratable {
-      &-thead-th,
+    .sk-table {
+      &-th,
       &-tbody-td {
         &:last-of-type {
           @apply px-sm lg:pl-0;

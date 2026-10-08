@@ -1,10 +1,10 @@
-import { ZebraTable, ZebraTableColumn } from '@sk-web-gui/react';
 import { Fragment } from 'react';
+import { DataTable, DataTableColumn } from '@components/DataTable/DataTable.component';
 
 export default function ValidationErrorsInOrganizationList({ errors }) {
   if (!errors) return <></>;
 
-  const rows: ZebraTableColumn[][] = [
+  const rows: DataTableColumn[][] = [
     ...errors.map((errorText) => [
       {
         element: (
@@ -22,5 +22,5 @@ export default function ValidationErrorsInOrganizationList({ errors }) {
       },
     ]),
   ];
-  return <ZebraTable rows={rows} tableSortable={true} summary="" headers={[]} />;
+  return <DataTable rows={rows} tableSortable={true} summary="" headers={[]} />;
 }

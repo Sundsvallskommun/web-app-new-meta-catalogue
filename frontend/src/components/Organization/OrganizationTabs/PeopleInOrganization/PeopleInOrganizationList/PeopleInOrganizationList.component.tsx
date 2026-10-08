@@ -8,12 +8,13 @@ import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Button, Pagination } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IPeopleInOrganization {
   searchQuery?;
@@ -90,7 +91,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   }, [highlightedItemIndex, highlightedTableRow.clickFingerPrint]);
 
   //table header
-  const headers: ZebraTableHeader[] = employeeHeaders
+  const headers: DataTableHeader[] = employeeHeaders
     // persondetaljer
     .filter((x) => (x.filterId == 4 ? user.permissions.canViewEmployeeDetails : true))
     .map((header) => ({
@@ -165,7 +166,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   const pages = Math.ceil(employeeListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = employeeListRendered.map((p) => {
+  const rows: DataTableColumn[][] = employeeListRendered.map((p) => {
     const getADName = (loginname) => {
       const split = loginname.split('\\');
       return split[split.length - 1];
@@ -279,11 +280,12 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
       </h2>
       {rows.length > 0 ? (
         <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex !== undefined ? highlightedItemIndex % pageSize : undefined}
             sortHandler={sortHandler}
             pages={0}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

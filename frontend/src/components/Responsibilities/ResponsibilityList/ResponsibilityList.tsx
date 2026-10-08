@@ -8,7 +8,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Pagination, Spinner, Label } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
@@ -47,7 +47,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   const windowSize = useWindowSize();
 
   //table header
-  const headers: ZebraTableHeader[] = responsibilityHeaders
+  const headers: DataTableHeader[] = responsibilityHeaders
     .filter((x) => (x.filterId == 8 ? user.permissions.canEditResponsibility : true))
     .map((header) => ({
       element: <span className="font-bold">{header.label}</span>,
@@ -124,7 +124,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   const pages = Math.ceil(responsibilityListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = responsibilityListRendered.map((r) => {
+  const rows: DataTableColumn[][] = responsibilityListRendered.map((r) => {
     const from = new Date(r.responsibilityValidFrom as string).toLocaleDateString('sv-SE');
     const { bg: typeBg, text: typeText, border: border } = responsibilityType(r.typeOfResponsibility);
     return [
@@ -238,12 +238,13 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
         </div>
       ) : (
         <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
             changePage={(page) => setPage(page)}
             pages={0}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
