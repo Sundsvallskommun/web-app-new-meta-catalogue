@@ -43,12 +43,12 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
     // Check if zebratable header and content have disappeared
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Ansvarskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('41203001').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('41203001').should('not.exist');
     // And if the appers again..
     cy.get('button[type="button"]').contains('Visa alla').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Ansvarskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('41203001').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('41203001').should('exist');
 
     // All visible
 
@@ -56,32 +56,32 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
 
     // checking Bob Miller
     cy.get('.dropdown-filter').contains('label', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Ansvarstyp').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Pseudoansvar').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarstyp').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Pseudoansvar').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Ansvarstyp').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Pseudoansvar').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarstyp').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Pseudoansvar').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Giltig från').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Giltig från').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('1900-01-01').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Giltig från').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('1900-01-01').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Giltig från').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Giltig från').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('1900-01-01').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Giltig från').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('1900-01-01').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Giltig till').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Giltig till').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('9999-12-31').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Giltig till').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('9999-12-31').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Giltig till').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Giltig till').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('9999-12-31').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Giltig till').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('9999-12-31').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Status').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Status').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Aktiv').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Status').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Aktiv').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Status').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Status').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Aktiv').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Status').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Aktiv').should('exist');
 
     cy.get('.dropdown-filter')
       .contains('label', 'Redigera ansvar')
@@ -91,34 +91,34 @@ describe('/hanteraorganisation - main - Tabs - Responsibilities', () => {
 
   it('Sort table columns', () => {
     // default sorted by Namn
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Bob').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Titel').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('pseudo Bob').should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Bob').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('pseudo Bob').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Ansvar').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Pseudoansvar').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Ansvar').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Pseudoansvar').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('41203000').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('41203002').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('41203000').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('41203002').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig från').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('1900-01-01').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig från').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('1900-01-03').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig från').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('1900-01-01').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig från').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('1900-01-03').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig till').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('9999-12-31').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig till').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('99999-12-31').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig till').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('9999-12-31').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig till').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('99999-12-31').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Status').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Aktiv').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Status').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Inaktiv').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Status').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Aktiv').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Status').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Inaktiv').should('exist');
   });
 
   it('Create responsibility', () => {

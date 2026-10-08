@@ -91,12 +91,12 @@ describe('/organization - Aside', () => {
     cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').click();
 
     // Ensure the first row contains 'Förstelärare (Sundsvalls kommun)'
-    cy.get('tbody.sk-zebratable-tbody tr:first-child').contains('Förstelärare (Sundsvalls kommun)').should('exist');
+    cy.get('tbody.sk-table-tbody tr:first-child').contains('Förstelärare (Sundsvalls kommun)').should('exist');
 
     // Click the sorting button
     cy.get('button').filter(':visible').contains('Anställning').click();
 
     // Check that the first row now contains 'Barnskötare (Sundsvalls kommun)'
-    cy.get('tbody.sk-zebratable-tbody tr:first-child').contains('Barnskötare (Sundsvalls kommun)').should('exist');
+    cy.get('tbody.sk-table-tbody tr:first-child').contains('Barnskötare (Sundsvalls kommun)').should('exist');
   });
 });

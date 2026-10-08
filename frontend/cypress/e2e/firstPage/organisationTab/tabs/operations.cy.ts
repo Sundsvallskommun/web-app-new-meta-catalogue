@@ -33,7 +33,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
 
     // Check the number of rows before search
-    cy.get('.sk-zebratable-tbody-tr').filter(':visible').should('have.length', 10);
+    cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 10);
 
     // Interact with the search input
     cy.get('.search-bar input[type="text"]').last().type('grundskola');
@@ -42,10 +42,10 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.table-header').contains('Verksamheter (1)').should('be.visible');
 
     // Check the number of rows after search
-    cy.get('.sk-zebratable-tbody-tr').filter(':visible').should('have.length', 1);
+    cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 1);
 
     // Check that the remaining row contains the correct data
-    cy.get('.sk-zebratable-tbody-tr')
+    cy.get('.sk-table-tbody-tr')
       .filter(':visible')
       .within(() => {
         cy.get('td').eq(0).contains('Grundskola').should('be.visible');
@@ -59,10 +59,10 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
 
     // Check the number of rows after clearing the search
-    cy.get('.sk-zebratable-tbody-tr').filter(':visible').should('have.length', 10);
+    cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 10);
 
     // Check that the table contains the original data
-    cy.get('.sk-zebratable-tbody-tr')
+    cy.get('.sk-table-tbody-tr')
       .filter(':visible')
       .eq(1)
       .within(() => {
@@ -85,32 +85,32 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('button[type="button"]').contains('Dölj alla').click();
 
     // Check if "Verksamhetskod" header and content have disappeared
-    cy.get('.sk-zebratable-thead th').contains('Verksamhetskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').contains('440000').should('not.exist');
+    cy.get('.sk-table-thead th').contains('Verksamhetskod').should('not.exist');
+    cy.get('.sk-table-tbody td').contains('440000').should('not.exist');
 
     // Click the "Visa alla" button
     cy.get('button[type="button"]').contains('Visa alla').click();
 
     // Check if "Verksamhetskod" header and content have appered again
-    cy.get('.sk-zebratable-thead th').contains('Verksamhetskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').contains('440000').should('exist');
+    cy.get('.sk-table-thead th').contains('Verksamhetskod').should('exist');
+    cy.get('.sk-table-tbody td').contains('440000').should('exist');
   });
 
   it('Sort table columns', () => {
     cy.get('button#sk-tab-2-operations').contains('Verksamheter (15)').click();
 
     // default sorted by Titel
-    cy.get('.sk-zebratable-tbody tr')
+    cy.get('.sk-table-tbody tr')
       .filter(':visible')
       .first()
       .contains('Asyl, introduktion och interna')
       .should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Titel').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Övergripande funktioner').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Övergripande funktioner').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('407000').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('463000').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('407000').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('463000').should('exist');
   });
 });

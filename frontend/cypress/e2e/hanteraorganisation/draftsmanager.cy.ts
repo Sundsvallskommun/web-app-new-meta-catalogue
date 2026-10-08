@@ -26,7 +26,7 @@ describe('/hanteraorganisation', () => {
       cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
 
       cy.get('button[title="Lista"]').click();
-      cy.get('.sk-zebratable-tbody-tr').filter(':visible').should('have.length', 5);
+      cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 5);
     });
   });
 

@@ -44,12 +44,12 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
     // Check if zebratable header and content have disappeared
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
     // And if the appers again..
     cy.get('button[type="button"]').contains('Visa alla').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
     // All visible
 
@@ -57,11 +57,11 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
 
     // checking Bob Miller
     cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
     cy.get('.dropdown-filter')
       .contains('label', 'Ta bort verksamhet')
@@ -71,14 +71,14 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
 
   it('Sort table columns', () => {
     // default sorted by Titel
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Test Description 20').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Titel').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Test Description 95').should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Test Description 20').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Test Description 95').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('25').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('87').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('25').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('87').should('exist');
   });
 
   it('Connect operation', () => {

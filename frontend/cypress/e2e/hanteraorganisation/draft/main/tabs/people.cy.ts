@@ -44,12 +44,12 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
     // Check if zebratable header and content have disappeared
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Pers.nr').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('206194').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('not.exist');
     // And if the appers again..
     cy.get('button[type="button"]').contains('Visa alla').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Pers.nr').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('206194').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('exist');
 
     // All visible
 
@@ -57,60 +57,60 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
 
     // checking Bob Miller
     cy.get('.dropdown-filter').contains('label', 'Pers.nr').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Pers.nr').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('206194').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Pers.nr').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Pers.nr').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('206194').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Anställning').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Anställning').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Analyst').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Anställning').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Analyst').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Anställning').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Anställning').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Analyst').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Anställning').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Analyst').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Anv. namn').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Anv. namn').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Bob70Mil').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Anv. namn').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Bob70Mil').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Anv. namn').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Anv. namn').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('Bob70Mil').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Anv. namn').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('Bob70Mil').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'PA-Team').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('PA-Team').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('PA1').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('PA-Team').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('PA1').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'PA-Team').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('PA-Team').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('PA1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('PA-Team').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('PA1').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Verksamhet').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhet').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('OP3').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhet').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('OP3').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Verksamhet').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhet').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('OP3').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhet').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('OP3').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Objekt').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Objekt').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ObjP3').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Objekt').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ObjP3').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Objekt').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Objekt').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ObjP3').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Objekt').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ObjP3').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Aktivitet').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Aktivitet').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ActP3').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Aktivitet').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ActP3').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Aktivitet').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Aktivitet').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ActP3').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Aktivitet').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ActP3').should('exist');
 
     cy.get('.dropdown-filter').contains('label', 'Projekt').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Projekt').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ProP3').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Projekt').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ProP3').should('not.exist');
     cy.get('.dropdown-filter').contains('label', 'Projekt').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Projekt').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('ProP3').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Projekt').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('ProP3').should('exist');
 
     cy.get('.dropdown-filter')
       .contains('label', 'Persondetaljer')
@@ -128,49 +128,49 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     cy.get('button[type="button"]').contains('Visa alla').click();
 
     // default sorted by Namn
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Bob Miller').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Namn').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Jack Jones').should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Bob Miller').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Namn').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Jack Jones').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Pers.nr').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('012880').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Pers.nr').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('889842').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Pers.nr').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('012880').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Pers.nr').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('889842').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Anställning').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Accountant').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Anställning').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Salesperson').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Anställning').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Accountant').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Anställning').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Salesperson').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Anv. namn').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Bob70Mil').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Anv. namn').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Jac13Jon').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Anv. namn').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Bob70Mil').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Anv. namn').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Jac13Jon').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'PA-Team').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('PA1').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'PA-Team').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('PA4').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'PA-Team').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('PA1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'PA-Team').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('PA4').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhet').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('OP1').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhet').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('OP4').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhet').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('OP1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhet').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('OP4').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Objekt').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ObjP1').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Objekt').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ObjP5').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Objekt').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ObjP1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Objekt').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ObjP5').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Aktivitet').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ActP1').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Aktivitet').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ActP5').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Aktivitet').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ActP1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Aktivitet').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ActP5').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Projekt').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ProP1').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Projekt').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('ProP5').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Projekt').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ProP1').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Projekt').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('ProP5').should('exist');
   });
 
   it('Move 1 person', () => {

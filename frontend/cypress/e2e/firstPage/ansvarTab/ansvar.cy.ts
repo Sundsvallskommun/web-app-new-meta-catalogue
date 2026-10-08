@@ -20,16 +20,16 @@ describe('/ansvar', () => {
     );
     cy.get('#responsibilities-listfilter-company').should('be.visible');
     cy.get('#responsibilities-listfilter-company').select('Sundsvalls kommun').wait(1000);
-    cy.get('.sk-zebratable-tbody').should('exist').find('tr').should('have.length', 3);
+    cy.get('.sk-table-tbody').should('exist').find('tr').should('have.length', 3);
     cy.get('#responsibilities-listfilter-company').select('Mittuniversitetet').wait(1000);
-    cy.get('.sk-zebratable-tbody').should('exist').find('tr').should('have.length', 1);
+    cy.get('.sk-table-tbody').should('exist').find('tr').should('have.length', 1);
   });
 
   it('Check if the search result appears', () => {
     cy.get('input[placeholder="Sök i listan"]').type('BoU Pseudo{enter}');
 
     // Check if the search result appears
-    cy.get('td.sk-zebratable-tbody-td').contains('BoU Pseudo').should('exist');
+    cy.get('td.sk-table-tbody-td').contains('BoU Pseudo').should('exist');
 
     cy.get('input[placeholder="Sök i listan"]').clear().type('Your search text{enter}');
 
@@ -90,8 +90,8 @@ describe('/ansvar', () => {
     });
 
     // Check if "Ansvarstyp" header and content exist
-    cy.get('.sk-zebratable-thead th').contains('Ansvarstyp').should('exist');
-    cy.get('.sk-zebratable-tbody td').contains('Pseudoansvar').should('exist');
+    cy.get('.sk-table-thead th').contains('Ansvarstyp').should('exist');
+    cy.get('.sk-table-tbody td').contains('Pseudoansvar').should('exist');
 
     //   Click the 'Dölj alla' button
     cy.get('.filter-controls button').contains('Dölj alla').click();
@@ -104,8 +104,8 @@ describe('/ansvar', () => {
       });
 
     // Check if "Ansvarstyp" header and content does not exist
-    cy.get('.sk-zebratable-thead th').contains('Ansvarstyp').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').contains('Pseudoansvar').should('not.exist');
+    cy.get('.sk-table-thead th').contains('Ansvarstyp').should('not.exist');
+    cy.get('.sk-table-tbody td').contains('Pseudoansvar').should('not.exist');
 
     // Check and uncheck each checkbox
     cy.get('.filter-item input[type="checkbox"]')
@@ -118,24 +118,24 @@ describe('/ansvar', () => {
 
   it('Sort table columns', () => {
     // default sorted by Titel
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('BoU Ans').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Titel').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('BoU Pseudo').should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('BoU Ans').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('BoU Pseudo').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Ansvar').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Pseudoansvar').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Ansvar').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarstyp').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Pseudoansvar').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('69990000').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('69990002').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('69990000').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Ansvarskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('69990002').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig från').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('1799-12-31').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Giltig från').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('9999-12-31').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig från').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('1799-12-31').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Giltig från').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('9999-12-31').should('exist');
   });
 
   // Exportera
