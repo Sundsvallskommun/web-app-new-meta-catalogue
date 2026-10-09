@@ -29,17 +29,17 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
   });
 
   it('Search operations', () => {
-    cy.get('#sk-tab-panel-2-operations').find('table tbody tr').should('have.length', 4);
+    cy.get('[data-cy="tab-panel-operations"]').find('table tbody tr').should('have.length', 4);
 
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]');
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]').click();
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]').type('Test Description 63');
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]');
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]').click();
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]').type('Test Description 63');
 
-    cy.get('#sk-tab-panel-2-operations').find('table tbody tr').should('have.length', 1);
+    cy.get('[data-cy="tab-panel-operations"]').find('table tbody tr').should('have.length', 1);
   });
 
   it('Filter table columns', () => {
-    cy.get('#sk-tab-panel-2-operations').contains('Visa/dölj kolumner i verksamheter').click();
+    cy.get('[data-cy="tab-panel-operations"]').contains('Visa/dölj kolumner i verksamheter').click();
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
@@ -53,17 +53,20 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
 
     // All visible
 
-    cy.get('.dropdown-filter').contains('label', 'Titel').find('input').should('have.attr', 'aria-disabled', 'true');
+    cy.get('[data-cy="column-filter"]')
+      .contains('label', 'Titel')
+      .find('input')
+      .should('have.attr', 'aria-disabled', 'true');
 
     // checking Bob Miller
-    cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
-    cy.get('.dropdown-filter')
+    cy.get('[data-cy="column-filter"]')
       .contains('label', 'Ta bort verksamhet')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');

@@ -23,7 +23,7 @@ describe('/hanteraorganisation', () => {
 
   it('Lists drafts', () => {
     cy.wait('@getDrafts').then(() => {
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 5);
 
       cy.get('button[title="Lista"]').click();
       cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 5);
@@ -32,34 +32,34 @@ describe('/hanteraorganisation', () => {
 
   it('Filter drafts', () => {
     cy.wait('@getDrafts').then(() => {
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 5);
 
       // searchfield
       cy.get('input[aria-label="Sök organisationsförändringar"]').type('Draftname-approved');
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 1);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 1);
       cy.get('input[aria-label="Sök organisationsförändringar"]').clear();
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 5);
 
       // phase
       cy.get('select[name="phase"]').should('be.visible');
       cy.get('select[name="phase"]').select('Godkänd och väntar på export').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 1);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 1);
       cy.get('select[name="phase"]').select('Godkänd och exporteras').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 1);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 1);
       cy.get('select[name="phase"]').select('Export behöver uppmärksamhet').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 1);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 1);
       cy.get('select[name="phase"]').select('Exporterad och arkiverad').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 1);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 1);
       cy.get('select[name="phase"]').select('Alla förändringar').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 5);
 
       // timerange
       cy.get('select[name="timeRange"]').should('be.visible');
       cy.get('select[name="timeRange"]').select('Senaste året').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 4);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 4);
       cy.get('select[name="timeRange"]').should('be.visible');
       cy.get('select[name="timeRange"]').select('Skapad datum (alla)').wait(1000);
-      cy.get('.orgchange-cards .card-list').should('exist').find('.card').should('have.length', 5);
+      cy.get('.orgchange-cards .sk-card').should('have.length', 5);
     });
   });
 

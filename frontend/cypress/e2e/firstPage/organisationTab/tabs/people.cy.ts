@@ -18,15 +18,15 @@ describe('/organization - Main - Tabs - People', () => {
 
     cy.visit('/');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist').click();
   });
 
   it('Filter table columns', () => {
-    cy.get('.dropdown-button').filter(':visible').click();
+    cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').filter(':visible').click();
 
     // Check if the content has changed
-    cy.get('.filter-container').should('be.visible');
+    cy.get('[data-cy="column-filter"] .sk-filter').should('be.visible');
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();

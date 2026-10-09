@@ -41,7 +41,7 @@ describe('Tab menu', () => {
     cy.get('[data-cy="search-results-query"]').contains('Sökord');
     cy.get('[data-cy="search-results-amount"]').contains('3 sökresultat:');
 
-    cy.get('[data-cy="search"] + .form-input-addin-right button').click();
+    cy.get('.GlobalSearch .sk-search-field-button-reset').click();
     cy.get('[data-cy="search"]').should('have.attr', 'placeholder', 'Sök i all data');
   });
 

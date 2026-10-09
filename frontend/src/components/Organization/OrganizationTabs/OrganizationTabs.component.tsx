@@ -117,8 +117,10 @@ export default function OrganizationTabs({ organization }: OrganizationTabsProps
     >
       {tabs.map((tab) => (
         <Tabs.Item key={tab.id}>
-          <Tabs.Button leftIcon={tab.icon}>{tab.label}</Tabs.Button>
-          <Tabs.Content>{tab.children}</Tabs.Content>
+          <Tabs.Button leftIcon={tab.icon} data-cy={`tab-${tab.id}`}>
+            {tab.label}
+          </Tabs.Button>
+          <Tabs.Content data-cy={`tab-panel-${tab.id}`}>{tab.children}</Tabs.Content>
         </Tabs.Item>
       ))}
     </Tabs>

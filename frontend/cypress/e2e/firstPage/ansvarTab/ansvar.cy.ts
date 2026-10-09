@@ -11,7 +11,7 @@ describe('/ansvar', () => {
     cy.visit('/');
 
     // Switch to Ansvar tab
-    cy.get('.sk-tab-menu-item').contains('Ansvar').click();
+    cy.get('.sk-navigationbar-item').contains('Ansvar').click();
   });
 
   it('Change company', () => {
@@ -76,16 +76,16 @@ describe('/ansvar', () => {
   //   Filter
   it('Filter table columns', () => {
     // Open the dropdown filter
-    cy.get('.dropdown-filter button[type="button"]').click();
+    cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').click();
 
     // Check if dropdown filter is expanded
-    cy.get('.dropdown-filter button[type="button"]').should('have.attr', 'aria-expanded', 'true');
+    cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').should('have.attr', 'aria-expanded', 'true');
 
     // Click the 'Visa alla' button
-    cy.get('.filter-controls button').contains('Visa alla').click();
+    cy.get('[data-cy="column-filter"] button').contains('Visa alla').click();
 
     // Check if all checkboxes are checked
-    cy.get('.filter-item input[type="checkbox"]').each(($el) => {
+    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]').each(($el) => {
       cy.wrap($el).should('be.checked');
     });
 
@@ -94,10 +94,10 @@ describe('/ansvar', () => {
     cy.get('.sk-table-tbody td').contains('Pseudoansvar').should('exist');
 
     //   Click the 'Dölj alla' button
-    cy.get('.filter-controls button').contains('Dölj alla').click();
+    cy.get('[data-cy="column-filter"] button').contains('Dölj alla').click();
 
     // Check if all checkboxes are not checked
-    cy.get('.filter-item input[type="checkbox"]')
+    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
         cy.wrap($el).should('not.be.checked');
@@ -108,7 +108,7 @@ describe('/ansvar', () => {
     cy.get('.sk-table-tbody td').contains('Pseudoansvar').should('not.exist');
 
     // Check and uncheck each checkbox
-    cy.get('.filter-item input[type="checkbox"]')
+    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
         cy.wrap($el).click().should('be.checked');

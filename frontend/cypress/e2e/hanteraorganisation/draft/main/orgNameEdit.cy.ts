@@ -13,7 +13,7 @@ describe('/hanteraorganisation - main - OrgNameEdit', () => {
 
     cy.wait('@getOrgTree');
 
-    cy.get('.sk-sidemenu .sk-sidemenu-item.lvl-0 .sk-sidemenu-item-link').first().click();
+    cy.get('[data-cy="organization-tree"] > li [role="menuitem"]').first().click();
 
     cy.get('input[name="orgName"]').should('have.value', 'Uslands skola').click();
     cy.get('input[name="orgName"]').type('null').clear();

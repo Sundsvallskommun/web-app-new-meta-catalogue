@@ -5,7 +5,7 @@ describe('/hanteraorganisation - main - ActionHeaderBranch', () => {
   beforeEach(() => {
     beforeEachDraft({ orgTree: orgTreeMoveNode });
 
-    cy.get('.sk-sidemenu .sk-sidemenu-item.lvl-0:first-child .sk-sidemenu-item-link').click();
+    cy.get('[data-cy="organization-tree"] > li:first-child [role="menuitem"]').first().click();
   });
 
   it('Move node', () => {

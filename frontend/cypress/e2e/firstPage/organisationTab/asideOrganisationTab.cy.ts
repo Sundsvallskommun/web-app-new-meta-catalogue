@@ -10,10 +10,10 @@ describe('/organization - Aside', () => {
   });
 
   it('should display aside header elements and its contents', () => {
-    cy.get('nav.sk-sidemenu').should('be.visible');
+    cy.get('nav.sk-menu-vertical-sidebar').should('be.visible');
 
-    cy.get('nav.sk-sidemenu label').contains('Avbildning').should('be.visible');
-    cy.get('nav.sk-sidemenu label').contains('Bolag').should('be.visible');
+    cy.get('nav.sk-menu-vertical-sidebar label').contains('Avbildning').should('be.visible');
+    cy.get('nav.sk-menu-vertical-sidebar label').contains('Bolag').should('be.visible');
 
     cy.contains('select', 'Masterdata').should('be.visible');
     cy.contains('select', 'Sundsvalls kommun').should('be.visible');
@@ -34,7 +34,7 @@ describe('/organization - Aside', () => {
   });
 
   it('should display menu-body content', () => {
-    cy.get('.sk-sidemenu-body').should('be.visible');
+    cy.get('[data-cy="organization-tree"]').should('be.visible');
 
     const menuLabels = [
       'Barn o utbildningsförvaltning',
@@ -47,13 +47,13 @@ describe('/organization - Aside', () => {
     ];
 
     menuLabels.forEach((label) => {
-      cy.get('.sk-sidemenu-body .sk-sidemenu-item-link').contains(label).should('exist');
+      cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains(label).should('exist');
     });
 
-    cy.get('.sk-sidemenu-body > li')
+    cy.get('[data-cy="organization-tree"] > li')
       .should('have.length', menuLabels.length)
       .each(($menuItem) => {
-        cy.wrap($menuItem).find('.sk-sidemenu-item-link').should('have.attr', 'aria-expanded', 'false');
+        cy.wrap($menuItem).find('[role="menuitem"]').first().should('have.attr', 'aria-expanded', 'false');
       });
   });
 
@@ -63,32 +63,28 @@ describe('/organization - Aside', () => {
     cy.intercept('GET', '**/api/mdviewer/operation/**/operationallleaves', operations);
     cy.intercept('GET', '**/api/mdviewer/employment/**/employeesallleaves', employees);
 
-    cy.get('.sk-sidemenu-item .sk-sidemenu-item-link').first().click();
+    cy.get('[data-cy="organization-tree"] [role="menuitem"]').first().click();
 
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').should('exist');
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').click();
 
-    cy.get(`.sk-sidemenu-item.lvl-2[data-id="37"]`).find('.sk-sidemenu-item-link').first().click();
+    cy.get('[data-cy="tree-item-37"]').find('[role="menuitem"]').first().click();
 
-    cy.get('.sk-sidemenu-item-link').contains('Bosvedjeskolan').click();
+    cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains('Bosvedjeskolan').click();
 
-    cy.get('.sk-sidemenu-item.lvl-4[data-id="180"]')
-      .find('.sk-sidemenu-item-link')
-      .first()
-      .contains('Bosvedjeskolan')
-      .should('exist');
+    cy.get('[data-cy="tree-item-180"]').find('[role="menuitem"]').first().contains('Bosvedjeskolan').should('exist');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item-link').first().should('have.attr', 'aria-expanded', 'true');
+    cy.get('[data-cy="organization-tree"] [role="menuitem"]').first().should('have.attr', 'aria-expanded', 'true');
   });
 
   it('Testing sorting of zebraTable rows', () => {
     cy.intercept('GET', '**/api/mdviewer/responsibility/**/responsibilitysallleaves', responsibilities);
     cy.intercept('GET', '**/api/mdviewer/operation/**/operationallleaves', operations);
     cy.intercept('GET', '**/api/mdviewer/employment/**/employeesallleaves', employees);
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
 
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').should('exist');
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-link').contains('Norra grundskola').click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').click();
 
     // Ensure the first row contains 'Förstelärare (Sundsvalls kommun)'
     cy.get('tbody.sk-table-tbody tr:first-child').contains('Förstelärare (Sundsvalls kommun)').should('exist');

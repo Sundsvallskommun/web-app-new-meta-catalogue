@@ -29,17 +29,17 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
   });
 
   it('Search person', () => {
-    cy.get('#sk-tab-panel-0-employees').find('table tbody tr').should('have.length', 10);
+    cy.get('[data-cy="tab-panel-employees"]').find('table tbody tr').should('have.length', 10);
 
-    cy.get('#sk-tab-panel-0-employees').find('input[placeholder="Sök i listan"]');
-    cy.get('#sk-tab-panel-0-employees').find('input[placeholder="Sök i listan"]').click();
-    cy.get('#sk-tab-panel-0-employees').find('input[placeholder="Sök i listan"]').type('Bob Miller');
+    cy.get('[data-cy="tab-panel-employees"]').find('input[placeholder="Sök i listan"]');
+    cy.get('[data-cy="tab-panel-employees"]').find('input[placeholder="Sök i listan"]').click();
+    cy.get('[data-cy="tab-panel-employees"]').find('input[placeholder="Sök i listan"]').type('Bob Miller');
 
-    cy.get('#sk-tab-panel-0-employees').find('table tbody tr').should('have.length', 1);
+    cy.get('[data-cy="tab-panel-employees"]').find('table tbody tr').should('have.length', 1);
   });
 
   it('Filter table columns', () => {
-    cy.get('#sk-tab-panel-0-employees').contains('Visa/dölj kolumner i personer').click();
+    cy.get('[data-cy="tab-panel-employees"]').contains('Visa/dölj kolumner i personer').click();
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
@@ -53,78 +53,81 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
 
     // All visible
 
-    cy.get('.dropdown-filter').contains('label', 'Namn').find('input').should('have.attr', 'aria-disabled', 'true');
+    cy.get('[data-cy="column-filter"]')
+      .contains('label', 'Namn')
+      .find('input')
+      .should('have.attr', 'aria-disabled', 'true');
 
     // checking Bob Miller
-    cy.get('.dropdown-filter').contains('label', 'Pers.nr').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Pers.nr').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Pers.nr').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Pers.nr').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Pers.nr').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('206194').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Anställning').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Anställning').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Anställning').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Analyst').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Anställning').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Anställning').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Anställning').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Analyst').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Anv. namn').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Anv. namn').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Anv. namn').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Bob70Mil').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Anv. namn').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Anv. namn').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Anv. namn').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Bob70Mil').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'PA-Team').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'PA-Team').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('PA-Team').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('PA1').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'PA-Team').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'PA-Team').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('PA-Team').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('PA1').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Verksamhet').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhet').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhet').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('OP3').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Verksamhet').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhet').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhet').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('OP3').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Objekt').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Objekt').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Objekt').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ObjP3').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Objekt').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Objekt').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Objekt').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ObjP3').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Aktivitet').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Aktivitet').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Aktivitet').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ActP3').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Aktivitet').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Aktivitet').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Aktivitet').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ActP3').should('exist');
 
-    cy.get('.dropdown-filter').contains('label', 'Projekt').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Projekt').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Projekt').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ProP3').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Projekt').click();
+    cy.get('[data-cy="column-filter"]').contains('label', 'Projekt').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Projekt').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('ProP3').should('exist');
 
-    cy.get('.dropdown-filter')
+    cy.get('[data-cy="column-filter"]')
       .contains('label', 'Persondetaljer')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');
 
-    cy.get('.dropdown-filter')
+    cy.get('[data-cy="column-filter"]')
       .contains('label', 'Välj person')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');
   });
 
   it('Sort table columns', () => {
-    cy.get('#sk-tab-panel-0-employees').contains('Visa/dölj kolumner i personer').click();
+    cy.get('[data-cy="tab-panel-employees"]').contains('Visa/dölj kolumner i personer').click();
     cy.get('button[type="button"]').contains('Visa alla').click();
 
     // default sorted by Namn

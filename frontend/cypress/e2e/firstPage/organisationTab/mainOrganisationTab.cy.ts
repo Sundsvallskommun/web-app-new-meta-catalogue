@@ -18,8 +18,8 @@ describe('/organization - Main', () => {
 
     cy.visit('/');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist').click();
   });
 
   it('Interact with Nästa and Föregående', () => {

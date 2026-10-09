@@ -18,8 +18,8 @@ describe('/organization - Main - Tabs - Operations', () => {
 
     cy.visit('/');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist').click();
   });
 
   it('display content in main and test search', () => {
@@ -27,7 +27,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.wait('@getOperations');
 
     // Click the Verksamheter element
-    cy.get('button#sk-tab-2-operations').contains('Verksamheter (15)').click();
+    cy.get('[data-cy="tab-operations"]').contains('Verksamheter (15)').click();
 
     // Check if correct content sample appears
     cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
@@ -36,7 +36,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 10);
 
     // Interact with the search input
-    cy.get('.search-bar input[type="text"]').last().type('grundskola');
+    cy.get('.sk-search-field input[type="text"]').last().type('grundskola');
 
     // Check if the content changes to "Verksamheter (1)"
     cy.get('.table-header').contains('Verksamheter (1)').should('be.visible');
@@ -53,7 +53,7 @@ describe('/organization - Main - Tabs - Operations', () => {
       });
 
     // Clear the search input
-    cy.get('.search-bar input[type="text"]').last().clear();
+    cy.get('.sk-search-field input[type="text"]').last().clear();
 
     // Check if the content changes back to "Verksamheter (15)"
     cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
@@ -73,13 +73,13 @@ describe('/organization - Main - Tabs - Operations', () => {
 
   it('Filter table columns', () => {
     // Click the Verksamheter element
-    cy.get('button#sk-tab-2-operations').contains('Verksamheter (15)').click();
+    cy.get('[data-cy="tab-operations"]').contains('Verksamheter (15)').click();
 
     // Click the "Visa/dölj kolumner i verksamheter" button
-    cy.get('.dropdown-button').filter(':visible').click();
+    cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').filter(':visible').click();
 
     // Check if the content has changed
-    cy.get('.dropdown-button[aria-expanded="true"]').should('be.visible');
+    cy.get('[data-cy="column-filter"] button[aria-expanded="true"]').should('be.visible');
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
@@ -97,7 +97,7 @@ describe('/organization - Main - Tabs - Operations', () => {
   });
 
   it('Sort table columns', () => {
-    cy.get('button#sk-tab-2-operations').contains('Verksamheter (15)').click();
+    cy.get('[data-cy="tab-operations"]').contains('Verksamheter (15)').click();
 
     // default sorted by Titel
     cy.get('.sk-table-tbody tr')

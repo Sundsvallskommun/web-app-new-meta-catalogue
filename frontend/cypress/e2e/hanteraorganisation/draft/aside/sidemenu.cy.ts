@@ -32,7 +32,7 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.intercept('POST', '**/api/orgchange/orgnode', { data: 123, message: 'success' }).as('postCreateNode');
 
     // Select parent that should get new node
-    cy.get('.Sidebar .sk-sidemenu-item.lvl-0 .sk-sidemenu-item-link').click();
+    cy.get('[data-cy="organization-tree"] > li [role="menuitem"]').first().click();
 
     cy.wait('@getOrgTree');
 
@@ -46,7 +46,7 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
 
     cy.get('[aria-modal="true"]').contains('Ja skapa gren').click();
 
-    cy.get('.sk-sidemenu-item-label').contains('Ny gren').should('exist');
+    cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains('Ny gren').should('exist');
   });
 
   it('Show/Search', () => {
@@ -58,30 +58,30 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     // Open
     cy.get('button').contains('Visa/sök').click();
 
-    cy.get('ul[aria-label="Sökfilter"]')
+    cy.get('#sideMenuSearchFilters')
       .should('be.visible')
       .within(() => {
-        cy.get('li.filter-item').contains('Nivåer').click();
-        cy.get('li.filter-item').contains('Ansvarskod').click();
-        cy.get('li.filter-item').contains('Förkortningar').click();
+        cy.get('.sk-filter-item').contains('Nivåer').click();
+        cy.get('.sk-filter-item').contains('Ansvarskod').click();
+        cy.get('.sk-filter-item').contains('Förkortningar').click();
       });
 
     // Close
     cy.get('button').contains('Visa/sök').click();
 
-    cy.get('.sk-sidemenu-item.lvl-0 .expand').click();
+    cy.get('[data-cy="organization-tree"] > li .sk-menu-vertical-item-submenu-button-expand').first().click();
 
     // Assert new state
     // Code
-    cy.get('.sk-sidemenu-item.lvl-0').contains('9400').should('be.visible');
-    cy.get('.sk-sidemenu-item.lvl-1').contains('94001').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li').contains('9400').should('be.visible');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('94001').should('be.visible');
 
     // Levels
-    cy.get('.sk-sidemenu-item.lvl-0 .expand').contains('N5').should('be.visible');
-    cy.get('.sk-sidemenu-item.lvl-1').contains('N6').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li [role="menuitem"]').first().contains('N5').should('be.visible');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('N6').should('be.visible');
 
     // Abbreviations
-    cy.get('.sk-sidemenu-item.lvl-0').contains('CDE Uslands skola').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li').contains('CDE Uslands skola').should('be.visible');
 
     // Search "CDE Uslands skola"
     // Open
@@ -90,8 +90,8 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('input[aria-label="Sök gren i menyn"]').type('CDE Uslands skola');
     cy.focused().type('{downArrow}');
     cy.focused().type('{enter}');
-    cy.get('ul[aria-label="Organisationsmeny"] [aria-current="true"]').should(
-      'have.text',
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should(
+      'contain.text',
       'CDE Uslands skola, Kod: 9400, Nivå: 5'
     );
   });
@@ -102,9 +102,9 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
       message: 'success',
     }).as('getOrgTree');
 
-    cy.get('.sk-sidemenu [aria-current="true"]').should('not.exist');
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should('not.exist');
 
-    cy.get('.sk-sidemenu').contains('[role="menuitem"]', 'Uslands skola').click();
-    cy.get('.sk-sidemenu [aria-current="true"]').should('be.visible');
+    cy.get('[data-cy="organization-tree"]').contains('[role="menuitem"]', 'Uslands skola').click();
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should('be.visible');
   });
 });

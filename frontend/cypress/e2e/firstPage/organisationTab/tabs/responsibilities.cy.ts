@@ -18,13 +18,13 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
 
     cy.visit('/');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist').click();
   });
 
   it('Interact with Kopplade ansvar view', () => {
     // Click the Kopplade ansvar element
-    cy.get('button#sk-tab-1-responsibilities').contains('Kopplade ansvar (3)').click();
+    cy.get('[data-cy="tab-responsibilities"]').contains('Kopplade ansvar (3)').click();
 
     // Check if correct content sample appears
     cy.get('.table-header').contains('Kopplade ansvar (3)').should('be.visible');
@@ -33,7 +33,9 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 3);
 
     // Interact with the search input
-    cy.get('.list-filter .search-bar input[type="text"]').filter(':visible').type('borde visa "Inga ansvar att visa."');
+    cy.get('.list-filter .sk-search-field input[type="text"]')
+      .filter(':visible')
+      .type('borde visa "Inga ansvar att visa."');
 
     // Check if the content changes to "Kopplade ansvar (0)"
     cy.get('.table-header').filter(':visible').contains('Kopplade ansvar (0)').should('be.visible');
@@ -41,7 +43,7 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
     cy.contains('div', 'Inga ansvar att visa.').should('be.visible');
 
     // Clear the search input
-    cy.get('.list-filter .search-bar input[type="text"]').filter(':visible').clear();
+    cy.get('.list-filter .sk-search-field input[type="text"]').filter(':visible').clear();
 
     // Check if the content changes back to "Kopplade ansvar (3)"
     cy.get('.table-header').filter(':visible').contains('Kopplade ansvar (3)').should('be.visible');
@@ -50,11 +52,11 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
   it('Filter table columns', () => {
     cy.wait('@getResponsibilitiesAllLeaves');
 
-    cy.get('button#sk-tab-1-responsibilities').contains('Kopplade ansvar (3)').click();
+    cy.get('[data-cy="tab-responsibilities"]').contains('Kopplade ansvar (3)').click();
 
-    cy.get('.dropdown-button').filter(':visible').click();
+    cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').filter(':visible').click();
 
-    cy.get('.filter-container').should('be.visible');
+    cy.get('[data-cy="column-filter"] .sk-filter').should('be.visible');
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();
@@ -95,7 +97,7 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
   });
 
   it('Sort table columns', () => {
-    cy.get('button#sk-tab-1-responsibilities').contains('Kopplade ansvar (3)').click();
+    cy.get('[data-cy="tab-responsibilities"]').contains('Kopplade ansvar (3)').click();
 
     // default sorted by Titel
     cy.get('.sk-table-tbody tr').filter(':visible').first().contains('BoU Ans').should('exist');
