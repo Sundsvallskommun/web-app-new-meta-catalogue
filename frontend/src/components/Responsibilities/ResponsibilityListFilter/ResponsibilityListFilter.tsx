@@ -2,7 +2,8 @@ import { useDebouncedCallback } from '@react-hookz/web';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, SearchField, Select } from '@sk-web-gui/react';
+import { Button, FormControl, SearchField, Select } from '@sk-web-gui/react';
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -104,7 +105,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
       <div className="flex flex-row gap-4 bg-gray-lighter py-6 mt-8 px-8">
         <p>Filter:</p>
         <span className="max-w-[300px] w-full">
-          <DropdownFilter
+          <ColumnFilter
             label="Visa/dölj kolumner i ansvar"
             filterData={responsibilityFilter.map((x) =>
               x.id == 8 ? { ...x, isShown: user.permissions.canEditResponsibility } : x

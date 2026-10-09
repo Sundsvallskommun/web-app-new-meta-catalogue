@@ -6,7 +6,9 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOperationStore } from '@services/mdviewer/operation-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, IFilterData, SearchField } from '@sk-web-gui/react';
+import { Button, FormControl, SearchField } from '@sk-web-gui/react';
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
+import { IFilterData } from '@interfaces/filter-data';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -121,7 +123,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
       <div className="lg:flex lg:flex-row gap-lg bg-gray-lighter py-6 mt-8 px-8">
         <p className="text-lg">Anpassa:</p>
         <span className="basis-1/3">
-          <DropdownFilter
+          <ColumnFilter
             label="Visa/dölj kolumner i verksamheter"
             filterData={dropDownFilter}
             onFilterChange={handleSetOperationFilter}

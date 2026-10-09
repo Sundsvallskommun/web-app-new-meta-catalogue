@@ -8,7 +8,7 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { IFilterDataMenu } from '@interfaces/organization';
 import { EditOrganizationDto } from '@interfaces/orgchange';
-import { IFilterData } from '@sk-web-gui/react';
+import { IFilterData } from '@interfaces/filter-data';
 
 export const emptyVerifyResult: VerifyResult = {
   numberOfValidationErrors: 0,

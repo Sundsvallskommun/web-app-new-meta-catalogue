@@ -44,7 +44,6 @@ export default function UndoTerminatedNode() {
   return (
     <Button
       onClick={onUndoTerminateBranch}
-      role="menuitem"
       variant="link"
       leftIcon={<Undo2 />}
       className="text-primary border-primary"

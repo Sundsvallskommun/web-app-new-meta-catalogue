@@ -1,6 +1,7 @@
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
 import { ServiceResponse } from '@interfaces/service';
-import { IFilterData, __DEV__ } from '@sk-web-gui/react';
+import { __DEV__ } from '@sk-web-gui/react';
+import { IFilterData } from '@interfaces/filter-data';
 import { devtools, persist } from 'zustand/middleware';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { defaultEmployeeFilter } from './defaults/employment';

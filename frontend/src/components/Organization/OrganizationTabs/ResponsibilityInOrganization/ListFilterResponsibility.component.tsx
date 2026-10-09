@@ -6,7 +6,8 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, SearchField } from '@sk-web-gui/react';
+import { Button, FormControl, SearchField } from '@sk-web-gui/react';
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -111,7 +112,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
       <div className="lg:flex lg:flex-row gap-lg bg-gray-lighter py-6 mt-8 px-8">
         <p className="text-lg">Anpassa:</p>
         <span className="max-w-[300px] w-full">
-          <DropdownFilter
+          <ColumnFilter
             label="Visa/dölj kolumner i ansvar"
             filterData={dropDownFilter}
             onFilterChange={setDropdownFilter}

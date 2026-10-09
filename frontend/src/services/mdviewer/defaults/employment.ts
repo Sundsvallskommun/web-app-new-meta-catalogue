@@ -1,5 +1,5 @@
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
-import { IFilterData } from '@sk-web-gui/react';
+import { IFilterData } from '@interfaces/filter-data';
 
 export const employeeHeaders = [
   {

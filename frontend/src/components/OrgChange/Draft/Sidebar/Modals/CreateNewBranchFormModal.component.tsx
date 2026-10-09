@@ -55,7 +55,6 @@ export default function CreateNewBranchFormModal() {
 
   return (
     <Button
-      role="menuitem"
       aria-haspopup="true"
       data-cy="orgchange-sidemenu-createnode"
       onClick={!draft.draftId || !organization?.id ? undefined : NodeOnSubmit}

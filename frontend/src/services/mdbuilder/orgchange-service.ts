@@ -35,7 +35,7 @@ import { DraftTreeOrganization, SaveDraft, VerifyResultByOrgId } from '@interfac
 import { ServiceResponse } from '@interfaces/service';
 import { File, LucideIcon, ThumbsUp } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { IFilterData } from '@sk-web-gui/dropdown-filter';
+import { IFilterData } from '@interfaces/filter-data';
 import { __DEV__ } from '@sk-web-gui/utils';
 import { findIdInTree } from '@utils/findIdInTree';
 import { flatten } from '@utils/flatten';

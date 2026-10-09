@@ -1,8 +1,7 @@
 import { DraftTreeOrganization } from '@interfaces/orgchange';
 import { MoveDown, Trash } from 'lucide-react';
 import { Button } from '@sk-web-gui/react';
-import { useAriaKeyboard } from '@utils/use-ariakeyboard';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import MoveFormModal from '../Modals/MoveFormModal.component';
 import RemoveBranchFromDraft from '../Modals/RemoveBranchFromDraftModal.component';
 import TerminateNode from '../Modals/TerminateNodeModal.component';
@@ -19,8 +18,6 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
   >();
   const user = useUserStore((s) => s.user);
 
-  const actionHeaderRef = useRef(null);
-
   const handleMoveBranch = () => {
     setIsMoveBranchOpen(true);
   };
@@ -34,22 +31,13 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
     setIsTerminateOpen(false);
   };
 
-  useAriaKeyboard(actionHeaderRef);
-
   return (
     <div className="py-8 px-[1.6rem] bg-background-one">
       {organization.structureChangeStatus !== 'DELETED' ?
-        <ul
-          ref={actionHeaderRef}
-          role="menubar"
-          aria-orientation="horizontal"
-          aria-label="Gren-meny"
-          className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0"
-        >
+        <ul aria-label="Gren-meny" className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0">
           {user.permissions.canEditOrganizationStructure && (
             <li className="mr-auto">
               <Button
-                role="menuitem"
                 aria-haspopup="true"
                 onClick={handleMoveBranch}
                 className="text-base text-primary"
@@ -66,7 +54,6 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
           {organization.structureChangeStatus !== 'NEW' && user.permissions.canEditOrganizationStructure && (
             <li>
               <Button
-                role="menuitem"
                 aria-haspopup="true"
                 onClick={onTerminateBranch}
                 className="text-base text-red"
@@ -78,13 +65,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
             </li>
           )}
         </ul>
-      : <ul
-          ref={actionHeaderRef}
-          role="menubar"
-          aria-orientation="horizontal"
-          aria-label="Gren-meny"
-          className="lg:flex lg:items-end justify-end lg:space-x-lg space-y-sm lg:space-y-0"
-        >
+      : <ul aria-label="Gren-meny" className="lg:flex lg:items-end justify-end lg:space-x-lg space-y-sm lg:space-y-0">
           <li>
             <UndoTerminatedNode />
           </li>
