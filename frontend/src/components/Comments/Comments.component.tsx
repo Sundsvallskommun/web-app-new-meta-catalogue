@@ -1,0 +1,131 @@
+import { Avatar, Button, Icon, Input, PopupMenu, Spinner } from '@sk-web-gui/react';
+import { EllipsisVertical, MessagesSquare, Pencil, SendHorizontal, Trash } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+export interface CommentData {
+  id: string;
+  commentorName: string;
+  commentorUserName: string;
+  commentText: string;
+  publishDate: string;
+}
+
+interface CommentsProps {
+  currentUserName: string;
+  commentsData: CommentData[];
+  onSubmitCallback: (comment: string) => void;
+  onEditCallback: (comment: string, id: string) => void;
+  onDeleteCallback: (id: string) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  loading?: boolean;
+}
+
+export const Comments = ({
+  currentUserName,
+  commentsData,
+  onSubmitCallback,
+  onEditCallback,
+  onDeleteCallback,
+  inputValue,
+  setInputValue,
+  loading,
+}: CommentsProps) => {
+  const [editId, setEditId] = useState<string>();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!editId) {
+      scrollRef.current?.scroll({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+    }
+  }, [commentsData, editId]);
+
+  const onEdit = (comment: CommentData) => {
+    setEditId(comment.id);
+    setInputValue(comment.commentText);
+  };
+
+  const onSubmit = () => {
+    if (editId) {
+      onEditCallback(inputValue, editId);
+      setEditId(undefined);
+    } else {
+      onSubmitCallback(inputValue);
+    }
+    setInputValue('');
+    inputRef.current?.focus();
+  };
+
+  return (
+    <div className="flex flex-col w-full h-full">
+      <div className="flex items-center gap-sm px-10 pb-md">
+        <Icon icon={<MessagesSquare />} />
+        <h2>Kommentarer</h2>
+      </div>
+      <div className="pl-10 pr-16 overflow-y-auto h-full" ref={scrollRef}>
+        {!loading &&
+          commentsData.map((comment) => (
+            <div key={`comment-item-${comment.id}`} className="border-b border-divider py-10 mt-4">
+              <div className="flex items-start gap-sm">
+                <Avatar size="sm" rounded initials={comment.commentorName.slice(0, 2).toUpperCase()} />
+                <div className={`w-full ${editId === comment.id ? 'p-sm rounded-lg bg-warning-background-200' : ''}`}>
+                  <p>{comment.commentText}</p>
+                  <p className="text-small text-dark-secondary">
+                    / {comment.commentorName} {comment.publishDate}
+                  </p>
+                </div>
+                {currentUserName === comment.commentorUserName ?
+                  <PopupMenu type="menu" align="end">
+                    <PopupMenu.Button title="Redigera Kommentar" variant="tertiary" showBackground={false} iconButton>
+                      <Icon icon={<EllipsisVertical />} />
+                    </PopupMenu.Button>
+                    <PopupMenu.Panel>
+                      <PopupMenu.Items>
+                        <PopupMenu.Item>
+                          <Button onClick={() => onEdit(comment)} leftIcon={<Pencil />}>
+                            Ändra kommentar
+                          </Button>
+                        </PopupMenu.Item>
+                        <PopupMenu.Item>
+                          <Button onClick={() => onDeleteCallback(comment.id)} leftIcon={<Trash />}>
+                            Ta bort
+                          </Button>
+                        </PopupMenu.Item>
+                      </PopupMenu.Items>
+                    </PopupMenu.Panel>
+                  </PopupMenu>
+                : <div className="w-[4.8rem] shrink-0" />}
+              </div>
+            </div>
+          ))}
+        {loading && (
+          <div className="w-full flex items-center justify-center py-lg">
+            <Spinner size={4} />
+          </div>
+        )}
+      </div>
+      <div className="comment-input mt-auto flex items-center gap-sm p-10">
+        <Input
+          id="comment-input"
+          ref={inputRef}
+          className="w-full"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Skriv en kommentar.."
+        />
+        <Button
+          iconButton
+          variant="tertiary"
+          aria-label={editId ? 'Spara kommentar' : 'Skicka kommentar'}
+          disabled={inputValue.length === 0}
+          onClick={onSubmit}
+        >
+          <Icon icon={<SendHorizontal />} />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default Comments;

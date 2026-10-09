@@ -1,6 +1,6 @@
 import { Draft } from '@data-contracts/backend/data-contracts';
 import { Calendar } from 'lucide-react';
-import { Card, CardList, Spinner, cx, Icon } from '@sk-web-gui/react';
+import { Card, Spinner, cx, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
 import DraftContextMenu from '../../DraftContextMenu.component';
@@ -76,7 +76,7 @@ const DraftCards = (props: DraftDataListProps) => {
             <Spinner size={3} aria-label="Hämtar Utkast" />
           </div>
         : <div className="min-h-[400px]">
-            <CardList className="lg:p-lg">{cards}</CardList>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:p-lg">{cards}</div>
           </div>
         }
       </div>
