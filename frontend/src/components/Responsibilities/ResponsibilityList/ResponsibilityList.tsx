@@ -237,7 +237,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           <Spinner size={3} aria-label="Laddar ansvar" />
         </div>
       ) : (
-        <div className={'overflow-x-auto custom-scroll'}>
+        <div className="overflow-x-auto">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}

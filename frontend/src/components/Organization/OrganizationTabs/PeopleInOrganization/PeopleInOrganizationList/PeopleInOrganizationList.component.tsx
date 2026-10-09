@@ -279,7 +279,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
         Personer &#40;{employeeListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ? (
-        <div className={'overflow-x-auto custom-scroll'}>
+        <div className="overflow-x-auto">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex !== undefined ? highlightedItemIndex % pageSize : undefined}

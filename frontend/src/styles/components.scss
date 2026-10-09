@@ -8,10 +8,6 @@
     @apply px-2 lg:px-0;
   }
 
-  .form-error-message {
-    @apply mb-4;
-  }
-
   .max-width-content {
     @apply max-w-[165rem];
   }
@@ -73,43 +69,8 @@
     }
   }
 
-  .usermenu {
-    [role='img'] {
-      @apply bg-top;
-    }
-  }
-
-  .btn {
-    @apply max-w-full;
-
-    &-link {
-      @apply underline hover:no-underline focus-within:no-underline;
-    }
-  }
-
-  button.link[aria-disabled='true'] {
-    @apply opacity-75 pointer-events-none;
-  }
-
-  .form-field-outline[aria-invalid='true'] {
-    @apply border;
-  }
-
-  .form-input {
-    &-addon,
-    &-addin {
-      @apply px-2;
-    }
-  }
-
-  .sk-sidemenu-item {
-    &.separator {
-      @apply bg-transparent;
-    }
-  }
-
   .draftShowAs {
-    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-primary-active hover:text-white hover:transition-all hover:duration-300;
+    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-primary-surface-hover hover:text-white hover:transition-all hover:duration-300;
   }
 
   .activecard {

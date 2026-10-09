@@ -200,7 +200,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ?
-        <div className={'overflow-x-auto custom-scroll'}>
+        <div className="overflow-x-auto">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}

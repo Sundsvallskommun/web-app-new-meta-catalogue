@@ -16,29 +16,17 @@
   }
 
   .SidebarOrganization {
-    @apply lg:-ml-[100px] flex-none custom-scroll-sm overflow-y-hidden;
+    @apply lg:-ml-[100px] flex-none overflow-y-hidden;
 
     > * {
       @apply lg:pl-[100px] w-full;
     }
 
-    .sk-sidemenu {
+    .sk-menu-vertical-sidebar {
       @apply w-full;
 
-      .sk-sidemenu-header {
+      .sk-menu-vertical-header {
         @apply p-0;
-      }
-
-      &-item-label {
-        @apply block truncate max-w-[18rem] sm:max-w-full;
-      }
-    }
-
-    &.OrgChange {
-      .sk-sidemenu {
-        .sk-sidemenu-header {
-          @apply p-0;
-        }
       }
     }
   }

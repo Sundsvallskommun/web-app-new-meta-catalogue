@@ -431,7 +431,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           )}
       </div>
       {rows.length > 0 ?
-        <div className="overflow-x-auto custom-scroll">
+        <div className="overflow-x-auto">
           <DataTable
             id="orgchange-tabs-people-table"
             ref={tableRef}

@@ -303,7 +303,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
         )}
       </div>
       {rows.length > 0 ?
-        <div className={'overflow-x-auto custom-scroll'}>
+        <div className="overflow-x-auto">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
