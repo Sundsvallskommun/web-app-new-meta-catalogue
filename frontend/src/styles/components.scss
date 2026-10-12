@@ -1,7 +1,7 @@
-@import './components/comments-sidebar.scss';
-@import './components/progressbar';
-@import './components/sidebar';
-@import './components/sparkle';
+@use './components/comments-sidebar.scss';
+@use './components/progressbar';
+@use './components/sidebar';
+@use './components/sparkle';
 
 @layer components {
   .container {
