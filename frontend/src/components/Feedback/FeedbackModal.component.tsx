@@ -129,7 +129,7 @@ export const FeedbackModal: React.FC<{
             {errors.type && <FormErrorMessage key={`type-errors`}>{errors.type?.message}</FormErrorMessage>}
           </div>
           <div className="flex my-md">
-            <FormControl id="body">
+            <FormControl id="body" className="w-full">
               <FormLabel>
                 <strong>Detaljbeskrivning</strong>
               </FormLabel>
@@ -139,6 +139,7 @@ export const FeedbackModal: React.FC<{
                 render={({ field: { onChange, value, ref } }) => (
                   <Textarea
                     data-cy="nav-textArea"
+                    className="w-full"
                     showCount={true}
                     maxLength={4000}
                     maxLengthWarningText="Max-antalet tecken är 4000"
