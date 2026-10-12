@@ -62,23 +62,21 @@ const SidebarOrganization = ({ mainRef }) => {
   const itemLabel = (itemData: OrganizationTree) => {
     const active = itemData.id === selectedOrganizationId;
     return (
-      <>
-        <span>
-          <span className={cx(`relative`, active && 'underline', itemData.level == 6 && 'pr-md')}>
-            <span>{itemData.label}</span>
+      <span className="flex w-full items-center gap-8">
+        {showFilter.responsibilityCode && (
+          <span className="text-small">
+            <span className="sr-only">Kod: </span>
+            {itemData.responsibilityCode}
           </span>
-          {showFilter.responsibilityCode && (
-            <span className={`absolute top-0 ${active ? 'left-[12px]' : 'left-[6px]'}`}>
-              <span className="sr-only">, Kod: </span>
-              {itemData.responsibilityCode}
-            </span>
-          )}
-          {showFilter.level && <span className="sr-only">, Nivå: {itemData.level}</span>}
-        </span>
-        {showFilter.level && (
-          <span className="absolute leading-none top-[7px] right-[4px] text-xs">{`N${itemData.level}`}</span>
         )}
-      </>
+        <span className={cx(active && 'underline')}>{itemData.label}</span>
+        {showFilter.level && (
+          <span className="ml-auto text-small">
+            <span className="sr-only">Nivå: </span>
+            {`N${itemData.level}`}
+          </span>
+        )}
+      </span>
     );
   };
 

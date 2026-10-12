@@ -59,58 +59,46 @@ const SidebarOrgChange = ({ mainRef }) => {
   const itemLabel = (itemData: OrgChangeOrganizationTree) => {
     const active = Number(itemData.id) === selectedOrganizationId;
     return (
-      <>
-        <span>
-          <span
-            className={cx(
-              `relative`,
-              itemData.structureChangeStatus === 'NEW' && 'text-warning font-bold',
-              active && 'underline',
-              itemData.level == 6 && 'pr-md'
-            )}
-          >
-            <span className={`${itemData.structureChangeStatus === 'DELETED' && 'italic'}`}>
-              {showFilter.abbreviation ? `${itemData.label}` : `${itemData.orgName}`}
-
-              {itemData.structureChangeStatus === 'DELETED' && ' [Stängd]'}
-            </span>
-            {itemData.structureChangeStatus === 'NEW' && <SparkleIcon />}
+      <span className="flex w-full items-center gap-8">
+        {showFilter.responsibilityCode && (
+          <span className="text-small">
+            <span className="sr-only">Kod: </span>
+            {itemData.responsibilityCode}
           </span>
-          {(showFilter.responsibilityCode || (verifyResultsByOrgId && verifyResultsByOrgId[itemData.id])) && (
-            <span className={`absolute top-0 ${active ? 'left-[12px]' : 'left-[6px]'}`}>
-              {showFilter.responsibilityCode && (
-                <>
-                  <span className="sr-only">, Kod: </span>
-                  {itemData.responsibilityCode}
-                </>
-              )}
-              {verifyResultsByOrgId && verifyResultsByOrgId[itemData.id] && (
-                <span className={showFilter.responsibilityCode && 'ml-[.5rem]'}>
-                  <Icon color="error" icon={<CircleAlert />} />
-                </span>
-              )}
-            </span>
+        )}
+        <span
+          className={cx(
+            itemData.structureChangeStatus === 'NEW' && 'text-warning font-bold',
+            itemData.structureChangeStatus === 'DELETED' && 'italic',
+            active && 'underline'
           )}
-          {showFilter.level && <span className="sr-only">, Nivå: {itemData.level}</span>}
+        >
+          {showFilter.abbreviation ? `${itemData.label}` : `${itemData.orgName}`}
+          {itemData.structureChangeStatus === 'DELETED' && ' [Stängd]'}
+        </span>
+        {itemData.structureChangeStatus === 'NEW' && <SparkleIcon />}
+        {verifyResultsByOrgId && verifyResultsByOrgId[itemData.id] && <Icon color="error" icon={<CircleAlert />} />}
+        {itemData.structureChangeStatus === 'DELETED' && (
+          <span className="text-gray-stroke">
+            <Icon icon={<Ban />} />
+          </span>
+        )}
+        {itemData.structureChangeStatus === 'MOVED' && <span className="text-warning">Flyttad</span>}
+        <span className="ml-auto flex items-center gap-8">
           {itemData.changes && itemData.changes >= 1 && itemData.structureChangeStatus !== 'DELETED' ?
-            <span className="absolute my-0 right-sm lg:right-15">
+            <span>
               <span className="sr-only">Ändringar: </span>
               <Badge size="md" color="warning" counter={itemData.changes > 99 ? '99+' : itemData.changes} />
             </span>
           : <></>}
-          {itemData.structureChangeStatus === 'DELETED' && (
-            <span className="text-gray-stroke">
-              <Icon icon={<Ban />} />
+          {showFilter.level && (
+            <span className="text-small">
+              <span className="sr-only">Nivå: </span>
+              {`N${itemData.level}`}
             </span>
           )}
-          {itemData.structureChangeStatus === 'MOVED' && (
-            <span className="text-warning font-sans text-base ml-5">Flyttad</span>
-          )}
         </span>
-        {showFilter.level && (
-          <span className="absolute leading-none top-[7px] right-[4px] text-xs">{`N${itemData.level}`}</span>
-        )}
-      </>
+      </span>
     );
   };
 
