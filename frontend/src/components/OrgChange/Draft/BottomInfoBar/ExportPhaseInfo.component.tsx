@@ -59,11 +59,7 @@ export default function ExportPhaseInfo() {
 
   return (
     <div className="relative flex flex-col justify-end">
-      <div
-        className={`transition-height bg-opacity-75 ${
-          !lockedView ? 'min-h-md' : ' min-h-40'
-        } duration-300 ${severityBackground}`}
-      >
+      <div className={`bg-opacity-75 ${!lockedView ? 'min-h-md' : ' min-h-40'} duration-300 ${severityBackground}`}>
         <div className="max-width-content transition-all mx-auto flex flex-col-reverse lg:flex-row w-full">
           <h2 className="sr-only">Exportflöde</h2>
           <div className="flex flex-grow gap-md p-md">

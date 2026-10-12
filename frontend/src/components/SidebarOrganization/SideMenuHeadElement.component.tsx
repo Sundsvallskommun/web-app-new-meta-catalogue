@@ -81,14 +81,14 @@ export default function SideMenuHeadElement() {
   return (
     <Sticky
       mode="top"
-      wrapperClassName="z-10 relative bg-primary px-md pt-md"
+      wrapperClassName="z-10 relative bg-background-content px-md pt-md"
       scrollElement="aside.SidebarOrganization"
       hideOnBoundaryHit={false}
     >
       <form>
         <div className="mb-md">
           <FormControl id="sidemenu-image">
-            <FormLabel className="label-small">
+            <FormLabel>
               <strong>Avbildning</strong>
             </FormLabel>
             <Select
@@ -108,7 +108,7 @@ export default function SideMenuHeadElement() {
             </Select>
           </FormControl>
           <FormControl className="my-[20px]" id="sidemenu-company">
-            <FormLabel className="label-small">
+            <FormLabel>
               <strong>Bolag</strong>
             </FormLabel>
             <Select

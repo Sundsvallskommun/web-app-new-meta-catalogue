@@ -46,7 +46,6 @@ export default function UndoTerminatedNode() {
       onClick={onUndoTerminateBranch}
       variant="link"
       leftIcon={<Undo2 />}
-      className="text-primary border-primary"
     >
       Ångra stäng gren
     </Button>

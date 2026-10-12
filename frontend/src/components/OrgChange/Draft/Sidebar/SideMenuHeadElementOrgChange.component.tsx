@@ -1,10 +1,8 @@
-import { ChevronDown } from 'lucide-react';
-import InsertToList from '@public/svg/InsertToList.svg';
+import { ChevronDown, ListPlus } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, Combobox, Filter, PopupMenu } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import Image from 'next/image';
 import { useState } from 'react';
 import Sticky from 'react-sticky-el';
 import ChooseBranchToChangeModal from './Modals/ChooseBranchToChangeModal.component';
@@ -46,7 +44,7 @@ export default function SideMenuHeadElementOrgChange() {
   return (
     <Sticky
       mode="top"
-      wrapperClassName="z-10 relative bg-primary"
+      wrapperClassName="z-10 relative bg-background-content"
       scrollElement="aside.SidebarOrganization"
       hideOnBoundaryHit={false}
     >
@@ -59,10 +57,8 @@ export default function SideMenuHeadElementOrgChange() {
               onClick={!isDraft ? undefined : handleOnChooseOrg}
               aria-disabled={!isDraft ? 'true' : undefined}
               variant="link"
-              className="flex text-light-primary hover:text-light-primary hover:no-underline "
-              leftIcon={
-                <Image width={24} height={24} src={InsertToList} alt="" aria-hidden="true" className="mr-[4px]" />
-              }
+              className="flex hover:no-underline"
+              leftIcon={<ListPlus />}
             >
               Välj gren att ändra
             </Button>
@@ -74,7 +70,6 @@ export default function SideMenuHeadElementOrgChange() {
             <PopupMenu.Button
               variant="ghost"
               size="sm"
-              inverted
               disabled={!isDraft}
               data-cy="orgchange-sidemenu-filter"
               rightIcon={<ChevronDown />}

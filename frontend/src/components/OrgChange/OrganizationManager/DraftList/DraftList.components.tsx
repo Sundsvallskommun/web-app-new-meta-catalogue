@@ -73,7 +73,7 @@ export const DraftList = (props: DraftDataListProps) => {
               <span className="ml-[-10px] mr-md relative">
                 {!d.isArchived && <DraftContextMenu menuSide={windowSize.lg ? 'left' : 'right'} dense draft={d} />}
               </span>
-              <h2 className="mt-sm text-lg leading-lg w-full flex flex-col gap-y-[.4rem]">
+              <h2 className="mt-sm text-lg w-full flex flex-col gap-y-[.4rem]">
                 <DraftListEntryPhaseTitle draft={d} />
                 <div className="font-[Arial] w-full leading-[2rem] font-normal text-sm">Skapad av {d.loginname}</div>
               </h2>

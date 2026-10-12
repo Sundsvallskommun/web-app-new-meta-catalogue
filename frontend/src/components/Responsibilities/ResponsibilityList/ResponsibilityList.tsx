@@ -133,7 +133,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           <Fragment>
             <span className="inline font-bold lg:hidden">Titel: </span>
             <span
-              className="cursor-pointer hover:underline hover:text-primary lg:min-h-[48px] lg:flex lg:items-center"
+              className="cursor-pointer hover:underline hover:text-vattjom-text-primary lg:min-h-[48px] lg:flex lg:items-center"
               onClick={() => {
                 handleShowInOrg(r.orgId, r.orgResponsibilityId);
               }}

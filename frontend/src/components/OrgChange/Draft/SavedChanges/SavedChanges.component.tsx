@@ -7,7 +7,7 @@ export default function SavedChanges() {
   const isUnsaved = useSaveStore((s) => s.isUnsaved);
   const isSaving = useSaveStore((s) => s.isSaving);
   return (
-    <div className="flex items-center text-primary text-sm">
+    <div className="flex items-center text-vattjom-text-primary text-sm">
       {isSaving ? (
         <span className="flex items-center">
           <span>Ändringar sparas</span>

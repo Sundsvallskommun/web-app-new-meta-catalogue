@@ -82,7 +82,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
         <button
           data-cy="alert-banner-edit"
           onClick={handleEditAlert}
-          className="alert-banner-message hover:text-primary [&>span]:hover:no-underline inline-block whitespace-normal text-left text-dark-secondary"
+          className="alert-banner-message hover:text-vattjom-text-primary [&>span]:hover:no-underline inline-block whitespace-normal text-left text-dark-secondary"
         >
           <span className="underline">
             <span className="sr-only">Editera </span>

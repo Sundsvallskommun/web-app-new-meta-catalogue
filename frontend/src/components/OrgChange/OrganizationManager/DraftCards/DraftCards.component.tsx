@@ -30,11 +30,11 @@ const DraftCards = (props: DraftDataListProps) => {
         <div>
           <div className="flex justify-between">
             <div className="flex flex-col-reverse">
-              <h2 className="mt-sm text-lg leading-lg w-full flex flex-col gap-y-[.4rem]">
+              <h2 className="mt-sm text-lg w-full flex flex-col gap-y-[.4rem]">
                 <DraftListEntryPhaseTitle draft={d} />
                 <div className="font-[Arial] w-full leading-[2rem] font-normal text-sm">Skapad av {d.loginname}</div>
               </h2>
-              <div className="text-dark-secondary text-sm leading-md lg:flex lg:items-center">
+              <div className="text-dark-secondary text-sm lg:flex lg:items-center">
                 <div className="flex flex-col gap-y-[.4rem]">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center">
                     <div className="flex items-center">

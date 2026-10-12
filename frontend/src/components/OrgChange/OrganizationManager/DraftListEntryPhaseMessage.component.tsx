@@ -57,8 +57,8 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
         <span
           className={cx(
             `inline-flex text-xs leading-[1.6rem] max-w-[20rem]`,
-            phaseRunbookStep.state === RunbookStepsStateEnum.Queued && 'text-primary',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Running && 'text-primary',
+            phaseRunbookStep.state === RunbookStepsStateEnum.Queued && 'text-vattjom-text-primary',
+            phaseRunbookStep.state === RunbookStepsStateEnum.Running && 'text-vattjom-text-primary',
             phaseRunbookStep.state === RunbookStepsStateEnum.Waiting && 'text-warning',
             phaseRunbookStep.state === RunbookStepsStateEnum.Completed && 'text-success',
             phaseRunbookStep.state === RunbookStepsStateEnum.Fail && 'text-error'

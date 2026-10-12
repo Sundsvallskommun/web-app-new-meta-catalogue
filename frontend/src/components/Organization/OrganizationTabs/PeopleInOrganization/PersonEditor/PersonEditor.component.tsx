@@ -196,7 +196,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
         <div className="PersonEditor">
           <div className="lg:flex lg:justify-center lg:items-center lg:space-x-10 mt-[-20px]">
             <div className="w-[130px] text-center">
-              <div className="w-[130px] h-[130px] relative items-start rounded-full border-2 border-primary flex justify-center overflow-hidden mb-md">
+              <div className="w-[130px] h-[130px] relative items-start rounded-full border-2 border-vattjom-surface-primary flex justify-center overflow-hidden mb-md">
                 <Image
                   unoptimized
                   src={`${apiURL(`/employee/${employeeDetails.personId}/personimage`)}`}

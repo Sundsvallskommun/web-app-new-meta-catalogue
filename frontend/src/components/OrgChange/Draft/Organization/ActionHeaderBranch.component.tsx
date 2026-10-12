@@ -40,7 +40,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
               <Button
                 aria-haspopup="true"
                 onClick={handleMoveBranch}
-                className="text-base text-primary"
+                className="text-base"
                 variant="link"
                 leftIcon={<MoveDown />}
               >

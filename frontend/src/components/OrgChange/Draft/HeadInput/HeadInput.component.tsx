@@ -116,7 +116,7 @@ const HeadInput = () => {
                 <HeadInputFormCutOffdate />
               </div>
             }
-            <div className="text-sm grow flex form-label">
+            <div className="text-sm grow flex">
               <span className="font-bold lg:sr-only">Bolag: </span>
               <div className="ml-sm grow lg:ml-0 whitespace-nowrap" aria-labelledby="draft-company-label">
                 {windowSize.lg ? `(${draft.companyName})` : `${draft.companyName}`}

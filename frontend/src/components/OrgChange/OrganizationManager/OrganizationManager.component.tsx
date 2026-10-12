@@ -40,7 +40,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
             size="lg"
             onClick={openEditModalHandler}
             leftIcon={<Plus />}
-            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-light-primary hover:tranisition hover:duration-300"
+            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] font-bold hover:tranisition hover:duration-300"
           >
             Ny Organisationsförändring
           </Button>
