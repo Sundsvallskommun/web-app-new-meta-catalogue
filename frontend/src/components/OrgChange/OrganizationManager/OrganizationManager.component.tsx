@@ -40,7 +40,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
             size="lg"
             onClick={openEditModalHandler}
             leftIcon={<Plus />}
-            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-white hover:tranisition hover:duration-300"
+            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-light-primary hover:tranisition hover:duration-300"
           >
             Ny Organisationsförändring
           </Button>
@@ -62,10 +62,10 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
   }, []);
 
   return (
-    <div className="bg-white relative grow px-0 pb-16 pt-10 shadow-md mb-20">
+    <div className="bg-background-content relative grow px-0 pb-16 pt-10 shadow-md mb-20">
       {!draftsIsLoading ?
         <>
-          <div className="lg:flex lg:justify-between content-center mx-2 lg:mx-8 px-2 border-b-2 border-grey">
+          <div className="lg:flex lg:justify-between content-center mx-2 lg:mx-8 px-2 border-b-2 border-divider">
             <h1 className="text-xl">
               Organisationsförändringar{' '}
               {drafts && draftsIsLoading ?

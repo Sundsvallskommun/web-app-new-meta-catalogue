@@ -241,7 +241,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                 )}
                 {paTeamsByManager.length !== 0 ?
                   <div className="my-lg">
-                    <h3 className="pb-sm border-b border-gray-400 text-base">
+                    <h3 className="pb-sm border-b border-divider text-base">
                       {!manager ? `PA-Team (kopplade till ${activePaTeam.data.managerName})` : 'PA-Team'}
                     </h3>
 
@@ -259,7 +259,10 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                           };
 
                           return (
-                            <li key={`li-${pa.paTeam}`} className="p-sm [&:has(input:checked)]:bg-[#D9E6EF]">
+                            <li
+                              key={`li-${pa.paTeam}`}
+                              className="p-sm [&:has(input:checked)]:bg-vattjom-background-100"
+                            >
                               <RadioButton
                                 value={pa.paTeam}
                                 key={pa.paTeam}

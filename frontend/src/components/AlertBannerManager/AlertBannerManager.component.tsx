@@ -67,7 +67,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
       return (
         <Alert type="neutral">
           <Alert.Content>
-            <Button onClick={handleNewAlert} className="text-gray " variant="link" rightIcon={<Pencil />}>
+            <Button onClick={handleNewAlert} className="text-dark-secondary " variant="link" rightIcon={<Pencil />}>
               Nytt Systemmeddelande ...
             </Button>
           </Alert.Content>
@@ -82,7 +82,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
         <button
           data-cy="alert-banner-edit"
           onClick={handleEditAlert}
-          className="alert-banner-message hover:text-primary [&>span]:hover:no-underline inline-block whitespace-normal text-left text-gray"
+          className="alert-banner-message hover:text-primary [&>span]:hover:no-underline inline-block whitespace-normal text-left text-dark-secondary"
         >
           <span className="underline">
             <span className="sr-only">Editera </span>

@@ -8,7 +8,7 @@ export default function ActionHeaderDraft() {
     <div className="lg:flex gap-[3rem] items-center">
       <VerifyButton />
       <DraftContextmenu />
-      <div className="hidden lg:block w-[1px] h-[2.4rem] bg-neutral-300"></div>
+      <div className="hidden lg:block w-[1px] h-[2.4rem] bg-divider"></div>
       <div className="text-body">Skapad av {loginname}</div>
     </div>
   );

@@ -8,17 +8,17 @@ const getSeverity = (severity) => {
 
   switch (severity) {
     case 'warning':
-      bgColor = 'bg-warning-light';
+      bgColor = 'bg-warning-background-200';
       iconColor = 'text-warning';
       borderColor = 'border-warning';
       break;
     case 'error':
-      bgColor = 'bg-error-light';
+      bgColor = 'bg-error-background-200';
       iconColor = 'text-error';
       borderColor = 'border-error';
       break;
     default:
-      bgColor = 'bg-info-light';
+      bgColor = 'bg-info-background-200';
       iconColor = 'text-info';
       borderColor = 'border-info';
   }

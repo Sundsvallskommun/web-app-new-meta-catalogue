@@ -59,7 +59,7 @@ export default function SideMenuHeadElementOrgChange() {
               onClick={!isDraft ? undefined : handleOnChooseOrg}
               aria-disabled={!isDraft ? 'true' : undefined}
               variant="link"
-              className="flex text-white hover:text-white hover:no-underline "
+              className="flex text-light-primary hover:text-light-primary hover:no-underline "
               leftIcon={
                 <Image width={24} height={24} src={InsertToList} alt="" aria-hidden="true" className="mr-[4px]" />
               }

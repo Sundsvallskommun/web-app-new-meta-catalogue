@@ -13,16 +13,16 @@ export default function ExportPhaseInfo() {
   const runbook = useOrgChangeStore((s) => s.runbook);
   const message = useSnackbar();
 
-  let severityBackground = 'bg-info-light';
+  let severityBackground = 'bg-info-background-200';
   if (runbook?.currentStep > 0) {
     if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Completed) {
-      severityBackground = 'bg-success-light';
+      severityBackground = 'bg-success-background-200';
     }
     if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Waiting) {
-      severityBackground = 'bg-warning-light';
+      severityBackground = 'bg-warning-background-200';
     }
     if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Fail) {
-      severityBackground = 'bg-error-light';
+      severityBackground = 'bg-error-background-200';
     }
   }
 

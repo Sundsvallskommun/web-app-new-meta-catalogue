@@ -18,7 +18,7 @@ const DraftViewAs = (props) => {
           title="Kort"
           aria-labelledby="show-as-liststyle"
           onClick={() => handleOnClick('card')}
-          className={`${view === `card` ? `activecard` : `text-neutral-500`} draftShowAs`}
+          className={`${view === `card` ? `activecard` : `text-dark-secondary`} draftShowAs`}
         >
           <Icon icon={<Square />} />
         </button>
@@ -28,7 +28,7 @@ const DraftViewAs = (props) => {
           title="Lista"
           aria-labelledby="show-as-liststyle"
           onClick={() => handleOnClick('list')}
-          className={`${view === `list` ? `activelist` : `text-neutral-500`} draftShowAs`}
+          className={`${view === `list` ? `activelist` : `text-dark-secondary`} draftShowAs`}
         >
           <Icon icon={<List />} />
         </button>

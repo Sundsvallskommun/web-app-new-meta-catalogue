@@ -56,7 +56,8 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
               <Button
                 aria-haspopup="true"
                 onClick={onTerminateBranch}
-                className="text-base text-red"
+                className="text-base"
+                color="error"
                 variant="link"
                 leftIcon={<Trash />}
               >

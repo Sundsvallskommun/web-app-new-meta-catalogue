@@ -11,7 +11,7 @@ export const CsvExporter = (props) => {
       headers={csvHeaders}
       separator={';'}
       filename={fileName}
-      className="text-base font-semibold text-svartvik-600 hover:text-hover transition-colors"
+      className="text-base font-semibold text-dark-secondary hover:text-dark-primary transition-colors"
     >
       <Icon icon={<Download />} />
       <span>Exportera</span>

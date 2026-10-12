@@ -93,7 +93,7 @@ export default function SideMenuHeadElement() {
             </FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
+              className="w-full mt-[6px]"
               id="sidemenu-image"
               name="sidemenu-image"
               aria-labelledby="sidemenu-image-label"
@@ -113,7 +113,7 @@ export default function SideMenuHeadElement() {
             </FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
+              className="w-full mt-[6px]"
               id="sidemenu-company"
               name="sidemenu-company"
               onChange={onCompanyChange}

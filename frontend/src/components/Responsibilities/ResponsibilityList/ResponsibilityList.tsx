@@ -126,7 +126,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   //table columns n rows
   const rows: DataTableColumn[][] = responsibilityListRendered.map((r) => {
     const from = new Date(r.responsibilityValidFrom as string).toLocaleDateString('sv-SE');
-    const { bg: typeBg, text: typeText, border: border } = responsibilityType(r.typeOfResponsibility);
+    const { text: typeText, color: typeColor } = responsibilityType(r.typeOfResponsibility);
     return [
       {
         element: (
@@ -161,7 +161,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Label className={`text-body ${typeBg} ${border}`}>
+              <Label color={typeColor} rounded inverted>
                 {typeText}
               </Label>
             </span>
@@ -223,8 +223,8 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   }));
 
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-grey">
+    <div className="bg-background-content px-0 pb-16 pt-10">
+      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-divider">
         <h2 className="text-xl">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
         <CsvExporter
           csvData={csvAllResponsibility}

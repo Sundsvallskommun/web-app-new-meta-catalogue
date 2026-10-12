@@ -33,7 +33,9 @@ export default function HandleMarkedContextMenu({ peopleToHandle, className = ''
           variant="secondary"
           className="border-0 mr-sm mb-xs"
         >
-          <span className={`${peopleToHandle.length < 1 && 'text-gray-500'} h-full w-full`}>Hantera Markerade</span>
+          <span className={`${peopleToHandle.length < 1 && 'text-dark-secondary'} h-full w-full`}>
+            Hantera Markerade
+          </span>
         </PopupMenu.Button>
         <PopupMenu.Panel className={className}>
           <PopupMenu.Items>

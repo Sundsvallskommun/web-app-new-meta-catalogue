@@ -26,7 +26,7 @@
     }
 
     &-tbody-tr.highlighted {
-      @apply border-0 shadow-[inset_0_0_0_4px_rgb(0,85,149)];
+      @apply border-0 ring-4 ring-inset ring-vattjom-surface-primary;
     }
   }
   .last-th-right {
@@ -70,18 +70,18 @@
   }
 
   .draftShowAs {
-    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-primary-surface-hover hover:text-white hover:transition-all hover:duration-300;
+    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-primary-surface-hover hover:text-light-primary hover:transition-all hover:duration-300;
   }
 
   .activecard {
-    @apply bg-primary text-white;
+    @apply bg-primary text-light-primary;
   }
   .activelist {
-    @apply bg-primary text-white;
+    @apply bg-primary text-light-primary;
   }
 
   .moretip {
-    @apply w-[150px] absolute z-50 px-sm py-sm bg-white rounded shadow-md;
+    @apply w-[150px] absolute z-50 px-sm py-sm bg-background-content rounded shadow-md;
   }
 
   .Modal {

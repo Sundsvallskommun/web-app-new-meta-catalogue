@@ -52,7 +52,8 @@ export default function RemoveBranchFromDraft(props: IRemoveBranchProps) {
     <Button
       aria-haspopup="true"
       onClick={onRemoveBranchFromDraft}
-      className="text-base text-red"
+      className="text-base"
+      color="error"
       variant="link"
       type="button"
       leftIcon={<X />}

@@ -21,7 +21,10 @@ const DraftCards = (props: DraftDataListProps) => {
     const { draftIsArchived } = useDraftPhaseState(d);
     return (
       <Card
-        className={cx(`p-10 flex flex-col justify-between`, draftIsArchived ? 'bg-[#E4E4E5] text-gray' : 'bg-gray-50')}
+        className={cx(
+          `p-10 flex flex-col justify-between`,
+          draftIsArchived ? 'bg-background-200 text-dark-disabled' : 'bg-background-100'
+        )}
         key={`${i}`}
       >
         <div>
@@ -31,7 +34,7 @@ const DraftCards = (props: DraftDataListProps) => {
                 <DraftListEntryPhaseTitle draft={d} />
                 <div className="font-[Arial] w-full leading-[2rem] font-normal text-sm">Skapad av {d.loginname}</div>
               </h2>
-              <div className="text-neutral-700 text-sm leading-md lg:flex lg:items-center">
+              <div className="text-dark-secondary text-sm leading-md lg:flex lg:items-center">
                 <div className="flex flex-col gap-y-[.4rem]">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center">
                     <div className="flex items-center">
@@ -40,7 +43,7 @@ const DraftCards = (props: DraftDataListProps) => {
                         Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')}{' '}
                       </span>
                     </div>
-                    <div className="hidden lg:block w-[1px] h-[16px] mx-[1.2rem] bg-neutral-300"></div>
+                    <div className="hidden lg:block w-[1px] h-[16px] mx-[1.2rem] bg-divider"></div>
                     <div className="lg:inline">
                       {d.changes >= 1 ?
                         d.changes === 1 ?

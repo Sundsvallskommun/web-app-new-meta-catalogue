@@ -71,7 +71,7 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
     <div>
       <div className={`${className} h-full inline-block w-full transition-all transform `}>
         <div ref={ref} className="mx-auto max-w-[818px] mt-20">
-          <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-[#ECECEC]`}>
+          <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-divider`}>
             <h2 data-cy="search-results-query" className={`grow text-2xl text-left`}>
               Sökord: {searchTerm}
             </h2>

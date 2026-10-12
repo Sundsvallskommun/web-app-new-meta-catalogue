@@ -121,7 +121,7 @@ const SidebarOrgChange = ({ mainRef }) => {
         menuIndex={Number(itemData.id)}
         data-cy={`tree-item-${itemData.id}`}
         className={cx(
-          itemData.structureChangeStatus === 'DELETED' && 'text-gray-700',
+          itemData.structureChangeStatus === 'DELETED' && 'text-dark-disabled',
           isRoot && index > 0 && 'border-t border-divider'
         )}
       >

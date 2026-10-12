@@ -270,11 +270,11 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   }, [employeesByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="w-full bg-white px-0 pb-16 pt-10">
+    <div className="w-full bg-background-content px-0 pb-16 pt-10">
       <h2
         id="org-tabs-people-table-rowsstext"
         aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-grey"
+        className="table-header text-xl mx-8 px-2 border-b-2 border-divider"
       >
         Personer &#40;{employeeListSearchFiltered.length}&#41;
       </h2>

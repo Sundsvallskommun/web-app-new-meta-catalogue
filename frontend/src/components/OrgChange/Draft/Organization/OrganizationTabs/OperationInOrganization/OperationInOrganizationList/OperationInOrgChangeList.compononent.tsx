@@ -162,7 +162,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
           <Fragment>
             <div className="lg:text-right">
               <Button
-                className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
+                color="error"
                 size="md"
                 variant="secondary"
                 aria-label={`Koppla bort ${r.description}`}
@@ -191,11 +191,11 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
   }, [operationsByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
+    <div className="bg-background-content px-0 pb-16 pt-10">
       <h2
         id="orgchange-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-grey"
+        className="table-header text-xl mx-8 px-2 border-b-2 border-divider"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>

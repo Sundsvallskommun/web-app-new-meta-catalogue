@@ -217,7 +217,7 @@ export default function ChangeProjectModal(props: IChangeProjectProps) {
         {peopleToHandleWithProjectCode.length > 0 && (
           <div className="mt-lg gap-sm">
             <Button
-              className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
+              color="error"
               size="sm"
               variant="secondary"
               aria-describedby="project-modal-disconnect-text"

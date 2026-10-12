@@ -10,16 +10,16 @@ export default function ExportVerifyInfo() {
   const { verifyHasErrors, needsNewVerify } = useVerifyState();
   const [showResults, setShowResults] = useState(verifyHasErrors);
 
-  let severityBackground = 'bg-info-light';
+  let severityBackground = 'bg-info-background-200';
   if (verifyHasErrors) {
-    severityBackground = 'bg-error-light';
+    severityBackground = 'bg-error-background-200';
   }
   if (!verifyHasErrors) {
-    severityBackground = 'bg-success-light';
+    severityBackground = 'bg-success-background-200';
   }
 
   if (needsNewVerify) {
-    severityBackground = 'bg-warning-light';
+    severityBackground = 'bg-warning-background-200';
   }
 
   const handleExpand = () => {

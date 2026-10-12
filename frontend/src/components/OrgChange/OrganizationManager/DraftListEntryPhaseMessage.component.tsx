@@ -42,7 +42,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
       <Button
         size="sm"
         variant="secondary"
-        className="bg-white text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-white"
+        className="bg-background-content text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-light-primary"
         rightIcon={<CircleAlert />}
         onClick={handleCloseNodes}
       >

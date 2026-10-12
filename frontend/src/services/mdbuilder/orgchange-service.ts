@@ -102,64 +102,60 @@ export const draftListEntry = (draft: Draft) => {
   const { draftIsArchived } = useDraftPhaseState(draft);
 
   let phaseLabel = '',
-    phaseColor = {
-      text: 'text-body',
-      icon: 'text-body',
-      border: 'border-white',
-      bg: 'bg-white',
-    },
+    phaseColor = 'tertiary',
+    phaseInverted = true,
     PhaseIcon: LucideIcon = null;
 
   if (draftIsArchived) {
     phaseLabel = 'Exporterad och arkiverad';
-    phaseColor = { text: 'text-[#E4E4E5]', icon: 'text-[#E4E4E5]', border: 'border-[#4B4B4B]', bg: 'bg-[#4B4B4B]' };
+    phaseInverted = false;
     PhaseIcon = null;
   } else if (draft.phase === DraftPhaseEnum.APPROVED) {
     phaseLabel = 'Godkänd och väntar på export';
-    phaseColor = { text: 'text-body', icon: 'text-success', border: 'border-success', bg: 'bg-[#E0F6DE]' };
+    phaseColor = 'success';
     PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.EXPORT) {
     phaseLabel = 'Godkänd och exporteras';
-    phaseColor = { text: 'text-body', icon: 'text-success', border: 'border-success', bg: 'bg-[#E0F6DE]' };
+    phaseColor = 'success';
     PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.DRAFT) {
     phaseLabel = 'Utkast';
-    phaseColor = { text: 'text-body', icon: 'text-[#5B1F78]', border: 'border-[#5B1F78]', bg: 'bg-[#D7DBF2]' };
+    phaseColor = 'bjornstigen';
     PhaseIcon = File;
   }
 
   const phaseRunbookStep = draft.runbook?.currentStep ? draft.runbook?.runner[draft.runbook.currentStep - 1] : null;
 
-  return { phaseLabel, phaseColor, PhaseIcon, phaseRunbookStep };
+  return { phaseLabel, phaseColor, phaseInverted, PhaseIcon, phaseRunbookStep };
 };
 
 export const progressbarPhase = (phase) => {
   let phase1bg, phase2bg, phase3bg, phase4bg;
   if (phase === 'DRAFT') {
-    phase1bg = 'bg-[#5B1F78]';
-    phase2bg = 'bg-[#E4E4E5]';
-    phase3bg = 'bg-[#E4E4E5]';
-    phase4bg = 'bg-[#E4E4E5]';
+    phase1bg = 'bg-bjornstigen-surface-primary';
+    phase2bg = 'bg-background-200';
+    phase3bg = 'bg-background-200';
+    phase4bg = 'bg-background-200';
   } else if (phase === 'DRAFT_VERIFY') {
-    phase1bg = 'bg-[#D7DBF2]';
-    phase2bg = 'bg-[#E8B34D]';
-    phase3bg = 'bg-[#E4E4E5]';
-    phase4bg = 'bg-[#E4E4E5]';
+    phase1bg = 'bg-bjornstigen-background-200';
+    phase2bg = 'bg-warning-surface-accent';
+    phase3bg = 'bg-background-200';
+    phase4bg = 'bg-background-200';
   } else if (phase === 'TECHNICAL_REVIEW') {
-    phase1bg = 'bg-[#D7DBF2]';
-    phase2bg = 'bg-[#F9E9CA]';
-    phase3bg = 'bg-[#CB6666]';
-    phase4bg = 'bg-[#E4E4E5]';
+    phase1bg = 'bg-bjornstigen-background-200';
+    phase2bg = 'bg-warning-background-200';
+    phase3bg = 'bg-error-surface-accent';
+    phase4bg = 'bg-background-200';
   } else if (phase === 'APPROVED') {
-    phase1bg = 'bg-[#D7DBF2]';
-    phase2bg = 'bg-[#F9E9CA]';
-    phase3bg = 'bg-[#FEDFE2]';
-    phase4bg = 'bg-[#66AB89]';
+    phase1bg = 'bg-bjornstigen-background-200';
+    phase2bg = 'bg-warning-background-200';
+    phase3bg = 'bg-error-background-200';
+    phase4bg = 'bg-success-surface-accent';
   } else {
-    phase1bg = 'bg-[#D7DBF2]';
-    phase2bg = 'bg-[#F9E9CA]';
-    phase3bg = 'bg-[#FEDFE2]';
-    phase4bg = 'bg-[#66AB89]';
+    phase1bg = 'bg-bjornstigen-background-200';
+    phase2bg = 'bg-warning-background-200';
+    phase3bg = 'bg-error-background-200';
+    phase4bg = 'bg-success-surface-accent';
   }
   return { phase1bg, phase2bg, phase3bg, phase4bg };
 };

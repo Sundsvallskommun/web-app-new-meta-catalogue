@@ -42,7 +42,7 @@
   }
 
   &-label {
-    @apply hidden sm:block text-[13px] leading-[24px] text-gray;
+    @apply hidden sm:block text-[13px] leading-[24px] text-dark-secondary;
   }
 
   &-line {
@@ -50,7 +50,7 @@
   }
 
   &-dormentline {
-    @apply bg-[#E4E4E5] h-[8px] rounded-full relative;
+    @apply bg-background-200 h-[8px] rounded-full relative;
   }
 
   &-prephase {

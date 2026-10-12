@@ -104,7 +104,7 @@ const HeadInput = () => {
     <FormProvider {...form}>
       <div className="lg:w-[440px]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-sm text-gray lg:flex lg:justify-between lg:items-end">
+          <div className="mb-sm text-dark-secondary lg:flex lg:justify-between lg:items-end">
             {draftIsReadOnly || !user.permissions.canEditDrafts ?
               <div className="flex w-full items-end gap-[1rem]">
                 <div className="flex items-end w-fit">

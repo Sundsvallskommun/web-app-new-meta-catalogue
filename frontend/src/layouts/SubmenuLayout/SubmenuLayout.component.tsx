@@ -25,7 +25,7 @@ export default function SubmenuLayout({
       headerTitle={headerTitle}
       headerSubtitle={headerSubtitle}
       tabMenu={
-        <div className="shadow-[inset_0_-6px_rgba(244,244,244,1)]">
+        <div>
           <div data-cy="tabMenu" className="container mx-auto pb-sm lg:pb-0 lg:flex lg:items-center">
             <NavigationBar current={router.pathname.startsWith('/ansvar') ? 1 : 0} className="mb-md lg:mb-0">
               <NavigationBar.Item>
@@ -43,7 +43,7 @@ export default function SubmenuLayout({
       }
       {...rest}
     >
-      <div className={`bg-white max-w-full w-full -mt-[6px] grow ${!searchTerm && 'hidden'}`}>
+      <div className={`bg-background-content max-w-full w-full grow ${!searchTerm && 'hidden'}`}>
         <div className="container">
           <SearchResults />
         </div>

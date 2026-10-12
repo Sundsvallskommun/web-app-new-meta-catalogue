@@ -15,16 +15,6 @@ module.exports = {
       md: '768px',
       lg: '1024px',
     },*/
-    extend: {
-      colors: {
-        warning: {
-          DEFAULT: '#B05F03',
-          light: '#F3E1CD',
-          dark: '#C16A03',
-          active: '#C16A03',
-        },
-      },
-    },
     screens: {
       sm: '640px',
       // => @media (min-width: 640px) { ... }

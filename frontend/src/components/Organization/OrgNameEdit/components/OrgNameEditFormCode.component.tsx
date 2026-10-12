@@ -56,7 +56,7 @@ export const OrgNameEditFormCode: React.FC<OrgNameEditFormCodeProps> = ({ parent
         aria-invalid={errors.responsibilityCode?.message ? true : undefined}
       >
         {watch().parentResponsibilityCode && (
-          <Input.LeftAddon className="text-gray">{getParentCodeElement(parentOrg)}</Input.LeftAddon>
+          <Input.LeftAddon className="text-dark-secondary">{getParentCodeElement(parentOrg)}</Input.LeftAddon>
         )}
 
         <Input

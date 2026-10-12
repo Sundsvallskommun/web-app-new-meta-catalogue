@@ -105,7 +105,7 @@ export const Index: React.FC = () => {
           </div>
           {lockedView && (
             <div className="w-full grow flex justify-center items-center">
-              <p className="text-md p-8 pt-[5rem] w-2xl text-gray-500 font-bold m-0">
+              <p className="text-base p-8 pt-[5rem] w-2xl text-dark-secondary font-bold m-0">
                 Visningsläget är låst. Dölj exportinformationen för att visa utkastet
               </p>
             </div>

@@ -169,7 +169,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     const from = new Date(r.responsibilityFromDate.toString()).toLocaleDateString('sv-SE');
     const to = new Date(r.responsibilityToDate.toString()).toLocaleDateString('sv-SE');
     const { status, dot } = getAccountStatus(r.responsibilityFromDate, r.responsibilityToDate, r.responsibilityPassive);
-    const { bg: typeBg, text: typeText, border: border } = responsibilityType(r.responsibilityTypeId);
+    const { text: typeText, color: typeColor } = responsibilityType(r.responsibilityTypeId);
 
     return [
       {
@@ -196,7 +196,9 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Label className={`text-body ${typeBg} ${border}`}>{typeText}</Label>
+              <Label color={typeColor} rounded inverted>
+                {typeText}
+              </Label>
             </span>
           </Fragment>
         ),
@@ -283,8 +285,8 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     responsibilityPassive: r.responsibilityPassive,
   }));
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
-      <div className="flex justify-between mx-8 px-2 border-b-2 border-grey">
+    <div className="bg-background-content px-0 pb-16 pt-10">
+      <div className="flex justify-between mx-8 px-2 border-b-2 border-divider">
         <h2
           id="orgchange-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}

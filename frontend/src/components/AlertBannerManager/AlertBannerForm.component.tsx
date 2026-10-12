@@ -165,7 +165,7 @@ const AlertBannerForm = ({
         {isEdit && (
           <Button
             data-cy="systemMessage-button-taBort"
-            className="text-gray"
+            className="text-dark-secondary"
             type="button"
             onClick={onDelete}
             variant="link"
@@ -185,7 +185,7 @@ const AlertBannerForm = ({
         {submitError && (
           <span
             data-cy="systemMessage-span-notAuthorized"
-            className="bg-red bg-opacity-5 p-2 pr-4 rounded-md border text-red border-red"
+            className="bg-error-background-100 p-2 pr-4 rounded-md border text-error border-error-surface-primary"
           >
             <Icon className="mr-sm" icon={<CircleAlert />} />
             {submitErrorText}

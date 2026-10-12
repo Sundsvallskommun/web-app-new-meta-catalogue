@@ -90,7 +90,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
 
   const markMatches = (string: string) => {
     const searchRegex = new RegExp('(' + searchTerm + ')', 'ig');
-    return string.replace(searchRegex, '<span class="bg-[#B6DCF9]">$1</span>');
+    return string.replace(searchRegex, '<span class="bg-vattjom-background-200">$1</span>');
   };
 
   return (
@@ -100,9 +100,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
           <div className="lg:pr-lg">
             <div className="flex">
               <div>
-                <Label
-                  className={`mr-sm text-body ${objectType(item.objectType).bg} ${objectType(item.objectType).border}`}
-                >
+                <Label className="mr-sm" color={objectType(item.objectType).color} rounded inverted>
                   {objectType(item.objectType).text}
                 </Label>
               </div>

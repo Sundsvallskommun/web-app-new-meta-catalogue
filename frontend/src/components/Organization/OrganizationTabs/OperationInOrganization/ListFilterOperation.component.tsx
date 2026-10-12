@@ -70,7 +70,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
   };
 
   return (
-    <div className="list-filter bg-white">
+    <div className="list-filter bg-background-content">
       <div className="flex justify-between w-full flex-wrap">
         <span className="pl-lg pr-4 flex-grow mb-8">
           <FormControl id="org-operation-listfilter-searchbar">
@@ -120,7 +120,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
           </span>
         )}
       </div>
-      <div className="lg:flex lg:flex-row gap-lg bg-gray-lighter py-6 mt-8 px-8">
+      <div className="lg:flex lg:flex-row gap-lg bg-background-200 py-6 mt-8 px-8">
         <p className="text-lg">Anpassa:</p>
         <span className="basis-1/3">
           <ColumnFilter

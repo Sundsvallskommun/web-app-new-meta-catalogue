@@ -9,7 +9,7 @@ export default function Organization({ isEdit = false }) {
   return (
     <>
       {organization && organization?.id !== null ? (
-        <section className="bg-white h-full">
+        <section className="bg-background-content h-full">
           <OrgNameEdit
             newItem={false}
             organization={organization}

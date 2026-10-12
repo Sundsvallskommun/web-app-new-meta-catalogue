@@ -332,7 +332,12 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button type="button" variant="link" className="mt-lg w-fit h-fit text-gray" leftIcon={<Flag />}>
+              <Button
+                type="button"
+                variant="link"
+                className="mt-lg w-fit h-fit text-dark-secondary"
+                leftIcon={<Flag />}
+              >
                 Rapportera fel
               </Button>
             </NextLink>

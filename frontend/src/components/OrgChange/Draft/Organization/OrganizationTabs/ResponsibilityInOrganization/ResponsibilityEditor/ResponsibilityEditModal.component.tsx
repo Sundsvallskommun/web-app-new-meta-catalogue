@@ -180,7 +180,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               <div className="mb-sm">
                 <Button
                   type="button"
-                  className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
+                  color="error"
                   size="md"
                   variant="secondary"
                   aria-label={`Stäng ansvar ${watch().description}`}

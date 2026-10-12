@@ -138,11 +138,11 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
   }, [operationsByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
+    <div className="bg-background-content px-0 pb-16 pt-10">
       <h2
         id="org-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-grey"
+        className="table-header text-xl mx-8 px-2 border-b-2 border-divider"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>

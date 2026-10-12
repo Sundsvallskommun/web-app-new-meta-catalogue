@@ -14,7 +14,7 @@ export default function OrganizationOrgChange() {
 
   return organization && organization?.id !== null ?
       <div className="relative">
-        <section className="bg-white">
+        <section className="bg-background-content">
           {!draftIsReadOnly && <ActionHeaderBranch organization={organization as DraftTreeOrganization} />}
           <OrgNameEdit
             newItem={organization.structureChangeStatus === 'NEW'}

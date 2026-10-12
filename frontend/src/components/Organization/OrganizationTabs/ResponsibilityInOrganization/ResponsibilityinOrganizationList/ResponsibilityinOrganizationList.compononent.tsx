@@ -113,7 +113,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   //table columns n rows
   const rows: DataTableColumn[][] = responsibilityListRendered.map((r) => {
     const from = new Date(r.responsibilityValidFrom.toString()).toLocaleDateString('sv-SE');
-    const { bg: typeBg, text: typeText, border: border } = responsibilityType(r.typeOfResponsibility);
+    const { text: typeText, color: typeColor } = responsibilityType(r.typeOfResponsibility);
 
     return [
       {
@@ -142,7 +142,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           <Fragment>
             <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
             <span>
-              <Label className={`text-body ${typeBg} ${border}`}>
+              <Label color={typeColor} rounded inverted>
                 {typeText}
               </Label>
             </span>
@@ -200,8 +200,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     orgFromName: r.orgFromName,
   }));
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-grey">
+    <div className="bg-background-content px-0 pb-16 pt-10">
+      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-divider">
         <h2
           id="org-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
