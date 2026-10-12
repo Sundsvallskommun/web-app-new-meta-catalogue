@@ -4,7 +4,6 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, Combobox, Filter, PopupMenu } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useState } from 'react';
-import Sticky from 'react-sticky-el';
 import ChooseBranchToChangeModal from './Modals/ChooseBranchToChangeModal.component';
 import CreateNewBranchFormModal from './Modals/CreateNewBranchFormModal.component';
 import { IFilterDataMenu } from '@interfaces/organization';
@@ -42,12 +41,7 @@ export default function SideMenuHeadElementOrgChange() {
   };
 
   return (
-    <Sticky
-      mode="top"
-      wrapperClassName="z-10 relative bg-background-content"
-      scrollElement="aside.SidebarOrganization"
-      hideOnBoundaryHit={false}
-    >
+    <div className="z-10 relative">
       <div className="flex flex-col lg:flex-row space-y-md lg:space-y-0 lg:justify-between py-20 px-md box-content">
         {!draftIsReadOnly && (
           <>
@@ -112,6 +106,6 @@ export default function SideMenuHeadElementOrgChange() {
         </div>
         {isChooseOrgOpen && <ChooseBranchToChangeModal onClose={onCloseHandler} />}
       </div>
-    </Sticky>
+    </div>
   );
 }

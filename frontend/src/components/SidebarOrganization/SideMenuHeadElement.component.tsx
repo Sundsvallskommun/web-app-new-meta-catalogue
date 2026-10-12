@@ -5,7 +5,6 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Combobox, Filter, FormControl, FormLabel, PopupMenu, Select } from '@sk-web-gui/react';
 import { useState } from 'react';
-import Sticky from 'react-sticky-el';
 
 interface TreeImage {
   id: number;
@@ -79,12 +78,7 @@ export default function SideMenuHeadElement() {
   };
 
   return (
-    <Sticky
-      mode="top"
-      wrapperClassName="z-10 relative bg-background-content px-md pt-md"
-      scrollElement="aside.SidebarOrganization"
-      hideOnBoundaryHit={false}
-    >
+    <div className="z-10 relative px-md pt-md">
       <form>
         <div className="mb-md">
           <FormControl id="sidemenu-image">
@@ -172,6 +166,6 @@ export default function SideMenuHeadElement() {
           </PopupMenu>
         </div>
       </div>
-    </Sticky>
+    </div>
   );
 }
