@@ -26,7 +26,7 @@ describe('/organization - Main - Tabs - People', () => {
     cy.get('[data-cy="column-filter"] button[aria-haspopup="dialog"]').filter(':visible').click();
 
     // Check if the content has changed
-    cy.get('[data-cy="column-filter"] .sk-filter').should('be.visible');
+    cy.get('[data-cy="column-filter"] .sk-popup-menu-items').should('be.visible');
 
     // Click the "Dölj alla" button
     cy.get('button[type="button"]').contains('Dölj alla').click();

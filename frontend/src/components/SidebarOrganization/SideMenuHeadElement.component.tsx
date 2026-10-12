@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Combobox, Filter, FormControl, FormLabel, PopupMenu, Select } from '@sk-web-gui/react';
+import { Checkbox, Combobox, FormControl, FormLabel, PopupMenu, Select } from '@sk-web-gui/react';
 import { useState } from 'react';
 
 interface TreeImage {
@@ -131,19 +131,19 @@ export default function SideMenuHeadElement() {
             </PopupMenu.Button>
             <PopupMenu.Panel id="sideMenuSearchFilters">
               {user.permissions.canViewDrafts && (
-                <Filter>
-                  <Filter.Label className="sr-only">Ändra sidomenyn</Filter.Label>
+                <PopupMenu.Items autoFocus={false} aria-label="Ändra sidomenyn">
                   {sideMenuShowFiltersFiltered.map((filter) => (
-                    <Filter.Item
-                      key={filter.id}
-                      checked={filter.value}
-                      disabled={filter.disabled}
-                      onChange={() => handleSideMenuShowFilterChange({ ...filter, value: !filter.value })}
-                    >
-                      {filter.name}
-                    </Filter.Item>
+                    <PopupMenu.Item key={filter.id}>
+                      <Checkbox
+                        checked={filter.value}
+                        disabled={filter.disabled}
+                        onChange={() => handleSideMenuShowFilterChange({ ...filter, value: !filter.value })}
+                      >
+                        {filter.name}
+                      </Checkbox>
+                    </PopupMenu.Item>
                   ))}
-                </Filter>
+                </PopupMenu.Items>
               )}
               <Combobox
                 className="w-full"

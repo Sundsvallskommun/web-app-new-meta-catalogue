@@ -1,5 +1,5 @@
 import { IFilterData } from '@interfaces/filter-data';
-import { Button, Filter, PopupMenu } from '@sk-web-gui/react';
+import { Button, Checkbox, PopupMenu } from '@sk-web-gui/react';
 import { ChevronDown } from 'lucide-react';
 
 interface ColumnFilterProps {
@@ -32,16 +32,17 @@ export const ColumnFilter = ({ label, filterData, onFilterChange }: ColumnFilter
               Dölj alla
             </Button>
           </div>
-          <Filter>
-            <Filter.Label className="sr-only">{label}</Filter.Label>
+          <PopupMenu.Items autoFocus={false} aria-label={label}>
             {filterData
               .filter((item) => item.isShown === undefined || item.isShown)
               .map((item) => (
-                <Filter.Item key={item.id} checked={item.value} disabled={item.disabled} onChange={() => toggle(item)}>
-                  {item.name}
-                </Filter.Item>
+                <PopupMenu.Item key={item.id}>
+                  <Checkbox checked={item.value} disabled={item.disabled} onChange={() => toggle(item)}>
+                    {item.name}
+                  </Checkbox>
+                </PopupMenu.Item>
               ))}
-          </Filter>
+          </PopupMenu.Items>
         </PopupMenu.Panel>
       </PopupMenu>
     </div>

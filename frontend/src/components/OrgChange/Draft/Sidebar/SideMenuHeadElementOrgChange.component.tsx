@@ -1,7 +1,7 @@
 import { ChevronDown, ListPlus } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Combobox, Filter, PopupMenu } from '@sk-web-gui/react';
+import { Button, Checkbox, Combobox, PopupMenu } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useState } from 'react';
 import ChooseBranchToChangeModal from './Modals/ChooseBranchToChangeModal.component';
@@ -71,19 +71,19 @@ export default function SideMenuHeadElementOrgChange() {
               Visa/sök
             </PopupMenu.Button>
             <PopupMenu.Panel id="sideMenuSearchFilters">
-              <Filter>
-                <Filter.Label className="sr-only">Ändra sidomenyn</Filter.Label>
+              <PopupMenu.Items autoFocus={false} aria-label="Ändra sidomenyn">
                 {sideMenuShowFilters.map((filter) => (
-                  <Filter.Item
-                    key={filter.id}
-                    checked={filter.value}
-                    disabled={filter.disabled}
-                    onChange={() => handleSideMenuShowFilterChange({ ...filter, value: !filter.value })}
-                  >
-                    {filter.name}
-                  </Filter.Item>
+                  <PopupMenu.Item key={filter.id}>
+                    <Checkbox
+                      checked={filter.value}
+                      disabled={filter.disabled}
+                      onChange={() => handleSideMenuShowFilterChange({ ...filter, value: !filter.value })}
+                    >
+                      {filter.name}
+                    </Checkbox>
+                  </PopupMenu.Item>
                 ))}
-              </Filter>
+              </PopupMenu.Items>
               <Combobox
                 className="w-full"
                 aria-label="Sök gren i menyn"

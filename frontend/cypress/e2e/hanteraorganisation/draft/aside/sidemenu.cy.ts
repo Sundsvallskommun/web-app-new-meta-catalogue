@@ -61,9 +61,9 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('#sideMenuSearchFilters')
       .should('be.visible')
       .within(() => {
-        cy.get('.sk-filter-item').contains('Nivåer').click();
-        cy.get('.sk-filter-item').contains('Ansvarskod').click();
-        cy.get('.sk-filter-item').contains('Förkortningar').click();
+        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Nivåer').click();
+        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Ansvarskod').click();
+        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Förkortningar').click();
       });
 
     // Close

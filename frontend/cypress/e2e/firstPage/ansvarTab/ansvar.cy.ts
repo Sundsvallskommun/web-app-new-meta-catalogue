@@ -85,7 +85,7 @@ describe('/ansvar', () => {
     cy.get('[data-cy="column-filter"] button').contains('Visa alla').click();
 
     // Check if all checkboxes are checked
-    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]').each(($el) => {
+    cy.get('[data-cy="column-filter"] .sk-popup-menu-item input[type="checkbox"]').each(($el) => {
       cy.wrap($el).should('be.checked');
     });
 
@@ -97,7 +97,7 @@ describe('/ansvar', () => {
     cy.get('[data-cy="column-filter"] button').contains('Dölj alla').click();
 
     // Check if all checkboxes are not checked
-    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]')
+    cy.get('[data-cy="column-filter"] .sk-popup-menu-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
         cy.wrap($el).should('not.be.checked');
@@ -108,7 +108,7 @@ describe('/ansvar', () => {
     cy.get('.sk-table-tbody td').contains('Pseudoansvar').should('not.exist');
 
     // Check and uncheck each checkbox
-    cy.get('[data-cy="column-filter"] .sk-filter-item input[type="checkbox"]')
+    cy.get('[data-cy="column-filter"] .sk-popup-menu-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
         cy.wrap($el).click().should('be.checked');
