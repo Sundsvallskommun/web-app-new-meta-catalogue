@@ -10,10 +10,10 @@ const DraftViewAs = (props) => {
 
   return (
     <div className="flex">
-      <label className="py-md mr-4" id="show-as-liststyle">
+      <label className="py-md mr-10" id="show-as-liststyle">
         Visa som:
       </label>
-      <span className="mr-4">
+      <span className="mr-10">
         <button
           title="Kort"
           aria-labelledby="show-as-liststyle"

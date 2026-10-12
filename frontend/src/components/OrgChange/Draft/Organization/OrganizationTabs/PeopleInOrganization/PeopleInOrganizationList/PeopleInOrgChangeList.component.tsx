@@ -283,7 +283,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div className="lg:w-[200px]">
               <span className="inline font-bold lg:hidden">PA-Team: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(p.newPATeam, p.paTeam)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newPATeam, p.paTeam)}</span>
               <br />
               <span className="inline font-bold lg:hidden">PA-Team-namn: </span>
               <span className="">{renderNewOrOld(p.newPATeamName, p.paTeamName)}</span>
@@ -297,7 +297,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div>
               <span className="inline font-bold lg:hidden">Verksamhet: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(p.newOperationCode, p.operationCode)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newOperationCode, p.operationCode)}</span>
               <br />
               <span className="inline font-bold lg:hidden">Verksamhets-namn: </span>
               <span className="">{renderNewOrOld(p.newOperationName, p.operationName)}</span>
@@ -311,7 +311,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div>
               <span className="inline font-bold lg:hidden">Objekt: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(p.newObjectCode, p.objectCode)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newObjectCode, p.objectCode)}</span>
               <br />
               <span className="inline font-bold lg:hidden">Objekts-namn: </span>
               <span className="">{renderNewOrOld(p.newObjectName, p.objectName)}</span>
@@ -325,7 +325,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div>
               <span className="inline font-bold lg:hidden">Aktivitet: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(p.newActivityCode, p.activityCode)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newActivityCode, p.activityCode)}</span>
               <br />
               <span className="inline font-bold lg:hidden">Aktivitets-namn: </span>
               <span className="">{renderNewOrOld(p.newActivityName, p.activityName)}</span>
@@ -339,7 +339,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           <Fragment>
             <div>
               <span className="inline font-bold lg:hidden">Projekt: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(p.newProjectCode, p.projectCode)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newProjectCode, p.projectCode)}</span>
               <br />
               <span className="inline font-bold lg:hidden">Projekts-namn: </span>
               <span className="">{renderNewOrOld(p.newProjectName, p.projectName)}</span>
@@ -411,12 +411,12 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
   }, [employeesByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="w-full bg-background-content px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-divider">
+    <div className="w-full bg-background-content px-0 pb-40 pt-24">
+      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
         <h2
           id="orgchange-tabs-people-table-rowsstext"
           aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-          className="table-header text-xl"
+          className="table-header text-lead"
         >
           Personer &#40;{employeeListSearchFiltered.length}&#41;
         </h2>
@@ -463,7 +463,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             />
           )}
         </div>
-      : <div className="mt-sm mx-8 px-2">Inga personer att visa.</div>}
+      : <div className="mt-sm mx-20 px-5">Inga personer att visa.</div>}
 
       {personEditorIsOpen && selectedEmployeeDetails && user.permissions.canViewEmployeeDetails && (
         <PersonEditor

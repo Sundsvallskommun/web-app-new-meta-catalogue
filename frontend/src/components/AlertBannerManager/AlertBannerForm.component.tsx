@@ -185,7 +185,7 @@ const AlertBannerForm = ({
         {submitError && (
           <span
             data-cy="systemMessage-span-notAuthorized"
-            className="bg-error-background-100 p-2 pr-4 rounded-md border text-error border-error-surface-primary"
+            className="bg-error-background-100 p-5 pr-10 rounded-md border-1 text-error border-error-surface-primary"
           >
             <Icon className="mr-sm" icon={<CircleAlert />} />
             {submitErrorText}

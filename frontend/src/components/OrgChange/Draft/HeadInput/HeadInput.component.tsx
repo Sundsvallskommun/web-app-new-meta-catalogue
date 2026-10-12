@@ -116,7 +116,7 @@ const HeadInput = () => {
                 <HeadInputFormCutOffdate />
               </div>
             }
-            <div className="text-sm grow flex">
+            <div className="text-small grow flex">
               <span className="font-bold lg:sr-only">Bolag: </span>
               <div className="ml-sm grow lg:ml-0 whitespace-nowrap" aria-labelledby="draft-company-label">
                 {windowSize.lg ? `(${draft.companyName})` : `${draft.companyName}`}
@@ -125,7 +125,7 @@ const HeadInput = () => {
           </div>
           <div className="flex gap-md">
             {draftIsReadOnly || !user.permissions.canEditDrafts ?
-              <h1 className="text-2xl">{draft.name}</h1>
+              <h1 className="text-h4">{draft.name}</h1>
             : <HeadInputFormName />}
 
             {isValid && isDirty && (

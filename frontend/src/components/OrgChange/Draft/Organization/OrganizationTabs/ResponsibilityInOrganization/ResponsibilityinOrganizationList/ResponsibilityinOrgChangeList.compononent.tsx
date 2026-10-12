@@ -143,7 +143,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
         </Button>
       );
     } else if (date < today) {
-      return <div className="p-5 w-full"></div>;
+      return <div className="p-12 w-full"></div>;
     }
   };
 
@@ -285,12 +285,12 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     responsibilityPassive: r.responsibilityPassive,
   }));
   return (
-    <div className="bg-background-content px-0 pb-16 pt-10">
-      <div className="flex justify-between mx-8 px-2 border-b-2 border-divider">
+    <div className="bg-background-content px-0 pb-40 pt-24">
+      <div className="flex justify-between mx-20 px-5 border-b-2 border-divider">
         <h2
           id="orgchange-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="table-header text-xl"
+          className="table-header text-lead"
         >
           Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
         </h2>
@@ -336,7 +336,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
             />
           )}
         </div>
-      : <div className="mt-sm mx-8 px-2">Inga ansvar att visa.</div>}
+      : <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>}
 
       {isOpen && <ResponsibilityEditModal onClose={onCloseHandler} responsibility={selectedResp} />}
     </div>

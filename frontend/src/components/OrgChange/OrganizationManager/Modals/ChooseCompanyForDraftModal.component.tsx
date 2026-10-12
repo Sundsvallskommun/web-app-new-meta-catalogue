@@ -96,7 +96,7 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
       </div>
 
       <LeadButtons>
-        <Button variant="primary" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
+        <Button variant="primary" size="lg" onClick={onCloseHandler} className="my-sm sm:my-15 w-full" type="button">
           {'Avbryt'}
         </Button>
         <Button
@@ -105,7 +105,7 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
           size="lg"
           type="submit"
           color="primary"
-          className="my-sm sm:my-6 w-full"
+          className="my-sm sm:my-15 w-full"
           loading={isLoading}
           loadingText="Sparar"
         >
@@ -113,7 +113,7 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
         </Button>
       </LeadButtons>
       {error && (
-        <div className="w-full flex justify-between space-x-2 my-lg">
+        <div className="w-full flex justify-between space-x-5 my-lg">
           <FormErrorMessage>
             <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
           </FormErrorMessage>

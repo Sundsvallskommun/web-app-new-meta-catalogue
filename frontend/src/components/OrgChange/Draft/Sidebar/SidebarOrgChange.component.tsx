@@ -93,7 +93,7 @@ const SidebarOrgChange = ({ mainRef }) => {
           )}
           {showFilter.level && <span className="sr-only">, Nivå: {itemData.level}</span>}
           {itemData.changes && itemData.changes >= 1 && itemData.structureChangeStatus !== 'DELETED' ?
-            <span className="absolute my-0 right-sm lg:right-6">
+            <span className="absolute my-0 right-sm lg:right-15">
               <span className="sr-only">Ändringar: </span>
               <Badge size="md" color="warning" counter={itemData.changes > 99 ? '99+' : itemData.changes} />
             </span>
@@ -104,7 +104,7 @@ const SidebarOrgChange = ({ mainRef }) => {
             </span>
           )}
           {itemData.structureChangeStatus === 'MOVED' && (
-            <span className="text-warning font-sans text-base ml-2">Flyttad</span>
+            <span className="text-warning font-sans text-base ml-5">Flyttad</span>
           )}
         </span>
         {showFilter.level && (
@@ -122,7 +122,7 @@ const SidebarOrgChange = ({ mainRef }) => {
         data-cy={`tree-item-${itemData.id}`}
         className={cx(
           itemData.structureChangeStatus === 'DELETED' && 'text-dark-disabled',
-          isRoot && index > 0 && 'border-t border-divider'
+          isRoot && index > 0 && 'border-t-1 border-divider'
         )}
       >
         {itemData.subItems?.length ?
@@ -157,7 +157,7 @@ const SidebarOrgChange = ({ mainRef }) => {
         </MenuVertical.Sidebar>
       </MenuVertical.Provider>
       {!orgTree?.length && !orgTreeIsLoading && (
-        <div className="mt-lg text-lg text-gray-stroke">
+        <div className="mt-lg text-large text-gray-stroke">
           {!draft.draftId ?
             `Fyll i datum för produktion samt namn för att komma vidare i utkastet`
           : `Välj grenar för att kunna göra ändringar.`}

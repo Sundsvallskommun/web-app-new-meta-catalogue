@@ -175,7 +175,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
             <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
           )}
 
-          <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
+          <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24 items-end">
             <div>
               <div className="mb-sm">
                 <Button
@@ -195,7 +195,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
                 variant="primary"
                 size="lg"
                 onClick={onCloseHandler}
-                className="my-sm sm:my-6 w-full"
+                className="my-sm sm:my-15 w-full"
                 type="button"
               >
                 {'Avbryt'}
@@ -206,7 +206,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               variant="primary"
               size="lg"
               color="primary"
-              className="my-sm sm:my-6 w-full"
+              className="my-sm sm:my-15 w-full"
               leftIcon={<Check />}
               loading={isLoading}
               loadingText="Sparar"
@@ -215,7 +215,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
             </Button>
           </div>
           {error && (
-            <div className="w-full flex justify-between space-x-2 my-lg">
+            <div className="w-full flex justify-between space-x-5 my-lg">
               <FormErrorMessage>
                 <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
               </FormErrorMessage>

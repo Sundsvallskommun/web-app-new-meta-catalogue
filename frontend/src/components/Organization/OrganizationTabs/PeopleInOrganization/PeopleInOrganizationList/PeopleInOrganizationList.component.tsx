@@ -238,7 +238,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
       {
         element: (
           <Fragment>
-            <div className="mt-4 lg:mt-0 relative">
+            <div className="mt-10 lg:mt-0 relative">
               <Button
                 variant={windowSize.lg ? 'secondary' : 'primary'}
                 color={`primary`}
@@ -270,11 +270,11 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   }, [employeesByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="w-full bg-background-content px-0 pb-16 pt-10">
+    <div className="w-full bg-background-content px-0 pb-40 pt-24">
       <h2
         id="org-tabs-people-table-rowsstext"
         aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-divider"
+        className="table-header text-lead mx-20 px-5 border-b-2 border-divider"
       >
         Personer &#40;{employeeListSearchFiltered.length}&#41;
       </h2>
@@ -310,7 +310,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
           )}
         </div>
       ) : (
-        <div className="mt-sm mx-8 px-2">Inga personer att visa.</div>
+        <div className="mt-sm mx-20 px-5">Inga personer att visa.</div>
       )}
       {isOpen && selectedEmployeeDetails && user.permissions.canViewEmployeeDetails && (
         <PersonEditor isOpen={isOpen} closeCallback={closeModal} employeeDetails={selectedEmployeeDetails} />

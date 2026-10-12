@@ -22,7 +22,7 @@ const DraftCards = (props: DraftDataListProps) => {
     return (
       <Card
         className={cx(
-          `p-10 flex flex-col justify-between`,
+          `p-24 flex flex-col justify-between`,
           draftIsArchived ? 'bg-background-200 text-dark-disabled' : 'bg-background-100'
         )}
         key={`${i}`}
@@ -30,11 +30,11 @@ const DraftCards = (props: DraftDataListProps) => {
         <div>
           <div className="flex justify-between">
             <div className="flex flex-col-reverse">
-              <h2 className="mt-sm text-lg w-full flex flex-col gap-y-[.4rem]">
+              <h2 className="mt-sm text-large w-full flex flex-col gap-y-[.4rem]">
                 <DraftListEntryPhaseTitle draft={d} />
-                <div className="font-[Arial] w-full leading-[2rem] font-normal text-sm">Skapad av {d.loginname}</div>
+                <div className="font-[Arial] w-full leading-[2rem] font-normal text-small">Skapad av {d.loginname}</div>
               </h2>
-              <div className="text-dark-secondary text-sm lg:flex lg:items-center">
+              <div className="text-dark-secondary text-small lg:flex lg:items-center">
                 <div className="flex flex-col gap-y-[.4rem]">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center">
                     <div className="flex items-center">
@@ -63,7 +63,7 @@ const DraftCards = (props: DraftDataListProps) => {
           </p>
         </div>
         <div className="w-full flex justify-between items-center self-end">
-          <span className="lg:flex lg:items-center align-bottom gap-5">
+          <span className="lg:flex lg:items-center align-bottom gap-12">
             <DraftListEntryPhaseState draft={d} />
           </span>
           <DraftListEntryPhaseMessage draft={d} />
@@ -79,7 +79,7 @@ const DraftCards = (props: DraftDataListProps) => {
             <Spinner size={3} aria-label="Hämtar Utkast" />
           </div>
         : <div className="min-h-[400px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:p-lg">{cards}</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 lg:p-lg">{cards}</div>
           </div>
         }
       </div>

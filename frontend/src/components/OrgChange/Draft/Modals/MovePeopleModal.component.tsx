@@ -194,7 +194,7 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
           </Combobox>
         </FormControl>
         {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
+          <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
               <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
             </FormErrorMessage>
@@ -216,7 +216,7 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
               </Checkbox>
             </FormControl>
           )}
-        <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
+        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
           <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>

@@ -223,9 +223,9 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   }));
 
   return (
-    <div className="bg-background-content px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-divider">
-        <h2 className="text-xl">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
+    <div className="bg-background-content px-0 pb-40 pt-24">
+      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
+        <h2 className="text-lead">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
         <CsvExporter
           csvData={csvAllResponsibility}
           csvHeaders={csvHeaders}
@@ -270,7 +270,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
         </div>
       )}
       {!responsibilitiesIsLoading && rows.length == 0 && (
-        <div className="mt-sm mx-8 px-2">
+        <div className="mt-sm mx-20 px-5">
           <span>Inga ansvar att visa.</span>
         </div>
       )}

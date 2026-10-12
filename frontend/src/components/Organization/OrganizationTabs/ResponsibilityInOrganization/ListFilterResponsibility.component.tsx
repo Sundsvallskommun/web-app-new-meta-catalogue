@@ -57,7 +57,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
   return (
     <div className="list-filter bg-background-content">
       <div className="flex justify-between w-full flex-wrap">
-        <span className="pl-lg pr-4 flex-grow mb-8">
+        <span className="pl-lg pr-10 flex-grow mb-20">
           <FormControl id="org-responsibility-listfilter-searchbar">
             <SearchField
               size="md"
@@ -81,7 +81,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
           </FormControl>
         </span>
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-          <span className="flex flex-wrap justify-end gap-6 px-lg">
+          <span className="flex flex-wrap justify-end gap-15 px-lg">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
               <Button
                 className="w-fit h-fit"
@@ -109,8 +109,8 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
           </span>
         )}
       </div>
-      <div className="lg:flex lg:flex-row gap-lg bg-background-200 py-6 mt-8 px-8">
-        <p className="text-lg">Anpassa:</p>
+      <div className="lg:flex lg:flex-row gap-lg bg-background-200 py-15 mt-20 px-20">
+        <p className="text-large">Anpassa:</p>
         <span className="max-w-[300px] w-full">
           <ColumnFilter
             label="Visa/dölj kolumner i ansvar"

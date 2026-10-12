@@ -216,7 +216,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             />
           </div>
           <div>
-            <div className="grid grid-cols-2 gap-10 my-md">
+            <div className="grid grid-cols-2 gap-24 my-md">
               <div>
                 <FormControl id="responsibility-code">
                   <FormLabel>
@@ -273,7 +273,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
                 </FormControl>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-10 my-md">
+            <div className="grid grid-cols-2 gap-24 my-md">
               <FormLabel id="responsibilityToDate">
                 <strong>Giltig till </strong>
                 <span className="block text-base">9999-12-31</span>
@@ -281,13 +281,13 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
+          <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24 items-end">
             <div>
               <Button
                 variant="primary"
                 size="lg"
                 onClick={onCloseHandler}
-                className="my-sm sm:my-6 w-full"
+                className="my-sm sm:my-15 w-full"
                 type="button"
               >
                 {'Avbryt'}
@@ -298,7 +298,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
               variant="primary"
               size="lg"
               color="primary"
-              className="my-sm sm:my-6 w-full"
+              className="my-sm sm:my-15 w-full"
               leftIcon={<Check />}
               loading={isLoading}
               loadingText="Sparar"
@@ -307,7 +307,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             </Button>
           </div>
           {error && (
-            <div className="w-full flex justify-between space-x-2 my-lg">
+            <div className="w-full flex justify-between space-x-5 my-lg">
               <FormErrorMessage>
                 <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
               </FormErrorMessage>

@@ -200,7 +200,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           element: (
             <Fragment>
               <span className="inline font-bold lg:hidden">PA-Team: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(e.newPATeam, e.paTeam)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(e.newPATeam, e.paTeam)}</span>
               <br />
               <span className="inline font-bold lg:hidden">PA-Team-namn: </span>
               <span className="">{renderNewOrOld(e.newPATeamName, e.paTeamName)}</span>
@@ -212,7 +212,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           element: (
             <Fragment>
               <span className="inline font-bold lg:hidden">Verksamhet: </span>
-              <span className="lg:font-bold lg:text-sm">{renderNewOrOld(e.newOperationCode, e.operationCode)}</span>
+              <span className="lg:font-bold lg:text-small">{renderNewOrOld(e.newOperationCode, e.operationCode)}</span>
               <br />
               <span className="inline font-bold lg:hidden">Verksamhets-namn: </span>
               <span className="">{renderNewOrOld(e.newOperationName, e.operationName)}</span>
@@ -232,7 +232,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     <Modal show={isOpen} className="max-w-screen-xl" onClose={handleOnClose}>
       {employeeDetails && employeeDetails.personId && (
         <div className="PersonEditor">
-          <div className="lg:flex lg:justify-center lg:items-center lg:space-x-10 mt-[-20px]">
+          <div className="lg:flex lg:justify-center lg:items-center lg:space-x-24 mt-[-20px]">
             <div className="w-[130px] text-center">
               <div className="w-[130px] h-[130px] relative items-start rounded-full border-2 border-vattjom-surface-primary flex justify-center overflow-hidden mb-md">
                 <Image
@@ -247,13 +247,13 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             </div>
             <div className="max-w-[900px] w-full">
               <div className="mb-md">
-                <h4 className="text-xl">
+                <h4 className="text-lead">
                   {employeeDetails?.givenname} {employeeDetails?.lastname}
                 </h4>
                 <span>{employeeDetails.personNumber}</span>
               </div>
 
-              <div className="grid grid-cols-[repeat(2,max-content)] grid-flow-row-dense gap-8">
+              <div className="grid grid-cols-[repeat(2,max-content)] grid-flow-row-dense gap-20">
                 <div>
                   <FormLabel className="m-0">
                     <strong>Arbetsmobil</strong>
@@ -291,8 +291,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           </div>
           <div className="lg:flex lg:justify-between mt-lg lg:space-x-[20px]">
             <div className="w-full">
-              <h4 className="text-xl ml-sm">Användarinfo</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+              <h4 className="text-lead ml-sm">Användarinfo</h4>
+              <div className="last-th-right border-t-1 border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
                 <DataTable
                   headers={userHeaders}
                   rows={userRows}
@@ -304,8 +304,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               </div>
             </div>
             <div className="w-full">
-              <h4 className="text-xl ml-sm">E-postadresser</h4>
-              <div className="last-th-right border-t border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
+              <h4 className="text-lead ml-sm">E-postadresser</h4>
+              <div className="last-th-right border-t-1 border-gray-stroke rounded-sm mt-sm [&_.sk-pagination]:px-sm">
                 <DataTable
                   headers={emailHeaders}
                   rows={emailRows}
@@ -318,7 +318,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             </div>
           </div>
           <div className="w-full mt-lg">
-            <h4 className="text-xl ml-sm pb-2 border-b border-gray-stroke">
+            <h4 className="text-lead ml-sm pb-5 border-b-1 border-gray-stroke">
               Anställning ({employeeDetails?.employments?.length})
             </h4>
             <div className="min-h-[100px]">
@@ -349,7 +349,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               color="primary"
               size="lg"
               onClick={handleOnClose}
-              className="my-sm sm:my-6 w-full"
+              className="my-sm sm:my-15 w-full"
               type="button"
             >
               Stäng

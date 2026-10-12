@@ -200,12 +200,12 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     orgFromName: r.orgFromName,
   }));
   return (
-    <div className="bg-background-content px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-divider">
+    <div className="bg-background-content px-0 pb-40 pt-24">
+      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
         <h2
           id="org-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="table-header text-xl"
+          className="table-header text-lead"
         >
           Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
         </h2>
@@ -252,7 +252,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           )}
         </div>
       ) : (
-        <div className="mt-sm mx-8 px-2">Inga ansvar att visa.</div>
+        <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>
       )}
     </div>
   );

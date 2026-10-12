@@ -32,7 +32,7 @@ export default function ExportVerifyInfo() {
 
   return (
     <div className="relative flex flex-col justify-end">
-      <div className={`bg-opacity-75 ${!showResults ? 'min-h-md' : ' min-h-40'} duration-300 ${severityBackground}`}>
+      <div className={`bg-opacity-75 ${!showResults ? 'min-h-md' : ' min-h-100'} duration-300 ${severityBackground}`}>
         <div className="max-width-content transition-all mx-auto flex flex-col-reverse lg:flex-row w-full">
           <h2 className="sr-only">Verifikationsresultat</h2>
           <div className="flex flex-col flex-grow gap-md p-md">

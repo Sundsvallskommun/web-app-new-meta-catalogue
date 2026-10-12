@@ -59,14 +59,14 @@ export const Comments = ({
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="flex items-center gap-sm px-10 pb-md">
+      <div className="flex items-center gap-sm px-24 pb-md">
         <Icon icon={<MessagesSquare />} />
         <h2>Kommentarer</h2>
       </div>
-      <div className="pl-10 pr-16 overflow-y-auto h-full" ref={scrollRef}>
+      <div className="pl-24 pr-40 overflow-y-auto h-full" ref={scrollRef}>
         {!loading &&
           commentsData.map((comment) => (
-            <div key={`comment-item-${comment.id}`} className="border-b border-divider py-10 mt-4">
+            <div key={`comment-item-${comment.id}`} className="border-b-1 border-divider py-24 mt-10">
               <div className="flex items-start gap-sm">
                 <Avatar size="sm" rounded initials={comment.commentorName.slice(0, 2).toUpperCase()} />
                 <div className={`w-full ${editId === comment.id ? 'p-sm rounded-lg bg-warning-background-200' : ''}`}>

@@ -138,10 +138,10 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
 
   const labelHeading = (
     <div>
-      <h1 className="text-xl">
+      <h1 className="text-lead">
         <label id="search-object">Sök och välj objekt</label>
       </h1>
-      <h2 className=" block font-normal text-lg leading-tight">
+      <h2 className=" block font-normal text-large leading-tight">
         {' '}
         För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
       </h2>
@@ -187,7 +187,7 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
           activeObject?.data?.objectId !== initialObject?.data?.objectId &&
           peopleToHandle.length === 1 && <div className="w-full py-sm">{resetButton}</div>}
         {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
+          <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
               <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
             </FormErrorMessage>
@@ -202,7 +202,7 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
                 <Fragment>
                   <span className="inline font-bold lg:hidden">Objekt: </span>
                   <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-sm lg:float-left">
+                    <span className="lg:font-bold lg:text-small lg:float-left">
                       {renderNewOrOld(p.newObjectCode, p.objectCode)}
                     </span>
                     <br />

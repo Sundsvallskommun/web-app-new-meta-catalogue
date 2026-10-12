@@ -54,7 +54,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
     <Modal className="max-w-3xl" show={true} label={label} onClose={onClose}>
       <form>
         <FormControl>
-          <FormLabel className="text-base mb-md flex gap-4 items-center">
+          <FormLabel className="text-base mb-md flex gap-10 items-center">
             Välj organisation som du vill exportera {checkedOutOrganizationsLevel2IsLoading && <Spinner size={2} />}
           </FormLabel>
           {!checkedOutOrganizationsLevel2IsLoading && (
@@ -64,11 +64,11 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
                   <Button
                     key={`${org.orgId}`}
                     aria-label={`Exportera ${org.name}`}
-                    className="text-lg"
+                    className="text-large"
                     variant="link"
                     onClick={() => handleSetCsvData(org)}
                   >
-                    <span className="flex justify-center items-center gap-2">
+                    <span className="flex justify-center items-center gap-5">
                       <span>
                         <Icon icon={<Download />} />
                       </span>
@@ -80,7 +80,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
             </div>
           )}
         </FormControl>
-        <div className="mt-16 flex">
+        <div className="mt-40 flex">
           <Button variant="secondary" type="button" className="w-full" onClick={onClose}>
             Stäng
           </Button>

@@ -48,7 +48,7 @@ export default function SideMenuHeadElementOrgChange() {
       scrollElement="aside.SidebarOrganization"
       hideOnBoundaryHit={false}
     >
-      <div className="flex flex-col lg:flex-row space-y-md lg:space-y-0 lg:justify-between py-8 px-md box-content">
+      <div className="flex flex-col lg:flex-row space-y-md lg:space-y-0 lg:justify-between py-20 px-md box-content">
         {!draftIsReadOnly && (
           <>
             <Button

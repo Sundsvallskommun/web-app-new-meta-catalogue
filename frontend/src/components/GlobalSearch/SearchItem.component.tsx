@@ -94,7 +94,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
   };
 
   return (
-    <div className="flex justify-between py-md px-sm border-b">
+    <div className="flex justify-between py-md px-sm border-b-1">
       <div className="flex-grow">
         <div className="lg:flex lg:justify-between">
           <div className="lg:pr-lg">
@@ -104,7 +104,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
                   {objectType(item.objectType).text}
                 </Label>
               </div>
-              <div className="text-lg flex-grow font-bold">
+              <div className="text-large flex-grow font-bold">
                 <span dangerouslySetInnerHTML={{ __html: markMatches(item.header) }} />
               </div>
             </div>

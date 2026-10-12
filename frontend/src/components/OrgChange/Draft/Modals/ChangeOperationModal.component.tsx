@@ -159,7 +159,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
         </FormControl>
         {formState.isDirty && <div className="w-full py-sm">{resetButton}</div>}
         {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
+          <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
               <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
             </FormErrorMessage>
@@ -174,7 +174,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
                 <Fragment>
                   <span className="inline font-bold lg:hidden">Verksamhet: </span>
                   <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-sm lg:float-left">
+                    <span className="lg:font-bold lg:text-small lg:float-left">
                       {renderNewOrOld(p.newOperationCode, p.operationCode)}
                     </span>
                     <br />

@@ -63,9 +63,9 @@ export default function ActionBottomDraft() {
         {showPhaseInfo && <ExportPhaseInfo />}
         {showVerifyInfo && <ExportVerifyInfo />}
 
-        <div className="bg-background-one bg-opacity-50 lg:flex pb-lg lg:pb-0 px-8">
+        <div className="bg-background-one bg-opacity-50 lg:flex pb-lg lg:pb-0 px-20">
           <div className="max-width-content mx-auto w-full lg:flex relative justify-end gap-xl">
-            <div className="w-full space-y-md lg:space-y-0 lg:flex lg:justify-between py-lg gap-8">
+            <div className="w-full space-y-md lg:space-y-0 lg:flex lg:justify-between py-lg gap-20">
               <Link className="w-full max-w-[60rem] flex-shrink" href="/hanteraorganisation">
                 <Button as="span" size="lg" variant="primary" className="w-full">
                   Lämna utkast

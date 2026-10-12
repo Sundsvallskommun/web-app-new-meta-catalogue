@@ -70,16 +70,16 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
   return (
     <div>
       <div className={`${className} h-full inline-block w-full transition-all transform `}>
-        <div ref={ref} className="mx-auto max-w-[818px] mt-20">
+        <div ref={ref} className="mx-auto max-w-[818px] mt-50">
           <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-divider`}>
-            <h2 data-cy="search-results-query" className={`grow text-2xl text-left`}>
+            <h2 data-cy="search-results-query" className={`grow text-h4 text-left`}>
               Sökord: {searchTerm}
             </h2>
           </div>
           {!searchResultsIsLoading ? (
             <div>
               <span className="lg:flex">
-                <h3 data-cy="search-results-amount" className="min-w-max text-lg px-sm">
+                <h3 data-cy="search-results-amount" className="min-w-max text-large px-sm">
                   {`${
                     shownResults.length !== searchResults.length
                       ? `(${shownResults.length} av ${searchResults.length})`
@@ -110,7 +110,7 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                     <Pagination
                       pagesBefore={!windowSize.lg ? 0 : undefined}
                       pagesAfter={!windowSize.lg ? 0 : undefined}
-                      className="mt-lg text-lg"
+                      className="mt-lg text-large"
                       pages={Math.ceil(shownResults.length / pageSize)}
                       activePage={activePage}
                       changePage={handlePageChange}

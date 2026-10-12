@@ -67,7 +67,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
           {phaseRunbookStep.result || phaseRunbookStep.description}
         </span>
         <span className="inline-flex">
-          <MessageStatusIcon className="!text-xl" status={phaseRunbookStep.state} />
+          <MessageStatusIcon className="!text-lead" status={phaseRunbookStep.state} />
         </span>
       </span>
     );

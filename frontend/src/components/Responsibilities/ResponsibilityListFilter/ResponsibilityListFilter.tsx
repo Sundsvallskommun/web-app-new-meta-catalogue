@@ -53,9 +53,9 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
   const onSearchHandler = () => ({});
 
   return (
-    <div className="ListFilter pt-8 bg-background-content">
+    <div className="ListFilter pt-20 bg-background-content">
       <div className="flex justify-between w-full flex-wrap">
-        <div className="flex flex-col space-y-md lg:space-y-0 lg:flex-row lg:space-x-md lg:items-center pl-8 pr-4 mb-8">
+        <div className="flex flex-col space-y-md lg:space-y-0 lg:flex-row lg:space-x-md lg:items-center pl-20 pr-10 mb-20">
           <span>
             <Select
               size="md"
@@ -87,7 +87,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
             </FormControl>
           </span>
         </div>
-        <span className="flex flex-wrap justify-end gap-6 px-8">
+        <span className="flex flex-wrap justify-end gap-15 px-20">
           <NextLink
             legacyBehavior
             href={{
@@ -102,7 +102,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
           </NextLink>
         </span>
       </div>
-      <div className="flex flex-row gap-4 bg-background-200 py-6 mt-8 px-8">
+      <div className="flex flex-row gap-10 bg-background-200 py-15 mt-20 px-20">
         <p>Filter:</p>
         <span className="max-w-[300px] w-full">
           <ColumnFilter

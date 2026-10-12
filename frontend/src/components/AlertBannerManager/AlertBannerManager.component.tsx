@@ -88,7 +88,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
             <span className="sr-only">Editera </span>
             {message.message}
           </span>{' '}
-          <Icon className="ml-4" icon={<Pencil />} />
+          <Icon className="ml-10" icon={<Pencil />} />
         </button>
       );
     } else {

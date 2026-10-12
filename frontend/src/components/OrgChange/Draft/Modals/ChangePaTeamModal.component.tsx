@@ -164,10 +164,10 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
 
   const labelHeading = (
     <div>
-      <h1 className="text-xl">
+      <h1 className="text-lead">
         <label id="searchpateam">Sök och välj PA-Team</label>
       </h1>
-      <h2 className=" block font-normal text-lg leading-tight">
+      <h2 className=" block font-normal text-large leading-tight">
         {' '}
         För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
       </h2>
@@ -220,7 +220,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
             {(manager || paTeamsByManager.length !== 0) && (
               <div className="mt-lg">
                 {manager && (
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-5 items-center">
                     <Avatar
                       className="w-[64px] h-[64px]"
                       placeholderImage={`${process.env.NEXT_PUBLIC_BASE_PATH}/user-image-placeholder-square-48.png`}
@@ -241,7 +241,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                 )}
                 {paTeamsByManager.length !== 0 ?
                   <div className="my-lg">
-                    <h3 className="pb-sm border-b border-divider text-base">
+                    <h3 className="pb-sm border-b-1 border-divider text-base">
                       {!manager ? `PA-Team (kopplade till ${activePaTeam.data.managerName})` : 'PA-Team'}
                     </h3>
 
@@ -292,7 +292,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
           </div>
         }
         {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
+          <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
               <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
             </FormErrorMessage>
@@ -307,7 +307,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                 <Fragment>
                   <span className="inline font-bold lg:hidden">PA-Team: </span>
                   <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-sm lg:float-left">
+                    <span className="lg:font-bold lg:text-small lg:float-left">
                       {renderNewOrOld(p.newPATeam, p.paTeam)}
                     </span>
                     <br />

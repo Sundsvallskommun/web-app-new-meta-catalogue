@@ -16,7 +16,7 @@ export const MessageStatusIcon = ({
 }) => {
   switch (status) {
     case RunbookStepsStateEnum.Queued:
-      return <Icon color="info" className={`p-2 ${className}`} icon={<Circle />} />;
+      return <Icon color="info" className={`p-5 ${className}`} icon={<Circle />} />;
     case RunbookStepsStateEnum.Waiting:
       return <Icon color="warning" className={className} icon={<CircleAlert />} />;
     case RunbookStepsStateEnum.Running:
@@ -61,12 +61,12 @@ export const ExportMessages = ({ className = '' }) => {
         const current = messages.length === 1 || runbook.currentStep === i + 1;
         return (
           <li
-            className={cx('flex gap-sm', current && 'font-bold text-lg my-[.5em]', className)}
+            className={cx('flex gap-sm', current && 'font-bold text-large my-[.5em]', className)}
             key={`message-${i}`}
             data-key={`message-${i}`}
           >
             <MessageStatusIcon
-              className={cx(current ? 'mt-[.2rem] !text-xl' : 'mt-[.4rem]')}
+              className={cx(current ? 'mt-[.2rem] !text-lead' : 'mt-[.4rem]')}
               status={runbookStep.state}
             />
             {runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current ?

@@ -3,7 +3,7 @@ import { ChangesInOrganizationList } from './ChangsInOrganizationList/ChangesInO
 
 const BadgeTitle = ({ changesCount }) => {
   return (
-    <span className="flex gap-3">
+    <span className="flex gap-7">
       <span>
         <Badge color="warning" size="md" counter={changesCount > 99 ? '99+' : changesCount} />
       </span>

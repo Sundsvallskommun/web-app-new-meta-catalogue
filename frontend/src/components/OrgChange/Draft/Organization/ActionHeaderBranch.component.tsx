@@ -32,7 +32,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
   };
 
   return (
-    <div className="py-8 px-[1.6rem] bg-background-one">
+    <div className="py-20 px-[1.6rem] bg-background-one">
       {organization.structureChangeStatus !== 'DELETED' ?
         <ul aria-label="Gren-meny" className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0">
           {user.permissions.canEditOrganizationStructure && (

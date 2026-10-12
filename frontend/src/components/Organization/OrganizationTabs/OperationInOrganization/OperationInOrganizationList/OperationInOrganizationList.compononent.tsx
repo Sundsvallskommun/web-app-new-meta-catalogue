@@ -138,11 +138,11 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
   }, [operationsByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="bg-background-content px-0 pb-16 pt-10">
+    <div className="bg-background-content px-0 pb-40 pt-24">
       <h2
         id="org-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-divider"
+        className="table-header text-lead mx-20 px-5 border-b-2 border-divider"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
@@ -179,7 +179,7 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
           )}
         </div>
       ) : (
-        <div className="mt-sm mx-8 px-2">Inga verksamheter att visa.</div>
+        <div className="mt-sm mx-20 px-5">Inga verksamheter att visa.</div>
       )}
     </div>
   );

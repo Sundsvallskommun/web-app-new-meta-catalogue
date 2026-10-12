@@ -108,8 +108,8 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             ))}
           </Combobox.List>
         </Combobox>
-        <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button type="button" variant="primary" size="lg" className="my-sm sm:my-6 w-full" onClick={onCloseHandler}>
+        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
+          <Button type="button" variant="primary" size="lg" className="my-sm sm:my-15 w-full" onClick={onCloseHandler}>
             Avbryt
           </Button>
           <Button
@@ -117,7 +117,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             variant="primary"
             size="lg"
             color="primary"
-            className="my-sm sm:my-6 w-full"
+            className="my-sm sm:my-15 w-full"
             leftIcon={<Check />}
             loading={isLoading}
             loadingText="Sparar"
@@ -127,7 +127,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
           </Button>
         </div>
         {error && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
+          <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
               <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
             </FormErrorMessage>

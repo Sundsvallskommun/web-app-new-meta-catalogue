@@ -12,7 +12,7 @@ export default function CompilationInfoInOrganization({ organization }: Compilat
   const verifyResultsByOrgId = useOrgChangeStore((s) => s.verifyResultsByOrgId);
 
   return (
-    <div className="flex flex-col gap-4 py-md">
+    <div className="flex flex-col gap-10 py-md">
       {organization.changes > 0 && __DEV__ && <ChangesInOrganization changesCount={organization.changes} />}
       {organization.changes > 0 && verifyResultsByOrgId && verifyResultsByOrgId[organization.id] && (
         <VerifyResult selectedOrganizationId={organization.id} />

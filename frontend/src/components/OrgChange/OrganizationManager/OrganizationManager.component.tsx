@@ -62,11 +62,11 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
   }, []);
 
   return (
-    <div className="bg-background-content relative grow px-0 pb-16 pt-10 shadow-md mb-20">
+    <div className="bg-background-content relative grow px-0 pb-40 pt-24 shadow-md mb-50">
       {!draftsIsLoading ?
         <>
-          <div className="lg:flex lg:justify-between content-center mx-2 lg:mx-8 px-2 border-b-2 border-divider">
-            <h1 className="text-xl">
+          <div className="lg:flex lg:justify-between content-center mx-5 lg:mx-20 px-5 border-b-2 border-divider">
+            <h1 className="text-lead">
               Organisationsförändringar{' '}
               {drafts && draftsIsLoading ?
                 <Loader size="md" aria-label="hämtar utkast med förändringar" />

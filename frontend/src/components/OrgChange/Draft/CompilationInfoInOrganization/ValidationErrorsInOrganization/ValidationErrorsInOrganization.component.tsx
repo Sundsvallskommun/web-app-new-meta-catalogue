@@ -3,7 +3,7 @@ import ValidationErrorsInOrganizationList from './ValidationErrorsInOrganization
 
 const BadgeTitle = ({ errorCount }) => {
   return (
-    <span className="flex gap-3">
+    <span className="flex gap-7">
       <span>
         <Badge color="error" size="md" counter={errorCount > 99 ? '99+' : errorCount} />
       </span>

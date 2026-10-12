@@ -53,14 +53,14 @@ export default function FeedbackMessage({
   return (
     <div className={`feedback-message ${className}`}>
       <div
-        className={`p-2 pr-4 rounded-md ${background && bgColor} ${iconColor} ${
-          background && `border ${borderColor}`
+        className={`p-5 pr-10 rounded-md ${background && bgColor} ${iconColor} ${
+          background && `border-1 ${borderColor}`
         } flex`}
       >
         <span className="flex items-center h-[24px]">
           <Icon className="mr-sm" icon={<CircleAlert />} />
         </span>
-        <span className="text-sm grow font-semibold" id={_id}>
+        <span className="text-small grow font-semibold" id={_id}>
           {children}
         </span>
         {removeCallback && (
@@ -68,7 +68,7 @@ export default function FeedbackMessage({
             variant="secondary"
             aria-label="Dölj meddelande tills sidomladdning"
             iconButton
-            className="border-0 -mr-2"
+            className="border-0 -mr-5"
             onClick={removeSelf}
             aria-controls={_id}
           >

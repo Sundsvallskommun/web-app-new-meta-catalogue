@@ -21,7 +21,7 @@ export const HeadInputFormCutOffdate: React.FC = () => {
 
   return (
     <FormControl id="orgchange-draft-cutOffDate" invalid={!!errors?.cutOffDate} className="md:flex items-end w-fit">
-      <FormLabel className="inline text-sm font-bold mr-sm" showRequired>
+      <FormLabel className="inline text-small font-bold mr-sm" showRequired>
         Brytdatum:
       </FormLabel>
       <Input
@@ -29,7 +29,7 @@ export const HeadInputFormCutOffdate: React.FC = () => {
         required
         aria-labelledby="orgchange-draft-cutOffDate-label"
         aria-label="Planerat brytdatum"
-        className="text-sm -mb-[.55rem] w-fit max-w-[14rem] font-bold bg-transparent shadow-none border-0 p-0 !h-[20px] max-h-fit text-vattjom-text-primary"
+        className="text-small -mb-[.55rem] w-fit max-w-[14rem] font-bold bg-transparent shadow-none border-0 p-0 !h-[20px] max-h-fit text-vattjom-text-primary"
         type="date"
         {...register('cutOffDate')}
         onChange={handleCutOffDateChange}

@@ -173,7 +173,7 @@ export default function DraftListActions(props: DraftListActions) {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className="w-full mb-lg lg:mb-[3rem] flex flex-col gap-sm lg:flex-row lg:justify-between lg:gap-x-11 items-center"
+      className="w-full mb-lg lg:mb-[3rem] flex flex-col gap-sm lg:flex-row lg:justify-between lg:gap-x-28 items-center"
     >
       <span className="w-full">
         <SearchField
