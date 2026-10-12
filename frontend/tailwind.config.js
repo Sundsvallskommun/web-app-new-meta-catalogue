@@ -9,12 +9,5 @@ module.exports = {
     './node_modules/@sk-web-gui/*/dist/**/*.js',
   ],
   darkMode: 'class', // or 'media' or 'class'
-  theme: {
-    extend: {
-      screens: {
-        '2xl': '1536px',
-      },
-    },
-  },
   presets: [require('@sk-web-gui/core').preset()],
 };

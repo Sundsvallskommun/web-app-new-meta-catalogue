@@ -1,13 +1,13 @@
 @layer components {
   .Sidebar {
-    @apply space-y-xl 2xl:space-y-0 2xl:flex 2xl:gap-lg;
+    @apply space-y-xl lg:space-y-0 lg:flex lg:gap-lg;
 
     aside {
       @apply lg:w-[540px] max-h-[95vh];
     }
 
     main {
-      @apply w-full;
+      @apply w-full min-w-0;
     }
 
     &.container {
