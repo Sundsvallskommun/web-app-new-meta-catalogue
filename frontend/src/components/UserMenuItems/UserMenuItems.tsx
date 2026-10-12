@@ -1,7 +1,6 @@
-import { Link, Icon } from '@sk-web-gui/react';
+import { Button } from '@sk-web-gui/react';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/router';
-import NextLink from 'next/link';
 import { useUserStore } from '@services/user-service/user-service';
 
 export const useMenuItems = () => {
@@ -15,33 +14,31 @@ export const useMenuItems = () => {
         {
           label: 'Rapportera fel',
           element: () => (
-            <NextLink
+            <Button
               key={'feedback'}
-              href={{
-                query: { ...router.query, feedback: 'OTHER' },
-              }}
-              shallow
-              replace
+              onClick={() =>
+                router.replace({ query: { ...router.query, feedback: 'OTHER' } }, undefined, { shallow: true })
+              }
             >
-              <span className="inline">Rapportera fel</span>
-            </NextLink>
+              Rapportera fel
+            </Button>
           ),
         },
         !router.pathname.includes('/hanteraorganisation') && {
           label: 'Hantera organisation',
           permissions: user.permissions.canViewDrafts,
           element: () => (
-            <NextLink key={'hanteraorganisation'} href={`/hanteraorganisation`}>
-              <span className="inline">Hantera organisation</span>
-            </NextLink>
+            <Button key={'hanteraorganisation'} onClick={() => router.push('/hanteraorganisation')}>
+              Hantera organisation
+            </Button>
           ),
         },
         router.pathname.includes('/hanteraorganisation') && {
           label: 'Masterdata',
           element: () => (
-            <NextLink key={'masterdata'} href={`/`}>
-              <span className="inline">Masterdata</span>
-            </NextLink>
+            <Button key={'masterdata'} onClick={() => router.push('/')}>
+              Masterdata
+            </Button>
           ),
         },
       ],
@@ -52,10 +49,14 @@ export const useMenuItems = () => {
         {
           label: 'Logga ut',
           element: () => (
-            <Link data-cy="nav-span-loggaUt" key={'logout'} href={`/logout`}>
-              <Icon className="mr-sm" icon={<LogOut />} />
-              <span className="inline">Logga ut</span>
-            </Link>
+            <Button
+              data-cy="nav-span-loggaUt"
+              key={'logout'}
+              leftIcon={<LogOut />}
+              onClick={() => router.push('/logout')}
+            >
+              Logga ut
+            </Button>
           ),
         },
       ],

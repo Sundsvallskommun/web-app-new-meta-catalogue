@@ -4,7 +4,6 @@ import { FeedbackModalWrapper } from '@components/Feedback/FeedbackModalWrapper.
 import { useMenuItems } from '@components/UserMenuItems/UserMenuItems';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { apiURL } from '@utils/api-url';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -74,8 +73,11 @@ export default function DefaultLayout({
             menuTitle={user.name}
             menuSubTitle={''}
             menuGroups={menuItems}
-            placeholderImage={`${process.env.NEXT_PUBLIC_BASE_PATH}/user-image-placeholder-square-48.png`}
-            image={`${apiURL(`/employee/personimage?width=${44}`)}`}
+            initials={user.name
+              ?.split(' ')
+              .map((part) => part.charAt(0))
+              .join('')
+              .slice(0, 2)}
           />
         }
       />
