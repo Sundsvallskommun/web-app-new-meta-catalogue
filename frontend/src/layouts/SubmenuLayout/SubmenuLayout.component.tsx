@@ -26,7 +26,7 @@ export default function SubmenuLayout({
       headerSubtitle={headerSubtitle}
       tabMenu={
         <div>
-          <div data-cy="tabMenu" className="container mx-auto pb-sm lg:pb-0 lg:flex lg:items-center">
+          <div data-cy="tabMenu" className="container mx-auto pt-24 pb-sm lg:pb-0 lg:flex lg:items-center">
             <NavigationBar current={router.pathname.startsWith('/ansvar') ? 1 : 0} className="mb-md lg:mb-0">
               <NavigationBar.Item>
                 <NextLink href="/">Organisation</NextLink>
