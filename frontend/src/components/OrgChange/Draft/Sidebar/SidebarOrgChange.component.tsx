@@ -120,7 +120,10 @@ const SidebarOrgChange = ({ mainRef }) => {
             </MenuVertical.SubmenuButton>
             {renderItems(itemData.subItems)}
           </MenuVertical>
-        : <button type="button">{itemLabel(itemData)}</button>}
+        : <button type="button" onClick={() => onMenuChangeHandler(itemData.id)}>
+            {itemLabel(itemData)}
+          </button>
+        }
       </MenuVertical.Item>
     ));
 
