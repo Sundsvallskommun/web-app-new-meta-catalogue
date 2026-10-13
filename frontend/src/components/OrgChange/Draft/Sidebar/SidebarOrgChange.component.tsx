@@ -133,15 +133,13 @@ const SidebarOrgChange = ({ mainRef }) => {
       className="SidebarOrganization OrgChange block relative overflow-y-auto"
       style={{ maxHeight: sidebarHeight ? sidebarHeight + 'px' : undefined }}
     >
+      <SideMenuHeadElementOrgChange />
       <MenuVertical.Provider
         current={selectedOrganizationId}
         setCurrent={onMenuChangeHandler}
         menuAriaLabel="Organisationsmeny"
       >
         <MenuVertical.Sidebar>
-          <MenuVertical.Header>
-            <SideMenuHeadElementOrgChange />
-          </MenuVertical.Header>
           {orgTreeIsLoading ?
             <Spinner size={2} aria-label="Laddar organisationsträd" />
           : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree, true)}</MenuVertical>}

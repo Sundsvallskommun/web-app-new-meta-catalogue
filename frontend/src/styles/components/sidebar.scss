@@ -16,18 +16,6 @@
   }
 
   .SidebarOrganization {
-    @apply lg:-ml-[100px] flex-none overflow-y-hidden;
-
-    > * {
-      @apply lg:pl-[100px] w-full;
-    }
-
-    .sk-menu-vertical-sidebar {
-      @apply w-full;
-
-      .sk-menu-vertical-header {
-        @apply p-0 bg-transparent text-dark-primary;
-      }
-    }
+    @apply flex-none overflow-y-hidden;
   }
 }
