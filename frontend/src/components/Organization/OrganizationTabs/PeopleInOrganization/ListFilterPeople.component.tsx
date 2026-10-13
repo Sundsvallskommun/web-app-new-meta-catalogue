@@ -110,7 +110,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
           </span>
         )}
       </div>
-      <div className="lg:flex lg:flex-row gap-lg bg-background-200 py-15 mt-20 px-20">
+      <div className="lg:flex lg:flex-row lg:items-center gap-lg mt-20 px-20">
         <p className="text-large">Anpassa:</p>
         <span className="basis-1/3">
           <ColumnFilter

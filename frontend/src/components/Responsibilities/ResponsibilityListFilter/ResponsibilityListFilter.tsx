@@ -102,7 +102,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
           </NextLink>
         </span>
       </div>
-      <div className="flex flex-row gap-10 bg-background-200 py-15 mt-20 px-20">
+      <div className="flex flex-row items-center gap-10 mt-20 px-20">
         <p>Filter:</p>
         <span className="max-w-[300px] w-full">
           <ColumnFilter
