@@ -5,12 +5,11 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { orgChangeOperationHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, useConfirm, useSnackbar } from '@sk-web-gui/react';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
@@ -52,13 +51,11 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
   const headers: DataTableHeader[] = orgChangeOperationHeaders
     .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: orgChangeOperationFilter.find((f) => f.id === header.filterId).value,
@@ -130,48 +127,29 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
   const rows: DataTableColumn[][] = operationListRendered.map((r) => {
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ?
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.organizationOperationId)}
-                >
-                  {r.description}
-                </Button>
-              : <span>{r.description}</span>}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.organizationOperationId)}>
+              {r.description}
+            </Button>
+          : r.description,
         isShown: orgChangeOperationFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Verksamhetskod: </span>
-            <span>{r.operationCode}</span>
-          </Fragment>
-        ),
+        element: r.operationCode,
         isShown: orgChangeOperationFilter.find((i) => i.id === 2).value,
       },
       organization.structureChangeStatus !== 'DELETED' && {
         element: (
-          <Fragment>
-            <div className="lg:text-right">
-              <Button
-                color="error"
-                size="md"
-                variant="secondary"
-                aria-label={`Koppla bort ${r.description}`}
-                onClick={handleDisconnectOperation(r)}
-              >
-                Koppla bort
-              </Button>
-            </div>
-          </Fragment>
+          <Button
+            color="error"
+            size="md"
+            variant="secondary"
+            aria-label={`Koppla bort ${r.description}`}
+            onClick={handleDisconnectOperation(r)}
+          >
+            Koppla bort
+          </Button>
         ),
         isShown:
           orgChangeOperationFilter.find((i) => i.id === 3)?.value &&
@@ -195,18 +173,21 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
       <h2
         id="orgchange-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-lead mx-20 px-5 border-b-2 border-divider"
+        className="text-lead mx-20 mb-16"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ?
-        <div className="overflow-x-auto">
+        <div className="mx-20">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
+            pages={pages}
             page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
@@ -217,19 +198,6 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
       : <div className="mt-sm mx-20 px-5">Inga verksamheter att visa.</div>}
     </div>

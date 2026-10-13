@@ -27,7 +27,7 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
     cy.get('[data-cy="tab-responsibilities"]').contains('Kopplade ansvar (3)').click();
 
     // Check if correct content sample appears
-    cy.get('.table-header').contains('Kopplade ansvar (3)').should('be.visible');
+    cy.get('[data-cy="table-header"]').contains('Kopplade ansvar (3)').should('be.visible');
 
     // Check the number of rows before search
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 3);
@@ -38,7 +38,7 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
       .type('borde visa "Inga ansvar att visa."');
 
     // Check if the content changes to "Kopplade ansvar (0)"
-    cy.get('.table-header').filter(':visible').contains('Kopplade ansvar (0)').should('be.visible');
+    cy.get('[data-cy="table-header"]').filter(':visible').contains('Kopplade ansvar (0)').should('be.visible');
 
     cy.contains('div', 'Inga ansvar att visa.').should('be.visible');
 
@@ -46,7 +46,7 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
     cy.get('.list-filter .sk-search-field input[type="text"]').filter(':visible').clear();
 
     // Check if the content changes back to "Kopplade ansvar (3)"
-    cy.get('.table-header').filter(':visible').contains('Kopplade ansvar (3)').should('be.visible');
+    cy.get('[data-cy="table-header"]').filter(':visible').contains('Kopplade ansvar (3)').should('be.visible');
   });
 
   it('Filter table columns', () => {

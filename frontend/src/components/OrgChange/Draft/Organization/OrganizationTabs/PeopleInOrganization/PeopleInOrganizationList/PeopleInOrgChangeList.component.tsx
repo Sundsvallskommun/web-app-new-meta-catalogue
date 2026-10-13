@@ -1,5 +1,5 @@
-import { Badge, Checkbox, Pagination, Icon } from '@sk-web-gui/react';
-import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Badge, Checkbox, Icon } from '@sk-web-gui/react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationEmployee, OrgChangePersonEmployeeDetail } from '@data-contracts/backend/data-contracts';
@@ -18,7 +18,6 @@ import { searchFilter } from '@utils/search';
 import { shouldEditEmployee } from '@utils/shouldeditemployee';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import HandleMarkedContextMenu from './HandleMarkedContextMenu.component';
 import PersonEditor from './PersonEditor/PersonEditor.OrgChange.component';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
@@ -57,8 +56,6 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
     employeeList,
     tableRef
   );
-
-  const windowSize = useWindowSize();
 
   const toggleChoosePerson = (employee: OrgChangeOrganizationEmployee, shouldAdd) => {
     if (shouldAdd) {
@@ -124,7 +121,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
     .filter((x) => (x.filterId == 6 ? user.permissions.canViewEmployeeDetails : true))
     .filter((x) => (x.filterId == 7 ? user.permissions.canEditEmployeeDetails : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: orgEmployeeFilter.find((f) => f.id === header.filterId)?.value,
@@ -222,179 +219,109 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
 
     return [
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[170px] break-words ">
-              <span className="inline font-bold lg:hidden">Namn: </span>
-              <span className="min-h-[48px] inline-flex items-center">
-                {p.orgId !== undefined && p.orgId !== null && !organization.isLeafLevel ?
-                  <Button
-                    variant="link"
-                    className="text-body text-left"
-                    onClick={() => handleShowInOrgAndPerson(p.orgId, p.personId)}
-                  >
-                    {p.givenname} {p.lastname}
-                  </Button>
-                : <span>
-                    {p.givenname} {p.lastname}
-                  </span>
-                }
-              </span>
-            </div>
-          </Fragment>
-        ),
+        element:
+          p.orgId !== undefined && p.orgId !== null && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrgAndPerson(p.orgId, p.personId)}>
+              {p.givenname} {p.lastname}
+            </Button>
+          : `${p.givenname} ${p.lastname}`,
         isShown: orgEmployeeFilter.find((i) => i.id === 0).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[95px] break-words">
-              <span className="inline font-bold lg:hidden">Personnummer: </span>
-              <span>{p.personNumber}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.personNumber,
         isShown: orgEmployeeFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[180px] break-words">
-              <span className="inline font-bold lg:hidden">Anställning: </span>
-              <span>{p.title}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.title,
         isShown: orgEmployeeFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[115px]">
-              <span className="inline font-bold lg:hidden">Användarnamn: </span>
-              <span>{getADName(p.loginname)}</span>
-            </div>
-          </Fragment>
-        ),
+        element: getADName(p.loginname),
         isShown: orgEmployeeFilter.find((i) => i.id === 3).value,
       },
       {
         element: (
-          <Fragment>
-            <div className="lg:w-[200px]">
-              <span className="inline font-bold lg:hidden">PA-Team: </span>
-              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newPATeam, p.paTeam)}</span>
-              <br />
-              <span className="inline font-bold lg:hidden">PA-Team-namn: </span>
-              <span className="">{renderNewOrOld(p.newPATeamName, p.paTeamName)}</span>
-            </div>
-          </Fragment>
+          <>
+            {renderNewOrOld(p.newPATeam, p.paTeam)}
+            <br />
+            {renderNewOrOld(p.newPATeamName, p.paTeamName)}
+          </>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 4)?.value,
       },
       {
         element: (
-          <Fragment>
-            <div>
-              <span className="inline font-bold lg:hidden">Verksamhet: </span>
-              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newOperationCode, p.operationCode)}</span>
-              <br />
-              <span className="inline font-bold lg:hidden">Verksamhets-namn: </span>
-              <span className="">{renderNewOrOld(p.newOperationName, p.operationName)}</span>
-            </div>
-          </Fragment>
+          <>
+            {renderNewOrOld(p.newOperationCode, p.operationCode)}
+            <br />
+            {renderNewOrOld(p.newOperationName, p.operationName)}
+          </>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 5)?.value,
       },
       {
         element: (
-          <Fragment>
-            <div>
-              <span className="inline font-bold lg:hidden">Objekt: </span>
-              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newObjectCode, p.objectCode)}</span>
-              <br />
-              <span className="inline font-bold lg:hidden">Objekts-namn: </span>
-              <span className="">{renderNewOrOld(p.newObjectName, p.objectName)}</span>
-            </div>
-          </Fragment>
+          <>
+            {renderNewOrOld(p.newObjectCode, p.objectCode)}
+            <br />
+            {renderNewOrOld(p.newObjectName, p.objectName)}
+          </>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 8)?.value,
       },
       {
         element: (
-          <Fragment>
-            <div>
-              <span className="inline font-bold lg:hidden">Aktivitet: </span>
-              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newActivityCode, p.activityCode)}</span>
-              <br />
-              <span className="inline font-bold lg:hidden">Aktivitets-namn: </span>
-              <span className="">{renderNewOrOld(p.newActivityName, p.activityName)}</span>
-            </div>
-          </Fragment>
+          <>
+            {renderNewOrOld(p.newActivityCode, p.activityCode)}
+            <br />
+            {renderNewOrOld(p.newActivityName, p.activityName)}
+          </>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 9)?.value,
       },
       {
         element: (
-          <Fragment>
-            <div>
-              <span className="inline font-bold lg:hidden">Projekt: </span>
-              <span className="lg:font-bold lg:text-small">{renderNewOrOld(p.newProjectCode, p.projectCode)}</span>
-              <br />
-              <span className="inline font-bold lg:hidden">Projekts-namn: </span>
-              <span className="">{renderNewOrOld(p.newProjectName, p.projectName)}</span>
-            </div>
-          </Fragment>
+          <>
+            {renderNewOrOld(p.newProjectCode, p.projectCode)}
+            <br />
+            {renderNewOrOld(p.newProjectName, p.projectName)}
+          </>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 10)?.value,
       },
       {
         element: (
-          <Fragment>
-            <div className="lg:w-[50px]">
-              <Button
-                variant={windowSize.lg ? 'secondary' : 'primary'}
-                color={`primary`}
-                className="border-0"
-                iconButton={windowSize.lg || undefined}
-                size="md"
-                title={`Öppna persondetaljer${mustEdit ? ', justeringar behövs' : ''}`}
-                aria-label={`${p.givenname} ${p.lastname}`}
-                onClick={() => openEditModal(p)}
-                leftIcon={
-                  <span className="relative">
-                    <Icon icon={<BookOpenText />} />
-                    {!draftIsReadOnly && showFocus && (
-                      <Badge
-                        className="absolute -right-[0.5rem] top-[0.15rem]"
-                        size="sm"
-                        color={mustEdit ? 'error' : 'vattjom'}
-                      />
-                    )}
-                  </span>
-                }
-              >
-                <span className="lg:hidden">Öppna persondetaljer</span>
-              </Button>
-            </div>
-          </Fragment>
+          <Button
+            iconButton
+            variant="tertiary"
+            size="sm"
+            title={`Öppna persondetaljer${mustEdit ? ', justeringar behövs' : ''}`}
+            aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
+            onClick={() => openEditModal(p)}
+          >
+            <span className="relative">
+              <Icon icon={<BookOpenText />} />
+              {!draftIsReadOnly && showFocus && (
+                <Badge
+                  className="absolute -right-[0.5rem] top-[0.15rem]"
+                  size="sm"
+                  color={mustEdit ? 'error' : 'vattjom'}
+                />
+              )}
+            </span>
+          </Button>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canViewEmployeeDetails,
       },
       !draftIsReadOnly && {
         element: (
-          <Fragment>
-            <div className="flex items-center justify-end">
-              <span className="lg:sr-only mr-sm lg:mr-0">Välj person:</span>
-              <Checkbox
-                aria-live="polite"
-                aria-controls="move-people-button"
-                aria-label={`${p.givenname} ${p.lastname}`}
-                checked={peopleToHandle.find((x) => x.personId == p.personId) ? true : false}
-                onChange={choosePersonHandler(p)}
-              />
-            </div>
-          </Fragment>
+          <Checkbox
+            aria-live="polite"
+            aria-controls="move-people-button"
+            aria-label={`${p.givenname} ${p.lastname}`}
+            checked={peopleToHandle.find((x) => x.personId == p.personId) ? true : false}
+            onChange={choosePersonHandler(p)}
+          />
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 7)?.value && user.permissions.canEditEmployeeDetails,
       },
@@ -412,11 +339,11 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
 
   return (
     <div className="w-full bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
+      <div className="lg:flex lg:justify-between mx-20 mb-16">
         <h2
           id="orgchange-tabs-people-table-rowsstext"
           aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-          className="table-header text-lead"
+          className="text-lead"
         >
           Personer &#40;{employeeListSearchFiltered.length}&#41;
         </h2>
@@ -431,14 +358,17 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           )}
       </div>
       {rows.length > 0 ?
-        <div className="overflow-x-auto">
+        <div className="mx-20">
           <DataTable
             id="orgchange-tabs-people-table"
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
+            pages={pages}
             page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
@@ -449,19 +379,6 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
       : <div className="mt-sm mx-20 px-5">Inga personer att visa.</div>}
 

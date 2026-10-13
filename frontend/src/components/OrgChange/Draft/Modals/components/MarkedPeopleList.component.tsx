@@ -1,5 +1,4 @@
 import { Disclosure } from '@sk-web-gui/react';
-import { Fragment } from 'react';
 import { OrgChangeOrganizationEmployee } from '@data-contracts/backend/data-contracts';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
@@ -15,47 +14,29 @@ interface MarkedPeopleListProps {
 
 export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeopleListProps) => {
   const headers: DataTableHeader[] = [
-    { element: <span className="font-bold">Namn</span> },
-    { element: <span className="font-bold">Anställning</span> },
-    ...(contextColumn ? [{ element: <span className="font-bold">Nuvarande {contextColumn.header}</span> }] : []),
+    { element: 'Namn' },
+    { element: 'Anställning' },
+    ...(contextColumn ? [{ element: `Nuvarande ${contextColumn.header}` }] : []),
   ];
 
   const peopleRows: DataTableColumn[][] = peopleToHandle.map((p) => {
     return [
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[170px] break-words">
-              <span className="inline font-bold lg:hidden">Namn: </span>
-              <span className="lg:min-h-[48px] inline-flex items-center">
-                <span>
-                  {p.givenname} {p.lastname}
-                </span>
-              </span>
-            </div>
-          </Fragment>
-        ),
+        element: `${p.givenname} ${p.lastname}`,
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[180px] break-words">
-              <span className="inline font-bold lg:hidden">Anställning: </span>
-              <span>{p.title}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.title,
         isShown: true,
       },
-      ...(contextColumn
-        ? [
-            {
-              element: contextColumn.element(p),
-              isShown: true,
-            },
-          ]
-        : []),
+      ...(contextColumn ?
+        [
+          {
+            element: contextColumn.element(p),
+            isShown: true,
+          },
+        ]
+      : []),
     ];
   });
 

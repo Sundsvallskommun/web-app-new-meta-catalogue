@@ -7,12 +7,11 @@ import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organiz
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, Label } from '@sk-web-gui/react';
+import { Button, Label } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IResponsibilityinOrganizationListProps {
@@ -48,11 +47,9 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
   const headers: DataTableHeader[] = orgResponsibilityHeaders.map((header) => ({
-    element: <span className="font-bold">{header.label}</span>,
+    element: header.label,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
     isShown: orgResponsibilityFilter.find((f) => f.id === header.filterId).value,
@@ -117,55 +114,28 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
 
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ? (
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.orgResponsibilityId)}
-                >
-                  {r.responsibilityText}
-                </Button>
-              ) : (
-                <span>{r.responsibilityText}</span>
-              )}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.orgResponsibilityId)}>
+              {r.responsibilityText}
+            </Button>
+          : r.responsibilityText,
         isShown: orgResponsibilityFilter.find((i) => i.id === 0).value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
-            <span>
-              <Label color={typeColor} rounded inverted>
-                {typeText}
-              </Label>
-            </span>
-          </Fragment>
+          <Label color={typeColor} rounded inverted>
+            {typeText}
+          </Label>
         ),
         isShown: orgResponsibilityFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarskod: </span>
-            <span>{r.responsibilityCode}</span>
-          </Fragment>
-        ),
+        element: r.responsibilityCode,
         isShown: orgResponsibilityFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Giltig från: </span>
-            <span>{from}</span>
-          </Fragment>
-        ),
+        element: from,
         isShown: orgResponsibilityFilter.find((i) => i.id === 3).value,
       },
     ];
@@ -201,11 +171,12 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   }));
   return (
     <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
+      <div className="lg:flex lg:justify-between mx-20 px-5 mb-16">
         <h2
           id="org-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="table-header text-lead"
+          className="text-lead"
+          data-cy="table-header"
         >
           Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
         </h2>
@@ -219,15 +190,18 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           />
         )}
       </div>
-      {rows.length > 0 ? (
-        <div className="overflow-x-auto">
+      {rows.length > 0 ?
+        <div className="mx-20">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            pages={pages}
             page={page}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -237,23 +211,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      ) : (
-        <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>
-      )}
+      : <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>}
     </div>
   );
 };

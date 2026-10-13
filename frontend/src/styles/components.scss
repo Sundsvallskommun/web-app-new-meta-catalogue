@@ -14,59 +14,7 @@
 
   .header-container .header-content,
   .container {
-    @apply max-width-content;
-  }
-
-  //:START @sk-web-gui
-  .sk-table {
-    @apply table-fixed lg:table-auto;
-
-    &-tbody-td:last-of-type {
-      @apply text-left;
-    }
-
-    &-tbody-tr.highlighted {
-      @apply border-0 ring-4 ring-inset ring-vattjom-surface-primary;
-    }
-  }
-  .last-th-right {
-    .sk-table {
-      &-th,
-      &-tbody-td {
-        &:last-of-type {
-          @apply lg:text-right;
-        }
-      }
-    }
-  }
-  .PersonEditor {
-    .sk-table {
-      &-th,
-      &-tbody-td {
-        &:last-of-type {
-          @apply px-sm lg:pl-0;
-        }
-
-        &:first-of-type {
-          @apply pl-sm;
-        }
-      }
-    }
-  }
-
-  .narrow-table {
-    .sk-table {
-      &-th,
-      &-tbody-td {
-        &:last-of-type {
-          @apply px-sm lg:pl-0;
-        }
-
-        &:first-of-type {
-          @apply pl-sm;
-        }
-      }
-    }
+    @apply px-5 lg:px-0 max-width-content;
   }
 
   .draftShowAs {

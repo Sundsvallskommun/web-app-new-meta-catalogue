@@ -9,13 +9,12 @@ import { responsibilityType } from '@services/mdviewer/data-handlers/responsibil
 import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Badge, Button, Pagination, Label } from '@sk-web-gui/react';
+import { Badge, Button, Label } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ResponsibilityEditModal from '../ResponsibilityEditor/ResponsibilityEditModal.component';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
@@ -52,8 +51,6 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   const openEditModalHandler = (resp) => () => {
     setSelectedResp(resp);
     setIsOpen(true);
@@ -67,7 +64,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   const headers: DataTableHeader[] = orgChangeResponsibilityHeaders
     .filter((x) => (x.filterId == 7 ? user.permissions.canEditResponsibility : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: orgChangeResponsibilityFilter.find((f) => f.id === header.filterId).value,
@@ -129,22 +126,18 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     if ((date >= today && !draftIsReadOnly) || organization.structureChangeStatus !== 'DELETED') {
       return (
         <Button
-          variant={windowSize.lg ? 'secondary' : 'primary'}
-          color={`primary`}
-          className="border-0"
-          iconButton={windowSize.lg || undefined}
-          size="md"
+          iconButton
+          variant="tertiary"
+          size="sm"
           title="Öppna ansvaret"
-          aria-label={`${r.description}`}
+          aria-label={`Öppna ansvaret ${r.description}`}
           onClick={openEditModalHandler(r)}
-          leftIcon={<Pencil />}
         >
-          <span className="lg:hidden">Öppna ansvaret</span>
+          <Pencil />
         </Button>
       );
-    } else if (date < today) {
-      return <div className="p-12 w-full"></div>;
     }
+    return null;
   };
 
   const responsibilitySearchFilter = (q: string, obj: OrgChangeResponsibility) => {
@@ -173,78 +166,44 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
 
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ?
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.responsibilityId)}
-                >
-                  {r.description}
-                </Button>
-              : <span>{r.description}</span>}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.responsibilityId)}>
+              {r.description}
+            </Button>
+          : r.description,
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 1).value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
-            <span>
-              <Label color={typeColor} rounded inverted>
-                {typeText}
-              </Label>
-            </span>
-          </Fragment>
+          <Label color={typeColor} rounded inverted>
+            {typeText}
+          </Label>
         ),
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarskod: </span>
-            <span>{r.responsibilityCode}</span>
-          </Fragment>
-        ),
+        element: r.responsibilityCode,
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 3).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Giltig från: </span>
-            <span>{from}</span>
-          </Fragment>
-        ),
+        element: from,
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 4).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Giltig till: </span>
-            <span>{to}</span>
-          </Fragment>
-        ),
+        element: to,
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 5).value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Status: </span>
-            <span className="hidden lg:inline-block">
-              <Badge size="sm" color={`${dot}`} className="mr-xs" />
-            </span>
-            <span>{status}</span>
-          </Fragment>
+          <>
+            <Badge size="sm" color={dot} /> {status}
+          </>
         ),
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 6).value,
       },
       {
-        element: <Fragment>{noEditWhenInactive(r)}</Fragment>,
+        element: noEditWhenInactive(r),
         isShown:
           orgChangeResponsibilityFilter.find((i) => i.id === 7).value &&
           !draftIsReadOnly &&
@@ -286,11 +245,11 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   }));
   return (
     <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="flex justify-between mx-20 px-5 border-b-2 border-divider">
+      <div className="flex justify-between mx-20 mb-16">
         <h2
           id="orgchange-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="table-header text-lead"
+          className="text-lead"
         >
           Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
         </h2>
@@ -305,13 +264,16 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
         )}
       </div>
       {rows.length > 0 ?
-        <div className="overflow-x-auto">
+        <div className="mx-20">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
+            pages={pages}
             page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
@@ -322,19 +284,6 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
       : <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>}
 

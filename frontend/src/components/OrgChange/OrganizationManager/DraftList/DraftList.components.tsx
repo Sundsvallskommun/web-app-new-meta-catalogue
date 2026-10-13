@@ -4,9 +4,8 @@ import { draftHeaders } from '@services/mdbuilder/defaults';
 import { Spinner } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DraftContextMenu from '../../DraftContextMenu.component';
 import DraftListEntryPhaseMessage from '../DraftListEntryPhaseMessage.component';
 import DraftListEntryPhaseState from '../DraftListEntryPhaseState.component';
@@ -25,17 +24,14 @@ export const DraftList = (props: DraftDataListProps) => {
 
   const tableRef = useRef(null);
   const [pageSize] = useState<number>(10);
-  const [page, setPage] = useState<number>(1);
   const defaultSort = { idx: 1, sortMode: true };
   const [draftList, setDraftList] = useState<Draft[]>([]);
-
-  const windowSize = useWindowSize();
 
   const highlightedItemIndex = useHighlightedTableRow(highlightedTableRow, setHighlightedTableRow, draftList, tableRef);
 
   //table header
   const headers: DataTableHeader[] = draftHeaders.map((header) => ({
-    element: <span className="font-bold">{header.label}</span>,
+    element: header.label,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
     isShown: true,
@@ -68,67 +64,34 @@ export const DraftList = (props: DraftDataListProps) => {
     return [
       {
         element: (
-          <Fragment>
-            <span className="inline-flex w-full flex-row-reverse lg:flex-row lg:items-center">
-              <span className="ml-[-10px] mr-md relative">
-                {!d.isArchived && <DraftContextMenu menuSide={windowSize.lg ? 'left' : 'right'} dense draft={d} />}
-              </span>
-              <h2 className="mt-sm text-large w-full flex flex-col gap-y-[.4rem]">
-                <DraftListEntryPhaseTitle draft={d} />
-                <div className="font-[Arial] w-full leading-[2rem] font-normal text-small">Skapad av {d.loginname}</div>
-              </h2>
-            </span>
-          </Fragment>
+          <div className="flex items-center gap-8">
+            {!d.isArchived && <DraftContextMenu menuSide="left" dense draft={d} />}
+            <div>
+              <DraftListEntryPhaseTitle draft={d} />
+              <div className="text-small">Skapad av {d.loginname}</div>
+            </div>
+          </div>
         ),
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Brytdatum: </span>
-            <span>{dayjs(d.cutOffDate).format('DD MMM YYYY')}</span>
-          </Fragment>
-        ),
+        element: dayjs(d.cutOffDate).format('DD MMM YYYY'),
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <span className="lg:block lg:w-[30rem]">
-              <span className="inline font-bold lg:hidden">Berör organisation: </span>
-              <span>{d.nodes.length > 0 && `${d.nodes.join(', ')}, under ${d.companyName}`}</span>
-            </span>
-          </Fragment>
-        ),
+        element: d.nodes.length > 0 && `${d.nodes.join(', ')}, under ${d.companyName}`,
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Antal ändringar: </span>
-            <span>{d.changes >= 1 ? d.changes : 'Inga ändringar'}</span>
-          </Fragment>
-        ),
+        element: d.changes >= 1 ? d.changes : 'Inga ändringar',
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Fas: </span>
-            <span>
-              <DraftListEntryPhaseState draft={d} />
-            </span>
-          </Fragment>
-        ),
+        element: <DraftListEntryPhaseState draft={d} />,
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Fas-status: </span>
-            <DraftListEntryPhaseMessage draft={d} />
-          </Fragment>
-        ),
+        element: <DraftListEntryPhaseMessage draft={d} />,
         isShown: true,
       },
     ];
@@ -153,9 +116,6 @@ export const DraftList = (props: DraftDataListProps) => {
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            page={page}
-            pages={Math.ceil(rows.length / pageSize)}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

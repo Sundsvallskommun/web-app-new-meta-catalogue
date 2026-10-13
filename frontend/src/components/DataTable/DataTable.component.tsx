@@ -2,14 +2,14 @@ import { Pagination, SortMode, Table } from '@sk-web-gui/react';
 import React, { forwardRef, useEffect, useState } from 'react';
 
 export interface DataTableHeader {
-  element: React.JSX.Element;
+  element: React.ReactNode;
   isColumnSortable?: boolean;
   isShown?: boolean;
   screenReaderOnly?: boolean;
 }
 
 export interface DataTableColumn {
-  element: React.JSX.Element;
+  element: React.ReactNode;
   isShown?: boolean;
 }
 
@@ -21,8 +21,9 @@ interface DataTableProps extends React.ComponentPropsWithoutRef<'table'> {
   defaultSort?: { idx: number; sortMode: boolean };
   /** @default 5 */
   pageSize?: number;
-  /** Current page. With `pages={0}` the parent paginates `rows` itself and controls `page`. */
+  /** Current page */
   page?: number;
+  /** Page count when the parent paginates `rows` itself and controls `page` */
   pages?: number;
   changePage?: (page: number) => void;
   captionTitle?: string;
@@ -48,14 +49,14 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
     ...rest
   } = props;
 
-  const externalPagination = pages === 0;
+  const externalPagination = pages !== undefined;
   const [sortIndex, setSortIndex] = useState(defaultSort.idx);
   const [sortAscending, setSortAscending] = useState(defaultSort.sortMode);
   const [internalPage, setInternalPage] = useState(page);
 
   const currentPage = externalPagination ? page : internalPage;
-  const pageCount = externalPagination ? 1 : Math.max(1, Math.ceil(rows.length / pageSize));
-  const activePage = Math.min(currentPage, pageCount);
+  const pageCount = externalPagination ? pages : Math.max(1, Math.ceil(rows.length / pageSize));
+  const activePage = Math.min(currentPage, Math.max(1, pageCount));
   const shownRows = externalPagination ? rows : rows.slice((activePage - 1) * pageSize, activePage * pageSize);
 
   useEffect(() => {
@@ -98,61 +99,71 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
   }
 
   return (
-    <>
-      <Table ref={ref} {...rest}>
-        {captionTitle && (
-          <caption className="text-left">
-            {captionTitle}, sida {activePage} av {pageCount}.
-            {captionBody && (
-              <>
-                <br />
-                <small>{captionBody}</small>
-              </>
-            )}
-          </caption>
-        )}
-        <Table.Header>
-          {headers.map(({ element, isColumnSortable = true, isShown = true, screenReaderOnly }, idx) =>
-            isShown ?
-              <Table.HeaderColumn
-                key={`header-${idx}`}
-                scope="col"
-                aria-sort={
-                  sortIndex === idx ?
-                    sortAscending ?
-                      'ascending'
-                    : 'descending'
-                  : 'none'
-                }
-              >
-                {tableSortable && isColumnSortable ?
-                  <Table.SortButton
-                    isActive={sortIndex === idx}
-                    sortOrder={sortAscending ? SortMode.ASC : SortMode.DESC}
-                    aria-description={sortIndex === idx ? undefined : 'sortera'}
-                    onClick={() => handleSort(idx)}
-                  >
-                    {element}
-                  </Table.SortButton>
-                : <span className={screenReaderOnly ? 'sr-only' : undefined}>{element}</span>}
-              </Table.HeaderColumn>
-            : null
-          )}
-        </Table.Header>
-        <Table.Body>
-          {shownRows.map((cols, rowIndex) => (
-            <Table.Row key={`row-${rowIndex}`} className={isHighlighted(rowIndex) ? 'highlighted' : undefined}>
-              {cols.map(({ element, isShown = true }, colIndex) =>
-                isShown ? <Table.Column key={`col-${colIndex}`}>{element}</Table.Column> : null
-              )}
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-      {!externalPagination && pageCount > 1 && (
-        <Pagination pages={pageCount} activePage={activePage} changePage={handleChangePage} />
+    <Table ref={ref} background scrollable="x" {...rest}>
+      {captionTitle && (
+        <caption className="sr-only">
+          {captionTitle}, sida {activePage} av {pageCount}.{captionBody && ` ${captionBody}`}
+        </caption>
       )}
-    </>
+      <Table.Header>
+        {headers.map(({ element, isColumnSortable = true, isShown = true, screenReaderOnly }, idx) =>
+          isShown ?
+            <Table.HeaderColumn
+              key={`header-${idx}`}
+              aria-sort={
+                sortIndex === idx ?
+                  sortAscending ?
+                    'ascending'
+                  : 'descending'
+                : 'none'
+              }
+            >
+              {tableSortable && isColumnSortable ?
+                <Table.SortButton
+                  isActive={sortIndex === idx}
+                  sortOrder={sortAscending ? SortMode.ASC : SortMode.DESC}
+                  onClick={() => handleSort(idx)}
+                >
+                  {element}
+                </Table.SortButton>
+              : screenReaderOnly ?
+                <span className="sr-only">{element}</span>
+              : element}
+            </Table.HeaderColumn>
+          : null
+        )}
+      </Table.Header>
+      <Table.Body>
+        {shownRows.map((cols, rowIndex) => (
+          <Table.Row
+            key={`row-${rowIndex}`}
+            className={isHighlighted(rowIndex) ? 'bg-vattjom-background-200' : undefined}
+          >
+            {cols.map(({ element, isShown = true }, colIndex) =>
+              isShown ? <Table.Column key={`col-${colIndex}`}>{element}</Table.Column> : null
+            )}
+          </Table.Row>
+        ))}
+      </Table.Body>
+      {pageCount > 1 && (
+        <Table.Footer>
+          <div className="sk-table-bottom-section-spacer"></div>
+          <div className="sk-table-paginationwrapper">
+            <Pagination
+              className="sk-table-pagination"
+              pagesBefore={1}
+              pagesAfter={1}
+              pages={pageCount}
+              activePage={activePage}
+              changePage={handleChangePage}
+              showConstantPages
+              fitContainer
+            />
+          </div>
+          <div className="sk-table-bottom-section-spacer"></div>
+        </Table.Footer>
+      )}
+    </Table>
   );
 });
 

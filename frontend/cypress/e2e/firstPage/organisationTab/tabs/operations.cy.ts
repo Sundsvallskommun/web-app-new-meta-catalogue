@@ -30,7 +30,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('[data-cy="tab-operations"]').contains('Verksamheter (15)').click();
 
     // Check if correct content sample appears
-    cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
+    cy.get('[data-cy="table-header"]').contains('Verksamheter (15)').should('be.visible');
 
     // Check the number of rows before search
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 10);
@@ -39,7 +39,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.sk-search-field input[type="text"]').last().type('grundskola');
 
     // Check if the content changes to "Verksamheter (1)"
-    cy.get('.table-header').contains('Verksamheter (1)').should('be.visible');
+    cy.get('[data-cy="table-header"]').contains('Verksamheter (1)').should('be.visible');
 
     // Check the number of rows after search
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 1);
@@ -56,7 +56,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('.sk-search-field input[type="text"]').last().clear();
 
     // Check if the content changes back to "Verksamheter (15)"
-    cy.get('.table-header').contains('Verksamheter (15)').should('be.visible');
+    cy.get('[data-cy="table-header"]').contains('Verksamheter (15)').should('be.visible');
 
     // Check the number of rows after clearing the search
     cy.get('.sk-table-tbody-tr').filter(':visible').should('have.length', 10);
@@ -100,11 +100,7 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('[data-cy="tab-operations"]').contains('Verksamheter (15)').click();
 
     // default sorted by Titel
-    cy.get('.sk-table-tbody tr')
-      .filter(':visible')
-      .first()
-      .contains('Asyl, introduktion och interna')
-      .should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Asyl, introduktion och interna').should('exist');
     cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
     cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Övergripande funktioner').should('exist');
 

@@ -7,14 +7,13 @@ import { orgHighlightedTableRowProperty, orgTabIndex } from '@services/mdviewer/
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Pagination, Spinner, Label } from '@sk-web-gui/react';
+import { Button, Spinner, Label } from '@sk-web-gui/react';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import { useRouter } from 'next/router';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IResponsibilityListProps {
   isEdit?;
@@ -44,13 +43,11 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
   const headers: DataTableHeader[] = responsibilityHeaders
     .filter((x) => (x.filterId == 8 ? user.permissions.canEditResponsibility : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: responsibilityFilter.find((f) => f.id === header.filterId).value,
@@ -130,61 +127,36 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
     return [
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span
-              className="cursor-pointer hover:underline hover:text-vattjom-text-primary lg:min-h-[48px] lg:flex lg:items-center"
-              onClick={() => {
-                handleShowInOrg(r.orgId, r.orgResponsibilityId);
-              }}
-            >
-              {r.responsibilityText}
-            </span>
-          </Fragment>
+          <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.orgResponsibilityId)}>
+            {r.responsibilityText}
+          </Button>
         ),
         isShown: responsibilityFilter.filter((i) => i.id === 0)[0].value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Organisation: </span>
-            <span className="lg:font-bold">{r.orgName ? r.orgName : '-'}</span>
-            <hr className="border-transparent" />
-            <span className="inline font-bold lg:hidden">Under: </span>
-            <span>{r.orgFromName ? r.orgFromName : '-'}</span>
-          </Fragment>
+          <>
+            {r.orgName ? r.orgName : '-'}
+            <br />
+            {r.orgFromName ? r.orgFromName : '-'}
+          </>
         ),
         isShown: responsibilityFilter.find((i) => i.id === 1).value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
-            <span>
-              <Label color={typeColor} rounded inverted>
-                {typeText}
-              </Label>
-            </span>
-          </Fragment>
+          <Label color={typeColor} rounded inverted>
+            {typeText}
+          </Label>
         ),
         isShown: responsibilityFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarskod: </span>
-            <span>{r.responsibilityCode}</span>
-          </Fragment>
-        ),
+        element: r.responsibilityCode,
         isShown: responsibilityFilter.filter((i) => i.id === 3)[0].value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Giltig från: </span>
-            <span>{from}</span>
-          </Fragment>
-        ),
+        element: from,
         isShown: responsibilityFilter.filter((i) => i.id === 4)[0].value,
       },
     ];
@@ -224,7 +196,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
 
   return (
     <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 px-5 border-b-2 border-divider">
+      <div className="lg:flex lg:justify-between mx-20 px-5 mb-16">
         <h2 className="text-lead">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
         <CsvExporter
           csvData={csvAllResponsibility}
@@ -232,19 +204,21 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           fileName={`allaAnsvar${searchQuery ? `_containingdata'${searchQuery}'` : ''}`}
         />
       </div>
-      {responsibilitiesIsLoading ? (
+      {responsibilitiesIsLoading ?
         <div className="flex justify-center pt-lg ">
           <Spinner size={3} aria-label="Laddar ansvar" />
         </div>
-      ) : (
-        <div className="overflow-x-auto">
+      : <div className="mx-20">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            pages={pages}
             page={page}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -254,21 +228,8 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              activePage={page}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      )}
+      }
       {!responsibilitiesIsLoading && rows.length == 0 && (
         <div className="mt-sm mx-20 px-5">
           <span>Inga ansvar att visa.</span>

@@ -4,12 +4,11 @@ import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organiz
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { orgOperationHeaders } from '@services/mdviewer/defaults/operation';
 import { useOperationStore } from '@services/mdviewer/operation-service';
-import { Button, Pagination } from '@sk-web-gui/react';
+import { Button } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IOperationInOrganizationListProps {
@@ -42,11 +41,9 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
   const headers: DataTableHeader[] = orgOperationHeaders.map((header) => ({
-    element: <span className="font-bold">{header.label}</span>,
+    element: header.label,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
     isShown: orgOperationFilter.find((f) => f.id === header.filterId).value,
@@ -96,33 +93,16 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
   const rows: DataTableColumn[][] = operationListRendered.map((r) => {
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ? (
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.orgOperationId)}
-                >
-                  {r.operationDescription}
-                </Button>
-              ) : (
-                <span>{r.operationDescription}</span>
-              )}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.orgOperationId)}>
+              {r.operationDescription}
+            </Button>
+          : r.operationDescription,
         isShown: orgOperationFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Verksamhetskod: </span>
-            <span>{r.operationCode}</span>
-          </Fragment>
-        ),
+        element: r.operationCode,
         isShown: orgOperationFilter.find((i) => i.id === 2).value,
       },
     ];
@@ -142,19 +122,23 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
       <h2
         id="org-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-lead mx-20 px-5 border-b-2 border-divider"
+        className="text-lead mx-20 mb-16"
+        data-cy="table-header"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
-      {rows.length > 0 ? (
-        <div className="overflow-x-auto">
+      {rows.length > 0 ?
+        <div className="mx-20">
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            pages={pages}
             page={page}
+            changePage={(page) => {
+              setPage(page);
+              setHighlightedTableRow({});
+            }}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -164,23 +148,8 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      ) : (
-        <div className="mt-sm mx-20 px-5">Inga verksamheter att visa.</div>
-      )}
+      : <div className="mt-sm mx-20 px-5">Inga verksamheter att visa.</div>}
     </div>
   );
 };
