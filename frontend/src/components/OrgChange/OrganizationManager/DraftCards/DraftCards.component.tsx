@@ -1,6 +1,6 @@
 import { Draft } from '@data-contracts/backend/data-contracts';
 import { Calendar } from 'lucide-react';
-import { Card, Spinner, cx, Icon } from '@sk-web-gui/react';
+import { Card, Spinner, Icon } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
 import DraftContextMenu from '../../DraftContextMenu.component';
@@ -20,54 +20,52 @@ const DraftCards = (props: DraftDataListProps) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { draftIsArchived } = useDraftPhaseState(d);
     return (
-      <Card
-        className={cx(
-          `p-24 flex flex-col justify-between`,
-          draftIsArchived ? 'bg-background-200 text-dark-disabled' : 'bg-background-100'
-        )}
-        key={`${i}`}
-      >
-        <div>
-          <div className="flex justify-between">
-            <div className="flex flex-col-reverse">
-              <h2 className="mt-sm text-large w-full flex flex-col gap-y-[.4rem]">
-                <DraftListEntryPhaseTitle draft={d} />
-                <div className="font-[Arial] w-full leading-[2rem] font-normal text-small">Skapad av {d.loginname}</div>
-              </h2>
-              <div className="text-dark-secondary text-small lg:flex lg:items-center">
-                <div className="flex flex-col gap-y-[.4rem]">
-                  <div className="flex flex-col lg:flex-row items-start lg:items-center">
-                    <div className="flex items-center">
-                      <Icon icon={<Calendar />} />
-                      <span className="px-xs leading-[2rem]">
-                        Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')}{' '}
-                      </span>
-                    </div>
-                    <div className="hidden lg:block w-[1px] h-[16px] mx-[1.2rem] bg-divider"></div>
-                    <div className="lg:inline">
-                      {d.changes >= 1 ?
-                        d.changes === 1 ?
-                          '1 ändring'
-                        : `${d.changes} ändringar`
-                      : 'Inga ändringar'}
+      <Card key={`${i}`}>
+        <Card.Body className="w-full">
+          <div>
+            <div className="flex justify-between">
+              <div className="flex flex-col-reverse">
+                <h2 className="mt-sm text-large w-full flex flex-col gap-y-[.4rem]">
+                  <DraftListEntryPhaseTitle draft={d} />
+                  <div className="font-[Arial] w-full leading-[2rem] font-normal text-small">
+                    Skapad av {d.loginname}
+                  </div>
+                </h2>
+                <div className="text-dark-secondary text-small lg:flex lg:items-center">
+                  <div className="flex flex-col gap-y-[.4rem]">
+                    <div className="flex flex-col lg:flex-row items-start lg:items-center">
+                      <div className="flex items-center">
+                        <Icon icon={<Calendar />} />
+                        <span className="px-xs leading-[2rem]">
+                          Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')}{' '}
+                        </span>
+                      </div>
+                      <div className="hidden lg:block w-[1px] h-[16px] mx-[1.2rem] bg-divider"></div>
+                      <div className="lg:inline">
+                        {d.changes >= 1 ?
+                          d.changes === 1 ?
+                            '1 ändring'
+                          : `${d.changes} ändringar`
+                        : 'Inga ändringar'}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <div>{!draftIsArchived && <DraftContextMenu dense draft={d} />}</div>
             </div>
-            <div>{!draftIsArchived && <DraftContextMenu dense draft={d} />}</div>
-          </div>
 
-          <p className="lg:min-h-[48px] max-w-[386px]">
-            {d.nodes.length > 0 && `${d.nodes.join(', ')}, under ${d.companyName}`}
-          </p>
-        </div>
-        <div className="w-full flex justify-between items-center self-end">
-          <span className="lg:flex lg:items-center align-bottom gap-12">
-            <DraftListEntryPhaseState draft={d} />
-          </span>
-          <DraftListEntryPhaseMessage draft={d} />
-        </div>
+            <p className="lg:min-h-[48px] max-w-[386px]">
+              {d.nodes.length > 0 && `${d.nodes.join(', ')}, under ${d.companyName}`}
+            </p>
+          </div>
+          <div className="w-full flex justify-between items-center self-end">
+            <span className="lg:flex lg:items-center align-bottom gap-12">
+              <DraftListEntryPhaseState draft={d} />
+            </span>
+            <DraftListEntryPhaseMessage draft={d} />
+          </div>
+        </Card.Body>
       </Card>
     );
   });

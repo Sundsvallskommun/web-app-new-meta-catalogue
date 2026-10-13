@@ -26,7 +26,7 @@ export const OrgNameEditFormShortName: React.FC<OrgNameEditFormShortNameProps> =
   return (
     <FormControl id="orgshortname" invalid={!!errors?.orgNameShort}>
       <FormLabel>
-        <strong>Kortnamn</strong>
+        Kortnamn
         <HelpTooltip aria-hidden="true" tabIndex={-1} onlyIcon={true}>
           {helpText}
         </HelpTooltip>
@@ -43,7 +43,6 @@ export const OrgNameEditFormShortName: React.FC<OrgNameEditFormShortNameProps> =
           pattern="^[a-zA-Z0-9åäöÅÄÖ\s,\._\-]*$"
           placeholder={newItem ? 'Ny gren' : ''}
           // maxLength={textLengthMax}
-          className="lg:min-w-[26.5rem] border-r-0"
         />
         <Input.RightAddin>
           {watch().orgNameShort.length}/{orgNameShortMaxLength}

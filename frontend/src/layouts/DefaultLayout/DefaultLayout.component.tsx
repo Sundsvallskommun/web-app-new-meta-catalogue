@@ -125,7 +125,7 @@ export default function DefaultLayout({
         }}
       />
 
-      <Footer className="bg-background-200">
+      <Footer>
         <Footer.Content>
           <Footer.LogoWrapper>
             <Logo aria-label="Sundsvalls kommun logotyp" />

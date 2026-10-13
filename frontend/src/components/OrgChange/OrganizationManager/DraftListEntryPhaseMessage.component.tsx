@@ -39,14 +39,8 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
       }
     };
     return (
-      <Button
-        size="sm"
-        variant="secondary"
-        className="bg-background-content text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-light-primary"
-        rightIcon={<CircleAlert />}
-        onClick={handleCloseNodes}
-      >
-        <span>Slutför stängning av grenar</span>
+      <Button size="sm" variant="secondary" color="warning" rightIcon={<CircleAlert />} onClick={handleCloseNodes}>
+        Slutför stängning av grenar
       </Button>
     );
   }
@@ -67,7 +61,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
           {phaseRunbookStep.result || phaseRunbookStep.description}
         </span>
         <span className="inline-flex">
-          <MessageStatusIcon className="!text-lead" status={phaseRunbookStep.state} />
+          <MessageStatusIcon status={phaseRunbookStep.state} />
         </span>
       </span>
     );

@@ -202,9 +202,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
         >
           <div>
             <FormControl id="responsibility-edit-title">
-              <FormLabel>
-                <strong>Ansvartitel</strong>
-              </FormLabel>
+              <FormLabel>Ansvartitel</FormLabel>
               <Input.Group size="md">
                 <Input {...register('description')} placeholder="Ansvarstitel" maxLength={30} title="Ansvarstitel" />
               </Input.Group>
@@ -219,9 +217,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             <div className="grid grid-cols-2 gap-24 my-md">
               <div>
                 <FormControl id="responsibility-code">
-                  <FormLabel>
-                    <strong>Ansvarskod</strong>
-                  </FormLabel>
+                  <FormLabel>Ansvarskod</FormLabel>
                   <Input.Group size="md">
                     <Input.LeftAddon>{leftValue}</Input.LeftAddon>
                     <Input
@@ -243,9 +239,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
 
               <div>
                 <FormControl id="responsibilityTypeId">
-                  <FormLabel>
-                    <strong>Ansvarstyp</strong>
-                  </FormLabel>
+                  <FormLabel>Ansvarstyp</FormLabel>
                   <Select
                     aria-label="Ansvarstyp"
                     id="responsibilityTypeId"
@@ -274,38 +268,13 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-24 my-md">
-              <FormLabel id="responsibilityToDate">
-                <strong>Giltig till </strong>
-                <span className="block text-base">9999-12-31</span>
-              </FormLabel>
+              <div>
+                <FormLabel id="responsibilityToDate">Giltig till</FormLabel>
+                <span className="block">9999-12-31</span>
+              </div>
             </div>
           </div>
 
-          <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24 items-end">
-            <div>
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={onCloseHandler}
-                className="my-sm sm:my-15 w-full"
-                type="button"
-              >
-                {'Avbryt'}
-              </Button>
-            </div>
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              color="primary"
-              className="my-sm sm:my-15 w-full"
-              leftIcon={<Check />}
-              loading={isLoading}
-              loadingText="Sparar"
-            >
-              Spara
-            </Button>
-          </div>
           {error && (
             <div className="w-full flex justify-between space-x-5 my-lg">
               <FormErrorMessage>
@@ -313,6 +282,21 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
               </FormErrorMessage>
             </div>
           )}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onCloseHandler} type="button">
+              {'Avbryt'}
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              color="primary"
+              leftIcon={<Check />}
+              loading={isLoading}
+              loadingText="Sparar"
+            >
+              Spara
+            </Button>
+          </Modal.Footer>
         </form>
       </WarnIfUnsavedChanges>
     </Modal>

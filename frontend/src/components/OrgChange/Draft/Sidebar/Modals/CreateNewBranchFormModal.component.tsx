@@ -60,7 +60,6 @@ export default function CreateNewBranchFormModal() {
       onClick={!draft.draftId || !organization?.id ? undefined : NodeOnSubmit}
       aria-disabled={!draft.draftId || !organization?.id ? 'true' : undefined}
       variant="link"
-      className="flex hover:no-underline"
       leftIcon={<FilePlus />}
     >
       Skapa ny gren

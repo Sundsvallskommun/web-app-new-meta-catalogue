@@ -52,9 +52,8 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
         .valueOf();
       const newCategories: Category = {};
       groupedFilters.forEach((filter) => {
-        newCategories[filter.type] = categories[filter.type]
-          ? Object.assign(categories[filter.type], { count: filter.count })
-          : filter;
+        newCategories[filter.type] =
+          categories[filter.type] ? Object.assign(categories[filter.type], { count: filter.count }) : filter;
       });
       return newCategories;
     });
@@ -76,14 +75,14 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
               Sökord: {searchTerm}
             </h2>
           </div>
-          {!searchResultsIsLoading ? (
+          {!searchResultsIsLoading ?
             <div>
               <span className="lg:flex">
                 <h3 data-cy="search-results-amount" className="min-w-max text-large px-sm">
                   {`${
-                    shownResults.length !== searchResults.length
-                      ? `(${shownResults.length} av ${searchResults.length})`
-                      : `${searchResults.length}`
+                    shownResults.length !== searchResults.length ?
+                      `(${shownResults.length} av ${searchResults.length})`
+                    : `${searchResults.length}`
                   }`}{' '}
                   sökresultat:
                 </h3>
@@ -101,7 +100,7 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                   ))}
                 </div>
               </span>
-              {shownResults.length > 0 ? (
+              {shownResults.length > 0 ?
                 <div>
                   {shownResults.slice(startIndex, endIndex).map((result, i) => (
                     <SearchItem key={`${result.id}-${i}`} item={result} />
@@ -110,20 +109,16 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                     <Pagination
                       pagesBefore={!windowSize.lg ? 0 : undefined}
                       pagesAfter={!windowSize.lg ? 0 : undefined}
-                      className="mt-lg text-large"
+                      className="mt-lg"
                       pages={Math.ceil(shownResults.length / pageSize)}
                       activePage={activePage}
                       changePage={handlePageChange}
                     />
                   )}
                 </div>
-              ) : (
-                <div className="px-sm">Inga sökresultat</div>
-              )}
+              : <div className="px-sm">Inga sökresultat</div>}
             </div>
-          ) : (
-            <div className="px-sm">Laddar..</div>
-          )}
+          : <div className="px-sm">Laddar..</div>}
         </div>
       </div>
     </div>

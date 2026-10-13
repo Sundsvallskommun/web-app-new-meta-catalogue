@@ -1,18 +1,12 @@
-@use './components/comments-sidebar.scss';
 @use './components/progressbar';
 @use './components/sidebar';
 @use './components/sparkle';
 
 @layer components {
-  .container {
-    @apply px-5 lg:px-0;
-  }
-
   .max-width-content {
     @apply max-w-[165rem];
   }
 
-  .header-container .header-content,
   .container {
     @apply px-5 lg:px-0 max-width-content;
   }
@@ -35,6 +29,4 @@
   .Modal {
     @apply hidden;
   }
-
-  //:END
 }

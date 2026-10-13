@@ -15,7 +15,6 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import isEqual from 'lodash/isEqual';
 import { feedbackSelectTypes, sendFeedback } from '@services/feedback-service';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { FeedbackDto } from '@data-contracts/backend/data-contracts';
 
 const formSchema = yup
@@ -110,12 +109,10 @@ export const FeedbackModal: React.FC<{
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <fieldset>
-              <FormLabel>
-                <strong>Typ av fel</strong>
-              </FormLabel>
+              <FormLabel>Typ av fel</FormLabel>
               <Select
                 placeholder="Välj typ"
-                className="w-full mt-[6px]"
+                className="w-full"
                 onChange={handleOnSelectTypeChange}
                 defaultValue={selectTypeValue?.type ? selectTypeValue.label : feedbackSelectTypes[0].label}
               >
@@ -130,9 +127,7 @@ export const FeedbackModal: React.FC<{
           </div>
           <div className="flex my-md">
             <FormControl id="body" className="w-full">
-              <FormLabel>
-                <strong>Detaljbeskrivning</strong>
-              </FormLabel>
+              <FormLabel>Detaljbeskrivning</FormLabel>
               <Controller
                 control={control}
                 name="body"
@@ -160,31 +155,22 @@ export const FeedbackModal: React.FC<{
               <FormErrorMessage key={`formData-errors`}>Det gick inte att skicka meddelandet</FormErrorMessage>
             </div>
           )}
-          <LeadButtons className="pb-md">
-            <Button
-              data-cy="nav-button-avbryt"
-              onClick={handleOnClose}
-              type="button"
-              variant="secondary"
-              size="lg"
-              className="w-full"
-            >
+          <Modal.Footer>
+            <Button data-cy="nav-button-avbryt" onClick={handleOnClose} type="button" variant="secondary">
               Avbryt
             </Button>
             <Button
               data-cy="nav-button-rapportera"
               type="submit"
               variant="primary"
-              size="lg"
               color="primary"
-              className="w-full"
               disabled={!formState.isDirty}
               loading={isLoading}
               loadingText="Skickar"
             >
               Rapportera
             </Button>
-          </LeadButtons>
+          </Modal.Footer>
         </form>
       </WarnIfUnsavedChanges>
     </Modal>

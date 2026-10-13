@@ -57,22 +57,14 @@ export default function TerminateNode(props: ITerminateNodeProps) {
         Gren: {organization.orgName} nivå {organization.level}
       </span>
 
-      <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
-        <Button variant="primary" size="lg" className="my-sm sm:my-15 w-full" type="button" onClick={onClose}>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={onClose}>
           Avbryt
         </Button>
-        <Button
-          size="lg"
-          variant="primary"
-          color="primary"
-          className="my-sm sm:my-15 w-full"
-          loadingText="Sparar"
-          type="button"
-          onClick={onTerminateBranch}
-        >
+        <Button variant="primary" color="primary" loadingText="Sparar" type="button" onClick={onTerminateBranch}>
           Stäng gren
         </Button>
-      </div>
+      </Modal.Footer>
     </Modal>
   );
 }

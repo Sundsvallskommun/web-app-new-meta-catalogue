@@ -38,7 +38,6 @@ export default function VerifyButton() {
     <Button
       variant="secondary"
       disabled={draft.changes === 0}
-      className="bg-background-content text-dark-secondary"
       onClick={handleOnVerify}
       leftIcon={<Icon color={shieldColor} icon={<Shield />} />}
       title={title && title}

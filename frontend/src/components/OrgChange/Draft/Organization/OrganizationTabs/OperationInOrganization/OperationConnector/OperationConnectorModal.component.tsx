@@ -108,24 +108,6 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             ))}
           </Combobox.List>
         </Combobox>
-        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
-          <Button type="button" variant="primary" size="lg" className="my-sm sm:my-15 w-full" onClick={onCloseHandler}>
-            Avbryt
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            color="primary"
-            className="my-sm sm:my-15 w-full"
-            leftIcon={<Check />}
-            loading={isLoading}
-            loadingText="Sparar"
-            disabled={!activeOperation}
-          >
-            Spara
-          </Button>
-        </div>
         {error && (
           <div className="w-full flex justify-between space-x-5 my-lg">
             <FormErrorMessage>
@@ -133,6 +115,22 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             </FormErrorMessage>
           </div>
         )}
+        <Modal.Footer>
+          <Button type="button" variant="secondary" onClick={onCloseHandler}>
+            Avbryt
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            color="primary"
+            leftIcon={<Check />}
+            loading={isLoading}
+            loadingText="Sparar"
+            disabled={!activeOperation}
+          >
+            Spara
+          </Button>
+        </Modal.Footer>
       </form>
     </Modal>
   );

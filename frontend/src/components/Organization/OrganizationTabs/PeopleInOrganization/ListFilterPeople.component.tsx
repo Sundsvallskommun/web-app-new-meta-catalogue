@@ -5,7 +5,7 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, FormControl, Link, SearchField } from '@sk-web-gui/react';
+import { Button, FormControl, SearchField } from '@sk-web-gui/react';
 import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
@@ -85,15 +85,15 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
           <span className="flex flex-wrap justify-end gap-15 px-lg">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
-              <Link
-                className="[&>.link-external-icon]:hidden"
-                href={`https://e-arenden.sundsvall.se/oversikt/flowoverview/1920`}
-                external
+              <a
+                href="https://e-arenden.sundsvall.se/oversikt/flowoverview/1920"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Button as="span" variant="primary" color="primary" rightIcon={<ExternalLink />}>
+                <Button as="span" variant="primary" rightIcon={<ExternalLink />}>
                   Lägg till ny person
                 </Button>
-              </Link>
+              </a>
             )}
             <NextLink
               legacyBehavior
@@ -103,9 +103,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
               shallow
               replace
             >
-              <Button variant="secondary" className="w-fit h-fit">
-                Rapportera fel
-              </Button>
+              <Button variant="secondary">Rapportera fel</Button>
             </NextLink>
           </span>
         )}

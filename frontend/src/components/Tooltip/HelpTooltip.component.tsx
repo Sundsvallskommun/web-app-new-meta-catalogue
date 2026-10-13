@@ -24,7 +24,7 @@ export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps)
       onBlur={() => setOpen(false)}
     >
       <button type="button" tabIndex={tabIndex} className="flex items-center" aria-label={ariaLabel} {...rest}>
-        {!onlyIcon && <strong className="mr-5">Hjälp</strong>}
+        {!onlyIcon && <span className="mr-5">Hjälp</span>}
         <Icon icon={<CircleQuestionMark />} />
       </button>
       <Tooltip position="below" className={open ? 'absolute top-full left-0 z-10 w-max max-w-2xl' : 'hidden'}>

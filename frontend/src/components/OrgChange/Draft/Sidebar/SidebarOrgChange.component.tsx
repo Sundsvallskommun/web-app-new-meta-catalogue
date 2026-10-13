@@ -102,17 +102,9 @@ const SidebarOrgChange = ({ mainRef }) => {
     );
   };
 
-  const renderItems = (items: OrgChangeOrganizationTree[], isRoot = false) =>
-    items.map((itemData, index) => (
-      <MenuVertical.Item
-        key={itemData.id}
-        menuIndex={Number(itemData.id)}
-        data-cy={`tree-item-${itemData.id}`}
-        className={cx(
-          itemData.structureChangeStatus === 'DELETED' && 'text-dark-disabled',
-          isRoot && index > 0 && 'border-t-1 border-divider'
-        )}
-      >
+  const renderItems = (items: OrgChangeOrganizationTree[]) =>
+    items.map((itemData) => (
+      <MenuVertical.Item key={itemData.id} menuIndex={Number(itemData.id)} data-cy={`tree-item-${itemData.id}`}>
         {itemData.subItems?.length ?
           <MenuVertical>
             <MenuVertical.SubmenuButton>
@@ -142,7 +134,7 @@ const SidebarOrgChange = ({ mainRef }) => {
         <MenuVertical.Sidebar>
           {orgTreeIsLoading ?
             <Spinner size={2} aria-label="Laddar organisationsträd" />
-          : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree, true)}</MenuVertical>}
+          : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree)}</MenuVertical>}
         </MenuVertical.Sidebar>
       </MenuVertical.Provider>
       {!orgTree?.length && !orgTreeIsLoading && (

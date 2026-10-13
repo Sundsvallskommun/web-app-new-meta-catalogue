@@ -51,7 +51,6 @@ export default function SideMenuHeadElementOrgChange() {
               onClick={!isDraft ? undefined : handleOnChooseOrg}
               aria-disabled={!isDraft ? 'true' : undefined}
               variant="link"
-              className="flex hover:no-underline"
               leftIcon={<ListPlus />}
             >
               Välj gren att ändra

@@ -165,7 +165,6 @@ const AlertBannerForm = ({
         {isEdit && (
           <Button
             data-cy="systemMessage-button-taBort"
-            className="text-dark-secondary"
             type="button"
             onClick={onDelete}
             variant="link"

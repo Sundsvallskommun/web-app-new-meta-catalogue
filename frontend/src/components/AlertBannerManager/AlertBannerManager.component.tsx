@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Icon } from '@sk-web-gui/react';
+import { Alert, Button } from '@sk-web-gui/react';
 import { Pencil } from 'lucide-react';
 import AlertBannerForm from './AlertBannerForm.component';
 import { getAlertBannerMessage } from '@services/alert-banner-service/alert-banner-service';
@@ -67,7 +67,7 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
       return (
         <Alert type="neutral">
           <Alert.Content>
-            <Button onClick={handleNewAlert} className="text-dark-secondary " variant="link" rightIcon={<Pencil />}>
+            <Button onClick={handleNewAlert} variant="link" rightIcon={<Pencil />}>
               Nytt Systemmeddelande ...
             </Button>
           </Alert.Content>
@@ -79,17 +79,10 @@ const AlertBannerManager = ({ className }: AlertBannerManagerProps) => {
   const getMessageContent = (message: AlertBannerMessage) => {
     if (user.permissions.canEditSystemMessages) {
       return (
-        <button
-          data-cy="alert-banner-edit"
-          onClick={handleEditAlert}
-          className="alert-banner-message hover:text-vattjom-text-primary [&>span]:hover:no-underline inline-block whitespace-normal text-left text-dark-secondary"
-        >
-          <span className="underline">
-            <span className="sr-only">Editera </span>
-            {message.message}
-          </span>{' '}
-          <Icon className="ml-10" icon={<Pencil />} />
-        </button>
+        <Button data-cy="alert-banner-edit" onClick={handleEditAlert} variant="link" rightIcon={<Pencil />}>
+          <span className="sr-only">Editera </span>
+          {message.message}
+        </Button>
       );
     } else {
       return messageData.message;

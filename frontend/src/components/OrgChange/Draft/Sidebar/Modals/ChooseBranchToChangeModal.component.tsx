@@ -58,9 +58,7 @@ export default function ChooseBranchToChangeModal(props) {
           <span>Bolag: {draft && draft.companyName}</span>
         </div>
 
-        <FormLabel id="choosebranch">
-          <strong>Gren</strong>
-        </FormLabel>
+        <FormLabel id="choosebranch">Gren</FormLabel>
         <Combobox
           data-cy="orgchange-choosebranch-searchnode"
           className="w-full"
@@ -89,23 +87,15 @@ export default function ChooseBranchToChangeModal(props) {
             ))}
           </Combobox.List>
         </Combobox>
-        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
-          <Button variant="primary" size="lg" className="my-sm sm:my-15 w-full" type="button" onClick={onClose}>
-            Avbryt
-          </Button>
-          <Button
-            variant="primary"
-            onClick={onChooseOrganization}
-            size="lg"
-            color="primary"
-            className="my-sm sm:my-15 w-full"
-            loadingText="Sparar"
-            type="button"
-          >
-            Spara
-          </Button>
-        </div>
       </div>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={onClose}>
+          Avbryt
+        </Button>
+        <Button variant="primary" onClick={onChooseOrganization} color="primary" loadingText="Sparar" type="button">
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

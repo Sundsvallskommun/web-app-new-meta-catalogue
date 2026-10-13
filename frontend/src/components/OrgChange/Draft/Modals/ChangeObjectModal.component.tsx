@@ -3,7 +3,6 @@ import {
   OrgChangeObject,
   OrgChangeOrganizationEmployee,
 } from '@data-contracts/backend/data-contracts';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { Undo2 } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
@@ -150,7 +149,7 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
 
   const resetButton = (
     <Button
-      className="border-0 float-right"
+      className="float-right"
       type="button"
       size="md"
       variant="link"
@@ -231,7 +230,7 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
             }
           </div>
         )}
-        <LeadButtons>
+        <Modal.Footer>
           <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
@@ -243,7 +242,7 @@ export default function ChangeObjectModal(props: IChangeObjectProps) {
           >
             Spara
           </Button>
-        </LeadButtons>
+        </Modal.Footer>
       </form>
     </Modal>
   );

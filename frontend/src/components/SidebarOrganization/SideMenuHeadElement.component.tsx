@@ -82,12 +82,10 @@ export default function SideMenuHeadElement() {
       <form>
         <div className="mb-md">
           <FormControl id="sidemenu-image">
-            <FormLabel>
-              <strong>Avbildning</strong>
-            </FormLabel>
+            <FormLabel>Avbildning</FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px]"
+              className="w-full"
               id="sidemenu-image"
               name="sidemenu-image"
               aria-labelledby="sidemenu-image-label"
@@ -102,12 +100,10 @@ export default function SideMenuHeadElement() {
             </Select>
           </FormControl>
           <FormControl className="my-[20px]" id="sidemenu-company">
-            <FormLabel>
-              <strong>Bolag</strong>
-            </FormLabel>
+            <FormLabel>Bolag</FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px]"
+              className="w-full"
               id="sidemenu-company"
               name="sidemenu-company"
               onChange={onCompanyChange}

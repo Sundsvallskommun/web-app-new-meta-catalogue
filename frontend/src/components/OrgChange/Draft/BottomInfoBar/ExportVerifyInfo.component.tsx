@@ -60,7 +60,6 @@ export default function ExportVerifyInfo() {
                 : 'Visa verifikationsresultat, lås visningsläge av utkastet'
               }
               variant="ghost"
-              className="px-0 max-h-fit h-fit py-md"
             >
               {showResults ?
                 <Link as="span">Dölj verifikationsresultat</Link>

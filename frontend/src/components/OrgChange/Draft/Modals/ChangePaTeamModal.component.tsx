@@ -5,7 +5,6 @@ import {
   OrgChangePersonEmployeeDetail,
   PATeamSearchResult,
 } from '@data-contracts/backend/data-contracts';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { Undo2 } from 'lucide-react';
 import { useDebouncedCallback } from '@react-hookz/web';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -15,7 +14,6 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Modal,
   Avatar,
   RadioButton,
@@ -176,7 +174,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
 
   const resetButton = (
     <Button
-      className="border-0 float-right"
+      className="float-right"
       type="button"
       size="md"
       variant="link"
@@ -189,7 +187,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
   );
 
   return (
-    <Modal className="max-w-[900px] h-fit" show onClose={handleOnClose} label={labelHeading}>
+    <Modal className="max-w-[900px]" show onClose={handleOnClose} label={labelHeading}>
       <form onSubmit={onSubmit}>
         <FormControl id="pateam-edit-dropdown">
           <Combobox
@@ -222,12 +220,12 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                 {manager && (
                   <div className="flex gap-5 items-center">
                     <Avatar
-                      className="w-[64px] h-[64px]"
+                      size="lg"
                       placeholderImage={`${process.env.NEXT_PUBLIC_BASE_PATH}/user-image-placeholder-square-48.png`}
                       imageUrl={`${apiURL(`/employee/${manager.personId}/personimage`)}`}
                     />
                     <h3 className="font-normal text-base">
-                      <strong className="block">Överordnad chef</strong>
+                      <span className="block">Överordnad chef</span>
                       {manager?.givenname} {manager?.lastname} |{' '}
                       {manager?.employments?.map((e, index) => {
                         return (
@@ -320,14 +318,12 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
           />
         )}
         {activePaTeam && activePaTeam?.data?.paTeam !== initialPaTeam?.data?.paTeam && (
-          <FormLabel className="text-base my-md">
-            <strong>
-              Notera att chef inte kommer ändras i samband med ändring av PA-Team. För ändring av chef hänvisas du till
-              manuell hantering i Heroma
-            </strong>
-          </FormLabel>
+          <p className="my-md">
+            Notera att chef inte kommer ändras i samband med ändring av PA-Team. För ändring av chef hänvisas du till
+            manuell hantering i Heroma
+          </p>
         )}
-        <LeadButtons>
+        <Modal.Footer>
           <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
@@ -339,7 +335,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
           >
             Spara
           </Button>
-        </LeadButtons>
+        </Modal.Footer>
       </form>
     </Modal>
   );

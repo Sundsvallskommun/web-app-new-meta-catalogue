@@ -10,17 +10,22 @@ export const OrgNameEditFormAbbreviation: React.FC = () => {
   } = useFormContext<IOrgNameEditForm>();
 
   const helpText = 'Grenens förkortning kan endast bestå av 3 tecken som är versala. Exempelvis: ABC eller AB1';
+  const abbreviationField = register('abbreviation');
 
   return (
     <FormControl id="abbreviation" invalid={!!errors?.abbreviation}>
       <FormLabel>
-        <strong>Förkortning</strong>
+        Förkortning
         <HelpTooltip aria-hidden="true" tabIndex={-1} onlyIcon={true}>
           Grenens förkortning kan endast bestå av 3 tecken som är versala. Exempelvis: ABC, AB1, AB2, CAB
         </HelpTooltip>
       </FormLabel>
       <Input
-        {...register('abbreviation')}
+        {...abbreviationField}
+        onChange={(e) => {
+          e.target.value = e.target.value.toUpperCase();
+          return abbreviationField.onChange(e);
+        }}
         invalid={errors.abbreviation?.message ? true : undefined}
         aria-invalid={errors.abbreviation?.message ? true : undefined}
         placeholder="ABC"
@@ -28,7 +33,6 @@ export const OrgNameEditFormAbbreviation: React.FC = () => {
         maxLength={3}
         title="Förkortning, A-Ö"
         pattern={`^[a-zA-ZåäöÅÄÖ]*$`}
-        className="uppercase"
       />
       <span className="sr-only" id="abbreviation-helptext">
         {helpText}

@@ -157,9 +157,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
           }}
         >
           <FormControl id="responsibility-edit-title">
-            <FormLabel>
-              <strong>Ansvartitel</strong>
-            </FormLabel>
+            <FormLabel>Ansvartitel</FormLabel>
             <Input.Group size="md">
               <Input
                 value={watch().description}
@@ -175,43 +173,17 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
             <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
           )}
 
-          <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24 items-end">
-            <div>
-              <div className="mb-sm">
-                <Button
-                  type="button"
-                  color="error"
-                  size="md"
-                  variant="secondary"
-                  aria-label={`Stäng ansvar ${watch().description}`}
-                  onClick={onRemoveHandler}
-                  leftIcon={<Trash />}
-                >
-                  Stäng ansvar
-                </Button>
-              </div>
-
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={onCloseHandler}
-                className="my-sm sm:my-15 w-full"
-                type="button"
-              >
-                {'Avbryt'}
-              </Button>
-            </div>
+          <div className="mt-lg">
             <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              color="primary"
-              className="my-sm sm:my-15 w-full"
-              leftIcon={<Check />}
-              loading={isLoading}
-              loadingText="Sparar"
+              type="button"
+              color="error"
+              size="md"
+              variant="secondary"
+              aria-label={`Stäng ansvar ${watch().description}`}
+              onClick={onRemoveHandler}
+              leftIcon={<Trash />}
             >
-              Spara
+              Stäng ansvar
             </Button>
           </div>
           {error && (
@@ -221,6 +193,21 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               </FormErrorMessage>
             </div>
           )}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onCloseHandler} type="button">
+              {'Avbryt'}
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              color="primary"
+              leftIcon={<Check />}
+              loading={isLoading}
+              loadingText="Sparar"
+            >
+              Spara
+            </Button>
+          </Modal.Footer>
         </form>
       </WarnIfUnsavedChanges>
     </Modal>

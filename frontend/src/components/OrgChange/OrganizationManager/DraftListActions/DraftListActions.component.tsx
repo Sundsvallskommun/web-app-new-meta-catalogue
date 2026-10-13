@@ -227,7 +227,6 @@ export default function DraftListActions(props: DraftListActions) {
           <Button
             type="button"
             data-cy="orgchange-new-draft"
-            className="w-full h-fit"
             onClick={openEditModalHandler}
             size="md"
             variant="primary"

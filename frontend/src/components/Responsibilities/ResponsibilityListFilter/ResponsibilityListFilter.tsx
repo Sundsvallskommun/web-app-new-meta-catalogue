@@ -96,7 +96,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
             shallow
             replace
           >
-            <Button variant="secondary" className="w-fit h-fit" size="md">
+            <Button variant="secondary" size="md">
               Rapportera fel
             </Button>
           </NextLink>

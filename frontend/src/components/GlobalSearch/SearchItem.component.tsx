@@ -4,7 +4,7 @@ import { objectType } from '@services/mdviewer/data-handlers/search';
 import { orgHighlightedTableRowProperty, orgTabIndex } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { Button, Link, Label } from '@sk-web-gui/react';
+import { Button, Label } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
 import { useRouter } from 'next/router';
 
@@ -109,30 +109,30 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
               </div>
             </div>
             <div className="text-gray-stroke">
-              <strong>{`${item.subObjectType == 'ORGANIZATION' ? objectType(item.subObjectType).text + ': ' : ''}${
+              {`${item.subObjectType == 'ORGANIZATION' ? objectType(item.subObjectType).text + ': ' : ''}${
                 item.text ? item.text : ''
-              }`}</strong>
+              }`}
             </div>
           </div>
-          <div className="flex gap-sm font-bold flex-shrink-0">
+          <div className="flex gap-sm flex-shrink-0">
             {item.objectType == 'PERSON' && (
-              <Button onClick={handleShowInOrgAndPerson} variant="link" className="font-bold">
-                <Link as="div">Visa person</Link>
+              <Button onClick={handleShowInOrgAndPerson} variant="link">
+                Visa person
               </Button>
             )}
             {item.objectType == 'ORGANIZATION' && (
-              <Button onClick={handleShowOrg} variant="link" className="font-bold">
-                <Link as="div">Visa organisation</Link>
+              <Button onClick={handleShowOrg} variant="link">
+                Visa organisation
               </Button>
             )}
             {item.subObjectType == 'ORGANIZATION' && (
-              <Button onClick={handleShowInOrg} variant="link" className="font-bold">
-                <Link as="div">Visa i organisation</Link>
+              <Button onClick={handleShowInOrg} variant="link">
+                Visa i organisation
               </Button>
             )}
             {item.objectType == 'RESPONSIBILITY' && (
-              <Button onClick={handleShowInResponsibility} variant="link" className="font-bold">
-                <Link as="div">Visa i ansvar</Link>
+              <Button onClick={handleShowInResponsibility} variant="link">
+                Visa i ansvar
               </Button>
             )}
           </div>

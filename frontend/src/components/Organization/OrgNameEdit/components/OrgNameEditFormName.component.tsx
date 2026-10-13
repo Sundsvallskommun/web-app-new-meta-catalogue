@@ -15,7 +15,7 @@ export const OrgNameEditFormName: React.FC<{ newItem: boolean }> = ({ newItem })
   return (
     <FormControl id="orgname" invalid={!!errors?.orgName}>
       <FormLabel>
-        <strong>Namn</strong>
+        Namn
         <HelpTooltip aria-hidden="true" tabIndex={-1} onlyIcon={true}>
           {helpText}
         </HelpTooltip>
@@ -32,7 +32,6 @@ export const OrgNameEditFormName: React.FC<{ newItem: boolean }> = ({ newItem })
           pattern="^[a-zA-Z0-9åäöÅÄÖ\s,\._\-]*$"
           placeholder={newItem ? 'Ny gren' : 'Organisationsnamn'}
           // maxLength={30}
-          className={`lg:min-w-[26.5rem] border-r-0`}
         />
         <Input.RightAddin>{watch().orgName.length}/30</Input.RightAddin>
       </Input.Group>

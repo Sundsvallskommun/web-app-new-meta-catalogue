@@ -26,12 +26,7 @@ export const OrgNameEditFormCode: React.FC<OrgNameEditFormCodeProps> = ({ parent
       const responsibilityList = parentOrg.responsibilityList.split(',');
       return (
         <fieldset>
-          <Select
-            size="sm"
-            className="p-xs min-h-fit"
-            onSelectValue={handleSetParentRespCode}
-            defaultValue={watch().parentResponsibilityCode}
-          >
+          <Select size="sm" onSelectValue={handleSetParentRespCode} defaultValue={watch().parentResponsibilityCode}>
             {responsibilityList.map((c) => (
               <Select.Option key={`${c}`} value={c}>
                 {c}
@@ -47,17 +42,13 @@ export const OrgNameEditFormCode: React.FC<OrgNameEditFormCodeProps> = ({ parent
 
   return (
     <FormControl id="respcode" invalid={!!errors?.responsibilityCode}>
-      <FormLabel>
-        <strong>Kod</strong>
-      </FormLabel>
+      <FormLabel>Kod</FormLabel>
       <Input.Group
         size="sm"
         invalid={errors.responsibilityCode?.message ? true : undefined}
         aria-invalid={errors.responsibilityCode?.message ? true : undefined}
       >
-        {watch().parentResponsibilityCode && (
-          <Input.LeftAddon className="text-dark-secondary">{getParentCodeElement(parentOrg)}</Input.LeftAddon>
-        )}
+        {watch().parentResponsibilityCode && <Input.LeftAddon>{getParentCodeElement(parentOrg)}</Input.LeftAddon>}
 
         <Input
           {...register('responsibilityCode')}

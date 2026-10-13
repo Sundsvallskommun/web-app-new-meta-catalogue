@@ -121,14 +121,8 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
   };
 
   return (
-    <Modal
-      hideLabel
-      label="Kommentarer"
-      className="max-w-[500px] mt-0 mb-[-24px] absolute right-0 h-screen overflow-hidden"
-      show={commentsSidebarOpen}
-      onClose={onClose}
-    >
-      <div className="Comments-sidebar">
+    <Modal hideLabel label="Kommentarer" className="max-w-[500px]" show={commentsSidebarOpen} onClose={onClose}>
+      <div className="h-[60vh]">
         <Comments
           currentUserName={user.username}
           commentsData={sidebarComments}

@@ -168,9 +168,7 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
     <Modal className="max-w-[900px]" show={true} onClose={handleOnClose} label={label}>
       <form onSubmit={onSubmit}>
         <FormControl id="move-people-org-dropdown">
-          <FormLabel>
-            <strong>Till gren</strong>
-          </FormLabel>
+          <FormLabel>Till gren</FormLabel>
           <Combobox
             className="w-full"
             id="move-people-org-dropdown"
@@ -205,25 +203,23 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
           newOrganization.id !== organization.id &&
           organization.structureChangeStatus !== 'DELETED' && (
             <FormControl className="mt-md" id="terminade-node-checkbox">
-              <FormLabel className="text-base mb-md">
-                <strong>
-                  Ingen personal kommer att finnas kvar i gren {`${organization.orgName} (Nivå ${organization.level})`}.
-                  Vill du stänga grenen i och med personalflytten?
-                </strong>
+              <FormLabel className="mb-md">
+                Ingen personal kommer att finnas kvar i gren {`${organization.orgName} (Nivå ${organization.level})`}.
+                Vill du stänga grenen i och med personalflytten?
               </FormLabel>
               <Checkbox onChange={onHandleChecked} size="lg" aria-labelledby="terminade-node-checkbox">
                 Stäng gren
               </Checkbox>
             </FormControl>
           )}
-        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
+        <Modal.Footer>
           <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
           <Button variant="primary" type="submit" color="primary" disabled={isDirty}>
             Spara
           </Button>
-        </div>
+        </Modal.Footer>
       </form>
     </Modal>
   );

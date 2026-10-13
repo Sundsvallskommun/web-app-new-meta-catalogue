@@ -76,7 +76,6 @@ export default function ExportPhaseInfo() {
               : 'Visa exportinformation, lås visningsläge av utkastet'
             }
             variant="ghost"
-            className="px-0 max-h-fit h-fit py-md"
           >
             {lockedView ?
               <Link as="span">Dölj exportinformation</Link>

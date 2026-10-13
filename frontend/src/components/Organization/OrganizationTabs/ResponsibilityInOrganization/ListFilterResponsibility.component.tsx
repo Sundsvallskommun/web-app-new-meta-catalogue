@@ -83,14 +83,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
           <span className="flex flex-wrap justify-end gap-15 px-lg">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
-              <Button
-                className="w-fit h-fit"
-                onClick={openModalHandler}
-                size="md"
-                variant="primary"
-                color="primary"
-                leftIcon={<Plus />}
-              >
+              <Button onClick={openModalHandler} size="md" variant="primary" color="primary" leftIcon={<Plus />}>
                 Skapa nytt ansvar
               </Button>
             )}
@@ -102,7 +95,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
               shallow
               replace
             >
-              <Button variant="secondary" className="w-fit h-fit" size="md">
+              <Button variant="secondary" size="md">
                 Rapportera fel
               </Button>
             </NextLink>

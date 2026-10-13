@@ -1,4 +1,3 @@
-import { LeadButtons } from '@layouts/ButtonGroup/LeadButtons';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { getRootOrg } from '@services/mdviewer/api-calls/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
@@ -73,13 +72,11 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
     >
       <div>
         <FormControl id="orgchange-choose-company">
-          <FormLabel id="choosecompany">
-            <strong>Välj bolag</strong>
-          </FormLabel>
+          <FormLabel id="choosecompany">Välj bolag</FormLabel>
           <Select
             size="lg"
             placeholder="Välj bolag"
-            className="w-full mt-[6px]"
+            className="w-full"
             data-cy="orgchange-choose-company"
             id="orgchange-choose-company"
             aria-labelledby="choosecompany"
@@ -95,23 +92,6 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
         </FormControl>
       </div>
 
-      <LeadButtons>
-        <Button variant="primary" size="lg" onClick={onCloseHandler} className="my-sm sm:my-15 w-full" type="button">
-          {'Avbryt'}
-        </Button>
-        <Button
-          onClick={() => filterGoToDraft()}
-          variant="primary"
-          size="lg"
-          type="submit"
-          color="primary"
-          className="my-sm sm:my-15 w-full"
-          loading={isLoading}
-          loadingText="Sparar"
-        >
-          Välj och fortsätt
-        </Button>
-      </LeadButtons>
       {error && (
         <div className="w-full flex justify-between space-x-5 my-lg">
           <FormErrorMessage>
@@ -119,6 +99,21 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
           </FormErrorMessage>
         </div>
       )}
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onCloseHandler} type="button">
+          {'Avbryt'}
+        </Button>
+        <Button
+          onClick={() => filterGoToDraft()}
+          variant="primary"
+          type="submit"
+          color="primary"
+          loading={isLoading}
+          loadingText="Sparar"
+        >
+          Välj och fortsätt
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -8,7 +8,7 @@ export default function DraftListEntryPhaseState({ draft }) {
     <Label color={phaseColor} inverted={phaseInverted} rounded>
       <span className="flex items-center">
         {PhaseIcon && <Icon className="mr-xs" icon={<PhaseIcon />} />}
-        <span className="text-xs">{`${phaseLabel}`}</span>
+        {`${phaseLabel}`}
       </span>
     </Label>
   );

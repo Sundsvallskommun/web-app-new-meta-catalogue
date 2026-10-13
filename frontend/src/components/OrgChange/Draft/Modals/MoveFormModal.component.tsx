@@ -96,9 +96,7 @@ export default function MoveFormModal(props: IMoveFormProps) {
     <Modal className="max-w-[800px]" show onClose={onClose} label={moveBranch && 'Flytta gren'}>
       <div>
         <FormControl id="orgchange-move-branch">
-          <FormLabel>
-            <strong>{moveBranch && 'Flytta gren under'}</strong>
-          </FormLabel>
+          <FormLabel>{moveBranch && 'Flytta gren under'}</FormLabel>
           <Combobox
             className="w-full"
             id="orgchange-move-branch"
@@ -118,24 +116,22 @@ export default function MoveFormModal(props: IMoveFormProps) {
             </Combobox.List>
           </Combobox>
         </FormControl>
-        <div className="mt-40 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-24">
-          <Button variant="primary" size="lg" className="my-sm sm:my-15 w-full" type="button" onClick={onClose}>
-            Avbryt
-          </Button>
-          <Button
-            size="lg"
-            variant="primary"
-            color="primary"
-            className="my-sm sm:my-15 w-full"
-            loadingText="Sparar"
-            type="button"
-            disabled={!activeOrganization}
-            onClick={onChooseOrganization}
-          >
-            {buttonName}
-          </Button>
-        </div>
       </div>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={onClose}>
+          Avbryt
+        </Button>
+        <Button
+          variant="primary"
+          color="primary"
+          loadingText="Sparar"
+          type="button"
+          disabled={!activeOrganization}
+          onClick={onChooseOrganization}
+        >
+          {buttonName}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

@@ -37,13 +37,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
         <ul aria-label="Gren-meny" className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0">
           {user.permissions.canEditOrganizationStructure && (
             <li className="mr-auto">
-              <Button
-                aria-haspopup="true"
-                onClick={handleMoveBranch}
-                className="text-base"
-                variant="link"
-                leftIcon={<MoveDown />}
-              >
+              <Button aria-haspopup="true" onClick={handleMoveBranch} variant="link" leftIcon={<MoveDown />}>
                 Flytta gren
               </Button>
             </li>
@@ -56,7 +50,6 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
               <Button
                 aria-haspopup="true"
                 onClick={onTerminateBranch}
-                className="text-base"
                 color="error"
                 variant="link"
                 leftIcon={<Trash />}

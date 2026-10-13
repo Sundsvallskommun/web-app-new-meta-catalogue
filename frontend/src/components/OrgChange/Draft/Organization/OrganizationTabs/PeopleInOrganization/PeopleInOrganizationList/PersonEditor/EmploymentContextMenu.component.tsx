@@ -52,7 +52,6 @@ export default function EmploymentContextMenu({
           title={`Redigera anställning${mustEdit ? ', justeringar behövs' : ''}`}
           variant={windowSize.lg ? 'secondary' : 'primary'}
           color={`primary`}
-          className="border-0"
           iconButton={windowSize.lg || undefined}
           rightIcon={
             <span className="relative">
@@ -74,17 +73,15 @@ export default function EmploymentContextMenu({
             <PopupMenu.Item>
               <Button onClick={handleOpenPA} leftIcon={<Users />}>
                 <span>Ändra PA-Team {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-                {showFocus && !mustEditPaTeam && <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="vattjom" />}
-                {mustEditPaTeam && <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="error" />}
+                {showFocus && !mustEditPaTeam && <Badge className="ml-sm" color="vattjom" />}
+                {mustEditPaTeam && <Badge className="ml-sm" color="error" />}
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
               <Button onClick={handleOpenOperation} leftIcon={<Building />}>
                 <span>Ändra verksamhet {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-                {showFocus && !mustEditOperation && (
-                  <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="vattjom" />
-                )}
-                {mustEditOperation && <Badge className="ml-sm min-h-[12px] min-w-[12px]" color="error" />}
+                {showFocus && !mustEditOperation && <Badge className="ml-sm" color="vattjom" />}
+                {mustEditOperation && <Badge className="ml-sm" color="error" />}
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>

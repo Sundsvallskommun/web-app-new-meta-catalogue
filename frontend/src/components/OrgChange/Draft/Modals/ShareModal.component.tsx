@@ -26,7 +26,7 @@ export default function ShareModal(props) {
   return (
     <Modal className="max-w-[500px]" show={true} label={'Dela utkast'} onClose={onClose}>
       <div className="mt-40 flex justify-left gap-20">
-        <Button onClick={onCopyLink} className="text-body" variant="link" leftIcon={<Link />}>
+        <Button onClick={onCopyLink} variant="link" leftIcon={<Link />}>
           Kopiera länk
         </Button>
       </div>

@@ -65,10 +65,10 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
     <>
       <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
-          <PopupMenu.Button title={`Hantera utkast ${draft.name}`} variant="secondary" className="border-0" iconButton>
+          <PopupMenu.Button title={`Hantera utkast ${draft.name}`} variant="secondary" iconButton>
             <Icon icon={<EllipsisVertical />} />
           </PopupMenu.Button>
-        : <PopupMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ChevronDown />}>
+        : <PopupMenu.Button size="lg" variant="link" rightIcon={<ChevronDown />}>
             Hantera utkastet
           </PopupMenu.Button>
         }

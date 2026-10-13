@@ -65,10 +65,9 @@ export default function FeedbackMessage({
         </span>
         {removeCallback && (
           <Button
-            variant="secondary"
+            variant="tertiary"
             aria-label="Dölj meddelande tills sidomladdning"
             iconButton
-            className="border-0 -mr-5"
             onClick={removeSelf}
             aria-controls={_id}
           >

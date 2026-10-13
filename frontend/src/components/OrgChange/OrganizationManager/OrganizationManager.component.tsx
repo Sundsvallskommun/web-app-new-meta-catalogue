@@ -34,14 +34,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
       </span>
       {user.permissions.canEditDrafts && (
         <div className="flex justify-center">
-          <Button
-            variant="secondary"
-            type="button"
-            size="lg"
-            onClick={openEditModalHandler}
-            leftIcon={<Plus />}
-            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] font-bold hover:tranisition hover:duration-300"
-          >
+          <Button variant="secondary" type="button" size="lg" onClick={openEditModalHandler} leftIcon={<Plus />}>
             Ny Organisationsförändring
           </Button>
         </div>

@@ -5,7 +5,6 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { Undo2 } from 'lucide-react';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -117,7 +116,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
 
   const resetButton = (
     <Button
-      className="border-0 float-right"
+      className="float-right"
       type="button"
       size="md"
       variant="link"
@@ -136,9 +135,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
           invalid={formState.errors.operationCode !== undefined ? true : false}
           id="orgchange-employment-operation"
         >
-          <FormLabel id="chooseoperation">
-            <strong>Välj verksamhet</strong>
-          </FormLabel>
+          <FormLabel id="chooseoperation">Välj verksamhet</FormLabel>
           <Select
             {...register('operationCode')}
             className="w-full"
@@ -186,7 +183,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
             }}
           />
         )}
-        <LeadButtons>
+        <Modal.Footer>
           <Button variant="secondary" type="button" onClick={handleOnClose}>
             Stäng
           </Button>
@@ -198,7 +195,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
           >
             Spara
           </Button>
-        </LeadButtons>
+        </Modal.Footer>
       </form>
     </Modal>
   );

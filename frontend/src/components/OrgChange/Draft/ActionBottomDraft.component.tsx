@@ -66,20 +66,13 @@ export default function ActionBottomDraft() {
         <div className="bg-background-one bg-opacity-50 lg:flex pb-lg lg:pb-0 px-20">
           <div className="max-width-content mx-auto w-full lg:flex relative justify-end gap-xl">
             <div className="w-full space-y-md lg:space-y-0 lg:flex lg:justify-between py-lg gap-20">
-              <Link className="w-full max-w-[60rem] flex-shrink" href="/hanteraorganisation">
-                <Button as="span" size="lg" variant="primary" className="w-full">
+              <Link href="/hanteraorganisation">
+                <Button as="span" variant="primary">
                   Lämna utkast
                 </Button>
               </Link>
               {!(draftIsApproved || draftIsExportPhase) && user.permissions.canEditDrafts && (
-                <Button
-                  onClick={onExport}
-                  disabled={draft.changes === 0}
-                  className="w-full max-w-[60rem] flex-shrink"
-                  size="lg"
-                  variant="primary"
-                  color="primary"
-                >
+                <Button onClick={onExport} disabled={draft.changes === 0} variant="primary" color="primary">
                   Godkänn och exportera
                 </Button>
               )}
@@ -90,7 +83,6 @@ export default function ActionBottomDraft() {
                   size="lg"
                   onClick={() => setCommentsSidebarOpen(true)}
                   variant="link"
-                  className="lg:py-lg"
                   leftIcon={
                     <span className="relative">
                       <Icon icon={<MessagesSquare />} />
