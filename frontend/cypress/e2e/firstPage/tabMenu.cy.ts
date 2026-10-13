@@ -86,6 +86,6 @@ describe('Tab menu', () => {
 
     // Navigate search result item - show person
     cy.get('button').contains('Visa person').click();
-    cy.get('.PersonEditor', { timeout: 3000 }).contains('AnnJan Ahsonzi');
+    cy.get('[data-cy="person-editor"]', { timeout: 3000 }).contains('AnnJan Ahsonzi');
   });
 });
