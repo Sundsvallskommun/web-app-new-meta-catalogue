@@ -173,12 +173,12 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
       <h2
         id="orgchange-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="text-lead mx-20 mb-16"
+        className="text-lead mb-16"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ?
-        <div className="mx-20">
+        <div>
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
@@ -199,7 +199,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
             summary=""
           />
         </div>
-      : <div className="mt-sm mx-20 px-5">Inga verksamheter att visa.</div>}
+      : <div className="mt-sm">Inga verksamheter att visa.</div>}
     </div>
   );
 };

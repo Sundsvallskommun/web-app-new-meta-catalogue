@@ -1,3 +1,4 @@
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import CsvExporter from '@components/CsvExporter/CsvExporter.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrganizationResponsibility } from '@data-contracts/backend/data-contracts';
@@ -26,7 +27,8 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   const { searchQuery } = props;
 
   const { highlightedTableRow, setHighlightedTableRow } = useAppContext();
-  const { responsibilities, responsibilitiesIsLoading, responsibilityFilter } = useResponsibilityStore();
+  const { responsibilities, responsibilitiesIsLoading, responsibilityFilter, setResponsibilityFilter } =
+    useResponsibilityStore();
   const { user } = useUserStore();
   const { setSelectedOrganizationId, setOrganizationTabIndex } = useOrganizationStore();
 
@@ -145,7 +147,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
       },
       {
         element: (
-          <Label color={typeColor} rounded inverted>
+          <Label color={typeColor} rounded inverted className="whitespace-nowrap">
             {typeText}
           </Label>
         ),
@@ -195,20 +197,27 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
   }));
 
   return (
-    <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 px-5 mb-16">
-        <h2 className="text-lead">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
+    <div className="bg-background-content px-0 pb-40 pt-28">
+      <div className="flex justify-between items-end mb-24">
         <CsvExporter
           csvData={csvAllResponsibility}
           csvHeaders={csvHeaders}
           fileName={`allaAnsvar${searchQuery ? `_containingdata'${searchQuery}'` : ''}`}
         />
+        <ColumnFilter
+          label="Visa/dölj kolumner i ansvar"
+          filterData={responsibilityFilter.map((x) =>
+            x.id == 8 ? { ...x, isShown: user.permissions.canEditResponsibility } : x
+          )}
+          onFilterChange={setResponsibilityFilter}
+        />
       </div>
+      <h2 className="text-lead mb-16">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
       {responsibilitiesIsLoading ?
         <div className="flex justify-center pt-lg ">
           <Spinner size={3} aria-label="Laddar ansvar" />
         </div>
-      : <div className="mx-20">
+      : <div>
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
@@ -231,7 +240,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
         </div>
       }
       {!responsibilitiesIsLoading && rows.length == 0 && (
-        <div className="mt-sm mx-20 px-5">
+        <div className="mt-sm">
           <span>Inga ansvar att visa.</span>
         </div>
       )}

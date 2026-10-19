@@ -64,9 +64,9 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
 
   return (
     <div className="list-filter bg-background-content">
-      <div className="flex justify-between w-full flex-wrap">
-        <span className="pl-lg pr-10 flex-grow mb-20">
-          <FormControl id="org-people-listfilter-searchbar">
+      <div className="flex justify-between w-full flex-wrap gap-x-md">
+        <span className="flex-grow mb-20">
+          <FormControl id="org-people-listfilter-searchbar" className="w-full">
             <SearchField
               size="md"
               rounded
@@ -83,7 +83,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
           </FormControl>
         </span>
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-          <span className="flex flex-wrap justify-end gap-15 px-lg">
+          <span className="flex flex-wrap justify-end gap-15">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
               <a
                 href="https://e-arenden.sundsvall.se/oversikt/flowoverview/1920"
@@ -108,15 +108,12 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
           </span>
         )}
       </div>
-      <div className="lg:flex lg:flex-row lg:items-center gap-lg mt-20 px-20">
-        <p className="text-large">Anpassa:</p>
-        <span className="basis-1/3">
-          <ColumnFilter
-            label="Visa/dölj kolumner i personer"
-            filterData={dropDownFilter}
-            onFilterChange={setDropdownFilter}
-          />
-        </span>
+      <div className="flex justify-end mt-28">
+        <ColumnFilter
+          label="Visa/dölj kolumner i personer"
+          filterData={dropDownFilter}
+          onFilterChange={setDropdownFilter}
+        />
       </div>
     </div>
   );

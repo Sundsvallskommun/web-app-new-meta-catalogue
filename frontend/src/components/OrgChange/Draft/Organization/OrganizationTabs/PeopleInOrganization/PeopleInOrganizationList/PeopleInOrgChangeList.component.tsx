@@ -1,4 +1,4 @@
-import { Badge, Checkbox, Icon } from '@sk-web-gui/react';
+import { Checkbox } from '@sk-web-gui/react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '@contexts/app.context';
@@ -293,22 +293,20 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
         element: (
           <Button
             iconButton
-            variant="tertiary"
+            variant={!draftIsReadOnly && showFocus ? 'primary' : 'tertiary'}
             size="sm"
+            color={
+              !draftIsReadOnly && showFocus ?
+                mustEdit ?
+                  'error'
+                : 'vattjom'
+              : undefined
+            }
             title={`Öppna persondetaljer${mustEdit ? ', justeringar behövs' : ''}`}
             aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
             onClick={() => openEditModal(p)}
           >
-            <span className="relative">
-              <Icon icon={<BookOpenText />} />
-              {!draftIsReadOnly && showFocus && (
-                <Badge
-                  className="absolute -right-[0.5rem] top-[0.15rem]"
-                  size="sm"
-                  color={mustEdit ? 'error' : 'vattjom'}
-                />
-              )}
-            </span>
+            <BookOpenText />
           </Button>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canViewEmployeeDetails,
@@ -339,7 +337,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
 
   return (
     <div className="w-full bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 mb-16">
+      <div className="flex flex-wrap items-center justify-between gap-md mb-16">
         <h2
           id="orgchange-tabs-people-table-rowsstext"
           aria-label={`${employeeListSearchFiltered.length} personer i listan`}
@@ -351,14 +349,14 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
           organization.level === 6 &&
           user.permissions.canEditOrganization &&
           employeeListSearchFiltered.length > 0 && (
-            <div className="flex items-right">
+            <div className="flex items-center gap-8">
               <HandleMarkedContextMenu peopleToHandle={peopleToHandle} />
               <Checkbox aria-label="Välj alla personer" onChange={toggleChooseAllPeopleHandler} />
             </div>
           )}
       </div>
       {rows.length > 0 ?
-        <div className="mx-20">
+        <div>
           <DataTable
             id="orgchange-tabs-people-table"
             ref={tableRef}
@@ -380,7 +378,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             summary=""
           />
         </div>
-      : <div className="mt-sm mx-20 px-5">Inga personer att visa.</div>}
+      : <div className="mt-sm">Inga personer att visa.</div>}
 
       {personEditorIsOpen && selectedEmployeeDetails && user.permissions.canViewEmployeeDetails && (
         <PersonEditor

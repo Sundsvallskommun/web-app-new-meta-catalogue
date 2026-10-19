@@ -1,3 +1,4 @@
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import CsvExporter from '@components/CsvExporter/CsvExporter.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrganizationResponsibility } from '@data-contracts/backend/data-contracts';
@@ -30,6 +31,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   // responsibilitystore
   const responsibilitiesByOrg = useResponsibilityStore((s) => s.responsibilitiesByOrg);
   const orgResponsibilityFilter = useResponsibilityStore((s) => s.orgResponsibilityFilter);
+  const setOrgResponsibilityFilter = useResponsibilityStore((s) => s.setOrgResponsibilityFilter);
 
   // userstore
   const user = useUserStore((s) => s.user);
@@ -124,7 +126,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
       },
       {
         element: (
-          <Label color={typeColor} rounded inverted>
+          <Label color={typeColor} rounded inverted className="whitespace-nowrap">
             {typeText}
           </Label>
         ),
@@ -170,16 +172,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     orgFromName: r.orgFromName,
   }));
   return (
-    <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="lg:flex lg:justify-between mx-20 px-5 mb-16">
-        <h2
-          id="org-tabs-responsibilities-table-rowsstext"
-          aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="text-lead"
-          data-cy="table-header"
-        >
-          Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
-        </h2>
+    <div className="bg-background-content px-0 pb-40 pt-28">
+      <div className="flex items-end mb-24">
         {organization.level === 2 && user.permissions.canViewDrafts && (
           <CsvExporter
             csvData={csvResponsibility}
@@ -189,9 +183,24 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
             }`}
           />
         )}
+        <div className="ml-auto">
+          <ColumnFilter
+            label="Visa/dölj kolumner i ansvar"
+            filterData={orgResponsibilityFilter}
+            onFilterChange={setOrgResponsibilityFilter}
+          />
+        </div>
       </div>
+      <h2
+        id="org-tabs-responsibilities-table-rowsstext"
+        aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
+        className="text-lead mb-16"
+        data-cy="table-header"
+      >
+        Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
+      </h2>
       {rows.length > 0 ?
-        <div className="mx-20">
+        <div>
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
@@ -212,7 +221,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
             summary=""
           />
         </div>
-      : <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>}
+      : <div className="mt-sm">Inga ansvar att visa.</div>}
     </div>
   );
 };

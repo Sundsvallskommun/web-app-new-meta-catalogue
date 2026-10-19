@@ -27,13 +27,8 @@ export default function HandleMarkedContextMenu({ peopleToHandle, className = ''
   return (
     <>
       <PopupMenu type="menu" align="end">
-        <PopupMenu.Button
-          rightIcon={<ChevronDown />}
-          disabled={peopleToHandle.length < 1}
-          variant="secondary"
-          className="mr-sm mb-xs"
-        >
-          Hantera Markerade
+        <PopupMenu.Button rightIcon={<ChevronDown />} disabled={peopleToHandle.length < 1} variant="tertiary" size="sm">
+          Hantera markerade
         </PopupMenu.Button>
         <PopupMenu.Panel className={className}>
           <PopupMenu.Items>

@@ -61,7 +61,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change Activity', () => 
 
   it('Change Activity via selecting 1 person', () => {
     cy.get('input[aria-label="Bob Miller"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
 
     cy.contains('button', 'Ändra aktivitet').click();
 
@@ -78,7 +78,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change Activity', () => 
 
   it('Change Activity via choose all people', () => {
     cy.get('input[aria-label="Välj alla personer"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
 
     cy.contains('button', 'Ändra aktivitet').click();
 

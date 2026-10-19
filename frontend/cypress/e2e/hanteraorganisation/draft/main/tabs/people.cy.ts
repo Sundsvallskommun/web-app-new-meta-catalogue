@@ -190,7 +190,7 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     cy.get('aside button').contains('Buslands område').click();
 
     cy.get('input[aria-label="Bob Miller"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Flytta markerade till annan gren').click();
 
     cy.get('div[aria-modal="true"]').contains('label', 'Till gren').click();
@@ -223,7 +223,7 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     cy.get('aside button').contains('Buslands område').click();
 
     cy.get('input[aria-label="Välj alla personer"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Flytta markerade till annan gren').click();
 
     cy.get('div[aria-modal="true"]').contains('label', 'Till gren').click();

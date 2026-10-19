@@ -34,7 +34,7 @@ describe('/ansvar', () => {
     cy.get('input[placeholder="Sök i listan"]').clear().type('Your search text{enter}');
 
     // Check if the 'No results' message appears
-    cy.get('div.mt-sm.mx-20.px-5').contains('Inga ansvar att visa.').should('exist');
+    cy.contains('Inga ansvar att visa.').should('exist');
   });
 
   it('Click on the "Rapportera fel" button', () => {

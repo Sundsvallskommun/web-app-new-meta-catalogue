@@ -1,9 +1,7 @@
 import { useDebouncedCallback } from '@react-hookz/web';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
-import { useUserStore } from '@services/user-service/user-service';
 import { Button, FormControl, SearchField, Select } from '@sk-web-gui/react';
-import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -14,9 +12,7 @@ interface IResponsibilityListFilter {
 
 const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibilityListFilter) => {
   const { treeImage, getTreeImage } = useOrganizationStore();
-  const { responsibilityFilter, setResponsibilityFilter, selectedCompanyId, setSelectedCompanyId } =
-    useResponsibilityStore();
-  const { user } = useUserStore();
+  const { selectedCompanyId, setSelectedCompanyId } = useResponsibilityStore();
   const [searchTerm, setSearchTerm] = useState(searchQuery);
   const router = useRouter();
 
@@ -54,8 +50,8 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
 
   return (
     <div className="ListFilter pt-20 bg-background-content">
-      <div className="flex justify-between w-full flex-wrap">
-        <div className="flex flex-col space-y-md lg:space-y-0 lg:flex-row lg:space-x-md lg:items-center pl-20 pr-10 mb-20">
+      <div className="flex justify-between w-full flex-wrap gap-x-md">
+        <div className="flex flex-col space-y-md lg:space-y-0 lg:flex-row lg:space-x-md lg:items-center mb-20">
           <span>
             <Select
               size="md"
@@ -87,7 +83,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
             </FormControl>
           </span>
         </div>
-        <span className="flex flex-wrap justify-end gap-15 px-20">
+        <span className="flex flex-wrap justify-end gap-15">
           <NextLink
             legacyBehavior
             href={{
@@ -100,18 +96,6 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
               Rapportera fel
             </Button>
           </NextLink>
-        </span>
-      </div>
-      <div className="flex flex-row items-center gap-10 mt-20 px-20">
-        <p>Filter:</p>
-        <span className="max-w-[300px] w-full">
-          <ColumnFilter
-            label="Visa/dölj kolumner i ansvar"
-            filterData={responsibilityFilter.map((x) =>
-              x.id == 8 ? { ...x, isShown: user.permissions.canEditResponsibility } : x
-            )}
-            onFilterChange={setResponsibilityFilter}
-          />
         </span>
       </div>
     </div>

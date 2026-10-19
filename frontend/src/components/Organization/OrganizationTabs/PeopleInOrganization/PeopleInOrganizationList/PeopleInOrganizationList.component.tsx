@@ -227,13 +227,13 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
       <h2
         id="org-tabs-people-table-rowsstext"
         aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-        className="text-lead mx-20 mb-16"
+        className="text-lead mb-16"
         data-cy="table-header"
       >
         Personer &#40;{employeeListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ?
-        <div className="mx-20">
+        <div>
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
@@ -254,7 +254,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
             summary=""
           />
         </div>
-      : <div className="mt-sm mx-20 px-5">Inga personer att visa.</div>}
+      : <div className="mt-sm">Inga personer att visa.</div>}
       {isOpen && selectedEmployeeDetails && user.permissions.canViewEmployeeDetails && (
         <PersonEditor isOpen={isOpen} closeCallback={closeModal} employeeDetails={selectedEmployeeDetails} />
       )}

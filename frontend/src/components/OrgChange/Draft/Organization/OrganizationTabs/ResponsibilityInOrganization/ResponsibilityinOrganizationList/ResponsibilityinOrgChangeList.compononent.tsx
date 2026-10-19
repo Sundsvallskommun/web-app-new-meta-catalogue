@@ -1,3 +1,4 @@
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import CsvExporter from '@components/CsvExporter/CsvExporter.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree, OrgChangeResponsibility } from '@data-contracts/backend/data-contracts';
@@ -9,7 +10,7 @@ import { responsibilityType } from '@services/mdviewer/data-handlers/responsibil
 import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Badge, Button, Label } from '@sk-web-gui/react';
+import { Button, Label } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
@@ -30,6 +31,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
 
   const orgChangeResponsibilityFilter = useOrgChangeStore((s) => s.orgChangeResponsibilityFilter);
+  const setOrgChangeResponsibilityFilter = useOrgChangeStore((s) => s.setOrgChangeResponsibilityFilter);
   const responsibilitiesByOrg = useOrgChangeStore((s) => s.responsibilitiesByOrg);
   const { draftIsReadOnly } = useDraftPhaseState();
 
@@ -176,7 +178,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
       },
       {
         element: (
-          <Label color={typeColor} rounded inverted>
+          <Label color={typeColor} rounded inverted className="whitespace-nowrap">
             {typeText}
           </Label>
         ),
@@ -196,9 +198,9 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
       },
       {
         element: (
-          <>
-            <Badge size="sm" color={dot} /> {status}
-          </>
+          <Label color={dot} rounded inverted className="whitespace-nowrap">
+            {status}
+          </Label>
         ),
         isShown: orgChangeResponsibilityFilter.find((i) => i.id === 6).value,
       },
@@ -244,15 +246,8 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
     responsibilityPassive: r.responsibilityPassive,
   }));
   return (
-    <div className="bg-background-content px-0 pb-40 pt-24">
-      <div className="flex justify-between mx-20 mb-16">
-        <h2
-          id="orgchange-tabs-responsibilities-table-rowsstext"
-          aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="text-lead"
-        >
-          Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
-        </h2>
+    <div className="bg-background-content px-0 pb-40 pt-28">
+      <div className="flex items-end mb-24">
         {organization.level === 2 && user.permissions.canViewDrafts && (
           <CsvExporter
             csvData={csvResponsibility}
@@ -262,9 +257,25 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
             }`}
           />
         )}
+        <div className="ml-auto">
+          <ColumnFilter
+            label="Visa/dölj kolumner i ansvar"
+            filterData={orgChangeResponsibilityFilter.map((x) =>
+              x.id == 7 ? { ...x, isShown: user.permissions.canEditResponsibility && !draftIsReadOnly } : x
+            )}
+            onFilterChange={setOrgChangeResponsibilityFilter}
+          />
+        </div>
       </div>
+      <h2
+        id="orgchange-tabs-responsibilities-table-rowsstext"
+        aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
+        className="text-lead mb-16"
+      >
+        Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
+      </h2>
       {rows.length > 0 ?
-        <div className="mx-20">
+        <div>
           <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
@@ -285,7 +296,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
             summary=""
           />
         </div>
-      : <div className="mt-sm mx-20 px-5">Inga ansvar att visa.</div>}
+      : <div className="mt-sm">Inga ansvar att visa.</div>}
 
       {isOpen && <ResponsibilityEditModal onClose={onCloseHandler} responsibility={selectedResp} />}
     </div>

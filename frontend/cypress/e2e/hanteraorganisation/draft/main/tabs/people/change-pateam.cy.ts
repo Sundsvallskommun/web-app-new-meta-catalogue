@@ -79,7 +79,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change PA-Team', () => {
 
   it('Change PA-Team via selecting 1 person', () => {
     cy.get('input[aria-label="Bob Miller"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Ändra PA-Team').click();
 
     cy.get('div[aria-modal="true"]').find('#pateam-edit-dropdown').click();
@@ -99,7 +99,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change PA-Team', () => {
 
   it('Change PA-Team via choose all people', () => {
     cy.get('input[aria-label="Välj alla personer"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Ändra PA-Team').click();
     cy.get('div[aria-modal="true"]').find('#pateam-edit-dropdown').click();
     cy.get('div[aria-modal="true"]').find('#pateam-edit-dropdown').clear();

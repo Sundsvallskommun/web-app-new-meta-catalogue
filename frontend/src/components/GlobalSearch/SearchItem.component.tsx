@@ -100,7 +100,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
           <div className="lg:pr-lg">
             <div className="flex">
               <div>
-                <Label className="mr-sm" color={objectType(item.objectType).color} rounded inverted>
+                <Label className="mr-sm whitespace-nowrap" color={objectType(item.objectType).color} rounded inverted>
                   {objectType(item.objectType).text}
                 </Label>
               </div>

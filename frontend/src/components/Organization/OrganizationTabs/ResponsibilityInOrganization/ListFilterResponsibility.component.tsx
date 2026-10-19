@@ -2,12 +2,9 @@ import ResponsibilityNewModal from '@components/OrgChange/Draft/Organization/Org
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
 import { Plus } from 'lucide-react';
-import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Button, FormControl, SearchField } from '@sk-web-gui/react';
-import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -21,22 +18,10 @@ interface IListFiter {
 const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) => {
   const { isOrgChange } = useAppContext();
   const user = useUserStore((s) => s.user);
-  const orgChangeResponsibilityFilter = useOrgChangeStore((s) => s.orgChangeResponsibilityFilter);
-  const setOrgChangeResponsibilityFilter = useOrgChangeStore((s) => s.setOrgChangeResponsibilityFilter);
-  const orgResponsibilityFilter = useResponsibilityStore((s) => s.orgResponsibilityFilter);
-  const setOrgResponsibilityFilter = useResponsibilityStore((s) => s.setOrgResponsibilityFilter);
   const orgChangeOrg = useOrganizationStore((s) => s.organization) as OrgChangeOrganizationTree;
   const { draftIsReadOnly } = useDraftPhaseState();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
-  const dropDownFilter =
-    isOrgChange ?
-      orgChangeResponsibilityFilter.map((x) =>
-        x.id == 7 ? { ...x, isShown: user.permissions.canEditResponsibility && !draftIsReadOnly } : x
-      )
-    : orgResponsibilityFilter;
-  const setDropdownFilter = isOrgChange ? setOrgChangeResponsibilityFilter : setOrgResponsibilityFilter;
 
   const openModalHandler = () => {
     setIsOpen(true);
@@ -56,9 +41,9 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
 
   return (
     <div className="list-filter bg-background-content">
-      <div className="flex justify-between w-full flex-wrap">
-        <span className="pl-lg pr-10 flex-grow mb-20">
-          <FormControl id="org-responsibility-listfilter-searchbar">
+      <div className="flex justify-between w-full flex-wrap gap-x-md">
+        <span className="flex-grow mb-20">
+          <FormControl id="org-responsibility-listfilter-searchbar" className="w-full">
             <SearchField
               size="md"
               aria-live="polite"
@@ -81,7 +66,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
           </FormControl>
         </span>
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-          <span className="flex flex-wrap justify-end gap-15 px-lg">
+          <span className="flex flex-wrap justify-end gap-15">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
               <Button onClick={openModalHandler} size="md" variant="primary" color="primary" leftIcon={<Plus />}>
                 Skapa nytt ansvar
@@ -101,16 +86,6 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
             </NextLink>
           </span>
         )}
-      </div>
-      <div className="lg:flex lg:flex-row lg:items-center gap-lg mt-20 px-20">
-        <p className="text-large">Anpassa:</p>
-        <span className="max-w-[300px] w-full">
-          <ColumnFilter
-            label="Visa/dölj kolumner i ansvar"
-            filterData={dropDownFilter}
-            onFilterChange={setDropdownFilter}
-          />
-        </span>
       </div>
 
       {isOpen && isOrgChange && <ResponsibilityNewModal onClose={onCloseHandler} />}
