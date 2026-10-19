@@ -25,9 +25,9 @@ export default function SubmenuLayout({
       headerTitle={headerTitle}
       headerSubtitle={headerSubtitle}
       tabMenu={
-        <div>
+        <div className="px-md md:px-lg">
           <div data-cy="tabMenu" className="container mx-auto pt-24 pb-sm lg:pb-0 lg:flex lg:items-center">
-            <NavigationBar current={router.pathname.startsWith('/ansvar') ? 1 : 0} className="mb-md lg:mb-0">
+            <NavigationBar current={router.pathname.startsWith('/ansvar') ? 1 : 0} className="-ml-8 mb-md lg:mb-0">
               <NavigationBar.Item>
                 <NextLink href="/">Organisation</NextLink>
               </NavigationBar.Item>
@@ -43,7 +43,7 @@ export default function SubmenuLayout({
       }
       {...rest}
     >
-      <div className={`bg-background-content max-w-full w-full grow ${!searchTerm && 'hidden'}`}>
+      <div className={`bg-background-content max-w-full w-full grow px-md md:px-lg ${!searchTerm && 'hidden'}`}>
         <div className="container">
           <SearchResults />
         </div>

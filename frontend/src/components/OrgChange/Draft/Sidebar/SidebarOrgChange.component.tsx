@@ -1,12 +1,11 @@
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import { Ban, CircleAlert } from 'lucide-react';
+import { CircleAlert, Sparkles } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Badge, Icon, MenuIndex, MenuVertical, Spinner, cx } from '@sk-web-gui/react';
+import { Badge, Icon, Label, MenuIndex, MenuVertical, Spinner, cx } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
 import { useEffect, useRef, useState } from 'react';
 import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
-import SparkleIcon from './SparkleNewItem.component';
 import { IFilterDataMenu } from '@interfaces/organization';
 
 const SidebarOrgChange = ({ mainRef }) => {
@@ -66,25 +65,24 @@ const SidebarOrgChange = ({ mainRef }) => {
             {itemData.responsibilityCode}
           </span>
         )}
-        <span
-          className={cx(
-            itemData.structureChangeStatus === 'NEW' && 'text-warning font-bold',
-            itemData.structureChangeStatus === 'DELETED' && 'italic',
-            active && 'underline'
-          )}
-        >
+        <span className={cx(active && 'underline')}>
           {showFilter.abbreviation ? `${itemData.label}` : `${itemData.orgName}`}
-          {itemData.structureChangeStatus === 'DELETED' && ' [Stängd]'}
         </span>
-        {itemData.structureChangeStatus === 'NEW' && <SparkleIcon />}
+        {itemData.structureChangeStatus === 'NEW' && (
+          <Icon size={16} color="warning" icon={<Sparkles aria-label="Ny gren" />} />
+        )}
         {verifyResultsByOrgId && verifyResultsByOrgId[itemData.id] && <Icon color="error" icon={<CircleAlert />} />}
         {itemData.structureChangeStatus === 'DELETED' && (
-          <span className="text-gray-stroke">
-            <Icon icon={<Ban />} />
-          </span>
+          <Label color="tertiary" rounded className="whitespace-nowrap">
+            Stängd
+          </Label>
         )}
-        {itemData.structureChangeStatus === 'MOVED' && <span className="text-warning">Flyttad</span>}
-        <span className="ml-auto flex items-center gap-8">
+        {itemData.structureChangeStatus === 'MOVED' && (
+          <Label color="warning" rounded inverted className="whitespace-nowrap">
+            Flyttad
+          </Label>
+        )}
+        <span className={cx('ml-auto flex items-center gap-8', !itemData.subItems?.length && 'pr-14')}>
           {itemData.changes && itemData.changes >= 1 && itemData.structureChangeStatus !== 'DELETED' ?
             <span>
               <span className="sr-only">Ändringar: </span>
@@ -121,29 +119,32 @@ const SidebarOrgChange = ({ mainRef }) => {
 
   return (
     <aside
-      ref={asideRef}
-      className="SidebarOrganization OrgChange block relative overflow-y-auto"
+      className="SidebarOrganization OrgChange flex flex-col relative overflow-hidden bg-background-100 rounded-cards"
       style={{ maxHeight: sidebarHeight ? sidebarHeight + 'px' : undefined }}
     >
-      <SideMenuHeadElementOrgChange />
-      <MenuVertical.Provider
-        current={selectedOrganizationId}
-        setCurrent={onMenuChangeHandler}
-        menuAriaLabel="Organisationsmeny"
-      >
-        <MenuVertical.Sidebar>
-          {orgTreeIsLoading ?
-            <Spinner size={2} aria-label="Laddar organisationsträd" />
-          : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree)}</MenuVertical>}
-        </MenuVertical.Sidebar>
-      </MenuVertical.Provider>
-      {!orgTree?.length && !orgTreeIsLoading && (
-        <div className="mt-lg text-large text-gray-stroke">
-          {!draft.draftId ?
-            `Fyll i datum för produktion samt namn för att komma vidare i utkastet`
-          : `Välj grenar för att kunna göra ändringar.`}
-        </div>
-      )}
+      <div ref={asideRef} className="relative min-h-0 overflow-y-auto pt-24">
+        <SideMenuHeadElementOrgChange />
+        <MenuVertical.Provider
+          current={selectedOrganizationId}
+          setCurrent={onMenuChangeHandler}
+          menuAriaLabel="Organisationsmeny"
+        >
+          <MenuVertical.Sidebar>
+            {orgTreeIsLoading ?
+              <div className="flex justify-center py-32">
+                <Spinner size={2} aria-label="Laddar organisationsträd" />
+              </div>
+            : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree)}</MenuVertical>}
+          </MenuVertical.Sidebar>
+        </MenuVertical.Provider>
+        {!orgTree?.length && !orgTreeIsLoading && (
+          <div className="mt-lg px-24 pb-24 text-large text-gray-stroke">
+            {!draft.draftId ?
+              `Fyll i datum för produktion samt namn för att komma vidare i utkastet`
+            : `Välj grenar för att kunna göra ändringar.`}
+          </div>
+        )}
+      </div>
     </aside>
   );
 };

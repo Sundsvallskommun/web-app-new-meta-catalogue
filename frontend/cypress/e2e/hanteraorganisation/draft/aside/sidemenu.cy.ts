@@ -44,7 +44,7 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
       message: 'success',
     }).as('getOrgTree');
 
-    cy.get('[aria-modal="true"]').contains('Ja skapa gren').click();
+    cy.get('[aria-modal="true"]').contains('Ja, skapa gren').click();
 
     cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains('Ny gren').should('exist');
   });

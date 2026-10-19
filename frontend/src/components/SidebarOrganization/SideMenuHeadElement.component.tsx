@@ -78,9 +78,9 @@ export default function SideMenuHeadElement() {
   };
 
   return (
-    <div className="z-10 relative px-md pt-md">
+    <div className="z-10 relative px-24">
       <form>
-        <div className="mb-md">
+        <div className="flex flex-col gap-md mb-xl">
           <FormControl id="sidemenu-image">
             <FormLabel>Avbildning</FormLabel>
             <Select
@@ -99,7 +99,7 @@ export default function SideMenuHeadElement() {
               ))}
             </Select>
           </FormControl>
-          <FormControl className="my-[20px]" id="sidemenu-company">
+          <FormControl id="sidemenu-company">
             <FormLabel>Bolag</FormLabel>
             <Select
               size="md"
@@ -119,10 +119,15 @@ export default function SideMenuHeadElement() {
         </div>
       </form>
       <div className="flex items-center justify-between">
-        <h2>Organisation</h2>
+        <h2 className="text-h4">Organisation</h2>
         <div className="relative">
           <PopupMenu type="dialog" align="end" open={filterOpen} onToggleOpen={setFilterOpen}>
-            <PopupMenu.Button variant="ghost" size="sm" data-cy="orgchange-sidemenu-filter" rightIcon={<ChevronDown />}>
+            <PopupMenu.Button
+              variant="tertiary"
+              size="sm"
+              data-cy="orgchange-sidemenu-filter"
+              rightIcon={<ChevronDown />}
+            >
               {user.permissions.canViewDrafts ? 'Visa/sök' : 'Sök'}
             </PopupMenu.Button>
             <PopupMenu.Panel id="sideMenuSearchFilters">
@@ -141,23 +146,24 @@ export default function SideMenuHeadElement() {
                   ))}
                 </PopupMenu.Items>
               )}
-              <Combobox
-                className="w-full"
-                aria-label="Sök gren i menyn"
-                placeholder="Sök gren.."
-                onChange={(e) => {
-                  handleSearchSelect(e);
-                  setFilterOpen(false);
-                }}
-              >
-                <Combobox.List>
-                  {orgTreeOrganizations.map((item, index) => (
-                    <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                      {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
-                    </Combobox.Option>
-                  ))}
-                </Combobox.List>
-              </Combobox>
+              <div className="p-8">
+                <Combobox
+                  className="w-full"
+                  onChange={(e) => {
+                    handleSearchSelect(e);
+                    setFilterOpen(false);
+                  }}
+                >
+                  <Combobox.Input className="w-full" aria-label="Sök gren i menyn" placeholder="Sök gren..." />
+                  <Combobox.List>
+                    {orgTreeOrganizations.map((item, index) => (
+                      <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
+                        {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
+                      </Combobox.Option>
+                    ))}
+                  </Combobox.List>
+                </Combobox>
+              </div>
             </PopupMenu.Panel>
           </PopupMenu>
         </div>

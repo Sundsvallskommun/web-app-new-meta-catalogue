@@ -46,7 +46,7 @@ export default function CreateNewBranchFormModal() {
     const message = `En ny gren nivå ${organization.level + 1} kommer att skapas under ${organization.orgName} nivå ${
       organization.level
     }`;
-    showConfirmation(title, message, 'Ja skapa gren', 'Avbryt', undefined, undefined, 'h2').then((result) => {
+    showConfirmation(title, message, 'Ja, skapa gren', 'Avbryt', undefined, undefined, 'h2').then((result) => {
       if (result) {
         CallCreateBranch();
       }
@@ -59,7 +59,8 @@ export default function CreateNewBranchFormModal() {
       data-cy="orgchange-sidemenu-createnode"
       onClick={!draft.draftId || !organization?.id ? undefined : NodeOnSubmit}
       aria-disabled={!draft.draftId || !organization?.id ? 'true' : undefined}
-      variant="link"
+      variant="secondary"
+      size="sm"
       leftIcon={<FilePlus />}
     >
       Skapa ny gren

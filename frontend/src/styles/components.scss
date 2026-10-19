@@ -1,6 +1,5 @@
 @use './components/progressbar';
 @use './components/sidebar';
-@use './components/sparkle';
 
 @layer components {
   .max-width-content {
@@ -9,17 +8,6 @@
 
   .container {
     @apply px-5 lg:px-0 max-width-content;
-  }
-
-  .draftShowAs {
-    @apply duration-200 w-xl h-xl rounded-full shadow-[0_1.5px_5px_rgb(0,0,0,0.2)] hover:bg-vattjom-surface-primary hover:text-vattjom-text-secondary hover:transition-all hover:duration-300;
-  }
-
-  .activecard {
-    @apply bg-vattjom-surface-primary text-vattjom-text-secondary;
-  }
-  .activelist {
-    @apply bg-vattjom-surface-primary text-vattjom-text-secondary;
   }
 
   .moretip {

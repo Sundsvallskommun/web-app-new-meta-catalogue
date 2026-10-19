@@ -42,7 +42,7 @@ export default function SideMenuHeadElementOrgChange() {
 
   return (
     <div className="z-10 relative">
-      <div className="flex flex-col lg:flex-row space-y-md lg:space-y-0 lg:justify-between py-20 px-md box-content">
+      <div className="flex flex-wrap items-center gap-8 px-24 pb-20">
         {!draftIsReadOnly && (
           <>
             <Button
@@ -50,7 +50,8 @@ export default function SideMenuHeadElementOrgChange() {
               data-cy="orgchange-sidemenu-addnode"
               onClick={!isDraft ? undefined : handleOnChooseOrg}
               aria-disabled={!isDraft ? 'true' : undefined}
-              variant="link"
+              variant="secondary"
+              size="sm"
               leftIcon={<ListPlus />}
             >
               Välj gren att ändra
@@ -58,10 +59,10 @@ export default function SideMenuHeadElementOrgChange() {
             {user.permissions.canEditOrganizationStructure && <CreateNewBranchFormModal />}
           </>
         )}
-        <div className="relative">
+        <div className="relative ml-auto">
           <PopupMenu type="dialog" align="end" open={filterOpen} onToggleOpen={setFilterOpen}>
             <PopupMenu.Button
-              variant="ghost"
+              variant="tertiary"
               size="sm"
               disabled={!isDraft}
               data-cy="orgchange-sidemenu-filter"
@@ -83,23 +84,24 @@ export default function SideMenuHeadElementOrgChange() {
                   </PopupMenu.Item>
                 ))}
               </PopupMenu.Items>
-              <Combobox
-                className="w-full"
-                aria-label="Sök gren i menyn"
-                placeholder="Sök gren.."
-                onChange={(e) => {
-                  handleSearchSelect(e);
-                  setFilterOpen(false);
-                }}
-              >
-                <Combobox.List>
-                  {orgTreeOrganizations.map((item, index) => (
-                    <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                      {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
-                    </Combobox.Option>
-                  ))}
-                </Combobox.List>
-              </Combobox>
+              <div className="p-8">
+                <Combobox
+                  className="w-full"
+                  onChange={(e) => {
+                    handleSearchSelect(e);
+                    setFilterOpen(false);
+                  }}
+                >
+                  <Combobox.Input className="w-full" aria-label="Sök gren i menyn" placeholder="Sök gren..." />
+                  <Combobox.List>
+                    {orgTreeOrganizations.map((item, index) => (
+                      <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
+                        {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
+                      </Combobox.Option>
+                    ))}
+                  </Combobox.List>
+                </Combobox>
+              </div>
             </PopupMenu.Panel>
           </PopupMenu>
         </div>

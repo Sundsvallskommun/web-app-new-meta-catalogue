@@ -71,7 +71,7 @@ const SidebarOrganization = ({ mainRef }) => {
         )}
         <span className={cx(active && 'underline')}>{itemData.label}</span>
         {showFilter.level && (
-          <span className="ml-auto text-small">
+          <span className={cx('ml-auto text-small', !itemData.subItems?.length && 'pr-14')}>
             <span className="sr-only">Nivå: </span>
             {`N${itemData.level}`}
           </span>
@@ -99,22 +99,25 @@ const SidebarOrganization = ({ mainRef }) => {
 
   return (
     <aside
-      ref={asideRef}
-      className="SidebarOrganization block relative overflow-y-auto"
+      className="SidebarOrganization flex flex-col relative overflow-hidden bg-background-100 rounded-cards"
       style={{ maxHeight: sidebarHeight ? sidebarHeight + 'px' : undefined }}
     >
-      <SideMenuHeadElement />
-      <MenuVertical.Provider
-        current={selectedOrganizationId}
-        setCurrent={onMenuChangeHandler}
-        menuAriaLabel="Organisationsmeny"
-      >
-        <MenuVertical.Sidebar>
-          {orgTreeIsLoading ?
-            <Spinner size={2} aria-label="Laddar organisationsträd" />
-          : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree)}</MenuVertical>}
-        </MenuVertical.Sidebar>
-      </MenuVertical.Provider>
+      <div ref={asideRef} className="relative min-h-0 overflow-y-auto pt-24">
+        <SideMenuHeadElement />
+        <MenuVertical.Provider
+          current={selectedOrganizationId}
+          setCurrent={onMenuChangeHandler}
+          menuAriaLabel="Organisationsmeny"
+        >
+          <MenuVertical.Sidebar>
+            {orgTreeIsLoading ?
+              <div className="flex justify-center py-32">
+                <Spinner size={2} aria-label="Laddar organisationsträd" />
+              </div>
+            : !!orgTree?.length && <MenuVertical data-cy="organization-tree">{renderItems(orgTree)}</MenuVertical>}
+          </MenuVertical.Sidebar>
+        </MenuVertical.Provider>
+      </div>
     </aside>
   );
 };
