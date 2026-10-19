@@ -1,6 +1,5 @@
 import { Draft } from '@data-contracts/backend/data-contracts';
-import { Calendar } from 'lucide-react';
-import { Card, Spinner, Icon } from '@sk-web-gui/react';
+import { Card, Spinner } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
 import DraftContextMenu from '../../DraftContextMenu.component';
@@ -31,26 +30,14 @@ const DraftCards = (props: DraftDataListProps) => {
                     Skapad av {d.loginname}
                   </div>
                 </h2>
-                <div className="text-dark-secondary text-small lg:flex lg:items-center">
-                  <div className="flex flex-col gap-y-[.4rem]">
-                    <div className="flex flex-col lg:flex-row items-start lg:items-center">
-                      <div className="flex items-center">
-                        <Icon icon={<Calendar />} />
-                        <span className="px-xs leading-[2rem]">
-                          Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')}{' '}
-                        </span>
-                      </div>
-                      <div className="hidden lg:block w-[1px] h-[16px] mx-[1.2rem] bg-divider"></div>
-                      <div className="lg:inline">
-                        {d.changes >= 1 ?
-                          d.changes === 1 ?
-                            '1 ändring'
-                          : `${d.changes} ändringar`
-                        : 'Inga ändringar'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <p className="text-dark-secondary text-small">
+                  Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')} ·{' '}
+                  {d.changes >= 1 ?
+                    d.changes === 1 ?
+                      '1 ändring'
+                    : `${d.changes} ändringar`
+                  : 'Inga ändringar'}
+                </p>
               </div>
               <div>{!draftIsArchived && <DraftContextMenu dense draft={d} />}</div>
             </div>
@@ -59,10 +46,8 @@ const DraftCards = (props: DraftDataListProps) => {
               {d.nodes.length > 0 && `${d.nodes.join(', ')}, under ${d.companyName}`}
             </p>
           </div>
-          <div className="w-full flex justify-between items-center self-end">
-            <span className="lg:flex lg:items-center align-bottom gap-12">
-              <DraftListEntryPhaseState draft={d} />
-            </span>
+          <div className="w-full flex flex-col items-start gap-16 mt-16 self-end">
+            <DraftListEntryPhaseState draft={d} />
             <DraftListEntryPhaseMessage draft={d} />
           </div>
         </Card.Body>
@@ -77,7 +62,7 @@ const DraftCards = (props: DraftDataListProps) => {
             <Spinner size={3} aria-label="Hämtar Utkast" />
           </div>
         : <div className="min-h-[400px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 lg:p-lg">{cards}</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">{cards}</div>
           </div>
         }
       </div>

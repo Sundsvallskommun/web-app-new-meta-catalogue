@@ -33,7 +33,6 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { DraftTreeOrganization, SaveDraft, VerifyResultByOrgId } from '@interfaces/orgchange';
 import { ServiceResponse } from '@interfaces/service';
-import { File, LucideIcon, ThumbsUp } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { IFilterData } from '@interfaces/filter-data';
 import { __DEV__ } from '@sk-web-gui/utils';
@@ -103,30 +102,25 @@ export const draftListEntry = (draft: Draft) => {
 
   let phaseLabel = '',
     phaseColor = 'tertiary',
-    phaseInverted = true,
-    PhaseIcon: LucideIcon = null;
+    phaseInverted = true;
 
   if (draftIsArchived) {
     phaseLabel = 'Exporterad och arkiverad';
     phaseInverted = false;
-    PhaseIcon = null;
   } else if (draft.phase === DraftPhaseEnum.APPROVED) {
     phaseLabel = 'Godkänd och väntar på export';
     phaseColor = 'success';
-    PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.EXPORT) {
     phaseLabel = 'Godkänd och exporteras';
     phaseColor = 'success';
-    PhaseIcon = ThumbsUp;
   } else if (draft.phase === DraftPhaseEnum.DRAFT) {
     phaseLabel = 'Utkast';
     phaseColor = 'bjornstigen';
-    PhaseIcon = File;
   }
 
   const phaseRunbookStep = draft.runbook?.currentStep ? draft.runbook?.runner[draft.runbook.currentStep - 1] : null;
 
-  return { phaseLabel, phaseColor, phaseInverted, PhaseIcon, phaseRunbookStep };
+  return { phaseLabel, phaseColor, phaseInverted, phaseRunbookStep };
 };
 
 export const progressbarPhase = (phase) => {

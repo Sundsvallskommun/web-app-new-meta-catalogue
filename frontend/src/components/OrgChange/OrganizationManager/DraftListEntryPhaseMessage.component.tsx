@@ -7,7 +7,7 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { CircleAlert } from 'lucide-react';
 import { draftListEntry, useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, cx, useConfirm } from '@sk-web-gui/react';
+import { Button, useConfirm } from '@sk-web-gui/react';
 import { MessageStatusIcon } from '../Draft/BottomInfoBar/ExportMessages.component';
 import { useUserStore } from '@services/user-service/user-service';
 
@@ -47,22 +47,9 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
 
   if (phaseRunbookStep) {
     return (
-      <span className={`flex items-center space-x-[1rem]`}>
-        <span
-          className={cx(
-            `inline-flex text-xs leading-[1.6rem] max-w-[20rem]`,
-            phaseRunbookStep.state === RunbookStepsStateEnum.Queued && 'text-vattjom-text-primary',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Running && 'text-vattjom-text-primary',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Waiting && 'text-warning',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Completed && 'text-success',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Fail && 'text-error'
-          )}
-        >
-          {phaseRunbookStep.result || phaseRunbookStep.description}
-        </span>
-        <span className="inline-flex">
-          <MessageStatusIcon status={phaseRunbookStep.state} />
-        </span>
+      <span className="flex items-center gap-8 text-small">
+        <MessageStatusIcon status={phaseRunbookStep.state} />
+        <span>{phaseRunbookStep.result || phaseRunbookStep.description}</span>
       </span>
     );
   }

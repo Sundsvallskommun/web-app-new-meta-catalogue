@@ -58,8 +58,8 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
     <div className="bg-background-content relative grow px-0 pb-40 pt-24 mb-50">
       {!draftsIsLoading ?
         <>
-          <div className="lg:flex lg:justify-between content-center mx-5 lg:mx-20 px-5 border-b-2 border-divider">
-            <h1 className="text-lead">
+          <div className="flex justify-between items-center gap-md mb-16">
+            <h1 className="text-h4 text-dark-secondary">
               Organisationsförändringar{' '}
               {drafts && draftsIsLoading ?
                 <Loader size="md" aria-label="hämtar utkast med förändringar" />

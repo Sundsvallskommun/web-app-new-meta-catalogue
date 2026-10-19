@@ -1,6 +1,6 @@
 import { ChevronDown, Download, EllipsisVertical, Share2, Trash } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, PopupMenu, cx, useConfirm, useSnackbar, Icon } from '@sk-web-gui/react';
+import { Button, PopupMenu, cx, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import router from 'next/router';
 import { useState } from 'react';
@@ -65,10 +65,16 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
     <>
       <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
-          <PopupMenu.Button title={`Hantera utkast ${draft.name}`} variant="secondary" iconButton>
-            <Icon icon={<EllipsisVertical />} />
+          <PopupMenu.Button
+            title={`Hantera utkast ${draft.name}`}
+            aria-label={`Hantera utkast ${draft.name}`}
+            variant="tertiary"
+            size="sm"
+            iconButton
+          >
+            <EllipsisVertical />
           </PopupMenu.Button>
-        : <PopupMenu.Button size="lg" variant="link" rightIcon={<ChevronDown />}>
+        : <PopupMenu.Button size="sm" variant="tertiary" rightIcon={<ChevronDown />}>
             Hantera utkastet
           </PopupMenu.Button>
         }

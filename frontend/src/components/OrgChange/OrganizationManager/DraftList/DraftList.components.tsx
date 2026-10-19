@@ -64,12 +64,9 @@ export const DraftList = (props: DraftDataListProps) => {
     return [
       {
         element: (
-          <div className="flex items-center gap-8">
-            {!d.isArchived && <DraftContextMenu menuSide="left" dense draft={d} />}
-            <div>
-              <DraftListEntryPhaseTitle draft={d} />
-              <div className="text-small">Skapad av {d.loginname}</div>
-            </div>
+          <div>
+            <DraftListEntryPhaseTitle draft={d} />
+            <div className="text-small">Skapad av {d.loginname}</div>
           </div>
         ),
         isShown: true,
@@ -92,6 +89,10 @@ export const DraftList = (props: DraftDataListProps) => {
       },
       {
         element: <DraftListEntryPhaseMessage draft={d} />,
+        isShown: true,
+      },
+      {
+        element: !d.isArchived && <DraftContextMenu dense draft={d} />,
         isShown: true,
       },
     ];

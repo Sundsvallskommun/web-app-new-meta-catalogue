@@ -111,6 +111,13 @@ export const draftHeaders = [
     isShown: true,
     filterId: 5,
   },
+  {
+    label: 'Hantera utkast',
+    screenReaderOnly: true,
+    isColumnSortable: false,
+    isShown: true,
+    filterId: 6,
+  },
 ];
 
 export const employeeOrgChangeHeaders = [
