@@ -143,8 +143,8 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
         element: (
           <Button
             color="error"
-            size="md"
-            variant="secondary"
+            size="sm"
+            variant="tertiary"
             aria-label={`Koppla bort ${r.description}`}
             onClick={handleDisconnectOperation(r)}
           >
