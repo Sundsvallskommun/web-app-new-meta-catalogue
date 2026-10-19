@@ -14,7 +14,7 @@ export default function OrganizationOrgChange() {
 
   return organization && organization?.id !== null ?
       <div className="relative">
-        <section className="bg-background-content">
+        <section className="bg-background-content flex flex-col gap-32">
           {!draftIsReadOnly && <ActionHeaderBranch organization={organization as DraftTreeOrganization} />}
           <OrgNameEdit
             newItem={organization.structureChangeStatus === 'NEW'}

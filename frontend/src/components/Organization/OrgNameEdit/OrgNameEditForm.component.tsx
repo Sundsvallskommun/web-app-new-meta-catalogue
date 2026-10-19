@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
-import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree, OrganizationTree } from '@data-contracts/backend/data-contracts';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,7 +7,7 @@ import { IOrgNameEditForm } from '@interfaces/orgchange';
 import { ServiceResponse } from '@interfaces/service';
 import { emptyOrganizationForm } from '@services/mdbuilder/defaults';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, cx, useSnackbar } from '@sk-web-gui/react';
+import { Alert, Button, cx, useSnackbar } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
 import { useSaveState } from '@utils/use-save-service.hook';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -203,27 +202,13 @@ export const OrgNameEditForm: React.FC<{
   return (
     <FormProvider {...form}>
       <form className={cx(className, '')} onSubmit={handleFormSubmit}>
-        <div className="lg:flex lg:space-x-md">
+        <div className="flex flex-wrap items-end gap-md">
           <OrgNameEditFormName newItem={newItem} />
           <OrgNameEditFormShortName newItem={newItem} orgNameShortMaxLength={orgNameShortMaxLength} />
           {!formData.isLeafLevel && <OrgNameEditFormAbbreviation />}
           <OrgNameEditFormCode parentOrg={parentOrg} />
-        </div>
-        <div className="flex justify-between mt-md">
-          {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-            <div className="feedback-texts">
-              {errorText && <FeedbackMessage severity="error">{errorText}</FeedbackMessage>}
-              {warningText && <FeedbackMessage severity="warning">{warningText}</FeedbackMessage>}
-              {submitError && (
-                <FeedbackMessage severity="error" className="mt-md" background>
-                  {submitErrorText}
-                </FeedbackMessage>
-              )}
-            </div>
-          )}
-
           {isOrgChange && orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-            <div>
+            <div className="ml-auto">
               <Button
                 aria-describedby={!isDirty ? `save-describedby` : undefined}
                 aria-disabled={!isDirty ? 'true' : undefined}
@@ -240,6 +225,34 @@ export const OrgNameEditForm: React.FC<{
             </div>
           )}
         </div>
+        {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (errorText || warningText || submitError) && (
+          <div className="feedback-texts flex flex-col gap-md mt-md">
+            {errorText && (
+              <Alert type="error">
+                <Alert.Icon />
+                <Alert.Content>
+                  <Alert.Content.Description>{errorText}</Alert.Content.Description>
+                </Alert.Content>
+              </Alert>
+            )}
+            {warningText && (
+              <Alert type="warning">
+                <Alert.Icon />
+                <Alert.Content>
+                  <Alert.Content.Description>{warningText}</Alert.Content.Description>
+                </Alert.Content>
+              </Alert>
+            )}
+            {submitError && (
+              <Alert type="error">
+                <Alert.Icon />
+                <Alert.Content>
+                  <Alert.Content.Description>{submitErrorText}</Alert.Content.Description>
+                </Alert.Content>
+              </Alert>
+            )}
+          </div>
+        )}
       </form>
     </FormProvider>
   );

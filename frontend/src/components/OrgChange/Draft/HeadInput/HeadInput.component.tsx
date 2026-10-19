@@ -5,7 +5,6 @@ import { useSaveStore } from '@services/save-service/save-service';
 import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useSaveState } from '@utils/use-save-service.hook';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useMemo, useState } from 'react';
@@ -21,8 +20,8 @@ const HeadInput = () => {
   const [, setIsLoading] = useState<boolean>(false);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
   const { draftIsReadOnly } = useDraftPhaseState();
-  const windowSize = useWindowSize();
   const user = useUserStore((s) => s.user);
+  const readOnly = draftIsReadOnly || !user.permissions.canEditDrafts;
 
   const message = useSnackbar();
   const router = useRouter();
@@ -102,40 +101,24 @@ const HeadInput = () => {
 
   return (
     <FormProvider {...form}>
-      <div className="lg:w-[440px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-sm text-dark-secondary lg:flex lg:justify-between lg:items-end">
-            {draftIsReadOnly || !user.permissions.canEditDrafts ?
-              <div className="flex w-full items-end gap-[1rem]">
-                <div className="flex items-end w-fit">
-                  <span className="font-bold mr-sm inline-block">Brytdatum: </span>
-                  <span className="inline-block">{draft.cutOffDate} </span>
-                </div>
-              </div>
-            : <div className="flex w-full items-end gap-[1rem]">
-                <HeadInputFormCutOffdate />
-              </div>
-            }
-            <div className="text-small grow flex">
-              <span className="font-bold lg:sr-only">Bolag: </span>
-              <div className="ml-sm grow lg:ml-0 whitespace-nowrap" aria-labelledby="draft-company-label">
-                {windowSize.lg ? `(${draft.companyName})` : `${draft.companyName}`}
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-md">
-            {draftIsReadOnly || !user.permissions.canEditDrafts ?
-              <h1 className="text-h4">{draft.name}</h1>
-            : <HeadInputFormName />}
-
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+        {readOnly ?
+          <h1 className="text-h4 text-dark-secondary">{draft.name}</h1>
+        : <div className="flex flex-wrap items-end gap-md">
+            <HeadInputFormName />
+            <HeadInputFormCutOffdate />
             {isValid && isDirty && (
               <Button data-cy="draft-submit" type="submit" variant="primary" color="primary" disabled={!isValid}>
                 Spara
               </Button>
             )}
           </div>
-        </form>
-      </div>
+        }
+        <p className="text-small text-dark-secondary">
+          {readOnly && `Brytdatum ${draft.cutOffDate} · `}
+          {draft.companyName} · Skapad av {draft.loginname}
+        </p>
+      </form>
     </FormProvider>
   );
 };

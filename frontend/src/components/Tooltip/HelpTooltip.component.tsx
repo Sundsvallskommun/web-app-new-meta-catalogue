@@ -16,7 +16,7 @@ export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps)
 
   return (
     <span
-      className={`ml-sm align-text-bottom relative hidden lg:inline-flex ${className}`}
+      className={`ml-sm align-middle relative hidden lg:inline-flex ${className}`}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
@@ -25,9 +25,12 @@ export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps)
     >
       <button type="button" tabIndex={tabIndex} className="flex items-center" aria-label={ariaLabel} {...rest}>
         {!onlyIcon && <span className="mr-5">Hjälp</span>}
-        <Icon icon={<CircleQuestionMark />} />
+        <Icon size={16} icon={<CircleQuestionMark />} />
       </button>
-      <Tooltip position="below" className={open ? 'absolute top-full left-0 z-10 w-max max-w-2xl' : 'hidden'}>
+      <Tooltip
+        position="below"
+        className={open ? 'absolute top-full left-1/2 -translate-x-1/2 z-10 w-max max-w-2xl' : 'hidden'}
+      >
         {children}
       </Tooltip>
     </span>

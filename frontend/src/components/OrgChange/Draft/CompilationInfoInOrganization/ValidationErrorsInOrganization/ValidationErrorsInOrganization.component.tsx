@@ -20,7 +20,7 @@ export default function ValidationErrorsInOrganization(props: IErrorProps) {
   const { errorMessages } = props;
 
   return (
-    <div className="px-[20px]">
+    <div>
       <Disclosure variant="alt" initalOpen>
         <Disclosure.Header>
           <Disclosure.Title>

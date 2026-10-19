@@ -10,13 +10,15 @@ interface CompilationInfoInOrganizationProps {
 
 export default function CompilationInfoInOrganization({ organization }: CompilationInfoInOrganizationProps) {
   const verifyResultsByOrgId = useOrgChangeStore((s) => s.verifyResultsByOrgId);
+  const showChanges = organization.changes > 0 && __DEV__;
+  const showVerifyResult = organization.changes > 0 && verifyResultsByOrgId && verifyResultsByOrgId[organization.id];
+
+  if (!showChanges && !showVerifyResult) return null;
 
   return (
-    <div className="flex flex-col gap-10 py-md">
-      {organization.changes > 0 && __DEV__ && <ChangesInOrganization changesCount={organization.changes} />}
-      {organization.changes > 0 && verifyResultsByOrgId && verifyResultsByOrgId[organization.id] && (
-        <VerifyResult selectedOrganizationId={organization.id} />
-      )}
+    <div className="flex flex-col gap-10">
+      {showChanges && <ChangesInOrganization changesCount={organization.changes} />}
+      {showVerifyResult && <VerifyResult selectedOrganizationId={organization.id} />}
     </div>
   );
 }

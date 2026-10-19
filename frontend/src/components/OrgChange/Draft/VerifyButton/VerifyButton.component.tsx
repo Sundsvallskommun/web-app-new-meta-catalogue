@@ -37,6 +37,7 @@ export default function VerifyButton() {
   return (
     <Button
       variant="secondary"
+      size="sm"
       disabled={draft.changes === 0}
       onClick={handleOnVerify}
       leftIcon={<Icon color={shieldColor} icon={<Shield />} />}

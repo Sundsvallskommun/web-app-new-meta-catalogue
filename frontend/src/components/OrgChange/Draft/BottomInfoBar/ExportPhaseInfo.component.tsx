@@ -1,6 +1,5 @@
-import { RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Link, useSnackbar } from '@sk-web-gui/react';
+import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useEffect } from 'react';
 import ExportMessages from './ExportMessages.component';
 import { repeater } from '@utils/repeater';
@@ -12,19 +11,6 @@ export default function ExportPhaseInfo() {
   const getRunbook = useOrgChangeStore((s) => s.getRunbook);
   const runbook = useOrgChangeStore((s) => s.runbook);
   const message = useSnackbar();
-
-  let severityBackground = 'bg-info-background-200';
-  if (runbook?.currentStep > 0) {
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Completed) {
-      severityBackground = 'bg-success-background-200';
-    }
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Waiting) {
-      severityBackground = 'bg-warning-background-200';
-    }
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Fail) {
-      severityBackground = 'bg-error-background-200';
-    }
-  }
 
   const handleExpand = () => {
     setLockedView((lockedView) => !lockedView);
@@ -58,30 +44,24 @@ export default function ExportPhaseInfo() {
   }, [runbook?.currentStep]);
 
   return (
-    <div className="relative flex flex-col justify-end">
-      <div className={`bg-opacity-75 ${!lockedView ? 'min-h-md' : ' min-h-100'} duration-300 ${severityBackground}`}>
-        <div className="max-width-content transition-all mx-auto flex flex-col-reverse lg:flex-row w-full">
-          <h2 className="sr-only">Exportflöde</h2>
-          <div className="flex flex-grow gap-md p-md">
-            <span>
-              <ExportMessages />
-            </span>
-          </div>
+    <div className="bg-background-one bg-opacity-50 px-md md:px-lg">
+      <div className="container flex flex-col gap-md pt-lg">
+        <div className="flex flex-wrap items-center justify-between gap-md">
+          <h2 className="text-lead">Exportflöde</h2>
           <Button
             onClick={handleExpand}
-            size="lg"
+            size="sm"
             aria-label={
               lockedView ?
                 'Dölj exportinformation, lås upp visningsläge av utkastet'
               : 'Visa exportinformation, lås visningsläge av utkastet'
             }
-            variant="ghost"
+            variant="tertiary"
           >
-            {lockedView ?
-              <Link as="span">Dölj exportinformation</Link>
-            : <Link as="span">Visa exportinformation</Link>}
+            {lockedView ? 'Dölj exportinformation' : 'Visa exportinformation'}
           </Button>
         </div>
+        <ExportMessages />
       </div>
     </div>
   );

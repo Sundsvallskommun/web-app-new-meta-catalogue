@@ -77,7 +77,7 @@ const OrgNameEdit = ({ newItem, organization, isEdit = false, orgTree, orgChange
   };
 
   return (
-    <div className="px-20 pt-lg bg-background-content">
+    <div className="bg-background-content">
       {(!isEdit ||
         (isOrgChange && draftIsReadOnly) ||
         (isOrgChange && orgChangeOrg.structureChangeStatus === 'DELETED')) && (

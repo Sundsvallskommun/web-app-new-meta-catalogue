@@ -19,7 +19,7 @@ export const ChangesInOrganization = (props: IChangesProps) => {
   const { changesCount } = props;
 
   return (
-    <div className="px-[20px]">
+    <div>
       <Disclosure variant="alt">
         <Disclosure.Header>
           <Disclosure.Title>

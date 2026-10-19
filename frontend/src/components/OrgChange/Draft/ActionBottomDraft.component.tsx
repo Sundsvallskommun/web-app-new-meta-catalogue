@@ -2,7 +2,7 @@ import { RunBookActionTriggerDtoCommandEnum } from '@data-contracts/backend/data
 import { MessagesSquare } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Badge, Button, Link, useConfirm, Icon } from '@sk-web-gui/react';
+import { Button, Link, useConfirm } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
@@ -53,7 +53,7 @@ export default function ActionBottomDraft() {
   return (
     <>
       <Sticky
-        stickyClassName={`${commentsSidebarOpen ? 'z-20' : 'z-30'}`}
+        stickyClassName="z-10"
         disabled={!windowSize.lg}
         mode="bottom"
         positionRecheckInterval={150}
@@ -63,39 +63,30 @@ export default function ActionBottomDraft() {
         {showPhaseInfo && <ExportPhaseInfo />}
         {showVerifyInfo && <ExportVerifyInfo />}
 
-        <div className="bg-background-one bg-opacity-50 lg:flex pb-lg lg:pb-0 px-20">
-          <div className="max-width-content mx-auto w-full lg:flex relative justify-end gap-xl">
-            <div className="w-full space-y-md lg:space-y-0 lg:flex lg:justify-between py-lg gap-20">
-              <Link href="/hanteraorganisation">
-                <Button as="span" variant="primary">
-                  Lämna utkast
-                </Button>
-              </Link>
-              {!(draftIsApproved || draftIsExportPhase) && user.permissions.canEditDrafts && (
-                <Button onClick={onExport} disabled={draft.changes === 0} variant="primary" color="primary">
-                  Godkänn och exportera
-                </Button>
-              )}
-            </div>
-            <div className="flex">
-              {user.permissions.canCommentDraft && (
-                <Button
-                  size="lg"
-                  onClick={() => setCommentsSidebarOpen(true)}
-                  variant="link"
-                  leftIcon={
-                    <span className="relative">
-                      <Icon icon={<MessagesSquare />} />
-                      {showCommentsUnread && (
-                        <Badge className="absolute right top-[0.01rem]" size="sm" color="warning" />
-                      )}
-                    </span>
-                  }
-                >
-                  Kommentarer
-                </Button>
-              )}
-            </div>
+        <div className="bg-background-one bg-opacity-50 px-md md:px-lg">
+          <div className="container flex flex-wrap items-center gap-md py-lg">
+            <Link href="/hanteraorganisation">
+              <Button as="span" variant="primary">
+                Lämna utkast
+              </Button>
+            </Link>
+            {!(draftIsApproved || draftIsExportPhase) && user.permissions.canEditDrafts && (
+              <Button onClick={onExport} disabled={draft.changes === 0} variant="primary" color="primary">
+                Godkänn och exportera
+              </Button>
+            )}
+            {user.permissions.canCommentDraft && (
+              <Button
+                className="ml-auto"
+                onClick={() => setCommentsSidebarOpen(true)}
+                variant={showCommentsUnread ? 'primary' : 'secondary'}
+                color={showCommentsUnread ? 'warning' : undefined}
+                leftIcon={<MessagesSquare />}
+              >
+                Kommentarer
+                {showCommentsUnread && <span className="sr-only">, nya kommentarer</span>}
+              </Button>
+            )}
           </div>
         </div>
       </Sticky>

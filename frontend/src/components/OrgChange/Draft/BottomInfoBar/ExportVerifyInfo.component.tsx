@@ -1,6 +1,6 @@
 import { CircleAlert, CircleCheck } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Link, Icon } from '@sk-web-gui/react';
+import { Button, Icon } from '@sk-web-gui/react';
 import useVerifyState from '@utils/use-verify-state';
 import { useEffect, useState } from 'react';
 import VerifyResult from './VerifyResults.component';
@@ -38,14 +38,14 @@ export default function ExportVerifyInfo() {
           <div className="flex flex-col flex-grow gap-md p-md">
             {verifyHasErrors ?
               <>
-                <span>
-                  <Icon color="error" className="mr-sm" icon={<CircleAlert />} />
-                  {`Senaste verifiering hittade fel..${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
+                <span className="flex items-center gap-sm">
+                  <Icon color="error" icon={<CircleAlert />} />
+                  {`Senaste verifiering hittade fel${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
                 </span>
                 {showResults && <div className="ml-[2em]">{draft.verifyResult && <VerifyResult />}</div>}
               </>
-            : <span>
-                <Icon color="success" className="mr-sm" icon={<CircleCheck />} />
+            : <span className="flex items-center gap-sm">
+                <Icon color="success" icon={<CircleCheck />} />
                 {`Senaste verifiering hittade inga fel${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
               </span>
             }
@@ -53,17 +53,15 @@ export default function ExportVerifyInfo() {
           {verifyHasErrors && (
             <Button
               onClick={handleExpand}
-              size="lg"
+              size="sm"
               aria-label={
                 showResults ?
                   'Dölj verifikationsresultat, lås upp visningsläge av utkastet'
                 : 'Visa verifikationsresultat, lås visningsläge av utkastet'
               }
-              variant="ghost"
+              variant="tertiary"
             >
-              {showResults ?
-                <Link as="span">Dölj verifikationsresultat</Link>
-              : <Link as="span">Visa verifikationsresultat</Link>}
+              {showResults ? 'Dölj verifikationsresultat' : 'Visa verifikationsresultat'}
             </Button>
           )}
         </div>

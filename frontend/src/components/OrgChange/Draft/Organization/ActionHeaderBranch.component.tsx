@@ -32,12 +32,18 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
   };
 
   return (
-    <div className="py-20 px-[1.6rem] bg-background-one">
+    <div>
       {organization.structureChangeStatus !== 'DELETED' ?
-        <ul aria-label="Gren-meny" className="lg:flex lg:items-end lg:space-x-lg space-y-sm lg:space-y-0">
+        <ul aria-label="Gren-meny" className="flex flex-wrap items-center gap-8">
           {user.permissions.canEditOrganizationStructure && (
             <li className="mr-auto">
-              <Button aria-haspopup="true" onClick={handleMoveBranch} variant="link" leftIcon={<MoveDown />}>
+              <Button
+                aria-haspopup="true"
+                onClick={handleMoveBranch}
+                variant="secondary"
+                size="sm"
+                leftIcon={<MoveDown />}
+              >
                 Flytta gren
               </Button>
             </li>
@@ -51,7 +57,8 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
                 aria-haspopup="true"
                 onClick={onTerminateBranch}
                 color="error"
-                variant="link"
+                variant="secondary"
+                size="sm"
                 leftIcon={<Trash />}
               >
                 Stäng gren
@@ -59,7 +66,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
             </li>
           )}
         </ul>
-      : <ul aria-label="Gren-meny" className="lg:flex lg:items-end justify-end lg:space-x-lg space-y-sm lg:space-y-0">
+      : <ul aria-label="Gren-meny" className="flex flex-wrap items-center justify-end gap-8">
           <li>
             <UndoTerminatedNode />
           </li>

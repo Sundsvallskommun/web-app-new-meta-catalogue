@@ -56,20 +56,26 @@ export const ExportMessages = ({ className = '' }) => {
   };
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-8">
       {messages.map((runbookStep, i) => {
         const current = messages.length === 1 || runbook.currentStep === i + 1;
+        const showTrigger = runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current;
         return (
           <li
-            className={cx('flex gap-sm', current && 'font-bold text-large my-[.5em]', className)}
+            className={cx(
+              'flex gap-sm',
+              showTrigger ? 'items-start' : 'items-center',
+              current && 'font-bold',
+              className
+            )}
             key={`message-${i}`}
             data-key={`message-${i}`}
           >
-            <MessageStatusIcon className={cx(current ? 'mt-[.2rem]' : 'mt-[.4rem]')} status={runbookStep.state} />
-            {runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current ?
-              <div>
+            <MessageStatusIcon status={runbookStep.state} />
+            {showTrigger ?
+              <div className="flex flex-col items-start gap-8">
                 <div>{runbookStep.result || runbookStep.description}</div>
-                <Button className="my-sm" onClick={() => handleTrigger(runbookStep)} variant="primary" color="primary">
+                <Button onClick={() => handleTrigger(runbookStep)} variant="primary" color="primary">
                   {runbookStep.triggerBtnText ? runbookStep.triggerBtnText : 'Fortsätt med exporten'}
                 </Button>
               </div>

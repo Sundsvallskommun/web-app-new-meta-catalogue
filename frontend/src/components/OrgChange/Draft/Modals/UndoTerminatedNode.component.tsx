@@ -44,7 +44,8 @@ export default function UndoTerminatedNode() {
   return (
     <Button
       onClick={onUndoTerminateBranch}
-      variant="link"
+      variant="secondary"
+      size="sm"
       leftIcon={<Undo2 />}
     >
       Ångra stäng gren
