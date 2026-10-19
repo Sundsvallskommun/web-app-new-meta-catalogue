@@ -2,7 +2,7 @@ import OrgChangeCsvExporter from '@components/OrgChange/OrgChangeCsvExporter/Org
 import { CheckedOutOrganizationLevel2, Draft } from '@data-contracts/backend/data-contracts';
 import { Download } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, FormControl, FormLabel, Modal, useSnackbar, Icon } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useSnackbar } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 import { Spinner } from '@sk-web-gui/react';
 
@@ -44,35 +44,24 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
     });
   };
 
-  const label = (
-    <div>
-      <h3>Exportera förlaga av Organisationer</h3>
-    </div>
-  );
-
   return (
-    <Modal className="max-w-3xl" show={true} label={label} onClose={onClose}>
-      <form>
-        <FormControl>
-          <FormLabel className="mb-md flex gap-10 items-center">
-            Välj organisation som du vill exportera {checkedOutOrganizationsLevel2IsLoading && <Spinner size={2} />}
-          </FormLabel>
+    <Modal className="max-w-3xl" show={true} label="Exportera förlaga av organisationer" onClose={onClose}>
+      <form className="flex flex-col gap-16">
+        <FormControl className="w-full">
+          <FormLabel>Välj organisation som du vill exportera</FormLabel>
+          {checkedOutOrganizationsLevel2IsLoading && <Spinner size={2} />}
           {!checkedOutOrganizationsLevel2IsLoading && (
-            <div className="flex flex-col space-y-md">
+            <div className="flex flex-col items-start gap-8">
               {checkedOutOrganizationsLevel2?.map((org) => {
                 return (
                   <Button
                     key={`${org.orgId}`}
                     aria-label={`Exportera ${org.name}`}
-                    variant="link"
+                    variant="secondary"
+                    leftIcon={<Download />}
                     onClick={() => handleSetCsvData(org)}
                   >
-                    <span className="flex justify-center items-center gap-5">
-                      <span>
-                        <Icon icon={<Download />} />
-                      </span>
-                      <span>{org.name}</span>
-                    </span>
+                    {org.name}
                   </Button>
                 );
               })}
@@ -80,12 +69,12 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
           )}
         </FormControl>
         {fetchedOrg !== null && <OrgChangeCsvExporter fileName={fetchedOrg.name} csvData={csvData} />}
-        <Modal.Footer>
-          <Button variant="secondary" type="button" onClick={onClose}>
-            Stäng
-          </Button>
-        </Modal.Footer>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={onClose}>
+          Stäng
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

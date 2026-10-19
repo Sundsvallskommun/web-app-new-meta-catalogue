@@ -94,17 +94,17 @@ export default function MoveFormModal(props: IMoveFormProps) {
 
   return (
     <Modal className="max-w-[800px]" show onClose={onClose} label={moveBranch && 'Flytta gren'}>
-      <div>
-        <FormControl id="orgchange-move-branch">
+      <div className="flex flex-col gap-16">
+        <FormControl id="orgchange-move-branch" className="w-full">
           <FormLabel>{moveBranch && 'Flytta gren under'}</FormLabel>
           <Combobox
             className="w-full"
             id="orgchange-move-branch"
-            placeholder="Sök och välj.."
             onChange={onOrganizationSelectHandler}
             value={activeOrganization?.data?.id?.toString() ?? undefined}
             defaultValue={activeOrganization?.data?.id.toString() ?? undefined}
           >
+            <Combobox.Input className="w-full" placeholder="Sök och välj..." />
             <Combobox.List>
               {orgTreeOrganizations.filter(moveFilterFunction).map((item, index) => (
                 <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
@@ -122,6 +122,7 @@ export default function MoveFormModal(props: IMoveFormProps) {
           Avbryt
         </Button>
         <Button
+          className="ml-auto"
           variant="primary"
           color="primary"
           loadingText="Sparar"

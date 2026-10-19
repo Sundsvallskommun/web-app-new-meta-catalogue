@@ -1,4 +1,3 @@
-import { Disclosure } from '@sk-web-gui/react';
 import { OrgChangeOrganizationEmployee } from '@data-contracts/backend/data-contracts';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
@@ -41,22 +40,17 @@ export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeople
   });
 
   return (
-    <Disclosure initalOpen={peopleToHandle.length === 1} className="mt-lg" variant="default">
-      <Disclosure.Header>
-        <Disclosure.Title>{`Valda personer (${peopleToHandle.length})`}</Disclosure.Title>
-        <Disclosure.Button />
-      </Disclosure.Header>
-      <Disclosure.Content>
-        <DataTable
-          pageSize={4}
-          captionBody=""
-          captionTitle=""
-          headers={headers}
-          rows={peopleRows}
-          tableSortable={false}
-          summary=""
-        />
-      </Disclosure.Content>
-    </Disclosure>
+    <section className="flex flex-col gap-8">
+      <h3 className="text-lead">{`Valda personer (${peopleToHandle.length})`}</h3>
+      <DataTable
+        pageSize={4}
+        captionBody=""
+        captionTitle=""
+        headers={headers}
+        rows={peopleRows}
+        tableSortable={false}
+        summary=""
+      />
+    </section>
   );
 };

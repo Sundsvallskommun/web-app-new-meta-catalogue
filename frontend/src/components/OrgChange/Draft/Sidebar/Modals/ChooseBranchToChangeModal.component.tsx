@@ -2,7 +2,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Organization, OrgnodeAddDto } from '@data-contracts/backend/data-contracts';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
 import { useState } from 'react';
 
 export default function ChooseBranchToChangeModal(props) {
@@ -52,47 +52,55 @@ export default function ChooseBranchToChangeModal(props) {
   };
 
   return (
-    <Modal labelAs="h2" className="max-w-[800px]" show={true} onClose={onClose} label={'Välj gren att ändra'}>
-      <div>
-        <div className="pb-md">
-          <span>Bolag: {draft && draft.companyName}</span>
-        </div>
-
-        <FormLabel id="choosebranch">Gren</FormLabel>
-        <Combobox
-          data-cy="orgchange-choosebranch-searchnode"
-          className="w-full"
-          id="orgchange-choosebranch-searchnode"
-          aria-labelledby="choosebranch"
-          placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod..."
-          onChange={onOrganizationSelectHandler}
-          value={activeOrganization?.data?.id?.toString() ?? undefined}
-          defaultValue={activeOrganization?.data?.id?.toString() ?? undefined}
-        >
-          <Combobox.List>
-            {companyOrganizations.map((item, index) => (
-              <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                {`${item.label.trim()} ${
-                  item.concatAbbreviation || item.abbreviation ?
-                    `(${item.concatAbbreviation ? `${item.concatAbbreviation}` : ''}${
-                      item.abbreviation ?
-                        item.concatAbbreviation ?
-                          ` ${item.abbreviation}`
-                        : `${item.abbreviation}`
-                      : ''
-                    })`
-                  : ''
-                } - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`} `}
-              </Combobox.Option>
-            ))}
-          </Combobox.List>
-        </Combobox>
+    <Modal className="max-w-[800px]" show={true} onClose={onClose} label={'Välj gren att ändra'}>
+      <div className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">Bolag: {draft && draft.companyName}</p>
+        <FormControl id="orgchange-choosebranch-searchnode" className="w-full">
+          <FormLabel>Gren</FormLabel>
+          <Combobox
+            className="w-full"
+            id="orgchange-choosebranch-searchnode"
+            onChange={onOrganizationSelectHandler}
+            value={activeOrganization?.data?.id?.toString() ?? undefined}
+            defaultValue={activeOrganization?.data?.id?.toString() ?? undefined}
+          >
+            <Combobox.Input
+              data-cy="orgchange-choosebranch-searchnode"
+              className="w-full"
+              placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod..."
+            />
+            <Combobox.List>
+              {companyOrganizations.map((item, index) => (
+                <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
+                  {`${item.label.trim()} ${
+                    item.concatAbbreviation || item.abbreviation ?
+                      `(${item.concatAbbreviation ? `${item.concatAbbreviation}` : ''}${
+                        item.abbreviation ?
+                          item.concatAbbreviation ?
+                            ` ${item.abbreviation}`
+                          : `${item.abbreviation}`
+                        : ''
+                      })`
+                    : ''
+                  } - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`} `}
+                </Combobox.Option>
+              ))}
+            </Combobox.List>
+          </Combobox>
+        </FormControl>
       </div>
       <Modal.Footer>
         <Button variant="secondary" type="button" onClick={onClose}>
           Avbryt
         </Button>
-        <Button variant="primary" onClick={onChooseOrganization} color="primary" loadingText="Sparar" type="button">
+        <Button
+          className="ml-auto"
+          variant="primary"
+          onClick={onChooseOrganization}
+          color="primary"
+          loadingText="Sparar"
+          type="button"
+        >
           Spara
         </Button>
       </Modal.Footer>

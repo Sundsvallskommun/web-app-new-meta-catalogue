@@ -155,29 +155,23 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
     });
   };
 
-  const label = (
-    <div>
-      <h3>{`Flytta ${peopleToHandle.length} personer till annan gren`}</h3>
-      <h4 className="font-normal">
-        Från {organization.orgName} &#40;Nivå {organization.level}&#41;
-      </h4>
-    </div>
-  );
-
   return (
-    <Modal className="max-w-[900px]" show={true} onClose={handleOnClose} label={label}>
-      <form onSubmit={onSubmit}>
-        <FormControl id="move-people-org-dropdown">
+    <Modal className="w-full max-w-[900px]" show={true} onClose={handleOnClose} label="Flytta till annan gren">
+      <form id="move-people-modal-form" onSubmit={onSubmit} className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå {organization.level}
+        </p>
+        <FormControl id="move-people-org-dropdown" className="w-full">
           <FormLabel>Till gren</FormLabel>
           <Combobox
             className="w-full"
             id="move-people-org-dropdown"
             aria-labelledby="move-people-org-dropdown-label"
-            placeholder="Sök och välj..."
             onChange={onOrganizationSelectHandler}
             value={!isDirty ? newOrganization?.id?.toString() : undefined}
             defaultValue={newOrganization?.id?.toString() ?? undefined}
           >
+            <Combobox.Input className="w-full" placeholder="Sök och välj..." />
             <Combobox.List>
               {orgTreeOrganizations
                 .filter((x) => x.level === 6)
@@ -191,36 +185,37 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
             </Combobox.List>
           </Combobox>
         </FormControl>
-        {errorMessage && (
-          <div className="w-full flex justify-between space-x-5 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
+        {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         {peopleToHandle?.length !== 0 && <MarkedPeopleList peopleToHandle={peopleToHandle} />}
         {employeesByOrg.length === peopleToHandle.length &&
           newOrganization.id !== organization.id &&
           organization.structureChangeStatus !== 'DELETED' && (
-            <FormControl className="mt-md" id="terminade-node-checkbox">
-              <FormLabel className="mb-md">
+            <FormControl id="terminade-node-checkbox" className="mb-16">
+              <FormLabel>
                 Ingen personal kommer att finnas kvar i gren {`${organization.orgName} (Nivå ${organization.level})`}.
                 Vill du stänga grenen i och med personalflytten?
               </FormLabel>
-              <Checkbox onChange={onHandleChecked} size="lg" aria-labelledby="terminade-node-checkbox">
+              <Checkbox onChange={onHandleChecked} aria-labelledby="terminade-node-checkbox">
                 Stäng gren
               </Checkbox>
             </FormControl>
           )}
-        <Modal.Footer>
-          <Button variant="secondary" type="button" onClick={handleOnClose}>
-            Stäng
-          </Button>
-          <Button variant="primary" type="submit" color="primary" disabled={isDirty}>
-            Spara
-          </Button>
-        </Modal.Footer>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={handleOnClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="ml-auto"
+          variant="primary"
+          type="submit"
+          form="move-people-modal-form"
+          color="primary"
+          disabled={isDirty}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

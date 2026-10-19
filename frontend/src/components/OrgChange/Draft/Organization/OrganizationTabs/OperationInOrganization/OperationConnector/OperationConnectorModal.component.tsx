@@ -87,51 +87,46 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
 
   return (
     <Modal className="max-w-[800px]" show={true} onClose={onClose} label="Koppla verksamhet">
-      <form onSubmit={onSubmit}>
-        <FormControl id="operation-searchconnect-title">
+      <form id="operation-connector-form" onSubmit={onSubmit} className="flex flex-col gap-16">
+        <FormControl id="operation-searchconnect-dropdown" className="w-full">
           <FormLabel>Verksamhet</FormLabel>
-        </FormControl>
-        <Combobox
-          className="w-full"
-          id="operation-searchconnect-dropdown"
-          aria-labelledby="operation-searchconnect-title"
-          placeholder="Sök på verksamhetskoder"
-          onChange={onOperationSelectHandler}
-          value={activeOperation?.data?.operationCode?.toString() ?? undefined}
-          defaultValue={activeOperation?.data?.operationCode?.toString() ?? undefined}
-        >
-          <Combobox.List>
-            {operationsNotInOrg.map((item, index) => (
-              <Combobox.Option key={`item-${index}`} value={item.operationCode.toString()}>
-                {`${item.operationCode.trim()} - ${item.description.trim()}`}
-              </Combobox.Option>
-            ))}
-          </Combobox.List>
-        </Combobox>
-        {error && (
-          <div className="w-full flex justify-between space-x-5 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
-        <Modal.Footer>
-          <Button type="button" variant="secondary" onClick={onCloseHandler}>
-            Avbryt
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            color="primary"
-            leftIcon={<Check />}
-            loading={isLoading}
-            loadingText="Sparar"
-            disabled={!activeOperation}
+          <Combobox
+            className="w-full"
+            id="operation-searchconnect-dropdown"
+            onChange={onOperationSelectHandler}
+            value={activeOperation?.data?.operationCode?.toString() ?? undefined}
+            defaultValue={activeOperation?.data?.operationCode?.toString() ?? undefined}
           >
-            Spara
-          </Button>
-        </Modal.Footer>
+            <Combobox.Input className="w-full" placeholder="Sök på verksamhetskoder" />
+            <Combobox.List>
+              {operationsNotInOrg.map((item, index) => (
+                <Combobox.Option key={`item-${index}`} value={item.operationCode.toString()}>
+                  {`${item.operationCode.trim()} - ${item.description.trim()}`}
+                </Combobox.Option>
+              ))}
+            </Combobox.List>
+          </Combobox>
+        </FormControl>
+        {error && <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </form>
+      <Modal.Footer>
+        <Button type="button" variant="secondary" onClick={onCloseHandler}>
+          Avbryt
+        </Button>
+        <Button
+          className="ml-auto"
+          type="submit"
+          form="operation-connector-form"
+          variant="primary"
+          color="primary"
+          leftIcon={<Check />}
+          loading={isLoading}
+          loadingText="Sparar"
+          disabled={!activeOperation}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

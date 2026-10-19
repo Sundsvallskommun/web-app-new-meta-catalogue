@@ -4,7 +4,6 @@ import NextLink from 'next/link';
 // icons
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
 import { PersonHeader } from '@components/PersonHeader/PersonHeader.component';
-import { Flag } from 'lucide-react';
 import { emptyPersonEditor } from '@services/mdviewer/defaults/employment';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
@@ -36,6 +35,12 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       { element: employeeDetails?.friendlyGivenname || 'Inga uppgifter' },
     ],
   ];
+
+  const hasContactInfo = !!(
+    employeeDetails?.workMobile ||
+    employeeDetails?.workPhone ||
+    employeeDetails?.friendlyGivenname
+  );
 
   const userHeaders = [header('Användarnamn'), header('Visningsnamn')];
 
@@ -75,38 +80,39 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               lastname={employeeDetails.lastname}
               personNumber={employeeDetails.personNumber}
             />
-            <section className="flex flex-col gap-16">
-              <h4 className="text-lead">Kontaktuppgifter</h4>
-              <DataTable headers={contactHeaders} rows={contactRows} captionBody="" captionTitle="" summary="" />
-            </section>
-            <div className="flex flex-col lg:flex-row gap-32">
-              <section className="flex flex-col gap-16 w-full">
-                <h4 className="text-lead">Användarinfo</h4>
-                <DataTable
-                  headers={userHeaders}
-                  rows={userRows}
-                  pageSize={2}
-                  captionBody=""
-                  captionTitle=""
-                  summary=""
-                />
+            {hasContactInfo && (
+              <section className="flex flex-col gap-8">
+                <h4 className="text-lead">Kontaktuppgifter</h4>
+                <DataTable headers={contactHeaders} rows={contactRows} captionBody="" captionTitle="" summary="" />
               </section>
-              <section className="flex flex-col gap-16 w-full">
-                <h4 className="text-lead">E-postadresser</h4>
-                <DataTable
-                  headers={emailHeaders}
-                  rows={emailRows}
-                  pageSize={2}
-                  captionBody=""
-                  captionTitle=""
-                  summary=""
-                />
+            )}
+            {(userRows.length > 0 || emailRows.length > 0) && (
+              <div className="flex flex-col lg:flex-row lg:items-start gap-32">
+                {userRows.length > 0 && (
+                  <section className="flex flex-col gap-8 w-full">
+                    <h4 className="text-lead">Användarinfo</h4>
+                    <DataTable headers={userHeaders} rows={userRows} captionBody="" captionTitle="" summary="" />
+                  </section>
+                )}
+                {emailRows.length > 0 && (
+                  <section className="flex flex-col gap-8 w-full">
+                    <h4 className="text-lead">E-postadresser</h4>
+                    <DataTable headers={emailHeaders} rows={emailRows} captionBody="" captionTitle="" summary="" />
+                  </section>
+                )}
+              </div>
+            )}
+            {employRows.length > 0 && (
+              <section className="flex flex-col gap-8">
+                <h4 className="text-lead">Anställning ({employeeDetails?.employments?.length})</h4>
+                <DataTable headers={employHeaders} rows={employRows} captionBody="" captionTitle="" summary="" />
               </section>
-            </div>
-            <section className="flex flex-col gap-16">
-              <h4 className="text-lead">Anställning ({employeeDetails?.employments?.length})</h4>
-              <DataTable headers={employHeaders} rows={employRows} captionBody="" captionTitle="" summary="" />
-            </section>
+            )}
+          </div>
+          <Modal.Footer className="mt-lg">
+            <Button variant="secondary" onClick={handleOnClose} type="button">
+              Stäng
+            </Button>
             <NextLink
               legacyBehavior
               href={{
@@ -115,15 +121,10 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button type="button" variant="link" leftIcon={<Flag />}>
+              <Button type="button" variant="tertiary" className="ml-auto">
                 Rapportera fel
               </Button>
             </NextLink>
-          </div>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleOnClose} type="button">
-              Stäng
-            </Button>
           </Modal.Footer>
         </>
       )}

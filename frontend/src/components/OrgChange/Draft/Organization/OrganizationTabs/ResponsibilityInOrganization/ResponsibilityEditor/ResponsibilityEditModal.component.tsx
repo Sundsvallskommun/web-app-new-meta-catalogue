@@ -148,37 +148,37 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} labelAs="h3" onClose={onClose} label="Uppdatera ansvar">
+    <Modal className="max-w-[800px]" show={true} onClose={onClose} label="Uppdatera ansvar">
       <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
         <form
+          id="responsibility-edit-modal-form"
+          className="flex flex-col gap-16"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
           }}
         >
-          <FormControl id="responsibility-edit-title">
-            <FormLabel>Ansvartitel</FormLabel>
-            <Input.Group size="md">
-              <Input
-                value={watch().description}
-                placeholder="Ansvarstitel"
-                maxLength={30}
-                title="Ansvarstitel"
-                onChange={descriptionHandler}
-              />
-            </Input.Group>
-          </FormControl>
-
-          {errors.description && (
-            <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
-          )}
-
-          <div className="mt-lg">
+          <div className="flex flex-col items-start gap-8">
+            <FormControl id="responsibility-edit-title" className="w-full">
+              <FormLabel>Ansvartitel</FormLabel>
+              <Input.Group size="md">
+                <Input
+                  value={watch().description}
+                  placeholder="Ansvarstitel"
+                  maxLength={30}
+                  title="Ansvarstitel"
+                  onChange={descriptionHandler}
+                />
+              </Input.Group>
+              {errors.description && (
+                <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
+              )}
+            </FormControl>
             <Button
               type="button"
               color="error"
-              size="md"
-              variant="secondary"
+              size="sm"
+              variant="tertiary"
               aria-label={`Stäng ansvar ${watch().description}`}
               onClick={onRemoveHandler}
               leftIcon={<Trash />}
@@ -187,28 +187,26 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
             </Button>
           </div>
           {error && (
-            <div className="w-full flex justify-between space-x-5 my-lg">
-              <FormErrorMessage>
-                <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-              </FormErrorMessage>
-            </div>
+            <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>
           )}
-          <Modal.Footer>
-            <Button variant="secondary" onClick={onCloseHandler} type="button">
-              {'Avbryt'}
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              color="primary"
-              leftIcon={<Check />}
-              loading={isLoading}
-              loadingText="Sparar"
-            >
-              Spara
-            </Button>
-          </Modal.Footer>
         </form>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onCloseHandler} type="button">
+            {'Avbryt'}
+          </Button>
+          <Button
+            className="ml-auto"
+            type="submit"
+            form="responsibility-edit-modal-form"
+            variant="primary"
+            color="primary"
+            leftIcon={<Check />}
+            loading={isLoading}
+            loadingText="Sparar"
+          >
+            Spara
+          </Button>
+        </Modal.Footer>
       </WarnIfUnsavedChanges>
     </Modal>
   );

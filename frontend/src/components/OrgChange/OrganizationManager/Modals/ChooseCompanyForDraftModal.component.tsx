@@ -70,11 +70,11 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
       onClose={onCloseHandler}
       label={'Välj vilket bolag som du vill göra förändringar i'}
     >
-      <div>
-        <FormControl id="orgchange-choose-company">
+      <div className="flex flex-col gap-16">
+        <FormControl id="orgchange-choose-company" className="w-full">
           <FormLabel id="choosecompany">Välj bolag</FormLabel>
           <Select
-            size="lg"
+            size="md"
             placeholder="Välj bolag"
             className="w-full"
             data-cy="orgchange-choose-company"
@@ -90,20 +90,14 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
             )) || []}
           </Select>
         </FormControl>
+        {error && <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </div>
-
-      {error && (
-        <div className="w-full flex justify-between space-x-5 my-lg">
-          <FormErrorMessage>
-            <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-          </FormErrorMessage>
-        </div>
-      )}
       <Modal.Footer>
         <Button variant="secondary" onClick={onCloseHandler} type="button">
           {'Avbryt'}
         </Button>
         <Button
+          className="ml-auto"
           onClick={() => filterGoToDraft()}
           variant="primary"
           type="submit"

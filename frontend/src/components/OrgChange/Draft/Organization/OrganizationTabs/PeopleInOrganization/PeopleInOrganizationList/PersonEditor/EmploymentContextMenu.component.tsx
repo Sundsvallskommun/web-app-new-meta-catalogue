@@ -1,5 +1,5 @@
-import { Badge, Button, PopupMenu, Icon } from '@sk-web-gui/react';
-import { Building, EllipsisVertical, Users } from 'lucide-react';
+import { Button, PopupMenu, Icon } from '@sk-web-gui/react';
+import { Building, CircleAlert, EllipsisVertical, Info, Users } from 'lucide-react';
 import { shouldEditEmployment } from '@utils/shouldeditemployment';
 import { useEffect, useState } from 'react';
 import ChangePaTeamModal from '@components/OrgChange/Draft/Modals/ChangePaTeamModal.component';
@@ -50,21 +50,16 @@ export default function EmploymentContextMenu({
       <PopupMenu type="menu" align="end">
         <PopupMenu.Button
           title={`Redigera anställning${mustEdit ? ', justeringar behövs' : ''}`}
-          variant={windowSize.lg ? 'secondary' : 'primary'}
-          color={`primary`}
-          iconButton={windowSize.lg || undefined}
-          rightIcon={
-            <span className="relative">
-              <Icon icon={<EllipsisVertical />} />
-              {showFocus && (
-                <Badge
-                  className="absolute -right-[0.5rem] top-[0.15rem]"
-                  size="sm"
-                  color={mustEdit ? 'error' : 'vattjom'}
-                />
-              )}
-            </span>
+          variant={showFocus ? 'primary' : 'tertiary'}
+          size="sm"
+          color={
+            mustEdit ? 'error'
+            : showFocus ?
+              'vattjom'
+            : undefined
           }
+          iconButton={windowSize.lg || undefined}
+          rightIcon={<EllipsisVertical />}
         >
           <span className="lg:hidden">Redigera anställning</span>
         </PopupMenu.Button>
@@ -73,15 +68,15 @@ export default function EmploymentContextMenu({
             <PopupMenu.Item>
               <Button onClick={handleOpenPA} leftIcon={<Users />}>
                 <span>Ändra PA-Team {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-                {showFocus && !mustEditPaTeam && <Badge className="ml-sm" color="vattjom" />}
-                {mustEditPaTeam && <Badge className="ml-sm" color="error" />}
+                {showFocus && !mustEditPaTeam && <Icon size={16} color="vattjom" icon={<Info />} />}
+                {mustEditPaTeam && <Icon size={16} color="error" icon={<CircleAlert />} />}
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>
               <Button onClick={handleOpenOperation} leftIcon={<Building />}>
                 <span>Ändra verksamhet {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-                {showFocus && !mustEditOperation && <Badge className="ml-sm" color="vattjom" />}
-                {mustEditOperation && <Badge className="ml-sm" color="error" />}
+                {showFocus && !mustEditOperation && <Icon size={16} color="vattjom" icon={<Info />} />}
+                {mustEditOperation && <Icon size={16} color="error" icon={<CircleAlert />} />}
               </Button>
             </PopupMenu.Item>
             <PopupMenu.Item>

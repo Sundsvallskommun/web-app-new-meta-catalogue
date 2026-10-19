@@ -192,112 +192,106 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} labelAs="h3" onClose={onCloseHandler} label="Skapa nytt ansvar">
+    <Modal className="max-w-[800px]" show={true} onClose={onCloseHandler} label="Skapa nytt ansvar">
       <WarnIfUnsavedChanges showWarning={isDirty}>
         <form
+          id="responsibility-new-modal-form"
+          className="flex flex-col gap-16"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
           }}
         >
-          <div>
-            <FormControl id="responsibility-edit-title">
-              <FormLabel>Ansvartitel</FormLabel>
-              <Input.Group size="md">
-                <Input {...register('description')} placeholder="Ansvarstitel" maxLength={30} title="Ansvarstitel" />
-              </Input.Group>
-            </FormControl>
+          <FormControl id="responsibility-edit-title" className="w-full">
+            <FormLabel>Ansvartitel</FormLabel>
+            <Input.Group size="md">
+              <Input {...register('description')} placeholder="Ansvarstitel" maxLength={30} title="Ansvarstitel" />
+            </Input.Group>
             <ErrorMessage
               errors={errors}
               name="description"
               render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
             />
-          </div>
-          <div>
-            <div className="grid grid-cols-2 gap-24 my-md">
-              <div>
-                <FormControl id="responsibility-code">
-                  <FormLabel>Ansvarskod</FormLabel>
-                  <Input.Group size="md">
-                    <Input.LeftAddon>{leftValue}</Input.LeftAddon>
-                    <Input
-                      value={rightValue}
-                      placeholder="000"
-                      maxLength={3}
-                      title="Ansvarskod i siffror 0-9"
-                      pattern="[0-9]\d\d"
-                      onChange={responsibilityCodeHandler}
-                    />
-                  </Input.Group>
-                  <ErrorMessage
-                    errors={errors}
-                    name="responsibilityCode"
-                    render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
+          </FormControl>
+          <div className="grid grid-cols-2 gap-16">
+            <div>
+              <FormControl id="responsibility-code">
+                <FormLabel>Ansvarskod</FormLabel>
+                <Input.Group size="md">
+                  <Input.LeftAddon>{leftValue}</Input.LeftAddon>
+                  <Input
+                    value={rightValue}
+                    placeholder="000"
+                    maxLength={3}
+                    title="Ansvarskod i siffror 0-9"
+                    pattern="[0-9]\d\d"
+                    onChange={responsibilityCodeHandler}
                   />
-                </FormControl>
-              </div>
+                </Input.Group>
+                <ErrorMessage
+                  errors={errors}
+                  name="responsibilityCode"
+                  render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
+                />
+              </FormControl>
+            </div>
 
-              <div>
-                <FormControl id="responsibilityTypeId">
-                  <FormLabel>Ansvarstyp</FormLabel>
-                  <Select
-                    aria-label="Ansvarstyp"
-                    id="responsibilityTypeId"
-                    {...register('responsibilityTypeId')}
-                    value={responsibilityTypes.find((x) => x.id == watch().responsibilityTypeId)?.id}
-                    placeholder="Ansvarstyp"
-                    className="w-full"
-                    onChange={selectTypeOfResponsibilityHandler}
-                  >
-                    {responsibilityTypes
-                      .filter((x) =>
-                        hasLoneansvarInOrg ? x.id !== OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR : true
-                      )
-                      .map((type) => (
-                        <Select.Option key={`${type.label}`} value={type.id}>
-                          {type.label}
-                        </Select.Option>
-                      ))}
-                  </Select>
-                  <ErrorMessage
-                    errors={errors}
-                    name="responsibilityTypeId"
-                    render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
-                  />
-                </FormControl>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-24 my-md">
-              <div>
-                <FormLabel id="responsibilityToDate">Giltig till</FormLabel>
-                <span className="block">9999-12-31</span>
-              </div>
+            <div>
+              <FormControl id="responsibilityTypeId">
+                <FormLabel>Ansvarstyp</FormLabel>
+                <Select
+                  aria-label="Ansvarstyp"
+                  id="responsibilityTypeId"
+                  {...register('responsibilityTypeId')}
+                  value={responsibilityTypes.find((x) => x.id == watch().responsibilityTypeId)?.id}
+                  placeholder="Ansvarstyp"
+                  className="w-full"
+                  onChange={selectTypeOfResponsibilityHandler}
+                >
+                  {responsibilityTypes
+                    .filter((x) =>
+                      hasLoneansvarInOrg ? x.id !== OrgChangeResponsibilityResponsibilityTypeIdEnum.LONEANSVAR : true
+                    )
+                    .map((type) => (
+                      <Select.Option key={`${type.label}`} value={type.id}>
+                        {type.label}
+                      </Select.Option>
+                    ))}
+                </Select>
+                <ErrorMessage
+                  errors={errors}
+                  name="responsibilityTypeId"
+                  render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
+                />
+              </FormControl>
             </div>
           </div>
+          <FormControl id="responsibilityToDate">
+            <FormLabel>Giltig till</FormLabel>
+            <p>9999-12-31</p>
+          </FormControl>
 
           {error && (
-            <div className="w-full flex justify-between space-x-5 my-lg">
-              <FormErrorMessage>
-                <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-              </FormErrorMessage>
-            </div>
+            <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>
           )}
-          <Modal.Footer>
-            <Button variant="secondary" onClick={onCloseHandler} type="button">
-              {'Avbryt'}
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              color="primary"
-              leftIcon={<Check />}
-              loading={isLoading}
-              loadingText="Sparar"
-            >
-              Spara
-            </Button>
-          </Modal.Footer>
         </form>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onCloseHandler} type="button">
+            {'Avbryt'}
+          </Button>
+          <Button
+            className="ml-auto"
+            type="submit"
+            form="responsibility-new-modal-form"
+            variant="primary"
+            color="primary"
+            leftIcon={<Check />}
+            loading={isLoading}
+            loadingText="Sparar"
+          >
+            Spara
+          </Button>
+        </Modal.Footer>
       </WarnIfUnsavedChanges>
     </Modal>
   );

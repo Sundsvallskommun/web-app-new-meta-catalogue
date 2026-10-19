@@ -1,4 +1,5 @@
 import Loader from '@components/Loader/Loader.component';
+import { PersonAvatar } from '@components/PersonHeader/PersonHeader.component';
 import {
   EmploymentChangeArrayDto,
   OrgChangeOrganizationEmployee,
@@ -11,19 +12,19 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment, getEmployeeDetails } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import {
+  Alert,
   Button,
   FormControl,
   FormErrorMessage,
+  FormLabel,
   Modal,
-  Avatar,
   RadioButton,
   useSnackbar,
   Combobox,
 } from '@sk-web-gui/react';
 import { OptionValueType } from '@interfaces/option-value';
-import { apiURL } from '@utils/api-url';
 import { renderNewOrOld } from '@utils/render-new-or-old';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { MarkedPeopleList } from './components/MarkedPeopleList.component';
 
 interface IChangePaTeamProps {
@@ -160,24 +161,11 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
     setActivePaTeam(initialPaTeam);
   };
 
-  const labelHeading = (
-    <div>
-      <h1 className="text-lead">
-        <label id="searchpateam">Sök och välj PA-Team</label>
-      </h1>
-      <h2 className=" block font-normal text-large leading-tight">
-        {' '}
-        För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
-      </h2>
-    </div>
-  );
-
   const resetButton = (
     <Button
-      className="float-right"
       type="button"
-      size="md"
-      variant="link"
+      size="sm"
+      variant="tertiary"
       onClick={resetPa}
       aria-label={`Återställ PA-Team`}
       leftIcon={<Undo2 />}
@@ -187,20 +175,24 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
   );
 
   return (
-    <Modal className="max-w-[900px]" show onClose={handleOnClose} label={labelHeading}>
-      <form onSubmit={onSubmit}>
-        <FormControl id="pateam-edit-dropdown">
+    <Modal className="w-full max-w-[900px]" show onClose={handleOnClose} label="Ändra PA-Team">
+      <form id="change-pa-team-modal-form" onSubmit={onSubmit} className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
+        </p>
+        <FormControl id="pateam-edit-dropdown" className="w-full">
+          <FormLabel>PA-Team</FormLabel>
           <Combobox
             className="w-full"
             aria-labelledby="pateam-edit-dropdown-label"
             id="pateam-edit-dropdown"
-            placeholder="Sök på PA-Team kod, benämning eller ansvarig chef"
             onChange={onPaTeamSelectHandler}
             onChangeSearch={onPaTeamChangeHandler}
             searchValue={searchValue}
             value={activePaTeam?.data?.paTeam ?? []}
             defaultValue={activePaTeam?.data?.paTeam ?? []}
           >
+            <Combobox.Input className="w-full" placeholder="Sök på PA-Team kod, benämning eller ansvarig chef" />
             <Combobox.List>
               {paSearchResults.map((item, index) => (
                 <Combobox.Option key={`item-${item.paTeam}-${index}`} value={item.paTeam}>
@@ -211,40 +203,41 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
           </Combobox>
         </FormControl>
         {activePaTeam && activePaTeam?.data?.paTeam !== initialPaTeam?.data?.paTeam && peopleToHandle.length === 1 && (
-          <div className="w-full py-sm">{resetButton}</div>
+          <div>{resetButton}</div>
         )}
         {!paTeamsByManagerIsLoading ?
           <>
             {(manager || paTeamsByManager.length !== 0) && (
-              <div className="mt-lg">
+              <div className="flex flex-col gap-16">
                 {manager && (
-                  <div className="flex gap-5 items-center">
-                    <Avatar
-                      size="lg"
-                      placeholderImage={`${process.env.NEXT_PUBLIC_BASE_PATH}/user-image-placeholder-square-48.png`}
-                      imageUrl={`${apiURL(`/employee/${manager.personId}/personimage`)}`}
+                  <div className="flex gap-16 items-center">
+                    <PersonAvatar
+                      personId={manager.personId}
+                      givenname={manager.givenname}
+                      lastname={manager.lastname}
+                      size="md"
                     />
-                    <h3 className="font-normal text-base">
-                      <span className="block">Överordnad chef</span>
-                      {manager?.givenname} {manager?.lastname} |{' '}
-                      {manager?.employments?.map((e, index) => {
-                        return (
-                          <span key={`employment-${index}-${e.department}`}>
-                            {e.title} {e.department}
-                          </span>
-                        );
-                      })}
-                    </h3>
+                    <div>
+                      <p className="text-small text-dark-secondary">Överordnad chef</p>
+                      <p>
+                        {manager?.givenname} {manager?.lastname}
+                      </p>
+                      {manager?.employments?.map((e, index) => (
+                        <p key={`employment-${index}-${e.department}`} className="text-small">
+                          {e.title} {e.department}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 )}
                 {paTeamsByManager.length !== 0 ?
-                  <div className="my-lg">
-                    <h3 className="pb-sm border-b-1 border-divider text-base">
+                  <fieldset className="flex flex-col gap-8">
+                    <legend className="text-label-medium mb-8">
                       {!manager ? `PA-Team (kopplade till ${activePaTeam.data.managerName})` : 'PA-Team'}
-                    </h3>
+                    </legend>
 
                     <RadioButton.Group>
-                      <ul className="pb-lg">
+                      <ul>
                         {paTeamsByManager.map((pa) => {
                           const paObject = {
                             label: pa.paTeam,
@@ -280,7 +273,7 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
                         })}
                       </ul>
                     </RadioButton.Group>
-                  </div>
+                  </fieldset>
                 : <></>}
               </div>
             )}
@@ -289,54 +282,49 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
             <Loader size="xl" />
           </div>
         }
-        {errorMessage && (
-          <div className="w-full flex justify-between space-x-5 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
+        {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         {peopleToHandle.length !== 0 && (
           <MarkedPeopleList
             peopleToHandle={peopleToHandle}
             contextColumn={{
               header: 'PA-Team',
               element: (p) => (
-                <Fragment>
-                  <span className="inline font-bold lg:hidden">PA-Team: </span>
-                  <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-small lg:float-left">
-                      {renderNewOrOld(p.newPATeam, p.paTeam)}
-                    </span>
-                    <br />
-                    <span className="inline font-bold lg:hidden">PA-Team-namn: </span>
-                    <span>{renderNewOrOld(p.newPATeamName, p.paTeamName)}</span>
-                  </span>
-                </Fragment>
+                <>
+                  {renderNewOrOld(p.newPATeam, p.paTeam)}
+                  <br />
+                  {renderNewOrOld(p.newPATeamName, p.paTeamName)}
+                </>
               ),
             }}
           />
         )}
         {activePaTeam && activePaTeam?.data?.paTeam !== initialPaTeam?.data?.paTeam && (
-          <p className="my-md">
-            Notera att chef inte kommer ändras i samband med ändring av PA-Team. För ändring av chef hänvisas du till
-            manuell hantering i Heroma
-          </p>
+          <Alert type="info">
+            <Alert.Icon />
+            <Alert.Content>
+              <Alert.Content.Description>
+                Notera att chef inte kommer ändras i samband med ändring av PA-Team. För ändring av chef hänvisas du
+                till manuell hantering i Heroma.
+              </Alert.Content.Description>
+            </Alert.Content>
+          </Alert>
         )}
-        <Modal.Footer>
-          <Button variant="secondary" type="button" onClick={handleOnClose}>
-            Stäng
-          </Button>
-          <Button
-            variant="primary"
-            type="submit"
-            color="primary"
-            aria-disabled={activePaTeam?.data?.paTeam == initialPaTeam?.data?.paTeam ? 'true' : undefined}
-          >
-            Spara
-          </Button>
-        </Modal.Footer>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={handleOnClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="ml-auto"
+          variant="primary"
+          type="submit"
+          form="change-pa-team-modal-form"
+          color="primary"
+          aria-disabled={activePaTeam?.data?.paTeam == initialPaTeam?.data?.paTeam ? 'true' : undefined}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

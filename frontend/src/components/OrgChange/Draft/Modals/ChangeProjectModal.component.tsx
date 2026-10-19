@@ -7,10 +7,19 @@ import { Undo2 } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, FormControl, FormErrorMessage, Modal, useConfirm, useSnackbar, Combobox } from '@sk-web-gui/react';
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Modal,
+  useConfirm,
+  useSnackbar,
+  Combobox,
+} from '@sk-web-gui/react';
 import { OptionValueType } from '@interfaces/option-value';
 import { renderNewOrOld } from '@utils/render-new-or-old';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { MarkedPeopleList } from './components/MarkedPeopleList.component';
 
 interface IChangeProjectProps {
@@ -135,24 +144,11 @@ export default function ChangeProjectModal(props: IChangeProjectProps) {
     setActiveProject(initialProject);
   };
 
-  const labelHeading = (
-    <div>
-      <h1 className="text-lead">
-        <label id="search-project">Sök och välj projekt</label>
-      </h1>
-      <h2 className=" block font-normal text-large leading-tight">
-        {' '}
-        För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
-      </h2>
-    </div>
-  );
-
   const resetButton = (
     <Button
-      className="float-right"
       type="button"
-      size="md"
-      variant="link"
+      size="sm"
+      variant="tertiary"
       onClick={resetPa}
       aria-label={`Återställ projekt`}
       leftIcon={<Undo2 />}
@@ -162,88 +158,89 @@ export default function ChangeProjectModal(props: IChangeProjectProps) {
   );
 
   return (
-    <Modal className="max-w-[900px]" show onClose={handleOnClose} label={labelHeading}>
-      <FormControl id="project-edit-dropdown">
-        <Combobox
-          className="w-full"
-          id="project-edit-dropdown"
-          placeholder="Sök på projektkod eller beskrivning"
-          onChange={onProjectSelectHandler}
-          value={activeProject?.label ?? []}
-          defaultValue={activeProject?.label ?? []}
-        >
-          <Combobox.List>
-            {projectsByCompany.map((item, index) => (
-              <Combobox.Option key={`item-${index}`} value={item.projectCode}>
-                {`${item.projectCode.trim()} - ${item.description.trim()}`}
-              </Combobox.Option>
-            ))}
-          </Combobox.List>
-        </Combobox>
-      </FormControl>
-      <form onSubmit={onSubmit}>
+    <Modal className="w-full max-w-[900px]" show onClose={handleOnClose} label="Ändra projekt">
+      <form id="change-project-modal-form" onSubmit={onSubmit} className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
+        </p>
+        <FormControl id="project-edit-dropdown" className="w-full">
+          <FormLabel>Projekt</FormLabel>
+          <Combobox
+            className="w-full"
+            id="project-edit-dropdown"
+            onChange={onProjectSelectHandler}
+            value={activeProject?.label ?? []}
+            defaultValue={activeProject?.label ?? []}
+          >
+            <Combobox.Input className="w-full" placeholder="Sök på projektkod eller beskrivning" />
+            <Combobox.List>
+              {projectsByCompany.map((item, index) => (
+                <Combobox.Option key={`item-${index}`} value={item.projectCode}>
+                  {`${item.projectCode.trim()} - ${item.description.trim()}`}
+                </Combobox.Option>
+              ))}
+            </Combobox.List>
+          </Combobox>
+        </FormControl>
         {activeProject &&
           activeProject?.data?.projectId !== initialProject?.data?.projectId &&
-          peopleToHandle.length === 1 && <div className="w-full py-sm">{resetButton}</div>}
-        {errorMessage && (
-          <div className="w-full flex justify-between space-x-5 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
+          peopleToHandle.length === 1 && <div>{resetButton}</div>}
+        {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         {peopleToHandle.length !== 0 && (
           <MarkedPeopleList
             peopleToHandle={peopleToHandle}
             contextColumn={{
               header: 'Projekt',
               element: (p) => (
-                <Fragment>
-                  <span className="inline font-bold lg:hidden">Projekt: </span>
-                  <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-small lg:float-left">
-                      {renderNewOrOld(p.newProjectCode, p.projectCode)}
-                    </span>
-                    <br />
-                    <span className="inline font-bold lg:hidden">Projekt-namn: </span>
-                    <span>{renderNewOrOld(p.newProjectName, p.projectName)}</span>
-                  </span>
-                </Fragment>
+                <>
+                  {renderNewOrOld(p.newProjectCode, p.projectCode)}
+                  <br />
+                  {renderNewOrOld(p.newProjectName, p.projectName)}
+                </>
               ),
             }}
           />
         )}
         {peopleToHandleWithProjectCode.length > 0 && (
-          <div className="mt-lg gap-sm">
+          <div className="flex flex-col items-start gap-8">
             <Button
+              type="button"
               color="error"
               size="sm"
-              variant="secondary"
+              variant="tertiary"
               aria-describedby="project-modal-disconnect-text"
               onClick={handleDisconnectProject}
             >
               Koppla bort nuvarande projekt
             </Button>
             {peopleToHandle.length > 1 ?
-              <p id="project-modal-disconnect-text">{`Väljer du att koppla bort nuvarande projekt kommer inget projekt finnas knutet till valda personer.`}</p>
-            : <p id="project-modal-disconnect-text">{`Väljer du att koppla bort nuvarande projekt ${initialProject.data.description} ${initialProject.data.projectCode} kommer inget projekt finnas knutet till den valda personen.`}</p>
+              <p
+                id="project-modal-disconnect-text"
+                className="text-small"
+              >{`Väljer du att koppla bort nuvarande projekt kommer inget projekt finnas knutet till valda personer.`}</p>
+            : <p
+                id="project-modal-disconnect-text"
+                className="text-small"
+              >{`Väljer du att koppla bort nuvarande projekt ${initialProject.data.description} ${initialProject.data.projectCode} kommer inget projekt finnas knutet till den valda personen.`}</p>
             }
           </div>
         )}
-        <Modal.Footer>
-          <Button variant="secondary" type="button" onClick={handleOnClose}>
-            Stäng
-          </Button>
-          <Button
-            variant="primary"
-            type="submit"
-            color="primary"
-            aria-disabled={!activeProject?.data?.projectId ? 'true' : undefined}
-          >
-            Spara
-          </Button>
-        </Modal.Footer>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" type="button" onClick={handleOnClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="ml-auto"
+          variant="primary"
+          type="submit"
+          form="change-project-modal-form"
+          color="primary"
+          aria-disabled={!activeProject?.data?.projectId ? 'true' : undefined}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

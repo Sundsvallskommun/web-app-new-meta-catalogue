@@ -1,5 +1,5 @@
 import { Avatar, Button, Icon, Input, PopupMenu, Spinner } from '@sk-web-gui/react';
-import { EllipsisVertical, MessagesSquare, Pencil, SendHorizontal, Trash } from 'lucide-react';
+import { EllipsisVertical, Pencil, SendHorizontal, Trash } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export interface CommentData {
@@ -58,15 +58,14 @@ export const Comments = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex items-center gap-sm px-24 pb-md">
-        <Icon icon={<MessagesSquare />} />
-        <h2>Kommentarer</h2>
-      </div>
-      <div className="pl-24 pr-40 overflow-y-auto h-full" ref={scrollRef}>
+    <div className="flex flex-col gap-md w-full min-h-0">
+      <div className="overflow-y-auto min-h-0" ref={scrollRef}>
+        {!loading && commentsData.length === 0 && (
+          <p className="text-dark-secondary">Inga kommentarer ännu. Skriv den första nedan.</p>
+        )}
         {!loading &&
           commentsData.map((comment) => (
-            <div key={`comment-item-${comment.id}`} className="border-b-1 border-divider py-24 mt-10">
+            <div key={`comment-item-${comment.id}`} className="border-b-1 border-divider py-16">
               <div className="flex items-start gap-sm">
                 <Avatar size="sm" rounded initials={comment.commentorName.slice(0, 2).toUpperCase()} />
                 <div className={`w-full ${editId === comment.id ? 'p-sm rounded-lg bg-warning-background-200' : ''}`}>
@@ -77,8 +76,14 @@ export const Comments = ({
                 </div>
                 {currentUserName === comment.commentorUserName ?
                   <PopupMenu type="menu" align="end">
-                    <PopupMenu.Button title="Redigera Kommentar" variant="tertiary" showBackground={false} iconButton>
-                      <Icon icon={<EllipsisVertical />} />
+                    <PopupMenu.Button
+                      title="Redigera Kommentar"
+                      aria-label="Redigera kommentar"
+                      variant="tertiary"
+                      size="sm"
+                      iconButton
+                    >
+                      <EllipsisVertical />
                     </PopupMenu.Button>
                     <PopupMenu.Panel>
                       <PopupMenu.Items>
@@ -95,7 +100,7 @@ export const Comments = ({
                       </PopupMenu.Items>
                     </PopupMenu.Panel>
                   </PopupMenu>
-                : <div className="w-[4.8rem] shrink-0" />}
+                : <div className="w-32 shrink-0" />}
               </div>
             </div>
           ))}
@@ -105,14 +110,14 @@ export const Comments = ({
           </div>
         )}
       </div>
-      <div className="comment-input mt-auto flex items-center gap-sm p-10">
+      <div className="comment-input mt-auto flex items-center gap-sm">
         <Input
           id="comment-input"
           ref={inputRef}
           className="w-full"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Skriv en kommentar.."
+          placeholder="Skriv en kommentar..."
         />
         <Button
           iconButton

@@ -106,72 +106,67 @@ export const FeedbackModal: React.FC<{
   return (
     <Modal show={isOpen} label="Rapportera fel" onClose={handleOnClose} className="max-w-screen-md">
       <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <fieldset>
-              <FormLabel>Typ av fel</FormLabel>
-              <Select
-                placeholder="Välj typ"
-                className="w-full"
-                onChange={handleOnSelectTypeChange}
-                defaultValue={selectTypeValue?.type ? selectTypeValue.label : feedbackSelectTypes[0].label}
-              >
-                {feedbackSelectTypes.map((c) => (
-                  <Select.Option data-cy="nav-li" key={`${c.label}`} value={c.label}>
-                    {c.label}
-                  </Select.Option>
-                ))}
-              </Select>
-            </fieldset>
-            {errors.type && <FormErrorMessage key={`type-errors`}>{errors.type?.message}</FormErrorMessage>}
-          </div>
-          <div className="flex my-md">
-            <FormControl id="body" className="w-full">
-              <FormLabel>Detaljbeskrivning</FormLabel>
-              <Controller
-                control={control}
-                name="body"
-                render={({ field: { onChange, value, ref } }) => (
-                  <Textarea
-                    data-cy="nav-textArea"
-                    className="w-full"
-                    showCount={true}
-                    maxLength={4000}
-                    maxLengthWarningText="Max-antalet tecken är 4000"
-                    placeholder="Beskrivning..."
-                    rows={6}
-                    onChange={onChange} // send value to hook form
-                    value={value}
-                    ref={ref}
-                  />
-                )}
-              />
-              {errors.body && <FormErrorMessage key={`body-errors`}>{errors.body?.message}</FormErrorMessage>}
-            </FormControl>
-          </div>
-
-          {submitError && (
-            <div className="flex my-md">
-              <FormErrorMessage key={`formData-errors`}>Det gick inte att skicka meddelandet</FormErrorMessage>
-            </div>
-          )}
-          <Modal.Footer>
-            <Button data-cy="nav-button-avbryt" onClick={handleOnClose} type="button" variant="secondary">
-              Avbryt
-            </Button>
-            <Button
-              data-cy="nav-button-rapportera"
-              type="submit"
-              variant="primary"
-              color="primary"
-              disabled={!formState.isDirty}
-              loading={isLoading}
-              loadingText="Skickar"
+        <form id="feedback-modal-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
+          <FormControl id="type" className="w-full">
+            <FormLabel>Typ av fel</FormLabel>
+            <Select
+              placeholder="Välj typ"
+              className="w-full"
+              onChange={handleOnSelectTypeChange}
+              defaultValue={selectTypeValue?.type ? selectTypeValue.label : feedbackSelectTypes[0].label}
             >
-              Rapportera
-            </Button>
-          </Modal.Footer>
+              {feedbackSelectTypes.map((c) => (
+                <Select.Option data-cy="nav-li" key={`${c.label}`} value={c.label}>
+                  {c.label}
+                </Select.Option>
+              ))}
+            </Select>
+            {errors.type && <FormErrorMessage key={`type-errors`}>{errors.type?.message}</FormErrorMessage>}
+          </FormControl>
+          <FormControl id="body" className="w-full">
+            <FormLabel>Detaljbeskrivning</FormLabel>
+            <Controller
+              control={control}
+              name="body"
+              render={({ field: { onChange, value, ref } }) => (
+                <Textarea
+                  data-cy="nav-textArea"
+                  className="w-full"
+                  showCount={true}
+                  maxLength={4000}
+                  maxLengthWarningText="Max-antalet tecken är 4000"
+                  placeholder="Beskrivning..."
+                  rows={6}
+                  onChange={onChange} // send value to hook form
+                  value={value}
+                  ref={ref}
+                />
+              )}
+            />
+            {errors.body && <FormErrorMessage key={`body-errors`}>{errors.body?.message}</FormErrorMessage>}
+          </FormControl>
+          {submitError && (
+            <FormErrorMessage key={`formData-errors`}>Det gick inte att skicka meddelandet</FormErrorMessage>
+          )}
         </form>
+        <Modal.Footer>
+          <Button data-cy="nav-button-avbryt" onClick={handleOnClose} type="button" variant="secondary">
+            Avbryt
+          </Button>
+          <Button
+            data-cy="nav-button-rapportera"
+            type="submit"
+            form="feedback-modal-form"
+            variant="primary"
+            color="primary"
+            className="ml-auto"
+            disabled={!formState.isDirty}
+            loading={isLoading}
+            loadingText="Skickar"
+          >
+            Rapportera
+          </Button>
+        </Modal.Footer>
       </WarnIfUnsavedChanges>
     </Modal>
   );
