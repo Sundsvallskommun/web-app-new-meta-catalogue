@@ -108,7 +108,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
                 <span dangerouslySetInnerHTML={{ __html: markMatches(item.header) }} />
               </div>
             </div>
-            <div className="text-gray-stroke">
+            <div>
               {`${item.subObjectType == 'ORGANIZATION' ? objectType(item.subObjectType).text + ': ' : ''}${
                 item.text ? item.text : ''
               }`}

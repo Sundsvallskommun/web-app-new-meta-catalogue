@@ -1,7 +1,9 @@
 import { SearchItem } from '@components/GlobalSearch/SearchItem.component';
 import { objectType } from '@services/mdviewer/data-handlers/search';
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { Checkbox, Pagination } from '@sk-web-gui/react';
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
+import { IFilterData } from '@interfaces/filter-data';
+import { Pagination, Spinner } from '@sk-web-gui/react';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -28,10 +30,21 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
     setActivePage(page);
   };
 
-  const handleOnCategoryFilterChange = (categoryType: string) => (e: React.BaseSyntheticEvent) => {
+  const categoryTypes = Object.keys(filterCategories);
+  const categoryFilterData: IFilterData[] = categoryTypes.map((categoryType, index) => ({
+    id: index,
+    name: `${objectType(categoryType).text} (${filterCategories[categoryType].count})`,
+    value: filterCategories[categoryType].value,
+  }));
+
+  const handleOnCategoryFilterChange = (filterData: IFilterData[]) => {
     setFilterCategories((categories) => {
-      categories[categoryType] = Object.assign(categories[categoryType], { value: e.target.checked });
-      return Object.assign({}, categories);
+      const newCategories: Category = {};
+      filterData.forEach((item) => {
+        const categoryType = categoryTypes[item.id];
+        newCategories[categoryType] = { ...categories[categoryType], value: item.value };
+      });
+      return newCategories;
     });
     setActivePage(1);
   };
@@ -77,29 +90,23 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
           </div>
           {!searchResultsIsLoading ?
             <div>
-              <span className="lg:flex">
-                <h3 data-cy="search-results-amount" className="min-w-max text-large px-sm">
+              <div className="flex items-center justify-between gap-16">
+                <p data-cy="search-results-amount" className="min-w-max px-sm">
                   {`${
                     shownResults.length !== searchResults.length ?
                       `(${shownResults.length} av ${searchResults.length})`
                     : `${searchResults.length}`
                   }`}{' '}
-                  sökresultat:
-                </h3>
-                <div className="ml-md flex flex-col lg:flex-row lg:inline-flex lg:flex-wrap">
-                  {Object.keys(filterCategories).map((categoryType) => (
-                    <Checkbox
-                      key={categoryType}
-                      checked={filterCategories[categoryType].value}
-                      onChange={handleOnCategoryFilterChange(categoryType)}
-                    >
-                      <span className="mr-lg">{`${objectType(categoryType).text} (${
-                        filterCategories[categoryType].count
-                      })`}</span>
-                    </Checkbox>
-                  ))}
-                </div>
-              </span>
+                  sökresultat
+                </p>
+                {categoryFilterData.length > 0 && (
+                  <ColumnFilter
+                    label="Visa/dölj kategorier"
+                    filterData={categoryFilterData}
+                    onFilterChange={handleOnCategoryFilterChange}
+                  />
+                )}
+              </div>
               {shownResults.length > 0 ?
                 <div>
                   {shownResults.slice(startIndex, endIndex).map((result, i) => (
@@ -118,7 +125,10 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                 </div>
               : <div className="px-sm">Inga sökresultat</div>}
             </div>
-          : <div className="px-sm">Laddar..</div>}
+          : <div className="flex justify-center pt-lg">
+              <Spinner size={3} aria-label="Laddar sökresultat" />
+            </div>
+          }
         </div>
       </div>
     </div>
