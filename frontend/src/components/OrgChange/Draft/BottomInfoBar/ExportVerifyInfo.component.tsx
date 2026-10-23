@@ -51,18 +51,20 @@ export default function ExportVerifyInfo() {
             }
           </div>
           {verifyHasErrors && (
-            <Button
-              onClick={handleExpand}
-              size="sm"
-              aria-label={
-                showResults ?
-                  'Dölj verifikationsresultat, lås upp visningsläge av utkastet'
-                : 'Visa verifikationsresultat, lås visningsläge av utkastet'
-              }
-              variant="tertiary"
-            >
-              {showResults ? 'Dölj verifikationsresultat' : 'Visa verifikationsresultat'}
-            </Button>
+            <div className="shrink-0 p-md">
+              <Button
+                onClick={handleExpand}
+                size="sm"
+                aria-label={
+                  showResults ?
+                    'Dölj verifikationsresultat, lås upp visningsläge av utkastet'
+                  : 'Visa verifikationsresultat, lås visningsläge av utkastet'
+                }
+                variant="tertiary"
+              >
+                {showResults ? 'Dölj verifikationsresultat' : 'Visa verifikationsresultat'}
+              </Button>
+            </div>
           )}
         </div>
       </div>
