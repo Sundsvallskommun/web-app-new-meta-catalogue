@@ -1,6 +1,5 @@
 import { useSaveStore } from '@services/save-service/save-service';
-import SavingSpinner from './SavingSpinner/SavingSpinner.component';
-import { Icon } from '@sk-web-gui/react';
+import { Icon, Spinner } from '@sk-web-gui/react';
 import { CircleCheck } from 'lucide-react';
 
 export default function SavedChanges() {
@@ -11,7 +10,7 @@ export default function SavedChanges() {
       {isSaving ? (
         <span className="flex items-center">
           <span>Ändringar sparas</span>
-          <SavingSpinner className="ml-xs" />
+          <Spinner className="ml-xs" size={1.5} aria-label="Sparar" />
         </span>
       ) : (
         <>
