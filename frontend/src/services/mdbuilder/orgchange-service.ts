@@ -123,37 +123,6 @@ export const draftListEntry = (draft: Draft) => {
   return { phaseLabel, phaseColor, phaseInverted, phaseRunbookStep };
 };
 
-export const progressbarPhase = (phase) => {
-  let phase1bg, phase2bg, phase3bg, phase4bg;
-  if (phase === 'DRAFT') {
-    phase1bg = 'bg-bjornstigen-surface-primary';
-    phase2bg = 'bg-background-200';
-    phase3bg = 'bg-background-200';
-    phase4bg = 'bg-background-200';
-  } else if (phase === 'DRAFT_VERIFY') {
-    phase1bg = 'bg-bjornstigen-background-200';
-    phase2bg = 'bg-warning-surface-accent';
-    phase3bg = 'bg-background-200';
-    phase4bg = 'bg-background-200';
-  } else if (phase === 'TECHNICAL_REVIEW') {
-    phase1bg = 'bg-bjornstigen-background-200';
-    phase2bg = 'bg-warning-background-200';
-    phase3bg = 'bg-error-surface-accent';
-    phase4bg = 'bg-background-200';
-  } else if (phase === 'APPROVED') {
-    phase1bg = 'bg-bjornstigen-background-200';
-    phase2bg = 'bg-warning-background-200';
-    phase3bg = 'bg-error-background-200';
-    phase4bg = 'bg-success-surface-accent';
-  } else {
-    phase1bg = 'bg-bjornstigen-background-200';
-    phase2bg = 'bg-warning-background-200';
-    phase3bg = 'bg-error-background-200';
-    phase4bg = 'bg-success-surface-accent';
-  }
-  return { phase1bg, phase2bg, phase3bg, phase4bg };
-};
-
 interface State {
   drafts: Draft[];
   draftsIsLoading: boolean;
