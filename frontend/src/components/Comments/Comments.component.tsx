@@ -117,7 +117,7 @@ export const Comments = ({
           className="w-full"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Skriv en kommentar..."
+          placeholder="Skriv en kommentar"
         />
         <Button
           iconButton

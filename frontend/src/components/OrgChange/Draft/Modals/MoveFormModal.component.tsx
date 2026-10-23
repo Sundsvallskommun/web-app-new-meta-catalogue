@@ -104,7 +104,7 @@ export default function MoveFormModal(props: IMoveFormProps) {
             value={activeOrganization?.data?.id?.toString() ?? undefined}
             defaultValue={activeOrganization?.data?.id.toString() ?? undefined}
           >
-            <Combobox.Input className="w-full" placeholder="Sök och välj..." />
+            <Combobox.Input className="w-full" placeholder="Sök och välj" />
             <Combobox.List>
               {orgTreeOrganizations.filter(moveFilterFunction).map((item, index) => (
                 <Combobox.Option key={`item-${index}`} value={item.id.toString()}>

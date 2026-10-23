@@ -171,7 +171,7 @@ export default function MovePeopleModal(props: IMovePeopleModal) {
             value={!isDirty ? newOrganization?.id?.toString() : undefined}
             defaultValue={newOrganization?.id?.toString() ?? undefined}
           >
-            <Combobox.Input className="w-full" placeholder="Sök och välj..." />
+            <Combobox.Input className="w-full" placeholder="Sök och välj" />
             <Combobox.List>
               {orgTreeOrganizations
                 .filter((x) => x.level === 6)

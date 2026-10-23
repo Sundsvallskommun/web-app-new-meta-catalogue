@@ -135,7 +135,7 @@ export const FeedbackModal: React.FC<{
                   showCount={true}
                   maxLength={4000}
                   maxLengthWarningText="Max-antalet tecken är 4000"
-                  placeholder="Beskrivning..."
+                  placeholder="Beskrivning"
                   rows={6}
                   onChange={onChange} // send value to hook form
                   value={value}

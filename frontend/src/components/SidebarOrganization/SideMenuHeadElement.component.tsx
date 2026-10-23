@@ -154,7 +154,7 @@ export default function SideMenuHeadElement() {
                     setFilterOpen(false);
                   }}
                 >
-                  <Combobox.Input className="w-full" aria-label="Sök gren i menyn" placeholder="Sök gren..." />
+                  <Combobox.Input className="w-full" aria-label="Sök gren i menyn" placeholder="Sök gren" />
                   <Combobox.List>
                     {orgTreeOrganizations.map((item, index) => (
                       <Combobox.Option key={`item-${index}`} value={item.id.toString()}>

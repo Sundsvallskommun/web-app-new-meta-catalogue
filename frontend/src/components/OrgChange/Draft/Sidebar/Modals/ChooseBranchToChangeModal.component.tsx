@@ -67,7 +67,7 @@ export default function ChooseBranchToChangeModal(props) {
             <Combobox.Input
               data-cy="orgchange-choosebranch-searchnode"
               className="w-full"
-              placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod..."
+              placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod"
             />
             <Combobox.List>
               {companyOrganizations.map((item, index) => (

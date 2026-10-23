@@ -28,7 +28,6 @@ export const HeadInputFormCutOffdate: React.FC = () => {
         aria-labelledby="orgchange-draft-cutOffDate-label"
         aria-label="Planerat brytdatum"
         type="date"
-        size="sm"
         {...register('cutOffDate')}
         onChange={handleCutOffDateChange}
       />

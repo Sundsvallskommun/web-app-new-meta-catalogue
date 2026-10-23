@@ -116,7 +116,8 @@ const HeadInput = () => {
         }
         <p className="text-small text-dark-secondary">
           {readOnly && `Brytdatum ${draft.cutOffDate} · `}
-          {draft.companyName} · Skapad av {draft.loginname}
+          {draft.companyName}
+          {draft.loginname && ` · Skapad av ${draft.loginname}`}
         </p>
       </form>
     </FormProvider>
