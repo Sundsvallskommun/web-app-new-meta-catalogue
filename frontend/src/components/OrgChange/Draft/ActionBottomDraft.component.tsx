@@ -4,10 +4,8 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { Button, Link, useConfirm } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import Sticky from 'react-sticky-el';
 import ExportPhaseInfo from './BottomInfoBar/ExportPhaseInfo.component';
 import ExportVerifyInfo from './BottomInfoBar/ExportVerifyInfo.component';
 import CommentsSidebar from './CommentsSidebar/CommentsSidebar.component';
@@ -24,7 +22,6 @@ export default function ActionBottomDraft() {
   const [commentsSidebarOpen, setCommentsSidebarOpen] = useState(false);
   const { draftIsApproved, draftIsExportPhase } = useDraftPhaseState();
   const { verifyHasErrors } = useVerifyState();
-  const windowSize = useWindowSize();
 
   const { showConfirmation } = useConfirm();
 
@@ -52,14 +49,7 @@ export default function ActionBottomDraft() {
 
   return (
     <>
-      <Sticky
-        stickyClassName="z-10"
-        disabled={!windowSize.lg}
-        mode="bottom"
-        positionRecheckInterval={150}
-        boundaryElement=".main-container"
-        hideOnBoundaryHit={false}
-      >
+      <div className="z-10 lg:sticky lg:bottom-0">
         {showPhaseInfo && <ExportPhaseInfo />}
         {showVerifyInfo && <ExportVerifyInfo />}
 
@@ -89,7 +79,7 @@ export default function ActionBottomDraft() {
             )}
           </div>
         </div>
-      </Sticky>
+      </div>
       {commentsSidebarOpen && (
         <CommentsSidebar commentsSidebarOpen={commentsSidebarOpen} onClose={() => setCommentsSidebarOpen(false)} />
       )}

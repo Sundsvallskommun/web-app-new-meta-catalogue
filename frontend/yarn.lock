@@ -2067,13 +2067,6 @@
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.3.0.tgz#90294a9266efd928a5266f2110d60d5dba5015d2"
   integrity sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==
 
-"@types/react-sticky-el@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@types/react-sticky-el/-/react-sticky-el-2.1.0.tgz#9f39e57e221983bac5c40255852512c5d25d3f04"
-  integrity sha512-iSZWeRAxWn4kh+X0OhXk2jcwHVbJ39PI7SdPJN7IXf9nXwMuV8nSEZd+8D+I8dDF3Zr3vKmMMJgQPXiNtb7GwA==
-  dependencies:
-    react-sticky-el "*"
-
 "@types/react@19.3.0":
   version "19.3.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-19.3.0.tgz#3b3ce8d8c1627fb5ccd4dadd57ef445c5a153b77"
@@ -6607,11 +6600,6 @@ react-stately@3.50.0:
     "@react-types/shared" "^3.36.1"
     "@swc/helpers" "^0.5.0"
     use-sync-external-store "^1.6.0"
-
-react-sticky-el@*, react-sticky-el@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-sticky-el/-/react-sticky-el-2.1.1.tgz#6a142a3f766b2a4b71d0014743142696d80bf01e"
-  integrity sha512-likcCH5HN86qQGdOMbvMMJQXJQzelvxuGovFglnBlu8qqgPaee90hO4sws9oSwnsnRPows6Ry7RAd+tazVCS+w==
 
 react@^19.3.0:
   version "19.3.0"
