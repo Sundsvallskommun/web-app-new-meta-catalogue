@@ -3,7 +3,7 @@ import VerifyButton from './VerifyButton/VerifyButton.component';
 
 export default function ActionHeaderDraft() {
   return (
-    <div className="flex flex-wrap gap-md items-center">
+    <div className="flex flex-wrap gap-12 items-center">
       <VerifyButton />
       <DraftContextmenu />
     </div>

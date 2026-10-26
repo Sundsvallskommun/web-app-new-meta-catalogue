@@ -88,7 +88,7 @@ export const Index: React.FC = () => {
           <div className="flex flex-wrap items-start justify-between gap-md">
             <HeadInput />
             {!lockedView && (
-              <div className="flex flex-wrap items-center gap-md">
+              <div className="flex flex-wrap items-center gap-12">
                 {draft.draftId !== null && !draftIsReadOnly && <SavedChanges />}
                 <ActionHeaderDraft />
               </div>

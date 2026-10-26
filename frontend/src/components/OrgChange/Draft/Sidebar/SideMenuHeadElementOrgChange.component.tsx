@@ -42,7 +42,7 @@ export default function SideMenuHeadElementOrgChange() {
 
   return (
     <div className="z-10 relative">
-      <div className="flex flex-wrap items-center gap-8 px-24 pb-20">
+      <div className="flex flex-wrap items-center gap-12 px-24 pb-20">
         {!draftIsReadOnly && (
           <>
             <Button
