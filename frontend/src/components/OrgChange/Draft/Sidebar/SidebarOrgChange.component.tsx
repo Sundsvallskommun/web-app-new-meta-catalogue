@@ -1,12 +1,17 @@
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import { CircleAlert, Sparkles } from 'lucide-react';
+import { CircleAlert, GripVertical, Sparkles } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Badge, Icon, Label, MenuIndex, MenuVertical, Spinner, cx } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
+import { useDraftPhaseState } from '@utils/use-draft-phase-state';
+import { useUserStore } from '@services/user-service/user-service';
 import { useEffect, useRef, useState } from 'react';
 import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
+import MoveFormModal from '../Modals/MoveFormModal.component';
 import { IFilterDataMenu } from '@interfaces/organization';
+import { DraftTreeOrganization } from '@interfaces/orgchange';
+import { OptionValueType } from '@interfaces/option-value';
 
 const SidebarOrgChange = ({ mainRef }) => {
   const orgTreeIsLoading = useOrgChangeStore((s) => s.orgTreeIsLoading);
@@ -16,8 +21,58 @@ const SidebarOrgChange = ({ mainRef }) => {
   const verifyResultsByOrgId = useOrgChangeStore((s) => s.verifyResultsByOrgId);
   const orgTree = useOrgChangeStore((s) => s.orgTree);
   const sideMenuShowFilters = useOrgChangeStore((s) => s.sideMenuShowFilters);
+  const orgTreeOrganizations = useOrgChangeStore((s) => s.orgTreeOrganizations);
+  const user = useUserStore((s) => s.user);
+  const { draftIsReadOnly } = useDraftPhaseState();
   const [sidebarHeight, setSidebarHeight] = useState(0);
+  const [draggedItem, setDraggedItem] = useState<OrgChangeOrganizationTree>();
+  const [dropTargetId, setDropTargetId] = useState<number>();
+  const [movedOrganization, setMovedOrganization] = useState<DraftTreeOrganization>();
+  const [newParent, setNewParent] = useState<OptionValueType<DraftTreeOrganization>>();
   const asideRef = useRef(null);
+
+  const canDrag = !draftIsReadOnly && user.permissions.canEditOrganizationStructure;
+  const isDraggable = (itemData: OrgChangeOrganizationTree) => canDrag && itemData.structureChangeStatus !== 'DELETED';
+
+  const isValidDropTarget = (target: OrgChangeOrganizationTree) =>
+    !!draggedItem &&
+    target.level === draggedItem.level - 1 &&
+    target.id !== draggedItem.parentId &&
+    target.structureChangeStatus !== 'DELETED';
+
+  const handleDragStart = (e: React.DragEvent, itemData: OrgChangeOrganizationTree) => {
+    e.stopPropagation();
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(itemData.id));
+    setDraggedItem(itemData);
+  };
+
+  const handleDragOver = (e: React.DragEvent, itemData: OrgChangeOrganizationTree) => {
+    if (!draggedItem || itemData.id === draggedItem.id) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = isValidDropTarget(itemData) ? 'move' : 'none';
+    setDropTargetId(isValidDropTarget(itemData) ? itemData.id : undefined);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItem(undefined);
+    setDropTargetId(undefined);
+  };
+
+  const handleDrop = (e: React.DragEvent, itemData: OrgChangeOrganizationTree) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isValid = isValidDropTarget(itemData);
+    const dragged = draggedItem;
+    handleDragEnd();
+    if (!isValid) return;
+    const target = orgTreeOrganizations.find((x) => x.id === itemData.id);
+    const moved = orgTreeOrganizations.find((x) => x.id === dragged.id);
+    if (!target || !moved) return;
+    setNewParent({ label: target.label, data: target });
+    setMovedOrganization(moved);
+  };
 
   const showFilter: { [key: IFilterDataMenu['propertyName']]: boolean } = {};
   sideMenuShowFilters.forEach((x) => {
@@ -59,6 +114,11 @@ const SidebarOrgChange = ({ mainRef }) => {
     const active = Number(itemData.id) === selectedOrganizationId;
     return (
       <span className="flex w-full items-center gap-8">
+        {isDraggable(itemData) && (
+          <span className="flex cursor-grab" aria-hidden>
+            <Icon size={16} icon={<GripVertical />} />
+          </span>
+        )}
         {showFilter.responsibilityCode && (
           <span className="text-small">
             <span className="sr-only">Kod: </span>
@@ -102,7 +162,17 @@ const SidebarOrgChange = ({ mainRef }) => {
 
   const renderItems = (items: OrgChangeOrganizationTree[]) =>
     items.map((itemData) => (
-      <MenuVertical.Item key={itemData.id} menuIndex={Number(itemData.id)} data-cy={`tree-item-${itemData.id}`}>
+      <MenuVertical.Item
+        key={itemData.id}
+        menuIndex={Number(itemData.id)}
+        data-cy={`tree-item-${itemData.id}`}
+        className={cx(dropTargetId === itemData.id && 'ring-2 ring-ring rounded-button')}
+        draggable={isDraggable(itemData)}
+        onDragStart={(e: React.DragEvent) => handleDragStart(e, itemData)}
+        onDragOver={(e: React.DragEvent) => handleDragOver(e, itemData)}
+        onDrop={(e: React.DragEvent) => handleDrop(e, itemData)}
+        onDragEnd={handleDragEnd}
+      >
         {itemData.subItems?.length ?
           <MenuVertical>
             <MenuVertical.SubmenuButton>
@@ -145,6 +215,16 @@ const SidebarOrgChange = ({ mainRef }) => {
           </div>
         )}
       </div>
+      {movedOrganization && (
+        <MoveFormModal
+          onClose={() => setMovedOrganization(undefined)}
+          moveBranch
+          organization={movedOrganization}
+          buttonName="Flytta gren"
+          activeOrganization={newParent}
+          setActiveOrganization={setNewParent}
+        />
+      )}
     </aside>
   );
 };

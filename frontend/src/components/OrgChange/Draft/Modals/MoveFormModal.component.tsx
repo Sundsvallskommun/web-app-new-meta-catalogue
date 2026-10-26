@@ -95,6 +95,9 @@ export default function MoveFormModal(props: IMoveFormProps) {
   return (
     <Modal className="max-w-[800px]" show onClose={onClose} label={moveBranch && 'Flytta gren'}>
       <div className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          Gren {organization.label} nivå {organization.level}
+        </p>
         <FormControl id="orgchange-move-branch" className="w-full">
           <FormLabel>{moveBranch && 'Flytta gren under'}</FormLabel>
           <Combobox
