@@ -43,7 +43,7 @@ export const OrgNameEditFormCode: React.FC<OrgNameEditFormCodeProps> = ({ parent
   return (
     <FormControl id="respcode" invalid={!!errors?.responsibilityCode}>
       <FormLabel>Kod</FormLabel>
-      <Input.Group
+      <Input.InnerGroup
         size="sm"
         invalid={errors.responsibilityCode?.message ? true : undefined}
         aria-invalid={errors.responsibilityCode?.message ? true : undefined}
@@ -60,7 +60,7 @@ export const OrgNameEditFormCode: React.FC<OrgNameEditFormCodeProps> = ({ parent
           pattern="^[0-9]$"
           aria-labelledby="respcode-label"
         />
-      </Input.Group>
+      </Input.InnerGroup>
       <span className="sr-only" id="respcode-helptext">
         {helpText}
       </span>

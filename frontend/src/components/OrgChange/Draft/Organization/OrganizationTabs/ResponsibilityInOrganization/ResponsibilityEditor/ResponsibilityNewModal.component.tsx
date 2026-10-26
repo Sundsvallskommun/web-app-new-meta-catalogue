@@ -204,9 +204,9 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
         >
           <FormControl id="responsibility-edit-title" className="w-full">
             <FormLabel>Ansvartitel</FormLabel>
-            <Input.Group size="md">
+            <Input.InnerGroup size="md">
               <Input {...register('description')} placeholder="Ansvarstitel" maxLength={30} title="Ansvarstitel" />
-            </Input.Group>
+            </Input.InnerGroup>
             <ErrorMessage
               errors={errors}
               name="description"
@@ -217,7 +217,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             <div>
               <FormControl id="responsibility-code">
                 <FormLabel>Ansvarskod</FormLabel>
-                <Input.Group size="md">
+                <Input.InnerGroup size="md">
                   <Input.LeftAddon>{leftValue}</Input.LeftAddon>
                   <Input
                     value={rightValue}
@@ -227,7 +227,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
                     pattern="[0-9]\d\d"
                     onChange={responsibilityCodeHandler}
                   />
-                </Input.Group>
+                </Input.InnerGroup>
                 <ErrorMessage
                   errors={errors}
                   name="responsibilityCode"

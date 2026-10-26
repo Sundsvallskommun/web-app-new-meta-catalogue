@@ -161,7 +161,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
           <div className="flex flex-col items-start gap-8">
             <FormControl id="responsibility-edit-title" className="w-full">
               <FormLabel>Ansvartitel</FormLabel>
-              <Input.Group size="md">
+              <Input.InnerGroup size="md">
                 <Input
                   value={watch().description}
                   placeholder="Ansvarstitel"
@@ -169,7 +169,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
                   title="Ansvarstitel"
                   onChange={descriptionHandler}
                 />
-              </Input.Group>
+              </Input.InnerGroup>
               {errors.description && (
                 <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
               )}

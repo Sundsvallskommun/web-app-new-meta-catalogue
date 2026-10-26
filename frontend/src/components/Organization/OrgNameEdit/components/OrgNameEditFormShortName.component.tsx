@@ -31,7 +31,7 @@ export const OrgNameEditFormShortName: React.FC<OrgNameEditFormShortNameProps> =
           {helpText}
         </HelpTooltip>
       </FormLabel>
-      <Input.Group
+      <Input.InnerGroup
         size="sm"
         invalid={errors.orgNameShort?.message ? true : undefined}
         aria-invalid={errors.orgNameShort?.message ? true : undefined}
@@ -47,7 +47,7 @@ export const OrgNameEditFormShortName: React.FC<OrgNameEditFormShortNameProps> =
         <Input.RightAddin>
           {watch().orgNameShort.length}/{orgNameShortMaxLength}
         </Input.RightAddin>
-      </Input.Group>
+      </Input.InnerGroup>
       <span className="sr-only" id="orgshortname-helptext">
         {helpText}
       </span>

@@ -20,7 +20,7 @@ export const OrgNameEditFormName: React.FC<{ newItem: boolean }> = ({ newItem })
           {helpText}
         </HelpTooltip>
       </FormLabel>
-      <Input.Group
+      <Input.InnerGroup
         size="sm"
         invalid={errors.orgName?.message ? true : undefined}
         aria-invalid={errors.orgName?.message ? true : undefined}
@@ -34,7 +34,7 @@ export const OrgNameEditFormName: React.FC<{ newItem: boolean }> = ({ newItem })
           // maxLength={30}
         />
         <Input.RightAddin>{watch().orgName.length}/30</Input.RightAddin>
-      </Input.Group>
+      </Input.InnerGroup>
       <span className="sr-only" id="orgname-helptext">
         {helpText}
       </span>
