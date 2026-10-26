@@ -23,7 +23,7 @@ export const GlobalSearch: React.FC = () => {
   };
 
   return (
-    <div ref={refGlobalSearch} className="GlobalSearch relative ml-auto w-full max-w-[460px] flex items-center">
+    <div ref={refGlobalSearch} className="GlobalSearch relative w-full lg:ml-auto lg:max-w-[460px] flex items-center">
       <div ref={refSearchbarWrapper} className="w-full">
         <SearchField
           size="md"
