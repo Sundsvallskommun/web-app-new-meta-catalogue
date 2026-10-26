@@ -108,8 +108,10 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
       <Table.Header>
         {headers.map(({ element, isColumnSortable = true, isShown = true, screenReaderOnly }, idx) =>
           isShown ?
+            // relative keeps sr-only text inside the horizontal scroll instead of widening the page
             <Table.HeaderColumn
               key={`header-${idx}`}
+              className="relative"
               aria-sort={
                 sortIndex === idx ?
                   sortAscending ?
@@ -140,7 +142,11 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
             className={isHighlighted(rowIndex) ? 'bg-vattjom-background-200' : undefined}
           >
             {cols.map(({ element, isShown = true }, colIndex) =>
-              isShown ? <Table.Column key={`col-${colIndex}`}>{element}</Table.Column> : null
+              isShown ?
+                <Table.Column key={`col-${colIndex}`} className="relative">
+                  {element}
+                </Table.Column>
+              : null
             )}
           </Table.Row>
         ))}
