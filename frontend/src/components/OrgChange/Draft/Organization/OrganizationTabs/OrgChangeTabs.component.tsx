@@ -81,7 +81,12 @@ export default function OrgChangeTabs({ organization }: OrganizationTabsProps) {
   ];
 
   return (
-    <Tabs current={organizationTabIndex} onTabChange={setOrganizationTabIndex} className="pb-md mb-sm">
+    <Tabs
+      current={organizationTabIndex}
+      onTabChange={setOrganizationTabIndex}
+      className="pb-md mb-sm"
+      tabslistClassName="flex-wrap"
+    >
       {tabs.map((tab) => (
         <Tabs.Item key={tab.id}>
           <Tabs.Button leftIcon={tab.icon} data-cy={`tab-${tab.id}`}>

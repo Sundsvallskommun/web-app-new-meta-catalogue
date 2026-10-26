@@ -198,7 +198,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
 
   return (
     <div className="bg-background-content px-0 pb-40 pt-28">
-      <div className="flex justify-between items-end mb-24">
+      <div className="flex flex-wrap justify-between items-end gap-16 mb-24">
         <CsvExporter
           csvData={csvAllResponsibility}
           csvHeaders={csvHeaders}

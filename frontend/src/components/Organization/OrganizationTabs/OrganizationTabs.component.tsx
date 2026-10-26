@@ -109,7 +109,12 @@ export default function OrganizationTabs({ organization }: OrganizationTabsProps
   ];
 
   return (
-    <Tabs current={organizationTabIndex} onTabChange={setOrganizationTabIndex} className="py-md mb-sm">
+    <Tabs
+      current={organizationTabIndex}
+      onTabChange={setOrganizationTabIndex}
+      className="py-md mb-sm"
+      tabslistClassName="flex-wrap"
+    >
       {tabs.map((tab) => (
         <Tabs.Item key={tab.id}>
           <Tabs.Button leftIcon={tab.icon} data-cy={`tab-${tab.id}`}>

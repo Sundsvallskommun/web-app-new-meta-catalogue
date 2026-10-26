@@ -247,7 +247,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
   }));
   return (
     <div className="bg-background-content px-0 pb-40 pt-28">
-      <div className="flex items-end mb-24">
+      <div className="flex flex-wrap items-end gap-16 mb-24">
         {organization.level === 2 && user.permissions.canViewDrafts && (
           <CsvExporter
             csvData={csvResponsibility}

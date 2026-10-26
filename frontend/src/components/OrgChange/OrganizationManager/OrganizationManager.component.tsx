@@ -58,7 +58,7 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
     <div className="bg-background-content relative grow px-0 pb-40 pt-24 mb-50">
       {!draftsIsLoading ?
         <>
-          <div className="flex justify-between items-center gap-md mb-16">
+          <div className="flex flex-wrap justify-between items-center gap-md mb-16">
             <h1 className="text-h4 text-dark-secondary">
               Organisationsförändringar{' '}
               {drafts && draftsIsLoading ?
