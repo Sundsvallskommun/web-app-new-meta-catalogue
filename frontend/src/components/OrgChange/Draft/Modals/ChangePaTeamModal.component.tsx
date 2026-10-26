@@ -193,7 +193,8 @@ export default function ChangePaTeamModal(props: IChangePaTeamProps) {
             defaultValue={activePaTeam?.data?.paTeam ?? []}
           >
             <Combobox.Input className="w-full" placeholder="Sök på PA-Team kod, benämning eller ansvarig chef" />
-            <Combobox.List>
+            {/* v3 Combobox.List only rebuilds its options when the search text changes, not when results arrive */}
+            <Combobox.List key={paSearchResults.map((item) => item.paTeam).join()}>
               {paSearchResults.map((item, index) => (
                 <Combobox.Option key={`item-${item.paTeam}-${index}`} value={item.paTeam}>
                   {`${item.paTeam.trim()} - ${item.paTeamName.trim()} - ${item.managerName?.trim()}`}
