@@ -5,7 +5,7 @@ import { responsibilities } from '../../../../fixtures/responsibilities';
 
 describe('/organization - Main - Tabs - Operations', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/api/responsibility/**/responsibilitysallleaves', responsibilities).as(
+    cy.intercept('GET', '**/api/mdviewer/responsibility/**/responsibilitysallleaves', responsibilities).as(
       'getResponsibilitiesAllLeaves'
     );
     cy.intercept('GET', '**/api/mdviewer/operation/**/operationallleaves', operations).as('getOperations');
@@ -82,14 +82,14 @@ describe('/organization - Main - Tabs - Operations', () => {
     cy.get('[data-cy="column-filter"] button[aria-expanded="true"]').should('be.visible');
 
     // Click the "Dölj alla" button
-    cy.get('button[type="button"]').contains('Dölj alla').click();
+    cy.contains('[data-cy="column-filter"] button:visible', 'Dölj alla').click();
 
     // Check if "Verksamhetskod" header and content have disappeared
     cy.get('.sk-table-thead th').contains('Verksamhetskod').should('not.exist');
     cy.get('.sk-table-tbody td').contains('440000').should('not.exist');
 
     // Click the "Visa alla" button
-    cy.get('button[type="button"]').contains('Visa alla').click();
+    cy.contains('[data-cy="column-filter"] button:visible', 'Visa alla').click();
 
     // Check if "Verksamhetskod" header and content have appered again
     cy.get('.sk-table-thead th').contains('Verksamhetskod').should('exist');

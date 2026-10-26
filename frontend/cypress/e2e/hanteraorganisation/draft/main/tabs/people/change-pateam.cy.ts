@@ -57,8 +57,8 @@ describe('/hanteraorganisation - main - Tabs - People - Change PA-Team', () => {
   });
 
   it('Change PA-Team via person detail', () => {
-    cy.get('button').contains('[title]', 'Öppna persondetaljer').first().click();
-    cy.get('div[aria-modal="true"]').find('button').contains('[title]', 'Redigera anställning').click();
+    cy.get('button[title^="Öppna persondetaljer"]').first().click();
+    cy.get('div[aria-modal="true"]').find('button[title^="Redigera anställning"]').first().click();
 
     cy.get('div[aria-modal="true"]').find('button').contains('Ändra PA-Team').click();
 
@@ -109,7 +109,7 @@ describe('/hanteraorganisation - main - Tabs - People - Change PA-Team', () => {
       expect(interception?.response?.statusCode).to.eq(200);
     });
 
-    cy.get('.sk-form-combobox-list-option', { timeout: 2000 }).contains('PA3').click();
+    cy.contains('.sk-form-combobox-list-option', 'PA3').click();
 
     cy.get('div[aria-modal="true"]').find('button').contains('Spara').click();
 

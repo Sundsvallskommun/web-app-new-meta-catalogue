@@ -105,7 +105,7 @@ describe('/hanteraorganisation', () => {
       cy.intercept('DELETE', '**/api/orgchange/draft/id-hash-2', { data: true, message: 'success' }).as('deleteDraft2');
 
       cy.get('button[title="Hantera utkast Draftname"]').click();
-      cy.get('[role="menuitem"]').contains('Ta bort').click();
+      cy.get('.sk-popup-menu[data-open="true"] [role="menuitem"]').contains('Ta bort').click();
 
       cy.get('[aria-modal="true"]').contains('Är du säker på att du vill ta bort utkastet?').should('be.visible');
       cy.get('button').contains('Ja, ta bort').click();
@@ -114,7 +114,7 @@ describe('/hanteraorganisation', () => {
       cy.get('button[title="Lista"]').click();
 
       cy.get('button[title="Hantera utkast Draftname2"]').click();
-      cy.get('[role="menuitem"]').contains('Ta bort').click();
+      cy.get('.sk-popup-menu[data-open="true"] [role="menuitem"]').contains('Ta bort').click();
       cy.get('[aria-modal="true"]').contains('Är du säker på att du vill ta bort utkastet?').should('be.visible');
       cy.get('button').contains('Ja, ta bort').click();
       cy.get('div').contains('Utkastet Draftname2 togs bort').should('be.visible');

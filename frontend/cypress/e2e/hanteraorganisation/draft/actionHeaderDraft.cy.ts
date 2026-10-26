@@ -20,7 +20,7 @@ describe('/hanteraorganisation - ActionHeaderDeleteDraft', () => {
       message: 'sucess',
     });
     cy.get('button').contains('Hantera utkastet').click();
-    cy.focused().contains('button', 'Exportera förlaga av organisationer').click();
+    cy.get('.sk-popup-menu[data-open="true"]').contains('button', 'Exportera förlaga av organisationer').click();
     cy.get('button').contains('Överförmyndarkontoret').click();
   });
 
@@ -31,7 +31,7 @@ describe('/hanteraorganisation - ActionHeaderDeleteDraft', () => {
     cy.intercept('GET', '**/api/orgchange/drafts', drafts).as('getDrafts');
 
     cy.get('button').contains('Hantera utkastet').click();
-    cy.focused().contains('button', 'Ta bort utkast').click();
+    cy.get('.sk-popup-menu[data-open="true"]').contains('button', 'Ta bort utkast').click();
 
     cy.get('[aria-modal="true"]').contains('Är du säker på att du vill ta bort utkastet?').should('be.visible');
     cy.get('[aria-modal="true"] button').contains('Ja, ta bort').click();

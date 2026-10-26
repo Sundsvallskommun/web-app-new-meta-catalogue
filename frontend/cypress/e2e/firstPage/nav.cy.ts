@@ -51,7 +51,7 @@ describe('Nav header', () => {
         cy.get('.sk-usermenu .sk-popup-menu-item').contains(label).click();
 
         // Check if the modal/popup with the title 'Rapportera fel' is visible
-        cy.contains('Rapportera fel').should('be.visible');
+        cy.get('div[aria-modal="true"]').contains('Rapportera fel').should('be.visible');
 
         cy.contains('select', 'Övrigt (IT)').should('be.visible');
 
@@ -66,7 +66,7 @@ describe('Nav header', () => {
         cy.get('[data-cy="nav-textArea"]').type('This is a test value.');
 
         cy.get('[data-cy="nav-textArea"]')
-          .should('have.attr', 'placeholder', 'Beskrivning...')
+          .should('have.attr', 'placeholder', 'Beskrivning')
           .then(($textarea) => {
             const textareaValue = String($textarea.val());
             if (textareaValue.trim() === '') {

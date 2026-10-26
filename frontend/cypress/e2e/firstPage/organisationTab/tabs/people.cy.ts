@@ -102,7 +102,8 @@ describe('/organization - Main - Tabs - People', () => {
     cy.get('[aria-modal="true"]').contains('E-postadresser').should('exist');
     cy.get('[aria-modal="true"]').contains('Anställning').should('exist');
 
-    cy.get('svg[data-testid="CloseIcon"]').click();
+    cy.get('[aria-modal="true"] .sk-modal-dialog-close').click();
+    cy.get('[aria-modal="true"]').should('not.exist');
   });
 
   it('Interact with "profile" popup  ->"Stäng" button', () => {

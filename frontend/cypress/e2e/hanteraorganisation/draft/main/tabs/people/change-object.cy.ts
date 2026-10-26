@@ -43,10 +43,10 @@ describe('/hanteraorganisation - main - Tabs - People - Change Object', () => {
   });
 
   it('Change Object via person detail', () => {
-    cy.get('button').contains('[title]', 'Öppna persondetaljer').first().click();
-    cy.get('div[aria-modal="true"]').find('button').contains('[title]', 'Redigera anställning').click();
+    cy.get('button[title^="Öppna persondetaljer"]').first().click();
+    cy.get('div[aria-modal="true"]').find('button[title^="Redigera anställning"]').first().click();
 
-    cy.contains('button', 'Ändra objekt').click();
+    cy.get('div[aria-modal="true"]').contains('button', 'Ändra objekt').click();
 
     cy.wait('@getObjects');
 

@@ -12,8 +12,8 @@ describe('/organization - Aside', () => {
   it('should display aside header elements and its contents', () => {
     cy.get('nav.sk-menu-vertical-sidebar').should('be.visible');
 
-    cy.get('nav.sk-menu-vertical-sidebar label').contains('Avbildning').should('be.visible');
-    cy.get('nav.sk-menu-vertical-sidebar label').contains('Bolag').should('be.visible');
+    cy.get('aside.SidebarOrganization label').contains('Avbildning').should('be.visible');
+    cy.get('aside.SidebarOrganization label').contains('Bolag').should('be.visible');
 
     cy.contains('select', 'Masterdata').should('be.visible');
     cy.contains('select', 'Sundsvalls kommun').should('be.visible');

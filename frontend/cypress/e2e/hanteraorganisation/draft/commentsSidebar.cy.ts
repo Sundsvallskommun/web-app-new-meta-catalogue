@@ -46,7 +46,7 @@ describe('/hanteraorganisation - CommentsSidebar', () => {
     );
 
     cy.get('button[title="Redigera Kommentar"]').click();
-    cy.contains('button', 'Ta bort').click();
+    cy.get('.sk-popup-menu[data-open="true"]').contains('button', 'Ta bort').click();
 
     cy.get('div').contains('Din kommentar togs bort').should('be.visible');
   });

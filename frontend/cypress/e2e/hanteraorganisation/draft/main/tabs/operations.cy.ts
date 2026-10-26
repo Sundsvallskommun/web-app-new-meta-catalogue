@@ -42,31 +42,31 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
     cy.get('[data-cy="tab-panel-operations"]').contains('Visa/dölj kolumner i verksamheter').click();
 
     // Click the "Dölj alla" button
-    cy.get('button[type="button"]').contains('Dölj alla').click();
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"] button').contains('Dölj alla').click();
     // Check if zebratable header and content have disappeared
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
     // And if the appers again..
-    cy.get('button[type="button"]').contains('Visa alla').click();
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"] button').contains('Visa alla').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
     // All visible
 
-    cy.get('[data-cy="column-filter"]')
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]')
       .contains('label', 'Titel')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');
 
     // checking Bob Miller
-    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
-    cy.get('[data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
-    cy.get('[data-cy="column-filter"]')
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]')
       .contains('label', 'Ta bort verksamhet')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');

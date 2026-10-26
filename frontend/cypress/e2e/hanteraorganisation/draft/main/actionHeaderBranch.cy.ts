@@ -66,7 +66,7 @@ describe('/hanteraorganisation - main - ActionHeaderBranch', () => {
     cy.get('[aria-modal="true"] button').contains('Ja, stäng').click();
 
     cy.wait('@getOrgTree', { timeout: 3000 }).then(() => {
-      cy.get('[aria-modal="true"]').should('not.exist');
+      cy.contains('Är du säker på att du vill stänga grenen?').should('not.exist');
       cy.get('div').contains('Ändringar på grenen sparas', { timeout: 3000 }).should('be.visible');
     });
   });

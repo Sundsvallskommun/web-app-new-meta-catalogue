@@ -59,39 +59,39 @@ describe('/organization - Main - Tabs - Responsibilities', () => {
     cy.get('[data-cy="column-filter"] .sk-popup-menu-items').should('be.visible');
 
     // Click the "Dölj alla" button
-    cy.get('button[type="button"]').contains('Dölj alla').click();
+    cy.contains('[data-cy="column-filter"] button:visible', 'Dölj alla').click();
     // Check if zebratable header and content have disappeared
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('69990000').should('not.exist');
     // And if the appers again..
-    cy.get('button[type="button"]').contains('Visa alla').click();
+    cy.contains('[data-cy="column-filter"] button:visible', 'Visa alla').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('69990000').should('exist');
 
     // Uncheck the Ansvarstyp checkbox
-    cy.contains('label', 'Ansvarstyp').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Ansvarstyp').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarstyp').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Pseudoansvar').should('not.exist');
     // Check the Ansvarstyp checkbox
-    cy.contains('label', 'Ansvarstyp').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Ansvarstyp').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarstyp').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('Pseudoansvar').should('exist');
 
     // Uncheck the Ansvarskod checkbox
-    cy.contains('label', 'Ansvarskod').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Ansvarskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('69990000').should('not.exist');
     // Check the Ansvarskod checkbox
-    cy.contains('label', 'Ansvarskod').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Ansvarskod').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Ansvarskod').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('69990000').should('exist');
 
     // Uncheck the Giltig från checkbox
-    cy.contains('label', 'Giltig från').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Giltig från').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Giltig från').should('not.exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('1799-12-31').should('not.exist');
     // Check the Giltig från checkbox
-    cy.contains('label', 'Giltig från').click();
+    cy.contains('[data-cy="column-filter"] label:visible', 'Giltig från').click();
     cy.get('.sk-table-thead th').filter(':visible').contains('Giltig från').should('exist');
     cy.get('.sk-table-tbody td').filter(':visible').contains('1799-12-31').should('exist');
   });

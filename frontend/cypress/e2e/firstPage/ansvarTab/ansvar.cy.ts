@@ -38,14 +38,14 @@ describe('/ansvar', () => {
   });
 
   it('Click on the "Rapportera fel" button', () => {
-    cy.contains('button', 'Rapportera fel').click();
+    cy.contains('button:visible', 'Rapportera fel').click();
 
     // Check the close button
-    cy.get('button[aria-label="Stäng feedback"]').click();
-    cy.get('h4[id="headlessui-dialog-title-:rt:"]').should('not.exist');
+    cy.get('button[aria-label="Stäng Rapportera fel"]').click();
+    cy.get('[aria-modal="true"]').should('not.exist');
 
     // Open the modal again
-    cy.contains('button', 'Rapportera fel').click();
+    cy.contains('button:visible', 'Rapportera fel').click();
 
     // Select an option from the dropdown
     cy.contains('select', 'Felaktigt ansvar (Ekonomi)').should('be.visible').select('Felaktigt ansvar (Ekonomi)');
@@ -65,12 +65,12 @@ describe('/ansvar', () => {
     // Check that the text area now contains the correct value
     cy.get('textarea[id="body"]').should('have.value', 'This is a test');
 
-    cy.get('button[type="submit"]').contains('button', 'Rapportera').click();
+    cy.get('[data-cy="nav-button-rapportera"]').click();
 
     cy.wait('@postFeedback').its('response.statusCode').should('eq', 200);
 
     // Check that the modal has disappeared
-    cy.get('button[aria-label="Stäng feedback"]').should('not.exist');
+    cy.get('button[aria-label="Stäng Rapportera fel"]').should('not.exist');
   });
 
   //   Filter
@@ -111,8 +111,8 @@ describe('/ansvar', () => {
     cy.get('[data-cy="column-filter"] .sk-popup-menu-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
-        cy.wrap($el).click().should('be.checked');
-        cy.wrap($el).click().should('not.be.checked');
+        cy.wrap($el).click({ force: true }).should('be.checked');
+        cy.wrap($el).click({ force: true }).should('not.be.checked');
       });
   });
 

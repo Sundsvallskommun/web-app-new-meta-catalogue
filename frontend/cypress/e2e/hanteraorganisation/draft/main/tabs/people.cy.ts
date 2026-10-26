@@ -193,10 +193,10 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Flytta markerade till annan gren').click();
 
-    cy.get('div[aria-modal="true"]').contains('label', 'Till gren').click();
-    cy.get('div[aria-modal="true"]').contains('label', 'Till gren').type('Uslands skola');
+    cy.get('div[aria-modal="true"]').find('#move-people-org-dropdown').click();
+    cy.get('div[aria-modal="true"]').find('#move-people-org-dropdown').type('Uslands skola');
 
-    cy.contains('.sk-form-combobox-list-option', 'Uslands skola').click();
+    cy.contains('.sk-form-combobox-list-option:visible', 'Uslands skola').click();
 
     cy.get('div[aria-modal="true"]').find('button').contains('Spara').click();
 
@@ -226,10 +226,10 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
     cy.get('button').contains('Hantera markerade').click();
     cy.get('button').contains('Flytta markerade till annan gren').click();
 
-    cy.get('div[aria-modal="true"]').contains('label', 'Till gren').click();
-    cy.get('div[aria-modal="true"]').contains('label', 'Till gren').type('Uslands skola');
+    cy.get('div[aria-modal="true"]').find('#move-people-org-dropdown').click();
+    cy.get('div[aria-modal="true"]').find('#move-people-org-dropdown').type('Uslands skola');
 
-    cy.contains('.sk-form-combobox-list-option', 'Uslands skola').click();
+    cy.contains('.sk-form-combobox-list-option:visible', 'Uslands skola').click();
 
     cy.get('div[aria-modal="true"]').find('button').contains('Spara').click();
 

@@ -61,9 +61,9 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('#sideMenuSearchFilters')
       .should('be.visible')
       .within(() => {
-        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Nivåer').click();
-        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Ansvarskod').click();
-        cy.get('#sideMenuSearchFilters .sk-popup-menu-item').contains('Förkortningar').click();
+        cy.get('.sk-popup-menu-item').contains('Nivåer').click();
+        cy.get('.sk-popup-menu-item').contains('Ansvarskod').click();
+        cy.get('.sk-popup-menu-item').contains('Förkortningar').click();
       });
 
     // Close
@@ -88,12 +88,11 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('button').contains('Visa/sök').click();
     cy.get('input[aria-label="Sök gren i menyn"]').click();
     cy.get('input[aria-label="Sök gren i menyn"]').type('CDE Uslands skola');
-    cy.focused().type('{downArrow}');
-    cy.focused().type('{enter}');
-    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should(
-      'contain.text',
-      'CDE Uslands skola, Kod: 9400, Nivå: 5'
-    );
+    cy.contains('.sk-form-combobox-list-option:visible', 'Uslands skola').click();
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]')
+      .should('contain.text', 'CDE Uslands skola')
+      .and('contain.text', 'Kod: 9400')
+      .and('contain.text', 'Nivå: N5');
   });
 
   it('Aktivt val visas', () => {
