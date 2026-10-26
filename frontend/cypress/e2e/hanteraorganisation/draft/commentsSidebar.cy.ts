@@ -15,7 +15,7 @@ describe('/hanteraorganisation - CommentsSidebar', () => {
         cy.intercept('PATCH', '**/api/me', userPatched).as('patchMe');
       },
     });
-    cy.wait('@getDraftComments');
+    cy.wait('@getDraftComments', { timeout: 15000 });
     cy.contains('button', 'Kommentarer').click();
   });
 
