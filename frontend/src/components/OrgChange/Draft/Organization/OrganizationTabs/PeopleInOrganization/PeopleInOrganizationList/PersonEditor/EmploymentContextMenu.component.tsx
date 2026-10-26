@@ -45,6 +45,12 @@ export default function EmploymentContextMenu({
     setEmployee(employeesByOrg.find((x) => x.personId === employeeDetails.personId));
   }, [employeeDetails, employeesByOrg]);
 
+  const getButtonColor = () => {
+    if (mustEdit) return 'error';
+    if (showFocus) return 'vattjom';
+    return undefined;
+  };
+
   return (
     <>
       <PopupMenu type="menu" align="end">
@@ -52,12 +58,7 @@ export default function EmploymentContextMenu({
           title={`Redigera anställning${mustEdit ? ', justeringar behövs' : ''}`}
           variant={showFocus ? 'primary' : 'tertiary'}
           size="sm"
-          color={
-            mustEdit ? 'error'
-            : showFocus ?
-              'vattjom'
-            : undefined
-          }
+          color={getButtonColor()}
           iconButton={windowSize.lg || undefined}
           rightIcon={<EllipsisVertical />}
         >

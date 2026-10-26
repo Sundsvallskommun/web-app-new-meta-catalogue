@@ -131,7 +131,7 @@ const SidebarOrgChange = ({ mainRef }) => {
         {itemData.structureChangeStatus === 'NEW' && (
           <Icon size={16} color="warning" icon={<Sparkles aria-label="Ny gren" />} />
         )}
-        {verifyResultsByOrgId && verifyResultsByOrgId[itemData.id] && <Icon color="error" icon={<CircleAlert />} />}
+        {verifyResultsByOrgId?.[itemData.id] && <Icon color="error" icon={<CircleAlert />} />}
         {itemData.structureChangeStatus === 'DELETED' && (
           <Label color="tertiary" rounded className="whitespace-nowrap">
             Stängd

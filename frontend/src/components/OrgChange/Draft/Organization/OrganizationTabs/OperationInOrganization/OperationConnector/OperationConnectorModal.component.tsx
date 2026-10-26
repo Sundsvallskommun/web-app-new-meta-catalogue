@@ -107,7 +107,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
             </Combobox.List>
           </Combobox>
         </FormControl>
-        {error && <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
+        {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </form>
       <Modal.Footer>
         <Button type="button" variant="secondary" onClick={onCloseHandler}>

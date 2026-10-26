@@ -17,13 +17,19 @@ export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps)
   return (
     <span
       className={`ml-sm align-middle relative hidden lg:inline-flex ${className}`}
-      onClick={(e: React.MouseEvent) => e.stopPropagation()}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
     >
-      <button type="button" tabIndex={tabIndex} className="flex items-center" aria-label={ariaLabel} {...rest}>
+      <button
+        type="button"
+        tabIndex={tabIndex}
+        className="flex items-center"
+        aria-label={ariaLabel}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        {...rest}
+      >
         {!onlyIcon && <span className="mr-5">Hjälp</span>}
         <Icon size={16} icon={<CircleQuestionMark />} />
       </button>

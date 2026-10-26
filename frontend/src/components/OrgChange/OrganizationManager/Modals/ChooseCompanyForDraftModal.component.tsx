@@ -90,7 +90,7 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
             )) || []}
           </Select>
         </FormControl>
-        {error && <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
+        {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </div>
       <Modal.Footer>
         <Button variant="secondary" onClick={onCloseHandler} type="button">

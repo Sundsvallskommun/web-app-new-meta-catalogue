@@ -271,9 +271,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             <p>9999-12-31</p>
           </FormControl>
 
-          {error && (
-            <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>
-          )}
+          {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
         </form>
         <Modal.Footer>
           <Button variant="secondary" onClick={onCloseHandler} type="button">

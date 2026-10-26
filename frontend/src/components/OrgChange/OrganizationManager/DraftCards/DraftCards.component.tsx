@@ -15,11 +15,11 @@ interface DraftDataListProps {
 const DraftCards = (props: DraftDataListProps) => {
   const { draftData, draftsIsLoading } = props;
 
-  const cards = draftData.map((d, i) => {
+  const cards = draftData.map((d) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { draftIsArchived } = useDraftPhaseState(d);
     return (
-      <Card key={`${i}`}>
+      <Card key={d.draftId}>
         <Card.Body className="w-full">
           <div>
             <div className="flex justify-between">

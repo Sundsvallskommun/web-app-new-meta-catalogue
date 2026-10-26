@@ -11,7 +11,7 @@ interface CompilationInfoInOrganizationProps {
 export default function CompilationInfoInOrganization({ organization }: CompilationInfoInOrganizationProps) {
   const verifyResultsByOrgId = useOrgChangeStore((s) => s.verifyResultsByOrgId);
   const showChanges = organization.changes > 0 && __DEV__;
-  const showVerifyResult = organization.changes > 0 && verifyResultsByOrgId && verifyResultsByOrgId[organization.id];
+  const showVerifyResult = organization.changes > 0 && verifyResultsByOrgId?.[organization.id];
 
   if (!showChanges && !showVerifyResult) return null;
 

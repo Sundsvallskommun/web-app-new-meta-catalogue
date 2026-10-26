@@ -54,7 +54,7 @@ export default function ChooseBranchToChangeModal(props) {
   return (
     <Modal className="max-w-[800px]" show={true} onClose={onClose} label={'Välj gren att ändra'}>
       <div className="flex flex-col gap-16">
-        <p className="text-small text-dark-secondary">Bolag: {draft && draft.companyName}</p>
+        <p className="text-small text-dark-secondary">Bolag: {draft?.companyName}</p>
         <FormControl id="orgchange-choosebranch-searchnode" className="w-full">
           <FormLabel>Gren</FormLabel>
           <Combobox

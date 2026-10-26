@@ -186,9 +186,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               Stäng ansvar
             </Button>
           </div>
-          {error && (
-            <FormErrorMessage>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</FormErrorMessage>
-          )}
+          {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
         </form>
         <Modal.Footer>
           <Button variant="secondary" onClick={onCloseHandler} type="button">

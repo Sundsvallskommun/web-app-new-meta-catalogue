@@ -89,6 +89,26 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
     setSortIndex(idx);
   };
 
+  const getAriaSort = (idx: number) => {
+    if (sortIndex !== idx) return 'none';
+    return sortAscending ? 'ascending' : 'descending';
+  };
+
+  const getHeaderContent = ({ element, isColumnSortable = true, screenReaderOnly }: DataTableHeader, idx: number) => {
+    if (tableSortable && isColumnSortable) {
+      return (
+        <Table.SortButton
+          isActive={sortIndex === idx}
+          sortOrder={sortAscending ? SortMode.ASC : SortMode.DESC}
+          onClick={() => handleSort(idx)}
+        >
+          {element}
+        </Table.SortButton>
+      );
+    }
+    return screenReaderOnly ? <span className="sr-only">{element}</span> : element;
+  };
+
   const isHighlighted = (rowIndex: number) =>
     highlightedItemIndex !== undefined &&
     Math.floor(highlightedItemIndex / pageSize) + 1 === activePage &&
@@ -106,31 +126,11 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
         </caption>
       )}
       <Table.Header>
-        {headers.map(({ element, isColumnSortable = true, isShown = true, screenReaderOnly }, idx) =>
-          isShown ?
+        {headers.map((header, idx) =>
+          (header.isShown ?? true) ?
             // relative keeps sr-only text inside the horizontal scroll instead of widening the page
-            <Table.HeaderColumn
-              key={`header-${idx}`}
-              className="relative"
-              aria-sort={
-                sortIndex === idx ?
-                  sortAscending ?
-                    'ascending'
-                  : 'descending'
-                : 'none'
-              }
-            >
-              {tableSortable && isColumnSortable ?
-                <Table.SortButton
-                  isActive={sortIndex === idx}
-                  sortOrder={sortAscending ? SortMode.ASC : SortMode.DESC}
-                  onClick={() => handleSort(idx)}
-                >
-                  {element}
-                </Table.SortButton>
-              : screenReaderOnly ?
-                <span className="sr-only">{element}</span>
-              : element}
+            <Table.HeaderColumn key={`header-${idx}`} className="relative" aria-sort={getAriaSort(idx)}>
+              {getHeaderContent(header, idx)}
             </Table.HeaderColumn>
           : null
         )}

@@ -216,6 +216,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
     };
 
     const { mustEdit, showFocus } = shouldEditEmployee(p);
+    const focusColor = mustEdit ? 'error' : 'vattjom';
 
     return [
       {
@@ -295,13 +296,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             iconButton
             variant={!draftIsReadOnly && showFocus ? 'primary' : 'tertiary'}
             size="sm"
-            color={
-              !draftIsReadOnly && showFocus ?
-                mustEdit ?
-                  'error'
-                : 'vattjom'
-              : undefined
-            }
+            color={!draftIsReadOnly && showFocus ? focusColor : undefined}
             title={`Öppna persondetaljer${mustEdit ? ', justeringar behövs' : ''}`}
             aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
             onClick={() => openEditModal(p)}
