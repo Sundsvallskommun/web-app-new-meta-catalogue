@@ -1,4 +1,5 @@
-import { CookieConsent, Footer, Header, Link, Logo, UserMenu } from '@sk-web-gui/react';
+import { CookieConsent, Footer, Header, Icon, Link, Logo, PopupMenu, UserMenu } from '@sk-web-gui/react';
+import { Menu } from 'lucide-react';
 import AlertBannerEdit from '@components/AlertBannerManager/AlertBannerManager.component';
 import { FeedbackModalWrapper } from '@components/Feedback/FeedbackModalWrapper.component';
 import { useMenuItems } from '@components/UserMenuItems/UserMenuItems';
@@ -79,6 +80,29 @@ export default function DefaultLayout({
               .join('')
               .slice(0, 2)}
           />
+        }
+        mobileMenu={
+          <PopupMenu align="end">
+            <PopupMenu.Button data-cy="mobilemenu" iconButton aria-label="Meny">
+              <Icon icon={<Menu />} />
+            </PopupMenu.Button>
+            <PopupMenu.Panel>
+              <PopupMenu.Group>
+                <label>{user.name}</label>
+              </PopupMenu.Group>
+              <PopupMenu.Items>
+                {menuItems.map((menuGroup) => (
+                  <PopupMenu.Group key={`mobilemenu-${menuGroup.label}`} aria-label={menuGroup.label}>
+                    {menuGroup.elements.map((menuItem) => (
+                      <PopupMenu.Item key={`mobilemenu-${menuGroup.label}-${menuItem.label}`}>
+                        {menuItem.element()}
+                      </PopupMenu.Item>
+                    ))}
+                  </PopupMenu.Group>
+                ))}
+              </PopupMenu.Items>
+            </PopupMenu.Panel>
+          </PopupMenu>
         }
       />
 

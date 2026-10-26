@@ -122,7 +122,7 @@ describe('Nav header', () => {
         // Check if the dropdown menu is visible
         cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
 
-        cy.get('[data-cy="nav-span-loggaUt"]').should('be.visible').and('have.text', label);
+        cy.get('.sk-usermenu [data-cy="nav-span-loggaUt"]').should('be.visible').and('have.text', label);
       });
     }
   });
