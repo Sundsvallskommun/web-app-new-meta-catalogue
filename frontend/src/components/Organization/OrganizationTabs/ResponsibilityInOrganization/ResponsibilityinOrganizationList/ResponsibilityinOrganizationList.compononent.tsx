@@ -76,8 +76,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
               return columnSort(responsibilityA.responsibilityText, responsibilityB.responsibilityText, asc);
             case 1:
               return columnSort(
-                responsibilityType(responsibilityA.orgResponsibilityId).text,
-                responsibilityType(responsibilityB.orgResponsibilityId).text,
+                responsibilityType(responsibilityA.typeOfResponsibility).text,
+                responsibilityType(responsibilityB.typeOfResponsibility).text,
                 asc
               );
             case 2:
