@@ -29,8 +29,8 @@ export const FeedbackModalWrapper = ({ type = '', open = false }: FeedbackModalW
   /** Control open or not by feedback query parameter */
   const handleModalClose = () => {
     setIsOpen(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { feedback, ...query } = router.query;
+    const query = { ...router.query };
+    delete query.feedback;
     router.replace({ query }, undefined, { shallow: true });
   };
 
