@@ -49,6 +49,41 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains('Ny gren').should('exist');
   });
 
+  it('Drag and drop branch to new parent', () => {
+    const [parent] = orgTreeNewNode;
+    const child = parent.subItems![0];
+    const dragTree = [
+      { ...parent, subItems: [{ ...child, parentId: parent.id }] },
+      { ...parent, id: 193, label: 'Annan skola', orgName: 'Annan skola', subItems: [] },
+    ];
+    cy.intercept('GET', '**/api/orgchange/draft/id-hash-Draftname3/tree', { data: dragTree, message: 'success' }).as(
+      'getDragTree'
+    );
+    cy.reload();
+    cy.wait('@getDragTree');
+
+    cy.get('[data-cy="tree-item-192"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+
+    // Dropping on the current parent does nothing
+    const toCurrentParent = new DataTransfer();
+    cy.get('[data-cy="tree-item-123"]').trigger('dragstart', { dataTransfer: toCurrentParent });
+    cy.get('[data-cy="tree-item-192"]').trigger('dragover', { dataTransfer: toCurrentParent });
+    cy.get('[data-cy="tree-item-192"]').trigger('drop', { dataTransfer: toCurrentParent });
+    cy.get('[aria-modal="true"]').should('not.exist');
+
+    // Dropping on another parent one level up opens the move modal with that parent chosen
+    const toNewParent = new DataTransfer();
+    cy.get('[data-cy="tree-item-123"]').trigger('dragstart', { dataTransfer: toNewParent });
+    cy.get('[data-cy="tree-item-193"]').trigger('dragover', { dataTransfer: toNewParent });
+    cy.get('[data-cy="tree-item-193"]').should('have.class', 'ring-2');
+    cy.get('[data-cy="tree-item-193"]').trigger('drop', { dataTransfer: toNewParent });
+
+    cy.get('[aria-modal="true"]').within(() => {
+      cy.contains(`Gren ${child.label} nivå 6`).should('be.visible');
+      cy.contains('button', 'Flytta gren').should('be.enabled');
+    });
+  });
+
   it('Show/Search', () => {
     cy.intercept('GET', '**/api/orgchange/draft/id-hash-Draftname3/tree', {
       data: orgTreeNewNode,
