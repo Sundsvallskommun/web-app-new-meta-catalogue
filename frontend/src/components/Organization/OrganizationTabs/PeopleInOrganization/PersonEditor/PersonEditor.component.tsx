@@ -70,7 +70,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     ]) || [];
 
   return (
-    <Modal show={isOpen} className="max-w-screen-xl" onClose={handleOnClose}>
+    <Modal show={isOpen} className="w-full max-w-screen-xl" onClose={handleOnClose}>
       {employeeDetails && employeeDetails.personId && (
         <>
           <div className="flex flex-col gap-32" data-cy="person-editor">
