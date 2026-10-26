@@ -111,8 +111,10 @@ describe('/ansvar', () => {
     cy.get('[data-cy="column-filter"] .sk-popup-menu-item input[type="checkbox"]')
       .not('[disabled]')
       .each(($el) => {
-        cy.wrap($el).click({ force: true }).should('be.checked');
-        cy.wrap($el).click({ force: true }).should('not.be.checked');
+        cy.wrap($el).closest('label').click();
+        cy.wrap($el).should('be.checked');
+        cy.wrap($el).closest('label').click();
+        cy.wrap($el).should('not.be.checked');
       });
   });
 
