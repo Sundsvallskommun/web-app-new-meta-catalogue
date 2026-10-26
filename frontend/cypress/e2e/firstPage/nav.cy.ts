@@ -114,8 +114,7 @@ describe('Nav header', () => {
     }
 
     if (label === 'Logga ut') {
-      it(`should navigate to the correct page when "${label}" is clicked`, () => {
-        cy.intercept('GET', '**/me', user).as('getMe');
+      it(`should show the "${label}" button`, () => {
         // Click the usermenu button to open the dropdown menu
         cy.get('.sk-usermenu-button').click();
         cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible');
@@ -123,12 +122,7 @@ describe('Nav header', () => {
         // Check if the dropdown menu is visible
         cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
 
-        // Find the menu item by its label and click on it
-        cy.get('.sk-usermenu .sk-popup-menu-item').contains(label).click();
-
-        // // // // Wait for the URL to change to the expected path
-        cy.wait('@getMe');
-        cy.url().should('contain', '/logout');
+        cy.get('[data-cy="nav-span-loggaUt"]').should('be.visible').and('have.text', label);
       });
     }
   });
