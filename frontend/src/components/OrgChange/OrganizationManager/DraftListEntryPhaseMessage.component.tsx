@@ -8,7 +8,6 @@ import {
 import { CircleAlert } from 'lucide-react';
 import { draftListEntry, useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, useConfirm } from '@sk-web-gui/react';
-import { MessageStatusIcon } from '../Draft/BottomInfoBar/ExportMessages.component';
 import { useUserStore } from '@services/user-service/user-service';
 
 export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) {
@@ -46,12 +45,7 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
   }
 
   if (phaseRunbookStep) {
-    return (
-      <span className="flex items-center gap-8 text-small">
-        <MessageStatusIcon status={phaseRunbookStep.state} />
-        <span>{phaseRunbookStep.result || phaseRunbookStep.description}</span>
-      </span>
-    );
+    return <span className="text-small">{phaseRunbookStep.result || phaseRunbookStep.description}</span>;
   }
   return <></>;
 }
