@@ -52,17 +52,17 @@ export default function TerminateNode(props: ITerminateNodeProps) {
   };
 
   return (
-    <Modal className="max-w-[800px]" show onClose={onClose} label={'Stäng gren'}>
+    <Modal className="w-[calc(100%-32px)] max-w-[800px] my-16" show onClose={onClose} label={'Stäng gren'}>
       <p className="text-small text-dark-secondary">
         Gren: {organization.orgName} nivå {organization.level}
       </p>
 
       <Modal.Footer>
-        <Button variant="secondary" type="button" onClick={onClose}>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
           Avbryt
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           variant="primary"
           color="primary"
           loadingText="Sparar"

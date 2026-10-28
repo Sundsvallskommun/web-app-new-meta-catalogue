@@ -67,7 +67,12 @@ export const Comments = ({
           commentsData.map((comment) => (
             <div key={`comment-item-${comment.id}`} className="border-b-1 border-divider py-16">
               <div className="flex items-start gap-sm">
-                <Avatar size="sm" rounded initials={comment.commentorName.slice(0, 2).toUpperCase()} />
+                <Avatar
+                  size="sm"
+                  rounded
+                  className="shrink-0"
+                  initials={comment.commentorName.slice(0, 2).toUpperCase()}
+                />
                 <div className={`w-full ${editId === comment.id ? 'p-sm rounded-lg bg-warning-background-200' : ''}`}>
                   <p>{comment.commentText}</p>
                   <p className="text-small text-dark-secondary">

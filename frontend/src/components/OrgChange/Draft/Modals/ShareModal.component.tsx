@@ -24,7 +24,7 @@ export default function ShareModal(props) {
   };
 
   return (
-    <Modal className="max-w-[500px]" show={true} label={'Dela utkast'} onClose={onClose}>
+    <Modal className="w-[calc(100%-32px)] max-w-[600px] my-16" show={true} label={'Dela utkast'} onClose={onClose}>
       <div>
         <Button onClick={onCopyLink} variant="secondary" leftIcon={<Link />}>
           Kopiera länk

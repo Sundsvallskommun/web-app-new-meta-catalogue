@@ -160,7 +160,7 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
   );
 
   return (
-    <Modal className="w-full max-w-[900px]" show onClose={handleOnClose} label="Ändra aktivitet">
+    <Modal className="w-[calc(100%-32px)] max-w-[900px] my-16" show onClose={handleOnClose} label="Ändra aktivitet">
       <form id="change-activity-modal-form" onSubmit={onSubmit} className="flex flex-col gap-16">
         <p className="text-small text-dark-secondary">
           För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
@@ -229,11 +229,11 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
         )}
       </form>
       <Modal.Footer>
-        <Button variant="secondary" type="button" onClick={handleOnClose}>
+        <Button variant="secondary" className="flex-1" type="button" onClick={handleOnClose}>
           Avbryt
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           variant="primary"
           type="submit"
           form="change-activity-modal-form"

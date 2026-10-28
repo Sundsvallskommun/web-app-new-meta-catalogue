@@ -121,7 +121,12 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
   };
 
   return (
-    <Modal label="Kommentarer" className="w-full max-w-[600px]" show={commentsSidebarOpen} onClose={onClose}>
+    <Modal
+      label="Kommentarer"
+      className="w-[calc(100%-32px)] max-w-[600px] my-16"
+      show={commentsSidebarOpen}
+      onClose={onClose}
+    >
       <div className="flex flex-col max-h-[50vh]">
         <Comments
           currentUserName={user.username}

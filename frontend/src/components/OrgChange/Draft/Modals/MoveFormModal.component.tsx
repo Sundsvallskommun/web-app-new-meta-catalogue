@@ -93,7 +93,12 @@ export default function MoveFormModal(props: IMoveFormProps) {
   }, []);
 
   return (
-    <Modal className="max-w-[800px]" show onClose={onClose} label={moveBranch && 'Flytta gren'}>
+    <Modal
+      className="w-[calc(100%-32px)] max-w-[800px] my-16"
+      show
+      onClose={onClose}
+      label={moveBranch && 'Flytta gren'}
+    >
       <div className="flex flex-col gap-16">
         <p className="text-small text-dark-secondary">
           Gren {organization.label} nivå {organization.level}
@@ -121,11 +126,11 @@ export default function MoveFormModal(props: IMoveFormProps) {
         </FormControl>
       </div>
       <Modal.Footer>
-        <Button variant="secondary" type="button" onClick={onClose}>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
           Avbryt
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           variant="primary"
           color="primary"
           loadingText="Sparar"

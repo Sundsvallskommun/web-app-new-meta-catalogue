@@ -52,7 +52,12 @@ export default function ChooseBranchToChangeModal(props) {
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} onClose={onClose} label={'Välj gren att ändra'}>
+    <Modal
+      className="w-[calc(100%-32px)] max-w-[800px] my-16"
+      show={true}
+      onClose={onClose}
+      label={'Välj gren att ändra'}
+    >
       <div className="flex flex-col gap-16">
         <p className="text-small text-dark-secondary">Bolag: {draft?.companyName}</p>
         <FormControl id="orgchange-choosebranch-searchnode" className="w-full">
@@ -90,11 +95,11 @@ export default function ChooseBranchToChangeModal(props) {
         </FormControl>
       </div>
       <Modal.Footer>
-        <Button variant="secondary" type="button" onClick={onClose}>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
           Avbryt
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           variant="primary"
           onClick={onChooseOrganization}
           color="primary"

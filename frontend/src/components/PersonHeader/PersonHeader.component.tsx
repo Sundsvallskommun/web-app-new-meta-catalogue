@@ -18,6 +18,7 @@ export const PersonAvatar: React.FC<PersonAvatarProps> = ({ personId, givenname,
     <Avatar
       size={size}
       rounded
+      className="shrink-0"
       initials={initials}
       imageElement={
         failedImagePersonId === personId ? undefined : (
@@ -41,9 +42,10 @@ interface PersonHeaderProps {
   givenname?: string | null;
   lastname?: string | null;
   personNumber?: string | null;
+  details?: { label: string; value?: string | null }[];
 }
 
-export const PersonHeader: React.FC<PersonHeaderProps> = ({ personId, givenname, lastname, personNumber }) => {
+export const PersonHeader: React.FC<PersonHeaderProps> = ({ personId, givenname, lastname, personNumber, details }) => {
   return (
     <div className="flex items-center gap-24">
       <PersonAvatar personId={personId} givenname={givenname} lastname={lastname} />
@@ -52,6 +54,16 @@ export const PersonHeader: React.FC<PersonHeaderProps> = ({ personId, givenname,
           {givenname} {lastname}
         </h4>
         <span>{personNumber}</span>
+        {details?.length > 0 && (
+          <dl className="flex flex-wrap gap-x-32 gap-y-16 mt-16">
+            {details.map((detail) => (
+              <div key={detail.label}>
+                <dt className="text-label-medium">{detail.label}</dt>
+                <dd>{detail.value || 'Inga uppgifter'}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationEmployee, OrgChangePersonEmployeeDetail } from '@data-contracts/backend/data-contracts';
-import { BookOpenText } from 'lucide-react';
+import { ListCollapse } from 'lucide-react';
 import { getEmployeeDetails } from '@services/mdbuilder/api-calls/employment';
 import { employeeOrgChangeHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
@@ -301,7 +301,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
             onClick={() => openEditModal(p)}
           >
-            <BookOpenText />
+            <ListCollapse />
           </Button>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canViewEmployeeDetails,

@@ -4,6 +4,7 @@ import { PersonHeader } from '@components/PersonHeader/PersonHeader.component';
 import { emptyPersonEditor } from '@services/mdbuilder/defaults';
 import { useUserStore } from '@services/user-service/user-service';
 import { Button, Modal } from '@sk-web-gui/react';
+import { Flag } from 'lucide-react';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
@@ -32,28 +33,12 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     closeCallback();
   };
 
-  const contactHeaders = [
-    header('Arbetsmobil'),
-    header('Arbetstelefon'),
-    header('Registrerat tilltalsnamn'),
-    header('Mellannamn'),
+  const contactDetails = [
+    { label: 'Arbetsmobil', value: employeeDetails?.workMobile },
+    { label: 'Arbetstelefon', value: employeeDetails?.workPhone },
+    { label: 'Registrerat tilltalsnamn', value: employeeDetails?.friendlyGivenname },
+    { label: 'Mellannamn', value: employeeDetails?.middlename },
   ];
-
-  const contactRows: DataTableColumn[][] = [
-    [
-      { element: employeeDetails?.workMobile || 'Inga uppgifter' },
-      { element: employeeDetails?.workPhone || 'Inga uppgifter' },
-      { element: employeeDetails?.friendlyGivenname || 'Inga uppgifter' },
-      { element: employeeDetails?.middlename || 'Inga uppgifter' },
-    ],
-  ];
-
-  const hasContactInfo = !!(
-    employeeDetails?.workMobile ||
-    employeeDetails?.workPhone ||
-    employeeDetails?.friendlyGivenname ||
-    employeeDetails?.middlename
-  );
 
   const userHeaders = [header('Användarnamn'), header('Visningsnamn')];
 
@@ -102,11 +87,12 @@ const PersonEditor = (props: EmployeeEditorProps) => {
       {
         element: <EmploymentContextMenu employeeDetails={employeeDetails} selectedEmploymentDetails={e} />,
         isShown: canEditEmployment,
+        allowOverflow: true,
       },
     ]) || [];
 
   return (
-    <Modal show={isOpen} className="w-full max-w-screen-xl" onClose={handleOnClose}>
+    <Modal show={isOpen} className="w-[calc(100%-32px)] max-w-screen-xl my-16" onClose={handleOnClose}>
       {employeeDetails && employeeDetails.personId && (
         <>
           <div className="flex flex-col gap-32" data-cy="person-editor">
@@ -115,13 +101,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               givenname={employeeDetails.givenname}
               lastname={employeeDetails.lastname}
               personNumber={employeeDetails.personNumber}
+              details={contactDetails}
             />
-            {hasContactInfo && (
-              <section className="flex flex-col gap-8">
-                <h4 className="text-lead">Kontaktuppgifter</h4>
-                <DataTable headers={contactHeaders} rows={contactRows} captionBody="" captionTitle="" summary="" />
-              </section>
-            )}
             {(userRows.length > 0 || emailRows.length > 0) && (
               <div className="flex flex-col lg:flex-row lg:items-start gap-32">
                 {userRows.length > 0 && (
@@ -151,10 +132,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               </section>
             )}
           </div>
-          <Modal.Footer className="mt-lg">
-            <Button variant="secondary" onClick={handleOnClose} type="button">
-              Stäng
-            </Button>
+          <div className="mt-lg">
             <NextLink
               legacyBehavior
               href={{
@@ -163,10 +141,15 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button type="button" variant="tertiary" className="ml-auto">
+              <Button type="button" variant="link" size="sm" leftIcon={<Flag />}>
                 Rapportera fel
               </Button>
             </NextLink>
+          </div>
+          <Modal.Footer>
+            <Button variant="primary" className="w-full" onClick={handleOnClose} type="button">
+              Stäng
+            </Button>
           </Modal.Footer>
         </>
       )}

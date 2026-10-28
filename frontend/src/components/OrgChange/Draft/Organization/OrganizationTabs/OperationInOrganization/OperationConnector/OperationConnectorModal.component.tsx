@@ -86,7 +86,7 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
   }, []);
 
   return (
-    <Modal className="max-w-[800px]" show={true} onClose={onClose} label="Koppla verksamhet">
+    <Modal className="w-[calc(100%-32px)] max-w-[800px] my-16" show={true} onClose={onClose} label="Koppla verksamhet">
       <form id="operation-connector-form" onSubmit={onSubmit} className="flex flex-col gap-16">
         <FormControl id="operation-searchconnect-dropdown" className="w-full">
           <FormLabel>Verksamhet</FormLabel>
@@ -110,11 +110,11 @@ const OperationConnectorModal = ({ onClose }: IOperationConnectorModalProps) => 
         {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </form>
       <Modal.Footer>
-        <Button type="button" variant="secondary" onClick={onCloseHandler}>
+        <Button type="button" variant="secondary" className="flex-1" onClick={onCloseHandler}>
           Avbryt
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           type="submit"
           form="operation-connector-form"
           variant="primary"

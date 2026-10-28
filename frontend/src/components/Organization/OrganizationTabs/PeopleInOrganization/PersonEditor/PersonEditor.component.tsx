@@ -1,4 +1,5 @@
 import { Button, Modal } from '@sk-web-gui/react';
+import { Flag } from 'lucide-react';
 import NextLink from 'next/link';
 
 // icons
@@ -26,21 +27,11 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     closeCallback();
   };
 
-  const contactHeaders = [header('Arbetsmobil'), header('Arbetstelefon'), header('Registrerat tilltalsnamn')];
-
-  const contactRows: DataTableColumn[][] = [
-    [
-      { element: employeeDetails?.workMobile || 'Inga uppgifter' },
-      { element: employeeDetails?.workPhone || 'Inga uppgifter' },
-      { element: employeeDetails?.friendlyGivenname || 'Inga uppgifter' },
-    ],
+  const contactDetails = [
+    { label: 'Arbetsmobil', value: employeeDetails?.workMobile },
+    { label: 'Arbetstelefon', value: employeeDetails?.workPhone },
+    { label: 'Registrerat tilltalsnamn', value: employeeDetails?.friendlyGivenname },
   ];
-
-  const hasContactInfo = !!(
-    employeeDetails?.workMobile ||
-    employeeDetails?.workPhone ||
-    employeeDetails?.friendlyGivenname
-  );
 
   const userHeaders = [header('Användarnamn'), header('Visningsnamn')];
 
@@ -70,7 +61,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
     ]) || [];
 
   return (
-    <Modal show={isOpen} className="w-full max-w-screen-xl" onClose={handleOnClose}>
+    <Modal show={isOpen} className="w-[calc(100%-32px)] max-w-screen-xl my-16" onClose={handleOnClose}>
       {employeeDetails && employeeDetails.personId && (
         <>
           <div className="flex flex-col gap-32" data-cy="person-editor">
@@ -79,13 +70,8 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               givenname={employeeDetails.givenname}
               lastname={employeeDetails.lastname}
               personNumber={employeeDetails.personNumber}
+              details={contactDetails}
             />
-            {hasContactInfo && (
-              <section className="flex flex-col gap-8">
-                <h4 className="text-lead">Kontaktuppgifter</h4>
-                <DataTable headers={contactHeaders} rows={contactRows} captionBody="" captionTitle="" summary="" />
-              </section>
-            )}
             {(userRows.length > 0 || emailRows.length > 0) && (
               <div className="flex flex-col lg:flex-row lg:items-start gap-32">
                 {userRows.length > 0 && (
@@ -109,10 +95,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               </section>
             )}
           </div>
-          <Modal.Footer className="mt-lg">
-            <Button variant="secondary" onClick={handleOnClose} type="button">
-              Stäng
-            </Button>
+          <div className="mt-lg">
             <NextLink
               legacyBehavior
               href={{
@@ -121,10 +104,15 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               shallow
               replace
             >
-              <Button type="button" variant="tertiary" className="ml-auto">
+              <Button type="button" variant="link" size="sm" leftIcon={<Flag />}>
                 Rapportera fel
               </Button>
             </NextLink>
+          </div>
+          <Modal.Footer>
+            <Button variant="primary" className="w-full" onClick={handleOnClose} type="button">
+              Stäng
+            </Button>
           </Modal.Footer>
         </>
       )}

@@ -148,11 +148,11 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} onClose={onClose} label="Uppdatera ansvar">
+    <Modal className="w-[calc(100%-32px)] max-w-[800px] my-16" show={true} onClose={onClose} label="Uppdatera ansvar">
       <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
         <form
           id="responsibility-edit-modal-form"
-          className="flex flex-col gap-16"
+          className="flex flex-col gap-16 mb-16"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
@@ -178,7 +178,8 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
               type="button"
               color="error"
               size="sm"
-              variant="tertiary"
+              variant="primary"
+              inverted
               aria-label={`Stäng ansvar ${watch().description}`}
               onClick={onRemoveHandler}
               leftIcon={<Trash />}
@@ -189,11 +190,11 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
           {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
         </form>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onCloseHandler} type="button">
+          <Button variant="secondary" className="flex-1" onClick={onCloseHandler} type="button">
             {'Avbryt'}
           </Button>
           <Button
-            className="ml-auto"
+            className="flex-1"
             type="submit"
             form="responsibility-edit-modal-form"
             variant="primary"

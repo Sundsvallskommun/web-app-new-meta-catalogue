@@ -82,7 +82,7 @@ const OrgNameEdit = ({ newItem, organization, isEdit = false, orgTree, orgChange
         (isOrgChange && draftIsReadOnly) ||
         (isOrgChange && orgChangeOrg.structureChangeStatus === 'DELETED')) && (
         <h1
-          className={`text-h4 text-dark-secondary flex flex-col lg:flex-row ${
+          className={`text-h4 text-dark-secondary flex flex-col xl:flex-row ${
             orgChangeOrg && orgChangeOrg.structureChangeStatus === 'DELETED' && 'italic'
           }`}
         >

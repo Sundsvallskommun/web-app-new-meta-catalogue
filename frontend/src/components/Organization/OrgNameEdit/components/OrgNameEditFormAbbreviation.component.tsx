@@ -13,7 +13,7 @@ export const OrgNameEditFormAbbreviation: React.FC = () => {
   const abbreviationField = register('abbreviation');
 
   return (
-    <FormControl id="abbreviation" invalid={!!errors?.abbreviation}>
+    <FormControl id="abbreviation" className="w-full min-w-0" invalid={!!errors?.abbreviation}>
       <FormLabel>
         Förkortning
         <HelpTooltip aria-hidden="true" tabIndex={-1} onlyIcon={true}>
@@ -30,6 +30,7 @@ export const OrgNameEditFormAbbreviation: React.FC = () => {
         aria-invalid={errors.abbreviation?.message ? true : undefined}
         placeholder="ABC"
         size="sm"
+        className="w-full min-w-0"
         maxLength={3}
         title="Förkortning, A-Ö"
         pattern={`^[a-zA-ZåäöÅÄÖ]*$`}

@@ -202,29 +202,34 @@ export const OrgNameEditForm: React.FC<{
   return (
     <FormProvider {...form}>
       <form className={cx(className, '')} onSubmit={handleFormSubmit}>
-        <div className="flex flex-wrap items-end gap-md">
+        <div
+          className={cx(
+            'grid grid-cols-1 items-end gap-md',
+            formData.isLeafLevel ? 'xl:grid-cols-3' : 'md:grid-cols-2 xl:grid-cols-4'
+          )}
+        >
           <OrgNameEditFormName newItem={newItem} />
           <OrgNameEditFormShortName newItem={newItem} orgNameShortMaxLength={orgNameShortMaxLength} />
           {!formData.isLeafLevel && <OrgNameEditFormAbbreviation />}
           <OrgNameEditFormCode parentOrg={parentOrg} />
-          {isOrgChange && orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-            <div className="ml-auto">
-              <Button
-                aria-describedby={!isDirty ? `save-describedby` : undefined}
-                aria-disabled={!isDirty ? 'true' : undefined}
-                color="primary"
-                variant="primary"
-                size="sm"
-                type="submit"
-              >
-                Spara
-              </Button>
-              <span className="sr-only" aria-hidden id="save-describedby">
-                Ändringar i formuläret krävs för att spara
-              </span>
-            </div>
-          )}
         </div>
+        {isOrgChange && orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
+          <div className="flex justify-end mt-16">
+            <Button
+              aria-describedby={!isDirty ? `save-describedby` : undefined}
+              aria-disabled={!isDirty ? 'true' : undefined}
+              color="primary"
+              variant="primary"
+              size="sm"
+              type="submit"
+            >
+              Spara
+            </Button>
+            <span className="sr-only" aria-hidden id="save-describedby">
+              Ändringar i formuläret krävs för att spara
+            </span>
+          </div>
+        )}
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (errorText || warningText || submitError) && (
           <div className="feedback-texts flex flex-col gap-md mt-md">
             {errorText && (

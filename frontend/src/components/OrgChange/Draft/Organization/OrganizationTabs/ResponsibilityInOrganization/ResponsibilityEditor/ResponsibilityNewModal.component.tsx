@@ -18,6 +18,7 @@ import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { ParentCode } from '@components/Organization/OrgNameEdit/components/ParentCode.component';
 
 const defaultSetValueOptions = { shouldDirty: true, shouldTouch: true, shouldValidate: true };
 
@@ -192,7 +193,12 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} onClose={onCloseHandler} label="Skapa nytt ansvar">
+    <Modal
+      className="w-[calc(100%-32px)] max-w-[800px] my-16"
+      show={true}
+      onClose={onCloseHandler}
+      label="Skapa nytt ansvar"
+    >
       <WarnIfUnsavedChanges showWarning={isDirty}>
         <form
           id="responsibility-new-modal-form"
@@ -204,7 +210,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
         >
           <FormControl id="responsibility-edit-title" className="w-full">
             <FormLabel>Ansvartitel</FormLabel>
-            <Input.InnerGroup size="md">
+            <Input.InnerGroup size="md" className="w-full">
               <Input {...register('description')} placeholder="Ansvarstitel" maxLength={30} title="Ansvarstitel" />
             </Input.InnerGroup>
             <ErrorMessage
@@ -215,11 +221,14 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
           </FormControl>
           <div className="grid grid-cols-2 gap-16">
             <div>
-              <FormControl id="responsibility-code">
+              <FormControl id="responsibility-code" className="w-full">
                 <FormLabel>Ansvarskod</FormLabel>
-                <Input.InnerGroup size="md">
-                  <Input.LeftAddon>{leftValue}</Input.LeftAddon>
+                <Input.InnerGroup size="md" className="w-full">
+                  <Input.LeftAddin>
+                    <ParentCode code={leftValue} size="md" />
+                  </Input.LeftAddin>
                   <Input
+                    className="w-full"
                     value={rightValue}
                     placeholder="000"
                     maxLength={3}
@@ -237,7 +246,7 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
             </div>
 
             <div>
-              <FormControl id="responsibilityTypeId">
+              <FormControl id="responsibilityTypeId" className="w-full">
                 <FormLabel>Ansvarstyp</FormLabel>
                 <Select
                   aria-label="Ansvarstyp"
@@ -274,11 +283,11 @@ const ResponsibilityNewModal = (props: ResponsibilityNewProps) => {
           {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
         </form>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onCloseHandler} type="button">
+          <Button variant="secondary" className="flex-1" onClick={onCloseHandler} type="button">
             {'Avbryt'}
           </Button>
           <Button
-            className="ml-auto"
+            className="flex-1"
             type="submit"
             form="responsibility-new-modal-form"
             variant="primary"

@@ -1,7 +1,7 @@
 import PersonEditor from '@components/Organization/OrganizationTabs/PeopleInOrganization/PersonEditor/PersonEditor.component';
 import { useAppContext } from '@contexts/app.context';
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
-import { BookOpenText } from 'lucide-react';
+import { ListCollapse } from 'lucide-react';
 import { getEmployeeDetails } from '@services/mdviewer/api-calls/employment';
 import { employeeHeaders } from '@services/mdviewer/defaults/employment';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
@@ -205,7 +205,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
             aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
             onClick={() => openEditModal(p)}
           >
-            <BookOpenText />
+            <ListCollapse />
           </Button>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 4)?.value && user.permissions.canViewEmployeeDetails,

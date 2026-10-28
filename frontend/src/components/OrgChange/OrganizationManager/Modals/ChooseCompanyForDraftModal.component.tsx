@@ -65,7 +65,7 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
 
   return (
     <Modal
-      className="max-w-[500px]"
+      className="w-[calc(100%-32px)] max-w-[600px] my-16"
       show={modalIsOpen}
       onClose={onCloseHandler}
       label={'Välj vilket bolag som du vill göra förändringar i'}
@@ -93,11 +93,11 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
         {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </div>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onCloseHandler} type="button">
+        <Button variant="secondary" className="flex-1" onClick={onCloseHandler} type="button">
           {'Avbryt'}
         </Button>
         <Button
-          className="ml-auto"
+          className="flex-1"
           onClick={() => filterGoToDraft()}
           variant="primary"
           type="submit"

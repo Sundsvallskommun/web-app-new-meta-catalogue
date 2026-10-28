@@ -104,7 +104,12 @@ export const FeedbackModal: React.FC<{
   const selectTypeValue = feedbackSelectTypes.find((x) => x.type == watch().type);
 
   return (
-    <Modal show={isOpen} label="Rapportera fel" onClose={handleOnClose} className="max-w-screen-md">
+    <Modal
+      show={isOpen}
+      label="Rapportera fel"
+      onClose={handleOnClose}
+      className="w-[calc(100%-32px)] max-w-screen-md my-16"
+    >
       <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
         <form id="feedback-modal-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
           <FormControl id="type" className="w-full">
@@ -150,7 +155,13 @@ export const FeedbackModal: React.FC<{
           )}
         </form>
         <Modal.Footer>
-          <Button data-cy="nav-button-avbryt" onClick={handleOnClose} type="button" variant="secondary">
+          <Button
+            data-cy="nav-button-avbryt"
+            onClick={handleOnClose}
+            type="button"
+            variant="secondary"
+            className="flex-1"
+          >
             Avbryt
           </Button>
           <Button
@@ -159,7 +170,7 @@ export const FeedbackModal: React.FC<{
             form="feedback-modal-form"
             variant="primary"
             color="primary"
-            className="ml-auto"
+            className="flex-1"
             disabled={!formState.isDirty}
             loading={isLoading}
             loadingText="Skickar"

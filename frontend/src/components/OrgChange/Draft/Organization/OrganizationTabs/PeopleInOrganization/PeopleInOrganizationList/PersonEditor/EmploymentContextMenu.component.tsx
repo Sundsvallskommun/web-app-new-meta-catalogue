@@ -53,7 +53,7 @@ export default function EmploymentContextMenu({
 
   return (
     <>
-      <PopupMenu type="menu" align="end">
+      <PopupMenu type="menu" align="end" autoAlign={false}>
         <PopupMenu.Button
           title={`Redigera anställning${mustEdit ? ', justeringar behövs' : ''}`}
           variant={showFocus ? 'primary' : 'tertiary'}

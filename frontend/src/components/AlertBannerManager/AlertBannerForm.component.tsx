@@ -132,13 +132,13 @@ const AlertBannerForm = ({
       show={isOpen}
       onClose={onClose}
       label={isEdit ? 'Redigera systemmeddelande' : 'Nytt systemmeddelande'}
-      className="max-w-screen-md"
+      className="w-[calc(100%-32px)] max-w-screen-md my-16"
     >
       <form
         id="system-message-modal-form"
         data-cy="systemMessage-div-form"
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-16"
+        className="flex flex-col gap-16 mb-16"
       >
         <div className="flex flex-col items-start gap-8">
           <FormControl id="system-message" className="w-full">
@@ -173,7 +173,8 @@ const AlertBannerForm = ({
               type="button"
               color="error"
               size="sm"
-              variant="tertiary"
+              variant="primary"
+              inverted
               onClick={onDelete}
               leftIcon={<Trash />}
             >
@@ -186,12 +187,12 @@ const AlertBannerForm = ({
         )}
       </form>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose} type="button">
+        <Button variant="secondary" className="flex-1" onClick={onClose} type="button">
           Avbryt
         </Button>
         <Button
           data-cy="systemMessage-button-spara"
-          className="ml-auto"
+          className="flex-1"
           type="submit"
           form="system-message-modal-form"
           variant="primary"
