@@ -198,12 +198,7 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
 
   return (
     <div className="bg-background-content px-0 pb-40 pt-28">
-      <div className="flex flex-wrap justify-between items-end gap-16 mb-24">
-        <CsvExporter
-          csvData={csvAllResponsibility}
-          csvHeaders={csvHeaders}
-          fileName={`allaAnsvar${searchQuery ? `_containingdata'${searchQuery}'` : ''}`}
-        />
+      <div className="flex mb-24">
         <ColumnFilter
           label="Visa/dölj kolumner i ansvar"
           filterData={responsibilityFilter.map((x) =>
@@ -212,7 +207,14 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
           onFilterChange={setResponsibilityFilter}
         />
       </div>
-      <h2 className="text-lead mb-16">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
+      <div className="flex flex-wrap justify-between items-center gap-16 mb-16">
+        <h2 className="text-lead">Ansvar &#40;{responsibilityListSearchFiltered.length}&#41;</h2>
+        <CsvExporter
+          csvData={csvAllResponsibility}
+          csvHeaders={csvHeaders}
+          fileName={`allaAnsvar${searchQuery ? `_containingdata'${searchQuery}'` : ''}`}
+        />
+      </div>
       {responsibilitiesIsLoading ?
         <div className="flex justify-center pt-lg ">
           <Spinner size={3} aria-label="Laddar ansvar" />

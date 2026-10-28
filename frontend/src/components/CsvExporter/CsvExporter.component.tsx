@@ -7,7 +7,7 @@ export const CsvExporter = (props) => {
 
   return (
     <CSVLink data={csvData} headers={csvHeaders} separator={';'} filename={fileName}>
-      <Button as="span" variant="secondary" leftIcon={<Download />}>
+      <Button as="span" variant="secondary" size="sm" leftIcon={<Download />}>
         Exportera
       </Button>
     </CSVLink>

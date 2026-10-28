@@ -19,7 +19,7 @@ export const ColumnFilter = ({ label, filterData, onFilterChange }: ColumnFilter
 
   return (
     <div className="relative" data-cy="column-filter">
-      <PopupMenu type="dialog" align="end">
+      <PopupMenu type="dialog" align="start">
         <PopupMenu.Button variant="tertiary" size="sm" rightIcon={<ChevronDown />}>
           {label}
         </PopupMenu.Button>

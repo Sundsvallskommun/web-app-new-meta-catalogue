@@ -155,6 +155,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
           orgChangeOperationFilter.find((i) => i.id === 3)?.value &&
           !draftIsReadOnly &&
           user.permissions.canEditOrganization,
+        alignEnd: true,
       },
     ];
   });

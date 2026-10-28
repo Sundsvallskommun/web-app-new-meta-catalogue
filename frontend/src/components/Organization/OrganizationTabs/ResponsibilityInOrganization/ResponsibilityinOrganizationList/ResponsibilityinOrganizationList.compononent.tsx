@@ -173,7 +173,22 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   }));
   return (
     <div className="bg-background-content px-0 pb-40 pt-28">
-      <div className="flex flex-wrap items-end gap-16 mb-24">
+      <div className="flex mb-24">
+        <ColumnFilter
+          label="Visa/dölj kolumner i ansvar"
+          filterData={orgResponsibilityFilter}
+          onFilterChange={setOrgResponsibilityFilter}
+        />
+      </div>
+      <div className="flex flex-wrap justify-between items-center gap-16 mb-16">
+        <h2
+          id="org-tabs-responsibilities-table-rowsstext"
+          aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
+          className="text-lead"
+          data-cy="table-header"
+        >
+          Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
+        </h2>
         {organization.level === 2 && user.permissions.canViewDrafts && (
           <CsvExporter
             csvData={csvResponsibility}
@@ -183,22 +198,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
             }`}
           />
         )}
-        <div className="ml-auto">
-          <ColumnFilter
-            label="Visa/dölj kolumner i ansvar"
-            filterData={orgResponsibilityFilter}
-            onFilterChange={setOrgResponsibilityFilter}
-          />
-        </div>
       </div>
-      <h2
-        id="org-tabs-responsibilities-table-rowsstext"
-        aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-        className="text-lead mb-16"
-        data-cy="table-header"
-      >
-        Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
-      </h2>
       {rows.length > 0 ?
         <div>
           <DataTable

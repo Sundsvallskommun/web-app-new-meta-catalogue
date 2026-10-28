@@ -1,4 +1,4 @@
-import { Pagination, SortMode, Table } from '@sk-web-gui/react';
+import { Pagination, SortMode, Table, cx } from '@sk-web-gui/react';
 import React, { forwardRef, useEffect, useState } from 'react';
 
 export interface DataTableHeader {
@@ -11,6 +11,10 @@ export interface DataTableHeader {
 export interface DataTableColumn {
   element: React.ReactNode;
   isShown?: boolean;
+  /** Lets a popup in the cell (e.g. a row menu in the last column) open outside the table instead of being clipped */
+  allowOverflow?: boolean;
+  /** Places the cell content at the right edge of the cell */
+  alignEnd?: boolean;
 }
 
 interface DataTableProps extends React.ComponentPropsWithoutRef<'table'> {
@@ -141,9 +145,12 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
             key={`row-${rowIndex}`}
             className={isHighlighted(rowIndex) ? 'bg-vattjom-background-200' : undefined}
           >
-            {cols.map(({ element, isShown = true }, colIndex) =>
+            {cols.map(({ element, isShown = true, allowOverflow = false, alignEnd = false }, colIndex) =>
               isShown ?
-                <Table.Column key={`col-${colIndex}`} className="relative">
+                <Table.Column
+                  key={`col-${colIndex}`}
+                  className={cx(!allowOverflow && 'relative', alignEnd && 'justify-end')}
+                >
                   {element}
                 </Table.Column>
               : null

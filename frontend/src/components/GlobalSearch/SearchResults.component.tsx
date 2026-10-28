@@ -1,9 +1,7 @@
 import { SearchItem } from '@components/GlobalSearch/SearchItem.component';
 import { objectType } from '@services/mdviewer/data-handlers/search';
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
-import { IFilterData } from '@interfaces/filter-data';
-import { Pagination, Spinner } from '@sk-web-gui/react';
+import { Checkbox, Pagination, Spinner } from '@sk-web-gui/react';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -30,22 +28,11 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
     setActivePage(page);
   };
 
-  const categoryTypes = Object.keys(filterCategories);
-  const categoryFilterData: IFilterData[] = categoryTypes.map((categoryType, index) => ({
-    id: index,
-    name: `${objectType(categoryType).text} (${filterCategories[categoryType].count})`,
-    value: filterCategories[categoryType].value,
-  }));
-
-  const handleOnCategoryFilterChange = (filterData: IFilterData[]) => {
-    setFilterCategories((categories) => {
-      const newCategories: Category = {};
-      filterData.forEach((item) => {
-        const categoryType = categoryTypes[item.id];
-        newCategories[categoryType] = { ...categories[categoryType], value: item.value };
-      });
-      return newCategories;
-    });
+  const handleOnCategoryFilterChange = (categoryType: string) => () => {
+    setFilterCategories((categories) => ({
+      ...categories,
+      [categoryType]: { ...categories[categoryType], value: !categories[categoryType].value },
+    }));
     setActivePage(1);
   };
 
@@ -82,7 +69,10 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
   return (
     <div>
       <div className={`${className} h-full inline-block w-full transition-all transform `}>
-        <div ref={ref} className="mx-auto max-w-[818px] mt-50">
+        <section
+          ref={ref}
+          className="mx-auto max-w-[818px] mt-50 p-24 bg-background-content border-1 border-divider rounded-cards"
+        >
           <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-divider`}>
             <h2 data-cy="search-results-query" className={`grow text-h4 text-left`}>
               Sökord: {searchTerm}
@@ -90,8 +80,8 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
           </div>
           {!searchResultsIsLoading ?
             <div>
-              <div className="flex items-center justify-between gap-16">
-                <p data-cy="search-results-amount" className="min-w-max px-sm">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-x-24 gap-y-8 px-sm mb-16">
+                <p data-cy="search-results-amount" className="min-w-max">
                   {`${
                     shownResults.length !== searchResults.length ?
                       `(${shownResults.length} av ${searchResults.length})`
@@ -99,13 +89,18 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                   }`}{' '}
                   sökresultat
                 </p>
-                {categoryFilterData.length > 0 && (
-                  <ColumnFilter
-                    label="Visa/dölj kategorier"
-                    filterData={categoryFilterData}
-                    onFilterChange={handleOnCategoryFilterChange}
-                  />
-                )}
+                <div className="flex flex-wrap items-center gap-x-24 gap-y-8">
+                  {Object.keys(filterCategories).map((categoryType) => (
+                    <Checkbox
+                      key={categoryType}
+                      size="sm"
+                      checked={filterCategories[categoryType].value}
+                      onChange={handleOnCategoryFilterChange(categoryType)}
+                    >
+                      {`${objectType(categoryType).text} (${filterCategories[categoryType].count})`}
+                    </Checkbox>
+                  ))}
+                </div>
               </div>
               {shownResults.length > 0 ?
                 <div>
@@ -113,14 +108,15 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
                     <SearchItem key={`${result.id}-${i}`} item={result} />
                   ))}
                   {Math.ceil(shownResults.length / pageSize) > 1 && (
-                    <Pagination
-                      pagesBefore={!windowSize.lg ? 0 : undefined}
-                      pagesAfter={!windowSize.lg ? 0 : undefined}
-                      className="mt-lg"
-                      pages={Math.ceil(shownResults.length / pageSize)}
-                      activePage={activePage}
-                      changePage={handlePageChange}
-                    />
+                    <div className="flex justify-center mt-lg">
+                      <Pagination
+                        pagesBefore={!windowSize.lg ? 0 : undefined}
+                        pagesAfter={!windowSize.lg ? 0 : undefined}
+                        pages={Math.ceil(shownResults.length / pageSize)}
+                        activePage={activePage}
+                        changePage={handlePageChange}
+                      />
+                    </div>
                   )}
                 </div>
               : <div className="px-sm">Inga sökresultat</div>}
@@ -129,7 +125,7 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
               <Spinner size={3} aria-label="Laddar sökresultat" />
             </div>
           }
-        </div>
+        </section>
       </div>
     </div>
   );

@@ -18,9 +18,9 @@ describe('System', () => {
   it('has the correct alert banner', () => {
     cy.get('[data-cy="alert-banner"]')
       .should('be.visible')
+      .and('have.class', 'bg-info-background-200')
       .within(() => {
-        cy.get('.sk-alert-info').should('be.visible');
-        cy.get('.sk-alert-icon').should('be.visible');
+        cy.get('.sk-icon').should('be.visible');
         cy.contains('System-message').should('be.visible');
         cy.get('[data-cy="alert-banner-edit"]').should('be.visible').and('have.text', 'Redigera');
       });

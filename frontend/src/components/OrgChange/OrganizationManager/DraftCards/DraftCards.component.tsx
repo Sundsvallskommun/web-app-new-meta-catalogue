@@ -1,5 +1,6 @@
 import { Draft } from '@data-contracts/backend/data-contracts';
-import { Card, Spinner } from '@sk-web-gui/react';
+import { Card, Spinner, cx } from '@sk-web-gui/react';
+import { Calendar } from 'lucide-react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
 import DraftContextMenu from '../../DraftContextMenu.component';
@@ -19,7 +20,11 @@ const DraftCards = (props: DraftDataListProps) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { draftIsArchived } = useDraftPhaseState(d);
     return (
-      <Card key={d.draftId}>
+      <Card
+        key={d.draftId}
+        color={draftIsArchived ? 'tertiary' : 'mono'}
+        className={cx(draftIsArchived && '!bg-primitives-gray-200')}
+      >
         <Card.Body className="w-full">
           <div>
             <div className="flex justify-between">
@@ -30,13 +35,16 @@ const DraftCards = (props: DraftDataListProps) => {
                     Skapad av {d.loginname}
                   </div>
                 </h2>
-                <p className="text-dark-secondary text-small">
-                  Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')} ·{' '}
-                  {d.changes >= 1 ?
-                    d.changes === 1 ?
-                      '1 ändring'
-                    : `${d.changes} ändringar`
-                  : 'Inga ändringar'}
+                <p className="flex items-center gap-4 text-dark-secondary text-small">
+                  <Calendar size={16} aria-hidden="true" />
+                  <span>
+                    Brytdatum {dayjs(d.cutOffDate).format('DD MMM YYYY')} ·{' '}
+                    {d.changes >= 1 ?
+                      d.changes === 1 ?
+                        '1 ändring'
+                      : `${d.changes} ändringar`
+                    : 'Inga ändringar'}
+                  </span>
                 </p>
               </div>
               <div>{!draftIsArchived && <DraftContextMenu dense draft={d} />}</div>

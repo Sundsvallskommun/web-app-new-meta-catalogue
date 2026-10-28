@@ -31,7 +31,7 @@ export const DraftList = (props: DraftDataListProps) => {
 
   //table header
   const headers: DataTableHeader[] = draftHeaders.map((header) => ({
-    element: header.label,
+    element: <span className="whitespace-nowrap">{header.label}</span>,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
     isShown: true,

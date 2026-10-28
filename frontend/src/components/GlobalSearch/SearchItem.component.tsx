@@ -104,7 +104,7 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
                   {objectType(item.objectType).text}
                 </Label>
               </div>
-              <div className="text-large flex-grow font-bold">
+              <div className="text-base flex-grow font-bold">
                 <span dangerouslySetInnerHTML={{ __html: markMatches(item.header) }} />
               </div>
             </div>

@@ -113,7 +113,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
           </span>
         )}
       </div>
-      <div className="flex justify-end mt-28">
+      <div className="flex mt-28">
         <ColumnFilter
           label="Visa/dölj kolumner i verksamheter"
           filterData={dropDownFilter}
