@@ -8,10 +8,9 @@ import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useUserStore } from '@services/user-service/user-service';
 import { useEffect, useRef, useState } from 'react';
 import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
-import MoveFormModal from '../Modals/MoveFormModal.component';
+import DragAndDropFormModal from './Modals/DragAndDropFormModal.component';
 import { IFilterDataMenu } from '@interfaces/organization';
 import { DraftTreeOrganization } from '@interfaces/orgchange';
-import { OptionValueType } from '@interfaces/option-value';
 
 const SidebarOrgChange = ({ mainRef }) => {
   const orgTreeIsLoading = useOrgChangeStore((s) => s.orgTreeIsLoading);
@@ -27,8 +26,11 @@ const SidebarOrgChange = ({ mainRef }) => {
   const [sidebarHeight, setSidebarHeight] = useState(0);
   const [draggedItem, setDraggedItem] = useState<OrgChangeOrganizationTree>();
   const [dropTargetId, setDropTargetId] = useState<number>();
-  const [movedOrganization, setMovedOrganization] = useState<DraftTreeOrganization>();
-  const [newParent, setNewParent] = useState<OptionValueType<DraftTreeOrganization>>();
+  const [move, setMove] = useState<{
+    draggedItem: DraftTreeOrganization;
+    newParent: DraftTreeOrganization;
+    oldParent?: DraftTreeOrganization;
+  }>();
   const asideRef = useRef(null);
 
   const canDrag = !draftIsReadOnly && user.permissions.canEditOrganizationStructure;
@@ -70,8 +72,11 @@ const SidebarOrgChange = ({ mainRef }) => {
     const target = orgTreeOrganizations.find((x) => x.id === itemData.id);
     const moved = orgTreeOrganizations.find((x) => x.id === dragged.id);
     if (!target || !moved) return;
-    setNewParent({ label: target.label, data: target });
-    setMovedOrganization(moved);
+    setMove({
+      draggedItem: moved,
+      newParent: target,
+      oldParent: orgTreeOrganizations.find((x) => x.id === dragged.parentId),
+    });
   };
 
   const showFilter: { [key: IFilterDataMenu['propertyName']]: boolean } = {};
@@ -189,7 +194,7 @@ const SidebarOrgChange = ({ mainRef }) => {
 
   return (
     <aside
-      className="SidebarOrganization OrgChange flex flex-col relative overflow-hidden bg-background-100 rounded-cards"
+      className="SidebarOrganization OrgChange flex flex-col relative overflow-hidden bg-background-content border-1 border-divider rounded-cards"
       style={{ maxHeight: sidebarHeight ? sidebarHeight + 'px' : undefined }}
     >
       <div ref={asideRef} className="relative min-h-0 overflow-y-auto pt-24">
@@ -215,16 +220,7 @@ const SidebarOrgChange = ({ mainRef }) => {
           </div>
         )}
       </div>
-      {movedOrganization && (
-        <MoveFormModal
-          onClose={() => setMovedOrganization(undefined)}
-          moveBranch
-          organization={movedOrganization}
-          buttonName="Flytta gren"
-          activeOrganization={newParent}
-          setActiveOrganization={setNewParent}
-        />
-      )}
+      {move && <DragAndDropFormModal {...move} onClose={() => setMove(undefined)} />}
     </aside>
   );
 };

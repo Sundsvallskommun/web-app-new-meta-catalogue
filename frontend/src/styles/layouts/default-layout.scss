@@ -1,6 +1,6 @@
 .DefaultLayout {
   .main-container {
-    @apply flex;
+    @apply flex bg-background-100;
 
     .container {
       @apply mx-auto;

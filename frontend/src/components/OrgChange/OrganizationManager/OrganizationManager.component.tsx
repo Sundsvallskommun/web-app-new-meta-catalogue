@@ -55,7 +55,7 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
   }, []);
 
   return (
-    <div className="bg-background-content relative grow px-0 pb-40 pt-24 mb-50">
+    <div className="bg-background-content border-1 border-divider rounded-cards relative grow p-24 mb-50">
       {!draftsIsLoading ?
         <>
           <div className="flex flex-wrap justify-between items-center gap-md mb-16">

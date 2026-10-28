@@ -32,7 +32,7 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
   };
 
   return (
-    <div>
+    <div className="bg-vattjom-background-100 p-24 rounded-t-cards">
       {organization.structureChangeStatus !== 'DELETED' ?
         <ul aria-label="Gren-meny" className="flex flex-wrap items-center gap-8">
           {user.permissions.canEditOrganizationStructure && (
@@ -49,22 +49,27 @@ export default function ActionHeaderBranch(props: { organization: DraftTreeOrgan
             </li>
           )}
           <li>
-            <RemoveBranchFromDraft organization={organization} />
+            <ul className="flex flex-wrap items-center gap-8">
+              <li>
+                <RemoveBranchFromDraft organization={organization} />
+              </li>
+              {organization.structureChangeStatus !== 'NEW' && user.permissions.canEditOrganizationStructure && (
+                <li>
+                  <Button
+                    aria-haspopup="true"
+                    onClick={onTerminateBranch}
+                    color="error"
+                    variant="primary"
+                    inverted
+                    size="sm"
+                    leftIcon={<Trash />}
+                  >
+                    Stäng gren
+                  </Button>
+                </li>
+              )}
+            </ul>
           </li>
-          {organization.structureChangeStatus !== 'NEW' && user.permissions.canEditOrganizationStructure && (
-            <li>
-              <Button
-                aria-haspopup="true"
-                onClick={onTerminateBranch}
-                color="error"
-                variant="secondary"
-                size="sm"
-                leftIcon={<Trash />}
-              >
-                Stäng gren
-              </Button>
-            </li>
-          )}
         </ul>
       : <ul aria-label="Gren-meny" className="flex flex-wrap items-center justify-end gap-8">
           <li>

@@ -15,7 +15,6 @@ import { Alert, cx } from '@sk-web-gui/react';
 import { X } from 'lucide-react';
 import { shouldEditEmployees } from '@utils/shouldeditemployees';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
@@ -33,7 +32,6 @@ export const Index: React.FC = () => {
   const [showEmployeeFocus, setShowEmployeeFocus] = useState(false);
   const employeesByOrg = useOrgChangeStore((s) => s.employeesByOrg);
   const { showFocus, mustEdit } = shouldEditEmployees();
-  const windowSize = useWindowSize();
 
   useEffect(() => {
     const loadDraft = async () => {
@@ -81,7 +79,6 @@ export const Index: React.FC = () => {
         <div
           className={cx(
             'DraftSection container relative flex flex-col grow',
-            lockedView && windowSize.lg && 'max-h-[50vh]',
             showEmployeeFocus ? 'space-y-md' : 'space-y-lg'
           )}
         >

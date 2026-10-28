@@ -44,8 +44,8 @@ export default function ExportPhaseInfo() {
   }, [runbook?.currentStep]);
 
   return (
-    <div className="bg-background-one bg-opacity-50 px-md md:px-lg">
-      <div className="container flex flex-col gap-md pt-lg">
+    <div className="px-md md:px-lg pt-lg">
+      <section className="container flex flex-col gap-md p-24 bg-background-content border-1 border-divider rounded-cards">
         <div className="flex flex-wrap items-center justify-between gap-md">
           <h2 className="text-lead">Exportflöde</h2>
           <Button
@@ -62,7 +62,7 @@ export default function ExportPhaseInfo() {
           </Button>
         </div>
         <ExportMessages />
-      </div>
+      </section>
     </div>
   );
 }

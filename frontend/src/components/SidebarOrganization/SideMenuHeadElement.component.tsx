@@ -81,7 +81,7 @@ export default function SideMenuHeadElement() {
     <div className="z-10 relative px-24">
       <form>
         <div className="flex flex-col gap-md mb-xl">
-          <FormControl id="sidemenu-image">
+          <FormControl id="sidemenu-image" className="w-full">
             <FormLabel>Avbildning</FormLabel>
             <Select
               size="md"
@@ -99,7 +99,7 @@ export default function SideMenuHeadElement() {
               ))}
             </Select>
           </FormControl>
-          <FormControl id="sidemenu-company">
+          <FormControl id="sidemenu-company" className="w-full">
             <FormLabel>Bolag</FormLabel>
             <Select
               size="md"

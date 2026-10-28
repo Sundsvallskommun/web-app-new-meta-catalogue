@@ -9,10 +9,6 @@
     @apply px-5 lg:px-0 max-width-content;
   }
 
-  .moretip {
-    @apply w-[150px] absolute z-50 px-sm py-sm bg-background-content rounded shadow-md;
-  }
-
   .Modal {
     @apply hidden;
   }

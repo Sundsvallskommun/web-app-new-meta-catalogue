@@ -71,7 +71,7 @@ export const ExportMessages = ({ className = '' }) => {
             key={`message-${i}`}
             data-key={`message-${i}`}
           >
-            <MessageStatusIcon status={runbookStep.state} />
+            <MessageStatusIcon className="shrink-0" status={runbookStep.state} />
             {showTrigger ?
               <div className="flex flex-col items-start gap-8">
                 <div>{runbookStep.result || runbookStep.description}</div>

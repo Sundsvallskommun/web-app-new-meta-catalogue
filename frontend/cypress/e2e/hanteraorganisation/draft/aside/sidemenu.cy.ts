@@ -71,7 +71,7 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('[data-cy="tree-item-192"]').trigger('drop', { dataTransfer: toCurrentParent });
     cy.get('[aria-modal="true"]').should('not.exist');
 
-    // Dropping on another parent one level up opens the move modal with that parent chosen
+    // Dropping on another parent one level up asks to confirm the move from the old to the new parent
     const toNewParent = new DataTransfer();
     cy.get('[data-cy="tree-item-123"]').trigger('dragstart', { dataTransfer: toNewParent });
     cy.get('[data-cy="tree-item-193"]').trigger('dragover', { dataTransfer: toNewParent });
@@ -79,8 +79,10 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.get('[data-cy="tree-item-193"]').trigger('drop', { dataTransfer: toNewParent });
 
     cy.get('[aria-modal="true"]').within(() => {
-      cy.contains(`Gren ${child.label} nivå 6`).should('be.visible');
-      cy.contains('button', 'Flytta gren').should('be.enabled');
+      cy.contains(`Flyttar ${child.label} nivå ${child.level}`).should('be.visible');
+      cy.contains(`Förälder: ${parent.label} Nivå ${parent.level}`).should('be.visible');
+      cy.contains('Förälder: Annan skola').should('be.visible');
+      cy.contains('button', 'Spara').should('be.enabled');
     });
   });
 

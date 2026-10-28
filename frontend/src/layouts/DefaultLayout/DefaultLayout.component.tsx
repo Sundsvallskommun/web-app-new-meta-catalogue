@@ -65,6 +65,7 @@ export default function DefaultLayout({
 
       <Header
         data-cy="nav-header"
+        wrapperClasses="shadow-none"
         title={headerTitle ? headerTitle : 'Masterdata'}
         subtitle={headerSubtitle ? headerSubtitle : ''}
         aria-label={`${headerTitle ? headerTitle : 'Masterdata'} ${headerSubtitle}`}

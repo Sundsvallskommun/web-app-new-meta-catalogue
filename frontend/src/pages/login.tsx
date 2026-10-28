@@ -73,7 +73,7 @@ export default function Start() {
     <EmptyLayout title="Nya metakatalogen - Logga In">
       <main>
         <div className="flex items-center justify-center min-h-screen">
-          <div className="max-w-5xl w-full flex flex-col text-light-primary bg-inverted-background-content p-50 shadow-lg text-left">
+          <div className="max-w-5xl w-full flex flex-col text-light-primary bg-inverted-background-content p-50 text-left">
             <div className="mb-34">
               <h1 className="mb-24 text-lead">Nya metakatalogen</h1>
               <p className="my-0">Beskrivning av appen</p>

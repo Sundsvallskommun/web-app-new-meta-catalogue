@@ -12,7 +12,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>((props, re
     <div className="Sidebar container relative grow">
       {aside}
       {children && (
-        <main id="content" tabIndex={-1} className="bg-background-content" ref={ref}>
+        <main id="content" tabIndex={-1} ref={ref}>
           {children}
         </main>
       )}

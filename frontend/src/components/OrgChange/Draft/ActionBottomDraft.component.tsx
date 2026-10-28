@@ -49,7 +49,7 @@ export default function ActionBottomDraft() {
 
   return (
     <>
-      <div className="z-10 lg:sticky lg:bottom-0">
+      <div>
         {showPhaseInfo && <ExportPhaseInfo />}
         {showVerifyInfo && <ExportVerifyInfo />}
 
