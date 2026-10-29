@@ -53,7 +53,7 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
 
   //table header
   const headers: DataTableHeader[] = orgChangeOperationHeaders
-    .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation : true))
+    .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation && !draftIsReadOnly : true))
     .map((header) => ({
       element: header.label,
       screenReaderOnly: header.screenReaderOnly,
@@ -139,8 +139,8 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
         element: r.operationCode,
         isShown: orgChangeOperationFilter.find((i) => i.id === 2).value,
       },
-      organization.structureChangeStatus !== 'DELETED' && {
-        element: (
+      {
+        element: organization.structureChangeStatus !== 'DELETED' && user.permissions.canEditOrganization && (
           <Button
             color="error"
             size="sm"
@@ -153,8 +153,8 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
         ),
         isShown:
           orgChangeOperationFilter.find((i) => i.id === 3)?.value &&
-          !draftIsReadOnly &&
-          user.permissions.canEditOrganization,
+          user.permissions.canEditOperation &&
+          !draftIsReadOnly,
         alignEnd: true,
       },
     ];

@@ -119,7 +119,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
     .filter((x) => (x.filterId == 9 ? user.permissions.canViewEmployeeDetails : true))
     .filter((x) => (x.filterId == 10 ? user.permissions.canViewEmployeeDetails : true))
     .filter((x) => (x.filterId == 6 ? user.permissions.canViewEmployeeDetails : true))
-    .filter((x) => (x.filterId == 7 ? user.permissions.canEditEmployeeDetails : true))
+    .filter((x) => (x.filterId == 7 ? user.permissions.canEditEmployeeDetails && !draftIsReadOnly : true))
     .map((header) => ({
       element: header.label,
       screenReaderOnly: header.screenReaderOnly,
@@ -268,7 +268,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             {renderNewOrOld(p.newObjectName, p.objectName)}
           </>
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 8)?.value,
+        isShown: orgEmployeeFilter.find((i) => i.id === 8)?.value && user.permissions.canViewEmployeeDetails,
       },
       {
         element: (
@@ -278,7 +278,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             {renderNewOrOld(p.newActivityName, p.activityName)}
           </>
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 9)?.value,
+        isShown: orgEmployeeFilter.find((i) => i.id === 9)?.value && user.permissions.canViewEmployeeDetails,
       },
       {
         element: (
@@ -288,7 +288,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             {renderNewOrOld(p.newProjectName, p.projectName)}
           </>
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 10)?.value,
+        isShown: orgEmployeeFilter.find((i) => i.id === 10)?.value && user.permissions.canViewEmployeeDetails,
       },
       {
         element: (
@@ -306,7 +306,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 6)?.value && user.permissions.canViewEmployeeDetails,
       },
-      !draftIsReadOnly && {
+      {
         element: (
           <Checkbox
             aria-live="polite"
@@ -316,7 +316,10 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
             onChange={choosePersonHandler(p)}
           />
         ),
-        isShown: orgEmployeeFilter.find((i) => i.id === 7)?.value && user.permissions.canEditEmployeeDetails,
+        isShown:
+          orgEmployeeFilter.find((i) => i.id === 7)?.value &&
+          user.permissions.canEditEmployeeDetails &&
+          !draftIsReadOnly,
       },
     ];
   });
