@@ -226,10 +226,8 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
             sortHandler={sortHandler}
             pages={pages}
             page={page}
-            changePage={(page) => {
-              setPage(page);
-              setHighlightedTableRow({});
-            }}
+            changePage={setPage}
+            onPageClick={() => setHighlightedTableRow({})}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""

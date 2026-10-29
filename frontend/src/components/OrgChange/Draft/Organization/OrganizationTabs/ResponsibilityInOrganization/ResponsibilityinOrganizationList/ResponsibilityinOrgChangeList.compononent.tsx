@@ -280,10 +280,8 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => {
-              setPage(page);
-              setHighlightedTableRow({});
-            }}
+            changePage={setPage}
+            onPageClick={() => setHighlightedTableRow({})}
             pages={pages}
             page={page}
             pageSize={pageSize}

@@ -30,6 +30,8 @@ interface DataTableProps extends React.ComponentPropsWithoutRef<'table'> {
   /** Page count when the parent paginates `rows` itself and controls `page` */
   pages?: number;
   changePage?: (page: number) => void;
+  /** Called only when the user picks a page, not when the table jumps to the highlighted row */
+  onPageClick?: (page: number) => void;
   captionTitle?: string;
   captionBody?: string;
   /** Index in the whole (unpaginated) list */
@@ -47,6 +49,7 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
     page = 1,
     pages,
     changePage,
+    onPageClick,
     captionTitle,
     captionBody,
     highlightedItemIndex,
@@ -86,6 +89,7 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
   const handleChangePage = (newPage: number) => {
     setInternalPage(newPage);
     changePage?.(newPage);
+    onPageClick?.(newPage);
   };
 
   const handleSort = (idx: number) => {
