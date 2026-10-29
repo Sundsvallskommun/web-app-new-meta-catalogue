@@ -32,26 +32,28 @@ export default function ExportVerifyInfo() {
 
   return (
     <div className="relative flex flex-col justify-end">
-      <div className={`bg-opacity-75 ${!showResults ? 'min-h-md' : ' min-h-100'} duration-300 ${severityBackground}`}>
-        <div className="max-width-content transition-all mx-auto flex flex-col-reverse lg:flex-row w-full">
+      <div
+        className={`bg-opacity-75 ${!showResults ? 'min-h-md' : ' min-h-100'} duration-300 px-md md:px-lg ${severityBackground}`}
+      >
+        <div className="container transition-all flex flex-col-reverse lg:flex-row gap-md py-md">
           <h2 className="sr-only">Verifikationsresultat</h2>
-          <div className="flex flex-col flex-grow gap-md p-md">
+          <div className="flex flex-col flex-grow gap-md">
             {verifyHasErrors ?
               <>
-                <span className="flex items-center gap-sm">
+                <span className="flex items-center gap-sm min-h-32">
                   <Icon color="error" icon={<CircleAlert />} />
                   {`Senaste verifiering hittade fel${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
                 </span>
                 {showResults && <div className="ml-[2em]">{draft.verifyResult && <VerifyResult />}</div>}
               </>
-            : <span className="flex items-center gap-sm">
+            : <span className="flex items-center gap-sm min-h-32">
                 <Icon color="success" icon={<CircleCheck />} />
                 {`Senaste verifiering hittade inga fel${needsNewVerify ? ' (Ny verifiering rekommenderas)' : ''}`}
               </span>
             }
           </div>
           {verifyHasErrors && (
-            <div className="shrink-0 p-md">
+            <div className="shrink-0">
               <Button
                 onClick={handleExpand}
                 size="sm"
