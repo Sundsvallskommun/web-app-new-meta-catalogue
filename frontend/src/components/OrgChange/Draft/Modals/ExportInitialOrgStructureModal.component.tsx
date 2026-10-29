@@ -1,9 +1,9 @@
-import OrgChangeCsvExporter from '@components/OrgChange/OrgChangeCsvExporter/OrgChangeCsvExporter.component';
+import { downloadInitialOrgStructureCsv } from '@components/OrgChange/OrgChangeCsvExporter/OrgChangeCsvExporter.component';
 import { CheckedOutOrganizationLevel2, Draft } from '@data-contracts/backend/data-contracts';
 import { Download } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, FormControl, FormLabel, Modal, useSnackbar } from '@sk-web-gui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Spinner } from '@sk-web-gui/react';
 
 interface IExportInitialOrgStructureModal {
@@ -17,9 +17,6 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
   const checkedOutOrganizationsLevel2 = useOrgChangeStore((s) => s.checkedOutOrganizationLevel2);
   const checkedOutOrganizationsLevel2IsLoading = useOrgChangeStore((s) => s.checkedOutOrganizationLevel2IsLoading);
   const getInitialOrgStructuresToExport = useOrgChangeStore((s) => s.getInitialOrgStructuresToExport);
-  const [csvData, setCsvData] = useState([]);
-  const [fetchedOrg, setFetchedOrg] = useState<CheckedOutOrganizationLevel2>(null);
-
   useEffect(() => {
     getCheckedOutOrganizationsLevel2(draft.draftId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,21 +24,16 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
 
   const message = useSnackbar();
 
-  const handleSetCsvData = async (org) => {
+  const handleExport = async (org: CheckedOutOrganizationLevel2) => {
     const res = await getInitialOrgStructuresToExport([org.orgId]);
     if (!res.error) {
-      setCsvData(res.data[0]);
-      setFetchedOrg(org);
+      downloadInitialOrgStructureCsv(res.data[0] ?? [], org.name);
     } else {
       message({
         message: `Något gick fel vid försök av exportering`,
         status: 'error',
       });
     }
-
-    setTimeout(() => {
-      setFetchedOrg(null);
-    });
   };
 
   return (
@@ -67,7 +59,7 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
                     aria-label={`Exportera ${org.name}`}
                     variant="link"
                     leftIcon={<Download />}
-                    onClick={() => handleSetCsvData(org)}
+                    onClick={() => handleExport(org)}
                   >
                     {org.name}
                   </Button>
@@ -76,7 +68,6 @@ export default function ExportInitialOrgStructureModal(props: IExportInitialOrgS
             </div>
           )}
         </FormControl>
-        {fetchedOrg !== null && <OrgChangeCsvExporter fileName={fetchedOrg.name} csvData={csvData} />}
       </form>
       <Modal.Footer>
         <Button variant="secondary" className="w-full" type="button" onClick={onClose}>
