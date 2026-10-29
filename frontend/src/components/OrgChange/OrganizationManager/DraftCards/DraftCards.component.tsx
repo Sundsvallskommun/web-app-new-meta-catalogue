@@ -23,7 +23,7 @@ const DraftCards = (props: DraftDataListProps) => {
       <Card
         key={d.draftId}
         color={draftIsArchived ? 'tertiary' : 'mono'}
-        className={cx(draftIsArchived && '!bg-primitives-gray-200')}
+        className={cx(draftIsArchived && '!bg-primitives-gray-200 dark:!bg-primitives-gray-700')}
       >
         <Card.Body className="w-full">
           <div>
