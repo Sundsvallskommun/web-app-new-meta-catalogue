@@ -49,12 +49,12 @@ export default function ActionBottomDraft() {
 
   return (
     <>
-      <div>
+      <div className="z-10 lg:sticky lg:bottom-0">
         {showPhaseInfo && <ExportPhaseInfo />}
         {showVerifyInfo && <ExportVerifyInfo />}
 
         <div className="bg-background-one bg-opacity-50 px-md md:px-lg">
-          <div className="container flex flex-wrap items-center gap-md py-lg">
+          <div className="container flex flex-wrap items-center gap-md py-md">
             <Link href="/hanteraorganisation">
               <Button as="span" variant="primary">
                 Lämna utkast
