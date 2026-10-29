@@ -9,6 +9,7 @@ import { useUserStore } from '@services/user-service/user-service';
 import { useEffect, useRef, useState } from 'react';
 import SideMenuHeadElementOrgChange from './SideMenuHeadElementOrgChange.component';
 import DragAndDropFormModal from './Modals/DragAndDropFormModal.component';
+import SubmenuLabel from '@components/SidebarOrganization/SubmenuLabel.component';
 import { IFilterDataMenu } from '@interfaces/organization';
 import { DraftTreeOrganization } from '@interfaces/orgchange';
 
@@ -183,7 +184,9 @@ const SidebarOrgChange = ({ mainRef }) => {
         {itemData.subItems?.length ?
           <MenuVertical>
             <MenuVertical.SubmenuButton>
-              <button type="button">{itemLabel(itemData)}</button>
+              <button type="button">
+                <SubmenuLabel label={itemLabel(itemData)}>{String(itemData.id)}</SubmenuLabel>
+              </button>
             </MenuVertical.SubmenuButton>
             {renderItems(itemData.subItems)}
           </MenuVertical>

@@ -6,6 +6,7 @@ import { MenuIndex, MenuVertical, Spinner, cx } from '@sk-web-gui/react';
 import { calculatePositionDifference } from '@utils/calculatePositionDifference';
 import { useEffect, useRef, useState } from 'react';
 import SideMenuHeadElement from './SideMenuHeadElement.component';
+import SubmenuLabel from './SubmenuLabel.component';
 
 const SidebarOrganization = ({ mainRef }) => {
   const { getTreeImage, getCompany, selectedOrganizationId, orgTreeIsLoading, setSelectedOrganizationId, orgTree } =
@@ -88,7 +89,9 @@ const SidebarOrganization = ({ mainRef }) => {
         {itemData.subItems?.length ?
           <MenuVertical>
             <MenuVertical.SubmenuButton>
-              <button type="button">{itemLabel(itemData)}</button>
+              <button type="button">
+                <SubmenuLabel label={itemLabel(itemData)}>{String(itemData.id)}</SubmenuLabel>
+              </button>
             </MenuVertical.SubmenuButton>
             {renderItems(itemData.subItems)}
           </MenuVertical>
