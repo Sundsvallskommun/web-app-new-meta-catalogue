@@ -62,7 +62,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
   };
 
   return (
-    <>
+    <div className="relative">
       <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
           <PopupMenu.Button
@@ -110,6 +110,6 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
       {isExportStructureOpen && (
         <ExportInitialOrgStructureModal draft={draft} onClose={() => setIsExportStructureOpen(false)} />
       )}
-    </>
+    </div>
   );
 }
