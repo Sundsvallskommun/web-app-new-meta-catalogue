@@ -128,7 +128,12 @@ describe('/hanteraorganisation - main - Tabs - People', () => {
 
   it('Sort table columns', () => {
     cy.get('[data-cy="tab-panel-employees"]').contains('Visa/dölj kolumner i personer').click();
-    cy.get('button[type="button"]').contains('Visa alla').click();
+    cy.get('button[type="button"]').contains('Visa alla').click().type('{esc}');
+    cy.get('[data-cy="tab-panel-employees"] [data-cy="column-filter"] .sk-popup-menu').should(
+      'have.attr',
+      'data-open',
+      'false'
+    );
 
     // default sorted by Namn
     cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Bob Miller').should('exist');
