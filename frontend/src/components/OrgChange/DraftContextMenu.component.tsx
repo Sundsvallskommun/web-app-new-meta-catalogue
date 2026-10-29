@@ -1,16 +1,12 @@
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import ShareIcon from '@mui/icons-material/Share';
+import { ChevronDown, Download, EllipsisVertical, Share2, Trash } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, ContextMenu, Divider, cx, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, PopupMenu, cx, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import router from 'next/router';
 import { useState } from 'react';
 import ShareModal from './Draft/Modals/ShareModal.component';
 import { Draft } from '@data-contracts/backend/data-contracts';
 import ExportInitialOrgStructureModal from './Draft/Modals/ExportInitialOrgStructureModal.component';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useUserStore } from '@services/user-service/user-service';
 
 interface IDraftContextMenu {
@@ -36,7 +32,7 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
 
   const { showConfirmation } = useConfirm();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const CallDeleteDraft = () => {
     deleteDraft(draft.draftId).then((res) => {
@@ -66,51 +62,54 @@ export default function DraftContextmenu(props: IDraftContextMenu) {
   };
 
   return (
-    <>
-      <ContextMenu menuSide={menuSide} classNameItems={cx(className)}>
+    <div className="relative">
+      <PopupMenu type="menu" align={menuSide === 'right' ? 'start' : 'end'}>
         {dense ?
-          <ContextMenu.Button
+          <PopupMenu.Button
             title={`Hantera utkast ${draft.name}`}
-            size="fit"
-            variant="outline"
-            className="border-0"
+            aria-label={`Hantera utkast ${draft.name}`}
+            variant="tertiary"
+            size="sm"
             iconButton
           >
-            <MoreVertIcon />
-          </ContextMenu.Button>
-        : <ContextMenu.Button size="lg" variant="link" className="text-body" rightIcon={<ExpandMoreIcon />}>
+            <EllipsisVertical />
+          </PopupMenu.Button>
+        : <PopupMenu.Button size="sm" variant="tertiary" rightIcon={<ChevronDown />}>
             Hantera utkastet
-          </ContextMenu.Button>
+          </PopupMenu.Button>
         }
-        {!draftIsReadOnly ?
-          <ContextMenu.Item className="w-full">
-            <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<FileDownloadOutlinedIcon />}>
-              Exportera förlaga av organisationer
-            </Button>
-          </ContextMenu.Item>
-        : <></>}
-
-        <ContextMenu.Item>
-          <Button onClick={() => setIsShareOpen(true)} leftIcon={<ShareIcon />}>
-            Dela
-          </Button>
-        </ContextMenu.Item>
-
-        {!draftIsReadOnly && user.permissions.canEditDrafts && (
-          <>
-            <Divider orientation="horizontal" className="w-full" />
-            <ContextMenu.Item>
-              <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<DeleteOutlineOutlinedIcon />}>
-                Ta bort utkast
-              </Button>
-            </ContextMenu.Item>
-          </>
-        )}
-      </ContextMenu>
+        <PopupMenu.Panel className={cx(className)}>
+          <PopupMenu.Items>
+            <PopupMenu.Group>
+              {!draftIsReadOnly && (
+                <PopupMenu.Item>
+                  <Button onClick={() => setIsExportStructureOpen(true)} leftIcon={<Download />}>
+                    Exportera förlaga av organisationer
+                  </Button>
+                </PopupMenu.Item>
+              )}
+              <PopupMenu.Item>
+                <Button onClick={() => setIsShareOpen(true)} leftIcon={<Share2 />}>
+                  Dela
+                </Button>
+              </PopupMenu.Item>
+            </PopupMenu.Group>
+            {!draftIsReadOnly && user.permissions.canEditDrafts && (
+              <PopupMenu.Group>
+                <PopupMenu.Item>
+                  <Button aria-haspopup="true" onClick={onDeleteDraft} leftIcon={<Trash />}>
+                    Ta bort utkast
+                  </Button>
+                </PopupMenu.Item>
+              </PopupMenu.Group>
+            )}
+          </PopupMenu.Items>
+        </PopupMenu.Panel>
+      </PopupMenu>
       {isShareOpen && <ShareModal draft={draft} onClose={() => setIsShareOpen(false)} />}
       {isExportStructureOpen && (
         <ExportInitialOrgStructureModal draft={draft} onClose={() => setIsExportStructureOpen(false)} />
       )}
-    </>
+    </div>
   );
 }

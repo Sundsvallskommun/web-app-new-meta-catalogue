@@ -3,8 +3,8 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { DraftTreeOrganization } from '@interfaces/orgchange';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Combobox } from '@sk-web-gui/forms';
-import { Button, FormControl, FormLabel, Modal, OptionValueType, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useConfirm, useSnackbar, Combobox } from '@sk-web-gui/react';
+import { OptionValueType } from '@interfaces/option-value';
 import { useEffect } from 'react';
 
 interface IMoveFormProps {
@@ -35,7 +35,7 @@ export default function MoveFormModal(props: IMoveFormProps) {
 
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onChooseOrganization = () => {
     let title, message, confirmLabel;
@@ -93,20 +93,26 @@ export default function MoveFormModal(props: IMoveFormProps) {
   }, []);
 
   return (
-    <Modal className="max-w-[800px]" show onClose={onClose} label={moveBranch && 'Flytta gren'}>
-      <div>
-        <FormControl id="orgchange-move-branch">
-          <FormLabel>
-            <strong>{moveBranch && 'Flytta gren under'}</strong>
-          </FormLabel>
+    <Modal
+      className="w-[calc(100%-32px)] max-w-[800px] my-16"
+      show
+      onClose={onClose}
+      label={moveBranch && 'Flytta gren'}
+    >
+      <div className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          Gren {organization.label} nivå {organization.level}
+        </p>
+        <FormControl id="orgchange-move-branch" className="w-full">
+          <FormLabel>{moveBranch && 'Flytta gren under'}</FormLabel>
           <Combobox
             className="w-full"
             id="orgchange-move-branch"
-            placeholder="Sök och välj.."
             onChange={onOrganizationSelectHandler}
             value={activeOrganization?.data?.id?.toString() ?? undefined}
             defaultValue={activeOrganization?.data?.id.toString() ?? undefined}
           >
+            <Combobox.Input className="w-full" placeholder="Sök och välj" />
             <Combobox.List>
               {orgTreeOrganizations.filter(moveFilterFunction).map((item, index) => (
                 <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
@@ -118,24 +124,23 @@ export default function MoveFormModal(props: IMoveFormProps) {
             </Combobox.List>
           </Combobox>
         </FormControl>
-        <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
-            Avbryt
-          </Button>
-          <Button
-            size="lg"
-            variant="solid"
-            color="primary"
-            className="my-sm sm:my-6 w-full"
-            loadingText="Sparar"
-            type="button"
-            disabled={!activeOrganization}
-            onClick={onChooseOrganization}
-          >
-            {buttonName}
-          </Button>
-        </div>
       </div>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="flex-1"
+          variant="primary"
+          color="primary"
+          loadingText="Sparar"
+          type="button"
+          disabled={!activeOrganization}
+          onClick={onChooseOrganization}
+        >
+          {buttonName}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

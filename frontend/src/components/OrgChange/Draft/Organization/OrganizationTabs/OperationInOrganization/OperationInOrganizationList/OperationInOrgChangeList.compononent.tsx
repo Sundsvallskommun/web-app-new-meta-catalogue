@@ -5,14 +5,13 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { orgChangeOperationHeaders } from '@services/mdbuilder/defaults';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, useConfirm, useMessage } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IOrgChangeOperationInOrgInOrgChangeListProps {
   searchQuery;
@@ -21,7 +20,7 @@ interface IOrgChangeOperationInOrgInOrgChangeListProps {
 export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgChangeListProps) => {
   const { searchQuery } = props;
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   const { highlightedTableRow, setHighlightedTableRow } = useAppContext();
 
@@ -52,13 +51,11 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
-  const headers: ZebraTableHeader[] = orgChangeOperationHeaders
-    .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation : true))
+  const headers: DataTableHeader[] = orgChangeOperationHeaders
+    .filter((x) => (x.filterId == 3 ? user.permissions.canEditOperation && !draftIsReadOnly : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: orgChangeOperationFilter.find((f) => f.id === header.filterId).value,
@@ -127,56 +124,38 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
   };
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = operationListRendered.map((r) => {
+  const rows: DataTableColumn[][] = operationListRendered.map((r) => {
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ?
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.organizationOperationId)}
-                >
-                  {r.description}
-                </Button>
-              : <span>{r.description}</span>}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.organizationOperationId)}>
+              {r.description}
+            </Button>
+          : r.description,
         isShown: orgChangeOperationFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Verksamhetskod: </span>
-            <span>{r.operationCode}</span>
-          </Fragment>
-        ),
+        element: r.operationCode,
         isShown: orgChangeOperationFilter.find((i) => i.id === 2).value,
       },
-      organization.structureChangeStatus !== 'DELETED' && {
-        element: (
-          <Fragment>
-            <div className="lg:text-right">
-              <Button
-                className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
-                size="md"
-                variant="outline"
-                aria-label={`Koppla bort ${r.description}`}
-                onClick={handleDisconnectOperation(r)}
-              >
-                Koppla bort
-              </Button>
-            </div>
-          </Fragment>
+      {
+        element: organization.structureChangeStatus !== 'DELETED' && user.permissions.canEditOrganization && (
+          <Button
+            color="error"
+            size="sm"
+            variant="tertiary"
+            aria-label={`Koppla bort ${r.description}`}
+            onClick={handleDisconnectOperation(r)}
+          >
+            Koppla bort
+          </Button>
         ),
         isShown:
           orgChangeOperationFilter.find((i) => i.id === 3)?.value &&
-          !draftIsReadOnly &&
-          user.permissions.canEditOrganization,
+          user.permissions.canEditOperation &&
+          !draftIsReadOnly,
+        alignEnd: true,
       },
     ];
   });
@@ -191,22 +170,24 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
   }, [operationsByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
+    <div className="bg-background-content px-0 pb-40 pt-24">
       <h2
         id="orgchange-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-grey"
+        className="flex items-center min-h-32 text-lead mb-16"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;
       </h2>
       {rows.length > 0 ?
-        <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+        <div>
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            changePage={setPage}
+            onPageClick={() => setHighlightedTableRow({})}
+            pages={pages}
+            page={page}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -216,21 +197,8 @@ export const OperationInOrgChangeList = (props: IOrgChangeOperationInOrgInOrgCha
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      : <div className="mt-sm mx-8 px-2">Inga verksamheter att visa.</div>}
+      : <div className="mt-sm">Inga verksamheter att visa.</div>}
     </div>
   );
 };

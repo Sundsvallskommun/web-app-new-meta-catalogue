@@ -1,11 +1,12 @@
 import { useAppContext } from '@contexts/app.context';
 import { OrgChangeOrganizationTree } from '@data-contracts/backend/data-contracts';
-import OpenInNewSharpIcon from '@mui/icons-material/OpenInNewSharp';
+import { ExternalLink } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, DropdownFilter, FormControl, Link, SearchBar } from '@sk-web-gui/react';
+import { Button, FormControl, SearchField } from '@sk-web-gui/react';
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -62,11 +63,12 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
   };
 
   return (
-    <div className="list-filter bg-white">
-      <div className="flex justify-between w-full flex-wrap">
-        <span className="pl-lg pr-4 flex-grow mb-8">
-          <FormControl id="org-people-listfilter-searchbar">
-            <SearchBar
+    <div className="list-filter bg-background-content">
+      <div className="flex justify-between w-full flex-wrap gap-x-md">
+        <span className="flex-grow mb-20">
+          <FormControl id="org-people-listfilter-searchbar" className="w-full">
+            <SearchField
+              size="md"
               rounded
               aria-live="polite"
               aria-controls={isOrgChange ? 'orgchange-tabs-people-table-rowsstext' : 'org-tabs-people-table-rowsstext'}
@@ -75,46 +77,44 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
               }
               placeholder="Sök i listan"
               value={searchQuery}
-              onClose={onSearchCloseHandler}
+              onReset={onSearchCloseHandler}
               onChange={onSearchChangeHandler}
             />
           </FormControl>
         </span>
         {orgChangeOrg?.structureChangeStatus !== 'DELETED' && (
-          <span className="flex flex-wrap justify-end gap-6 px-lg">
+          <span className="flex flex-wrap justify-end gap-15">
             {isOrgChange && user.permissions.canEditResponsibility && !draftIsReadOnly && (
-              <Link
-                className="[&>.link-external-icon]:hidden"
-                href={`https://e-arenden.sundsvall.se/oversikt/flowoverview/1920`}
-                external
+              <a
+                href="https://e-arenden.sundsvall.se/oversikt/flowoverview/1920"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Button as="span" variant="solid" color="primary" rightIcon={<OpenInNewSharpIcon />}>
+                <Button as="span" variant="primary" rightIcon={<ExternalLink />}>
                   Lägg till ny person
                 </Button>
-              </Link>
+              </a>
             )}
             <NextLink
-              legacyBehavior
               href={{
                 query: { ...router.query, feedback: 'PERSON' },
               }}
               shallow
               replace
             >
-              <Button className="w-fit h-fit">Rapportera fel</Button>
+              <Button as="span" variant="secondary">
+                Rapportera fel
+              </Button>
             </NextLink>
           </span>
         )}
       </div>
-      <div className="lg:flex lg:flex-row gap-lg bg-gray-lighter py-6 mt-8 px-8">
-        <p className="text-lg">Anpassa:</p>
-        <span className="basis-1/3">
-          <DropdownFilter
-            label="Visa/dölj kolumner i personer"
-            filterData={dropDownFilter}
-            onFilterChange={setDropdownFilter}
-          />
-        </span>
+      <div className="flex mt-28">
+        <ColumnFilter
+          label="Visa/dölj kolumner i personer"
+          filterData={dropDownFilter}
+          onFilterChange={setDropdownFilter}
+        />
       </div>
     </div>
   );

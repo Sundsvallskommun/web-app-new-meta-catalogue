@@ -1,6 +1,6 @@
 import CenteredLoader from '@components/Loader/CenteredLoader.component';
 import Loader from '@components/Loader/Loader.component';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
@@ -34,13 +34,7 @@ const EmptyWindow = ({ openEditModalHandler }) => {
       </span>
       {user.permissions.canEditDrafts && (
         <div className="flex justify-center">
-          <Button
-            type="button"
-            size="lg"
-            onClick={openEditModalHandler}
-            leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
-            className="max-w-[500px] w-full max-h-[230px] h-full py-[84px] text-primary font-bold hover:text-white hover:tranisition hover:duration-300"
-          >
+          <Button variant="secondary" type="button" size="lg" onClick={openEditModalHandler} leftIcon={<Plus />}>
             Ny Organisationsförändring
           </Button>
         </div>
@@ -61,11 +55,11 @@ export const OrganizationManager = (props: OrganizationManagerProps) => {
   }, []);
 
   return (
-    <div className="bg-white relative grow px-0 pb-16 pt-10 shadow-md mb-20">
+    <div className="bg-background-content border-1 border-divider rounded-cards relative grow p-24 mb-50">
       {!draftsIsLoading ?
         <>
-          <div className="lg:flex lg:justify-between content-center mx-2 lg:mx-8 px-2 border-b-2 border-grey">
-            <h1 className="text-xl">
+          <div className="flex flex-wrap justify-between items-center gap-md mb-16">
+            <h1 className="text-h4 text-dark-secondary">
               Organisationsförändringar{' '}
               {drafts && draftsIsLoading ?
                 <Loader size="md" aria-label="hämtar utkast med förändringar" />

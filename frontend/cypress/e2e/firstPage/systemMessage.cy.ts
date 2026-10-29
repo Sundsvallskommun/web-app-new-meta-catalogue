@@ -11,17 +11,39 @@ describe('System', () => {
   it('has a skip to content link', () => {
     cy.get('[data-cy="systemMessage-a"]')
       .should('have.attr', 'accesskey', 's')
-      .should('have.attr', 'href', '/#content')
+      .should('have.attr', 'href', '#content')
       .contains('Hoppa till innehåll');
   });
 
   it('has the correct alert banner', () => {
     cy.get('[data-cy="alert-banner"]')
       .should('be.visible')
+      .and('have.class', 'bg-info-background-200')
       .within(() => {
-        cy.get('[data-testid="ErrorIcon"]').should('be.visible');
-        cy.get('[data-testid="ModeEditOutlinedIcon"]').should('be.visible');
+        cy.get('.sk-icon').should('be.visible');
+        cy.contains('System-message').should('be.visible');
+        cy.get('[data-cy="alert-banner-edit"]').should('be.visible').and('have.text', 'Redigera');
       });
+  });
+
+  it('Creates a new system message', () => {
+    cy.intercept('GET', '**/api/alert', { statusCode: 404, body: { message: 'Not Found' } });
+    cy.intercept('POST', '**/api/alert', { data: true, message: 'ok' }).as('postAlert');
+    cy.visit('/');
+
+    cy.get('[data-cy="alert-banner"]').contains('button', 'Nytt systemmeddelande').should('be.visible').click();
+
+    cy.get('[aria-modal="true"]').contains('Nytt systemmeddelande').should('be.visible');
+    cy.get('[data-cy="systemMessage-button-taBort"]').should('not.exist');
+    cy.get('[data-cy="systemMessage-input"]').should('be.visible').type('Test message');
+    cy.get('[aria-modal="true"] select').select('Varning');
+
+    cy.get('[data-cy="systemMessage-button-spara"]').contains('Spara').should('be.visible').click();
+
+    cy.wait('@postAlert').then((interception) => {
+      expect(interception.request.body.message).to.eq('Test message');
+      expect(interception.request.body.severity).to.eq('warning');
+    });
   });
 
   it('Edits system message', () => {
@@ -30,6 +52,7 @@ describe('System', () => {
 
     cy.get('[data-cy="alert-banner-edit"]').should('be.visible').click();
 
+    cy.get('[aria-modal="true"]').contains('Redigera systemmeddelande').should('be.visible');
     cy.get('[data-cy="systemMessage-input"]').should('be.visible').type('Test message');
 
     cy.get('[data-cy="systemMessage-button-spara"]').contains('Spara').should('be.visible').click();

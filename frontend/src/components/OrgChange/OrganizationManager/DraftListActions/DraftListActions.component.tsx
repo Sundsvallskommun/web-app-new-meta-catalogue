@@ -1,9 +1,8 @@
 import { Draft, DraftPhaseEnum, RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { DraftListFilters, DraftPhaseAction } from '@interfaces/orgchange';
-import AddIcon from '@mui/icons-material/Add';
+import { Plus } from 'lucide-react';
 import { useUserStore } from '@services/user-service/user-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, SearchBar } from '@sk-web-gui/react';
+import { Button, SearchField, Select } from '@sk-web-gui/react';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -174,10 +173,11 @@ export default function DraftListActions(props: DraftListActions) {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className="w-full mb-lg lg:mb-[3rem] flex flex-col gap-sm lg:flex-row lg:justify-between lg:gap-x-11 items-center"
+      className="w-full mb-lg lg:mb-[3rem] flex flex-col gap-sm lg:flex-row lg:justify-between lg:gap-x-28 items-center"
     >
       <span className="w-full">
-        <SearchBar
+        <SearchField
+          size="md"
           {...register('query')}
           rounded
           aria-label="Sök organisationsförändringar"
@@ -187,7 +187,7 @@ export default function DraftListActions(props: DraftListActions) {
           aria-describedby="draftlist-count"
           value={watch().query}
           onChange={handleQueryChange}
-          onClose={handleQueryClose}
+          onReset={handleQueryClose}
         />
       </span>
       <span className="w-full">
@@ -227,12 +227,11 @@ export default function DraftListActions(props: DraftListActions) {
           <Button
             type="button"
             data-cy="orgchange-new-draft"
-            className="w-full h-fit"
             onClick={openEditModalHandler}
             size="md"
-            variant="solid"
+            variant="primary"
             color="primary"
-            leftIcon={<AddIcon fontSize="medium" className="mr-sm" />}
+            leftIcon={<Plus />}
           >
             Ny organisationsförändring
           </Button>

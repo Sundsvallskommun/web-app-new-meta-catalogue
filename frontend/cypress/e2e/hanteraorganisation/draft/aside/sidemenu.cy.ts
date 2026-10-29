@@ -32,7 +32,7 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     cy.intercept('POST', '**/api/orgchange/orgnode', { data: 123, message: 'success' }).as('postCreateNode');
 
     // Select parent that should get new node
-    cy.get('.Sidebar .sk-sidemenu-item.lvl-0 .sk-sidemenu-item-link').click();
+    cy.get('[data-cy="organization-tree"] > li [role="menuitem"]').first().click();
 
     cy.wait('@getOrgTree');
 
@@ -44,9 +44,46 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
       message: 'success',
     }).as('getOrgTree');
 
-    cy.get('[aria-modal="true"]').contains('Ja skapa gren').click();
+    cy.get('[aria-modal="true"]').contains('Ja, skapa gren').click();
 
-    cy.get('.sk-sidemenu-item-label').contains('Ny gren').should('exist');
+    cy.get('[data-cy="organization-tree"] [role="menuitem"]').contains('Ny gren').should('exist');
+  });
+
+  it('Drag and drop branch to new parent', () => {
+    const [parent] = orgTreeNewNode;
+    const child = parent.subItems![0];
+    const dragTree = [
+      { ...parent, subItems: [{ ...child, parentId: parent.id }] },
+      { ...parent, id: 193, label: 'Annan skola', orgName: 'Annan skola', subItems: [] },
+    ];
+    cy.intercept('GET', '**/api/orgchange/draft/id-hash-Draftname3/tree', { data: dragTree, message: 'success' }).as(
+      'getDragTree'
+    );
+    cy.reload();
+    cy.wait('@getDragTree');
+
+    cy.get('[data-cy="tree-item-192"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+
+    // Dropping on the current parent does nothing
+    const toCurrentParent = new DataTransfer();
+    cy.get('[data-cy="tree-item-123"]').trigger('dragstart', { dataTransfer: toCurrentParent });
+    cy.get('[data-cy="tree-item-192"]').trigger('dragover', { dataTransfer: toCurrentParent });
+    cy.get('[data-cy="tree-item-192"]').trigger('drop', { dataTransfer: toCurrentParent });
+    cy.get('[aria-modal="true"]').should('not.exist');
+
+    // Dropping on another parent one level up asks to confirm the move from the old to the new parent
+    const toNewParent = new DataTransfer();
+    cy.get('[data-cy="tree-item-123"]').trigger('dragstart', { dataTransfer: toNewParent });
+    cy.get('[data-cy="tree-item-193"]').trigger('dragover', { dataTransfer: toNewParent });
+    cy.get('[data-cy="tree-item-193"]').should('have.class', 'ring-2');
+    cy.get('[data-cy="tree-item-193"]').trigger('drop', { dataTransfer: toNewParent });
+
+    cy.get('[aria-modal="true"]').within(() => {
+      cy.contains(`Flyttar ${child.label} nivå ${child.level}`).should('be.visible');
+      cy.contains(`Förälder: ${parent.label} Nivå ${parent.level}`).should('be.visible');
+      cy.contains('Förälder: Annan skola').should('be.visible');
+      cy.contains('button', 'Spara').should('be.enabled');
+    });
   });
 
   it('Show/Search', () => {
@@ -58,42 +95,41 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
     // Open
     cy.get('button').contains('Visa/sök').click();
 
-    cy.get('ul[aria-label="Sökfilter"]')
+    cy.get('#sideMenuSearchFilters')
       .should('be.visible')
       .within(() => {
-        cy.get('li.filter-item').contains('Nivåer').click();
-        cy.get('li.filter-item').contains('Ansvarskod').click();
-        cy.get('li.filter-item').contains('Förkortningar').click();
+        cy.get('.sk-popup-menu-item').contains('Nivåer').click();
+        cy.get('.sk-popup-menu-item').contains('Ansvarskod').click();
+        cy.get('.sk-popup-menu-item').contains('Förkortningar').click();
       });
 
     // Close
     cy.get('button').contains('Visa/sök').click();
 
-    cy.get('.sk-sidemenu-item.lvl-0 .expand').click();
+    cy.get('[data-cy="organization-tree"] > li .sk-menu-vertical-item-submenu-button-expand').first().click();
 
     // Assert new state
     // Code
-    cy.get('.sk-sidemenu-item.lvl-0').contains('9400').should('be.visible');
-    cy.get('.sk-sidemenu-item.lvl-1').contains('94001').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li').contains('9400').should('be.visible');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('94001').should('be.visible');
 
     // Levels
-    cy.get('.sk-sidemenu-item.lvl-0 .expand').contains('N5').should('be.visible');
-    cy.get('.sk-sidemenu-item.lvl-1').contains('N6').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li [role="menuitem"]').first().contains('N5').should('be.visible');
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('N6').should('be.visible');
 
     // Abbreviations
-    cy.get('.sk-sidemenu-item.lvl-0').contains('CDE Uslands skola').should('be.visible');
+    cy.get('[data-cy="organization-tree"] > li').contains('CDE Uslands skola').should('be.visible');
 
     // Search "CDE Uslands skola"
     // Open
     cy.get('button').contains('Visa/sök').click();
     cy.get('input[aria-label="Sök gren i menyn"]').click();
     cy.get('input[aria-label="Sök gren i menyn"]').type('CDE Uslands skola');
-    cy.focused().type('{downArrow}');
-    cy.focused().type('{enter}');
-    cy.get('ul[aria-label="Organisationsmeny"] [aria-current="true"]').should(
-      'have.text',
-      'CDE Uslands skola, Kod: 9400, Nivå: 5'
-    );
+    cy.contains('.sk-form-combobox-list-option:visible', 'Uslands skola').click();
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]')
+      .should('contain.text', 'CDE Uslands skola')
+      .and('contain.text', 'Kod: 9400')
+      .and('contain.text', 'Nivå: N5');
   });
 
   it('Aktivt val visas', () => {
@@ -102,9 +138,9 @@ describe('/hanteraorganisation - aside - Sidemenu', () => {
       message: 'success',
     }).as('getOrgTree');
 
-    cy.get('.sk-sidemenu [aria-current="true"]').should('not.exist');
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should('not.exist');
 
-    cy.get('.sk-sidemenu').contains('[role="menuitem"]', 'Uslands skola').click();
-    cy.get('.sk-sidemenu [aria-current="true"]').should('be.visible');
+    cy.get('[data-cy="organization-tree"]').contains('[role="menuitem"]', 'Uslands skola').click();
+    cy.get('[data-cy="organization-tree"] [aria-current="page"]').should('be.visible');
   });
 });

@@ -29,9 +29,9 @@ export const FeedbackModalWrapper = ({ type = '', open = false }: FeedbackModalW
   /** Control open or not by feedback query parameter */
   const handleModalClose = () => {
     setIsOpen(false);
-    const params = new URLSearchParams(window.location.search);
-    params.delete('feedback');
-    router.push({ query: { ...params.getAll } });
+    const query = { ...router.query };
+    delete query.feedback;
+    router.replace({ query }, undefined, { shallow: true });
   };
 
   /** Control open or not by feedback query parameter */

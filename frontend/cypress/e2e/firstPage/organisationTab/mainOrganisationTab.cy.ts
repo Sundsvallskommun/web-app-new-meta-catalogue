@@ -18,27 +18,27 @@ describe('/organization - Main', () => {
 
     cy.visit('/');
 
-    cy.get('.sk-sidemenu-body .sk-sidemenu-item .expand').first().click();
-    cy.get('.items .sk-sidemenu-item .sk-sidemenu-item-label').contains('Norra grundskola').should('exist').click();
+    cy.get('[data-cy="organization-tree"] .sk-menu-vertical-item-submenu-button-expand').first().click();
+    cy.get('[data-cy="organization-tree"] ul [role="menuitem"]').contains('Norra grundskola').should('exist').click();
   });
 
   it('Interact with Nästa and Föregående', () => {
     // Check that page 1 is initially active and page 2 is not
-    cy.get('button[aria-label="sida 1, Nuvarande sida"]').should('have.attr', 'aria-current', 'true');
-    cy.get('button[aria-label="Gå till sida 2 av 3."]').should('have.attr', 'aria-current', 'false');
+    cy.get('button[aria-label="Sida 1 av 3."]:visible').should('have.attr', 'aria-current', 'true');
+    cy.get('button[aria-label="Sida 2 av 3."]:visible').should('have.attr', 'aria-current', 'false');
 
     // Click on the 'Nästa' button
-    cy.get('button').contains('Nästa').click();
+    cy.get('button[aria-label^="Nästa sida"]:visible').click();
 
     // Check that page 2 is initially active and page 1 is not
-    cy.get('button[aria-label="Gå till sida 1 av 3."]').should('have.attr', 'aria-current', 'false');
-    cy.get('button[aria-label="sida 2, Nuvarande sida"]').should('have.attr', 'aria-current', 'true');
+    cy.get('button[aria-label="Sida 1 av 3."]:visible').should('have.attr', 'aria-current', 'false');
+    cy.get('button[aria-label="Sida 2 av 3."]:visible').should('have.attr', 'aria-current', 'true');
 
     // Click on the 'Föregående' button
-    cy.get('button').contains('Föregående').click();
+    cy.get('button[aria-label^="Föregående sida"]:visible').click();
 
     // Check that page 1 is active again and page 2 is not
-    cy.get('button[aria-label="sida 1, Nuvarande sida"]').should('have.attr', 'aria-current', 'true');
-    cy.get('button[aria-label="Gå till sida 2 av 3."]').should('have.attr', 'aria-current', 'false');
+    cy.get('button[aria-label="Sida 1 av 3."]:visible').should('have.attr', 'aria-current', 'true');
+    cy.get('button[aria-label="Sida 2 av 3."]:visible').should('have.attr', 'aria-current', 'false');
   });
 });

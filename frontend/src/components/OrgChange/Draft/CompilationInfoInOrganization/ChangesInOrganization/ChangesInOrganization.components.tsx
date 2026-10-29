@@ -3,9 +3,9 @@ import { ChangesInOrganizationList } from './ChangsInOrganizationList/ChangesInO
 
 const BadgeTitle = ({ changesCount }) => {
   return (
-    <span className="flex gap-3">
+    <span className="flex gap-7">
       <span>
-        <Badge color="warning" variant="solid" size="lg" max={99} counter={changesCount} noBorder />
+        <Badge color="warning" size="md" counter={changesCount > 99 ? '99+' : changesCount} />
       </span>
       <span className="flex items-center content-center">Förändringar</span>
     </span>
@@ -19,13 +19,21 @@ export const ChangesInOrganization = (props: IChangesProps) => {
   const { changesCount } = props;
 
   return (
-    <div className="px-[20px]">
-      <Disclosure header={<BadgeTitle changesCount={changesCount} />} alert noMargin variant="solid">
-        <div>
-          <ChangesInOrganizationList
-            changesTexts={Array.from(Array(changesCount).keys()).map((x) => `Ändring ${x + 1}`)}
-          />
-        </div>
+    <div>
+      <Disclosure variant="alt">
+        <Disclosure.Header>
+          <Disclosure.Title>
+            <BadgeTitle changesCount={changesCount} />
+          </Disclosure.Title>
+          <Disclosure.Button />
+        </Disclosure.Header>
+        <Disclosure.Content>
+          <div>
+            <ChangesInOrganizationList
+              changesTexts={Array.from(Array(changesCount).keys()).map((x) => `Ändring ${x + 1}`)}
+            />
+          </div>
+        </Disclosure.Content>
       </Disclosure>
     </div>
   );

@@ -13,9 +13,7 @@ export const HeadInputFormName: React.FC = () => {
 
   return (
     <FormControl id="orgchange-draft-name" required invalid={!!errors?.name}>
-      <FormLabel className="sr-only" showRequired>
-        Utkastnamn
-      </FormLabel>
+      <FormLabel showRequired>Utkastnamn</FormLabel>
       <h1 className="sr-only" aria-describedby="orgchange-draft-name-label">
         {watch().name}
       </h1>
@@ -23,7 +21,7 @@ export const HeadInputFormName: React.FC = () => {
         data-cy="orgchange-draft-name"
         required
         aria-labelledby="orgchange-draft-name-label"
-        placeholder="Ny organisationsförändring..."
+        placeholder="Ny organisationsförändring"
         autoFocus={draft.draftId === null}
         {...register('name')}
       />

@@ -39,9 +39,9 @@ describe('Tab menu', () => {
     cy.intercept('GET', '**/api/mdviewer/search/Sample%20search/search', search);
     cy.get('[data-cy="search"]').should('not.be.disabled').type('Sample search');
     cy.get('[data-cy="search-results-query"]').contains('Sökord');
-    cy.get('[data-cy="search-results-amount"]').contains('3 sökresultat:');
+    cy.get('[data-cy="search-results-amount"]').contains('3 sökresultat');
 
-    cy.get('[data-cy="search"] + .form-input-addin-right button').click();
+    cy.get('.GlobalSearch .sk-search-field-button-reset').click();
     cy.get('[data-cy="search"]').should('have.attr', 'placeholder', 'Sök i all data');
   });
 
@@ -86,6 +86,6 @@ describe('Tab menu', () => {
 
     // Navigate search result item - show person
     cy.get('button').contains('Visa person').click();
-    cy.get('.PersonEditor', { timeout: 3000 }).contains('AnnJan Ahsonzi');
+    cy.get('[data-cy="person-editor"]', { timeout: 3000 }).contains('AnnJan Ahsonzi');
   });
 });

@@ -8,14 +8,13 @@ import {
   Input,
   Modal,
   useConfirm,
-  useMessage,
+  useSnackbar,
 } from '@sk-web-gui/react';
 import React, { useMemo, useState } from 'react';
 
 import { OrgChangeResponsibility } from '@data-contracts/backend/data-contracts';
 import { yupResolver } from '@hookform/resolvers/yup';
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Check, Trash } from 'lucide-react';
 import { emptyResponsibility } from '@services/mdviewer/defaults/responsibility';
 import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
 import { isEqual } from 'lodash';
@@ -35,7 +34,7 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
   const closeResponsibility = useOrgChangeStore((s) => s.closeResponsibility);
 
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   const organization = useOrganizationStore((s) => s.organization);
 
@@ -149,74 +148,64 @@ const ResponsibilityEditModal = ({ onClose, responsibility = undefined }: Respon
   };
 
   return (
-    <Modal className="max-w-[800px]" show={true} labelAs="h3" onClose={onClose} label="Uppdatera ansvar">
+    <Modal className="w-[calc(100%-32px)] max-w-[800px] my-16" show={true} onClose={onClose} label="Uppdatera ansvar">
       <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
         <form
+          id="responsibility-edit-modal-form"
+          className="flex flex-col gap-16 mb-16"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
           }}
         >
-          <FormControl id="responsibility-edit-title">
-            <FormLabel>
-              <strong>Ansvartitel</strong>
-            </FormLabel>
-            <Input.Group size="md">
-              <Input
-                value={watch().description}
-                placeholder="Ansvarstitel"
-                maxLength={30}
-                title="Ansvarstitel"
-                onChange={descriptionHandler}
-              />
-            </Input.Group>
-          </FormControl>
-
-          {errors.description && (
-            <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
-          )}
-
-          <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10 items-end">
-            <div>
-              <div className="mb-sm">
-                <Button
-                  type="button"
-                  className="text-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
-                  size="md"
-                  variant="outline"
-                  aria-label={`Stäng ansvar ${watch().description}`}
-                  onClick={onRemoveHandler}
-                  leftIcon={<DeleteOutlineIcon fontSize="large" />}
-                >
-                  Stäng ansvar
-                </Button>
-              </div>
-
-              <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
-                {'Avbryt'}
-              </Button>
-            </div>
+          <div className="flex flex-col items-start gap-8">
+            <FormControl id="responsibility-edit-title" className="w-full">
+              <FormLabel>Ansvartitel</FormLabel>
+              <Input.InnerGroup size="md">
+                <Input
+                  value={watch().description}
+                  placeholder="Ansvarstitel"
+                  maxLength={30}
+                  title="Ansvarstitel"
+                  onChange={descriptionHandler}
+                />
+              </Input.InnerGroup>
+              {errors.description && (
+                <FormErrorMessage key={`description-errors`}>{errors.description?.message}</FormErrorMessage>
+              )}
+            </FormControl>
             <Button
-              type="submit"
-              variant="solid"
-              size="lg"
-              color="primary"
-              className="my-sm sm:my-6 w-full"
-              leftIcon={<CheckIcon fontSize="large" className="mr-sm" />}
-              loading={isLoading}
-              loadingText="Sparar"
+              type="button"
+              color="error"
+              size="sm"
+              variant="primary"
+              inverted
+              aria-label={`Stäng ansvar ${watch().description}`}
+              onClick={onRemoveHandler}
+              leftIcon={<Trash />}
             >
-              Spara
+              Stäng ansvar
             </Button>
           </div>
-          {error && (
-            <div className="w-full flex justify-between space-x-2 my-lg">
-              <FormErrorMessage>
-                <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-              </FormErrorMessage>
-            </div>
-          )}
+          {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
         </form>
+        <Modal.Footer>
+          <Button variant="secondary" className="flex-1" onClick={onCloseHandler} type="button">
+            {'Avbryt'}
+          </Button>
+          <Button
+            className="flex-1"
+            type="submit"
+            form="responsibility-edit-modal-form"
+            variant="primary"
+            color="primary"
+            leftIcon={<Check />}
+            loading={isLoading}
+            loadingText="Sparar"
+          >
+            Spara
+          </Button>
+        </Modal.Footer>
       </WarnIfUnsavedChanges>
     </Modal>
   );

@@ -1,5 +1,6 @@
-import { Popover } from '@headlessui/react';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { Tooltip, Icon } from '@sk-web-gui/react';
+import { CircleQuestionMark } from 'lucide-react';
+import { useState } from 'react';
 
 interface HelpToolTipProps {
   children: React.ReactNode;
@@ -11,27 +12,33 @@ interface HelpToolTipProps {
 
 export const HelpTooltip: React.FC<HelpToolTipProps> = (props: HelpToolTipProps) => {
   const { children, ariaLabel = 'Mer information', className = '', onlyIcon, tabIndex, ...rest } = props;
-  return (
-    <Popover
-      className={`ml-sm align-text-bottom relative hidden lg:inline-flex ${className}`}
-      onClick={(e: React.MouseEvent) => e.stopPropagation()}
-    >
-      {() => (
-        <>
-          <Popover.Button tabIndex={tabIndex} className="flex items-center" aria-label={ariaLabel} {...rest}>
-            {!onlyIcon && <strong className="mr-2">Hjälp</strong>}
-            <HelpOutlineIcon sx={{ fontSize: 16 }} className="" />
-          </Popover.Button>
+  const [open, setOpen] = useState(false);
 
-          <Popover.Panel
-            focus={true}
-            style={{ width: '90vw' }}
-            className="absolute max-w-2xl top-8 left-0 right-auto lg:max-w-2xl z-10 rounded-md text-left text-black bg-white p-4 border border-gray-stroke"
-          >
-            <span className="inline-block">{children}</span>
-          </Popover.Panel>
-        </>
-      )}
-    </Popover>
+  return (
+    <span
+      className={`ml-sm align-middle relative hidden lg:inline-flex ${className}`}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        tabIndex={tabIndex}
+        className="flex items-center"
+        aria-label={ariaLabel}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        {...rest}
+      >
+        {!onlyIcon && <span className="mr-5">Hjälp</span>}
+        <Icon size={16} icon={<CircleQuestionMark />} />
+      </button>
+      <Tooltip
+        position="below"
+        className={open ? 'absolute top-full left-1/2 -translate-x-1/2 z-10 w-max max-w-2xl' : 'hidden'}
+      >
+        {children}
+      </Tooltip>
+    </span>
   );
 };

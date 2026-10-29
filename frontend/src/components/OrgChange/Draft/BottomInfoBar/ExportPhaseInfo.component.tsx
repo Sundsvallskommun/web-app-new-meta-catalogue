@@ -1,6 +1,6 @@
 import { RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Link, useMessage } from '@sk-web-gui/react';
+import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useEffect } from 'react';
 import ExportMessages from './ExportMessages.component';
 import { repeater } from '@utils/repeater';
@@ -11,18 +11,19 @@ export default function ExportPhaseInfo() {
   const setLockedView = useOrgChangeStore((s) => s.setLockedView);
   const getRunbook = useOrgChangeStore((s) => s.getRunbook);
   const runbook = useOrgChangeStore((s) => s.runbook);
-  const message = useMessage();
+  const message = useSnackbar();
 
-  let severityBackground = 'bg-info-light';
+  let severityBackground = 'bg-vattjom-background-100';
   if (runbook?.currentStep > 0) {
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Completed) {
-      severityBackground = 'bg-success-light';
+    const state = runbook.runner[runbook.currentStep - 1].state;
+    if (state === RunbookStepsStateEnum.Completed) {
+      severityBackground = 'bg-gronsta-background-100';
     }
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Waiting) {
-      severityBackground = 'bg-warning-light';
+    if (state === RunbookStepsStateEnum.Waiting) {
+      severityBackground = 'bg-warning-background-100';
     }
-    if (runbook?.runner[runbook.currentStep - 1].state === RunbookStepsStateEnum.Fail) {
-      severityBackground = 'bg-error-light';
+    if (state === RunbookStepsStateEnum.Fail) {
+      severityBackground = 'bg-error-background-100';
     }
   }
 
@@ -58,33 +59,24 @@ export default function ExportPhaseInfo() {
   }, [runbook?.currentStep]);
 
   return (
-    <div className="relative flex flex-col justify-end">
-      <div
-        className={`transition-height bg-opacity-75 ${
-          !lockedView ? 'min-h-md' : ' min-h-40'
-        } duration-300 ${severityBackground}`}
-      >
-        <div className="max-width-content transition-all mx-auto flex flex-col-reverse lg:flex-row w-full">
-          <h2 className="sr-only">Exportflöde</h2>
-          <div className="flex flex-grow gap-md p-md">
-            <span>
-              <ExportMessages />
-            </span>
-          </div>
+    <div className={`px-md md:px-lg ${severityBackground}`}>
+      <div className="container flex flex-col-reverse lg:flex-row gap-md py-md">
+        <h2 className="sr-only">Exportflöde</h2>
+        <div className="flex flex-col flex-grow justify-center min-h-32">
+          <ExportMessages />
+        </div>
+        <div className="shrink-0">
           <Button
             onClick={handleExpand}
-            size="lg"
+            size="sm"
             aria-label={
               lockedView ?
                 'Dölj exportinformation, lås upp visningsläge av utkastet'
               : 'Visa exportinformation, lås visningsläge av utkastet'
             }
-            variant="ghost"
-            className="px-0 max-h-fit h-fit py-md"
+            variant="tertiary"
           >
-            {lockedView ?
-              <Link as="span">Dölj exportinformation</Link>
-            : <Link as="span">Visa exportinformation</Link>}
+            {lockedView ? 'Dölj exportinformation' : 'Visa exportinformation'}
           </Button>
         </div>
       </div>

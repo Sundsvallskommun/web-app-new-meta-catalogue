@@ -3,11 +3,9 @@ import {
   RunbookSteps,
   RunbookStepsStateEnum,
 } from '@data-contracts/backend/data-contracts';
-import CheckIcon from '@mui/icons-material/Check';
-import CircleIcon from '@mui/icons-material/Circle';
-import ErrorIcon from '@mui/icons-material/Error';
+import { Check, Circle, CircleAlert } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, Spinner, cx, useConfirm } from '@sk-web-gui/react';
+import { Button, Spinner, cx, useConfirm, Icon } from '@sk-web-gui/react';
 
 export const MessageStatusIcon = ({
   status,
@@ -18,15 +16,15 @@ export const MessageStatusIcon = ({
 }) => {
   switch (status) {
     case RunbookStepsStateEnum.Queued:
-      return <CircleIcon className={`text-info p-2 w-[1rem] h-[1rem] ${className}`} />;
+      return <Icon color="info" className={className} icon={<Circle />} />;
     case RunbookStepsStateEnum.Waiting:
-      return <ErrorIcon className={`text-warning w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="warning" className={className} icon={<CircleAlert />} />;
     case RunbookStepsStateEnum.Running:
-      return <Spinner className={`text-info w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Spinner color="info" size={1.5} className={className} />;
     case RunbookStepsStateEnum.Completed:
-      return <CheckIcon className={`text-success w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="success" className={className} icon={<Check />} />;
     case RunbookStepsStateEnum.Fail:
-      return <ErrorIcon className={`text-error w-[1.5rem] h-[1.5rem] ${className}`} />;
+      return <Icon color="error" className={className} icon={<CircleAlert />} />;
 
     default:
       return <></>;
@@ -58,23 +56,26 @@ export const ExportMessages = ({ className = '' }) => {
   };
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-8">
       {messages.map((runbookStep, i) => {
         const current = messages.length === 1 || runbook.currentStep === i + 1;
+        const showTrigger = runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current;
         return (
           <li
-            className={cx('flex gap-sm', current && 'font-bold text-lg my-[.5em]', className)}
+            className={cx(
+              'flex gap-sm',
+              showTrigger ? 'items-start' : 'items-center',
+              current && 'font-bold',
+              className
+            )}
             key={`message-${i}`}
             data-key={`message-${i}`}
           >
-            <MessageStatusIcon
-              className={cx(current ? 'mt-[.2rem] !text-xl' : 'mt-[.4rem]')}
-              status={runbookStep.state}
-            />
-            {runbookStep.isWaitAction && runbookStep.state === RunbookStepsStateEnum.Waiting && current ?
-              <div>
+            <MessageStatusIcon className="shrink-0" status={runbookStep.state} />
+            {showTrigger ?
+              <div className="flex flex-col items-start gap-8">
                 <div>{runbookStep.result || runbookStep.description}</div>
-                <Button className="my-sm" onClick={() => handleTrigger(runbookStep)} variant="solid" color="primary">
+                <Button onClick={() => handleTrigger(runbookStep)} variant="primary" color="primary">
                   {runbookStep.triggerBtnText ? runbookStep.triggerBtnText : 'Fortsätt med exporten'}
                 </Button>
               </div>

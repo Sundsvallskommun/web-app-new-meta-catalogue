@@ -1,26 +1,33 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Input, useConfirm, useMessage } from '@sk-web-gui/react';
-import { Select } from '@sk-web-gui/forms';
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Modal,
+  Textarea,
+  useConfirm,
+  useSnackbar,
+  Select,
+} from '@sk-web-gui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
+import { Check, Trash } from 'lucide-react';
 import {
   deleteAlertBannerMessage,
   editAlertBannerMessage,
   newAlertBannerMessage,
 } from '@services/alert-banner-service/alert-banner-service';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { emptyAlertBannerMessage } from '@services/alert-banner-service/defaults';
 import { AlertBannerDto, AlertBannerMessage } from '@data-contracts/backend/data-contracts';
 
 interface IAlertBannerFormProps {
+  isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
   messageData: AlertBannerMessage;
   isEdit?: boolean;
-  setSeverityFromForm?: (severity: AlertBannerMessage['severity']) => void;
 }
 
 const formSchema = yup
@@ -31,44 +38,40 @@ const formSchema = yup
   .required();
 
 const AlertBannerForm = ({
+  isOpen,
   messageData = emptyAlertBannerMessage,
   onClose,
   onSuccess,
   isEdit = false,
-  setSeverityFromForm,
 }: IAlertBannerFormProps) => {
   const [submitError, setSubmitError] = useState(false);
   const [submitErrorText, setSubmitErrorText] = useState('');
-  const [, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const severityList: AlertBannerMessage['severity'][] = ['info', 'warning', 'error', 'neutral'];
-
-  const initialFocus = useRef(null);
-
-  const setInitialFocus = () => {
-    setTimeout(() => {
-      if (initialFocus.current) {
-        initialFocus.current.focus();
-      }
-    });
-  };
+  const severityList: { value: AlertBannerMessage['severity']; label: string }[] = [
+    { value: 'info', label: 'Information' },
+    { value: 'warning', label: 'Varning' },
+    { value: 'error', label: 'Kritisk' },
+    { value: 'neutral', label: 'Neutral' },
+  ];
 
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
 
   // form state
-  const { register, handleSubmit, watch, reset, setValue, trigger } = useForm({
+  const { register, handleSubmit, watch, reset, setValue } = useForm({
     resolver: yupResolver(formSchema),
-    defaultValues: useMemo(() => {
-      return messageData;
-    }, [messageData]),
+    defaultValues: messageData,
     mode: 'onChange', // NOTE: Needed if we want to disable submit until valid
   });
 
-  const onCloseHandler = () => {
-    reset();
-    onClose();
-  };
+  useEffect(() => {
+    if (isOpen) {
+      reset(messageData);
+      setSubmitError(false);
+      setSubmitErrorText('');
+    }
+  }, [isOpen, messageData, reset]);
 
   const onSubmit = (formData: AlertBannerMessage) => {
     const apiCall = isEdit ? editAlertBannerMessage : newAlertBannerMessage;
@@ -121,81 +124,87 @@ const AlertBannerForm = ({
   };
 
   const handleSelectSeverity: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const value = e.target.value;
-    setValue('severity', value);
-    trigger('severity');
-    setSeverityFromForm(value);
+    setValue('severity', e.target.value as AlertBannerMessage['severity'], { shouldValidate: true, shouldDirty: true });
   };
 
-  useEffect(() => {
-    setInitialFocus();
-  }, []);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <div data-cy="systemMessage-div-form" className="flex items-center gap-lg">
-        <Input
-          data-cy="systemMessage-input"
-          ref={initialFocus}
-          {...register('message')}
-          className="flex-grow"
-          size="sm"
-          aria-label="Systemmeddelande"
-          placeholder="Systemmeddelande..."
-        />
-        <div className="w-1/3 z-30">
-          <Select
-            data-cy="systemMessage-button-criticalLevel"
-            aria-label="Kritisk nivå"
-            id="severity"
-            className="w-full"
-            size="md"
-            defaultValue={watch().severity}
-            placeholder={'Välj kritisk nivå'}
-            onChange={handleSelectSeverity}
-          >
-            {severityList.map((severity) => (
-              <Select.Option key={`${severity}`} value={severity}>
-                {severity}
-              </Select.Option>
-            ))}
-          </Select>
+    <Modal
+      show={isOpen}
+      onClose={onClose}
+      label={isEdit ? 'Redigera systemmeddelande' : 'Nytt systemmeddelande'}
+      className="w-[calc(100%-32px)] max-w-screen-md my-16"
+    >
+      <form
+        id="system-message-modal-form"
+        data-cy="systemMessage-div-form"
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-16 mb-16"
+      >
+        <div className="flex flex-col items-start gap-8">
+          <FormControl id="system-message" className="w-full">
+            <FormLabel>Systemmeddelande</FormLabel>
+            <Textarea
+              data-cy="systemMessage-input"
+              {...register('message')}
+              className="w-full"
+              rows={4}
+              placeholder="Systemmeddelande"
+            />
+          </FormControl>
+          <FormControl id="severity" className="w-full">
+            <FormLabel>Kritisk nivå</FormLabel>
+            <Select
+              data-cy="systemMessage-button-criticalLevel"
+              className="w-full"
+              value={watch().severity}
+              placeholder="Välj kritisk nivå"
+              onChange={handleSelectSeverity}
+            >
+              {severityList.map((severity) => (
+                <Select.Option key={severity.value} value={severity.value}>
+                  {severity.label}
+                </Select.Option>
+              ))}
+            </Select>
+          </FormControl>
+          {isEdit && (
+            <Button
+              data-cy="systemMessage-button-taBort"
+              type="button"
+              color="error"
+              size="sm"
+              variant="primary"
+              inverted
+              onClick={onDelete}
+              leftIcon={<Trash />}
+            >
+              Ta bort
+            </Button>
+          )}
         </div>
-
-        <Button type="submit" data-cy="systemMessage-button-spara" color="primary" variant="solid" size="sm">
+        {submitError && (
+          <FormErrorMessage data-cy="systemMessage-span-notAuthorized">{submitErrorText}</FormErrorMessage>
+        )}
+      </form>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" onClick={onClose} type="button">
+          Avbryt
+        </Button>
+        <Button
+          data-cy="systemMessage-button-spara"
+          className="flex-1"
+          type="submit"
+          form="system-message-modal-form"
+          variant="primary"
+          color="primary"
+          leftIcon={<Check />}
+          loading={isLoading}
+          loadingText="Sparar"
+        >
           Spara
         </Button>
-        {isEdit && (
-          <Button
-            data-cy="systemMessage-button-taBort"
-            className="text-gray"
-            type="button"
-            onClick={onDelete}
-            variant="link"
-            leftIcon={<DeleteOutlineIcon fontSize="large" className="mr-sm" />}
-          >
-            Ta bort
-          </Button>
-        )}
-        <button
-          aria-label="Stäng redigering av systemmeddelande"
-          type="button"
-          onClick={onCloseHandler}
-          className="p-sm -m-sm"
-        >
-          <CloseOutlinedIcon className="material-icon !text-2xl" />
-        </button>
-        {submitError && (
-          <span
-            data-cy="systemMessage-span-notAuthorized"
-            className="bg-red bg-opacity-5 p-2 pr-4 rounded-md border text-red border-red"
-          >
-            <ErrorOutlinedIcon className="material-icon mr-sm !text-2xl " />
-            {submitErrorText}
-          </span>
-        )}
-      </div>
-    </form>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

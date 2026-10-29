@@ -1,10 +1,10 @@
-import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
-import { Button, Modal, useMessage } from '@sk-web-gui/react';
+import { Link } from 'lucide-react';
+import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
 import { appURL } from '@utils/app-url';
 
 export default function ShareModal(props) {
   const { onClose, draft } = props;
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onCopyLink = async () => {
     navigator.clipboard.writeText(`${appURL()}/hanteraorganisation/utkast/${draft.draftId}`).then(
@@ -24,14 +24,9 @@ export default function ShareModal(props) {
   };
 
   return (
-    <Modal className="max-w-[500px]" show={true} label={'Dela utkast'} onClose={onClose}>
-      <div className="mt-16 flex justify-left gap-8">
-        <Button
-          onClick={onCopyLink}
-          className="text-body"
-          variant="link"
-          leftIcon={<InsertLinkOutlinedIcon className="!text-2xl" />}
-        >
+    <Modal className="w-[calc(100%-32px)] max-w-[600px] my-16" show={true} label={'Dela utkast'} onClose={onClose}>
+      <div>
+        <Button onClick={onCopyLink} variant="secondary" leftIcon={<Link />}>
           Kopiera länk
         </Button>
       </div>

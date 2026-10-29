@@ -74,56 +74,55 @@ export default function OrganizationTabs({ organization }: OrganizationTabsProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organizationMemo]);
 
-  /**
-   *
-   * @param index tab index clicked
-   * @param tab tab object data
-   */
-  const handleTabsOnClickCallback = (event, item, index) => {
-    setOrganizationTabIndex(index);
-  };
+  const tabs = [
+    ...(user.permissions.canViewEmployees ?
+      [
+        {
+          id: 'employees',
+          icon: employeesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar personer" /> : undefined,
+          label: employeesByOrgIsLoading ? 'Personer' : `Personer (${employeesByOrg.length})`,
+          children: !employeesByOrgIsLoading && <PeopleInOrganization />,
+        },
+      ]
+    : []),
+    ...(user.permissions.canViewResponsibility ?
+      [
+        {
+          id: 'responsibilities',
+          icon: responsibilitiesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar ansvar" /> : undefined,
+          label:
+            responsibilitiesByOrgIsLoading ? 'Kopplade ansvar' : `Kopplade ansvar (${responsibilitiesByOrg.length})`,
+          children: !responsibilitiesByOrgIsLoading && <ResponsibilityInOrganization />,
+        },
+      ]
+    : []),
+    ...(user.permissions.canViewOperation ?
+      [
+        {
+          id: 'operations',
+          icon: operationsByOrgIsLoading ? <Loader size="md" aria-label="Hämtar verksamheter" /> : undefined,
+          label: operationsByOrgIsLoading ? 'Verksamheter' : `Verksamheter (${operationsByOrg.length})`,
+          children: !operationsByOrgIsLoading && <OperationInOrganization />,
+        },
+      ]
+    : []),
+  ];
 
   return (
     <Tabs
-      activeIndex={organizationTabIndex}
+      current={organizationTabIndex}
+      onTabChange={setOrganizationTabIndex}
       className="py-md mb-sm"
-      listClassName="mx-lg w-[calc(100%_-_4.8rem)] h-auto lg:h-[3rem]"
-      tabs={[
-        ...(user.permissions.canViewEmployees ?
-          [
-            {
-              id: 'employees',
-              icon: employeesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar personer" /> : undefined,
-              label: employeesByOrgIsLoading ? 'Personer' : `Personer (${employeesByOrg.length})`,
-              children: !employeesByOrgIsLoading && <PeopleInOrganization />,
-            },
-          ]
-        : []),
-        ...(user.permissions.canViewResponsibility ?
-          [
-            {
-              id: 'responsibilities',
-              icon: responsibilitiesByOrgIsLoading ? <Loader size="md" aria-label="Hämtar ansvar" /> : undefined,
-              label:
-                responsibilitiesByOrgIsLoading ? 'Kopplade ansvar' : (
-                  `Kopplade ansvar (${responsibilitiesByOrg.length})`
-                ),
-              children: !responsibilitiesByOrgIsLoading && <ResponsibilityInOrganization />,
-            },
-          ]
-        : []),
-        ...(user.permissions.canViewOperation ?
-          [
-            {
-              id: 'operations',
-              icon: operationsByOrgIsLoading ? <Loader size="md" aria-label="Hämtar verksamheter" /> : undefined,
-              label: operationsByOrgIsLoading ? 'Verksamheter' : `Verksamheter (${operationsByOrg.length})`,
-              children: !operationsByOrgIsLoading && <OperationInOrganization />,
-            },
-          ]
-        : []),
-      ]}
-      onTabClick={handleTabsOnClickCallback}
-    />
+      tabslistClassName="flex-wrap"
+    >
+      {tabs.map((tab) => (
+        <Tabs.Item key={tab.id}>
+          <Tabs.Button leftIcon={tab.icon} data-cy={`tab-${tab.id}`}>
+            {tab.label}
+          </Tabs.Button>
+          <Tabs.Content data-cy={`tab-panel-${tab.id}`}>{tab.children}</Tabs.Content>
+        </Tabs.Item>
+      ))}
+    </Tabs>
   );
 }

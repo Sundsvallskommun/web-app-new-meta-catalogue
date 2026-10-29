@@ -14,17 +14,19 @@ export default function OrganizationOrgChange() {
 
   return organization && organization?.id !== null ?
       <div className="relative">
-        <section className="bg-white">
+        <section className="bg-background-content border-1 border-divider rounded-cards">
           {!draftIsReadOnly && <ActionHeaderBranch organization={organization as DraftTreeOrganization} />}
-          <OrgNameEdit
-            newItem={organization.structureChangeStatus === 'NEW'}
-            organization={organization}
-            orgChangeOrg={organization}
-            orgTree={orgTree}
-            isEdit
-          />
-          <CompilationInfoInOrganization organization={organization} />
-          <OrgChangeTabs organization={organization} />
+          <div className="flex flex-col gap-32 p-24">
+            <OrgNameEdit
+              newItem={organization.structureChangeStatus === 'NEW'}
+              organization={organization}
+              orgChangeOrg={organization}
+              orgTree={orgTree}
+              isEdit
+            />
+            <CompilationInfoInOrganization organization={organization} />
+            <OrgChangeTabs organization={organization} />
+          </div>
         </section>
       </div>
     : <div className="relative">

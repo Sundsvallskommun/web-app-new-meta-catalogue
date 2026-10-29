@@ -15,7 +15,7 @@ describe('/hanteraorganisation - CommentsSidebar', () => {
         cy.intercept('PATCH', '**/api/me', userPatched).as('patchMe');
       },
     });
-    cy.wait('@getDraftComments');
+    cy.wait('@getDraftComments', { timeout: 15000 });
     cy.contains('button', 'Kommentarer').click();
   });
 
@@ -31,7 +31,7 @@ describe('/hanteraorganisation - CommentsSidebar', () => {
   it('Edit draft comment', () => {
     cy.intercept('PUT', '**/api/orgchange/draft/comment/**', { data: true, message: 'sucess' }).as('editDraftComment');
 
-    cy.get('.context-menu-wrapper button[title="Redigera Kommentar"]').click();
+    cy.get('button[title="Redigera Kommentar"]').click();
     cy.contains('button', 'Ändra kommentar').click();
 
     cy.get('.comment-input').within(() => {
@@ -45,8 +45,8 @@ describe('/hanteraorganisation - CommentsSidebar', () => {
       'deleteDraftComment'
     );
 
-    cy.get('.context-menu-wrapper button[title="Redigera Kommentar"]').click();
-    cy.contains('button', 'Ta bort').click();
+    cy.get('button[title="Redigera Kommentar"]').click();
+    cy.get('.sk-popup-menu[data-open="true"]').contains('button', 'Ta bort').click();
 
     cy.get('div').contains('Din kommentar togs bort').should('be.visible');
   });

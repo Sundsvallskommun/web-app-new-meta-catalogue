@@ -1,5 +1,5 @@
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { SearchBar } from '@sk-web-gui/react';
+import { SearchField } from '@sk-web-gui/react';
 import React, { useRef } from 'react';
 
 export const GlobalSearch: React.FC = () => {
@@ -23,9 +23,10 @@ export const GlobalSearch: React.FC = () => {
   };
 
   return (
-    <div ref={refGlobalSearch} className="GlobalSearch relative ml-auto w-full max-w-[460px] flex items-center">
+    <div ref={refGlobalSearch} className="GlobalSearch relative w-full lg:ml-auto lg:max-w-[460px] flex items-center">
       <div ref={refSearchbarWrapper} className="w-full">
-        <SearchBar
+        <SearchField
+          size="md"
           ref={refSearchBar}
           rounded
           data-cy="search"
@@ -34,7 +35,7 @@ export const GlobalSearch: React.FC = () => {
           value={searchTerm}
           onChange={onChange}
           onSearch={handleOnSearch}
-          onClose={handleClose}
+          onReset={handleClose}
         />
       </div>
     </div>

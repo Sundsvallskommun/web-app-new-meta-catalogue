@@ -1,7 +1,7 @@
 import { SearchItem } from '@components/GlobalSearch/SearchItem.component';
 import { objectType } from '@services/mdviewer/data-handlers/search';
 import { useSearchStore } from '@services/mdviewer/search-service';
-import { Checkbox, Pagination } from '@sk-web-gui/react';
+import { Checkbox, Pagination, Spinner } from '@sk-web-gui/react';
 import { useWindowSize } from '@utils/use-window-size.hook';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -28,11 +28,11 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
     setActivePage(page);
   };
 
-  const handleOnCategoryFilterChange = (categoryType: string) => (e: React.BaseSyntheticEvent) => {
-    setFilterCategories((categories) => {
-      categories[categoryType] = Object.assign(categories[categoryType], { value: e.target.checked });
-      return Object.assign({}, categories);
-    });
+  const handleOnCategoryFilterChange = (categoryType: string) => () => {
+    setFilterCategories((categories) => ({
+      ...categories,
+      [categoryType]: { ...categories[categoryType], value: !categories[categoryType].value },
+    }));
     setActivePage(1);
   };
 
@@ -52,9 +52,8 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
         .valueOf();
       const newCategories: Category = {};
       groupedFilters.forEach((filter) => {
-        newCategories[filter.type] = categories[filter.type]
-          ? Object.assign(categories[filter.type], { count: filter.count })
-          : filter;
+        newCategories[filter.type] =
+          categories[filter.type] ? Object.assign(categories[filter.type], { count: filter.count }) : filter;
       });
       return newCategories;
     });
@@ -70,61 +69,63 @@ const SearchResults = React.forwardRef<HTMLDivElement, IModalProps>(({ className
   return (
     <div>
       <div className={`${className} h-full inline-block w-full transition-all transform `}>
-        <div ref={ref} className="mx-auto max-w-[818px] mt-20">
-          <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-[#ECECEC]`}>
-            <h2 data-cy="search-results-query" className={`grow text-2xl text-left`}>
+        <section
+          ref={ref}
+          className="mx-auto max-w-[818px] mt-50 p-24 bg-background-content border-1 border-divider rounded-cards"
+        >
+          <div className={`flex justify-between w-full mb-sm p-sm border-b-2 border-divider`}>
+            <h2 data-cy="search-results-query" className={`grow text-h4 text-left`}>
               Sökord: {searchTerm}
             </h2>
           </div>
-          {!searchResultsIsLoading ? (
+          {!searchResultsIsLoading ?
             <div>
-              <span className="lg:flex">
-                <h3 data-cy="search-results-amount" className="min-w-max text-lg px-sm">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-x-24 gap-y-8 px-sm mb-16">
+                <p data-cy="search-results-amount" className="min-w-max">
                   {`${
-                    shownResults.length !== searchResults.length
-                      ? `(${shownResults.length} av ${searchResults.length})`
-                      : `${searchResults.length}`
+                    shownResults.length !== searchResults.length ?
+                      `(${shownResults.length} av ${searchResults.length})`
+                    : `${searchResults.length}`
                   }`}{' '}
-                  sökresultat:
-                </h3>
-                <div className="ml-md flex flex-col lg:flex-row lg:inline-flex lg:flex-wrap">
+                  sökresultat
+                </p>
+                <div className="flex flex-wrap items-center gap-x-24 gap-y-8">
                   {Object.keys(filterCategories).map((categoryType) => (
                     <Checkbox
                       key={categoryType}
+                      size="sm"
                       checked={filterCategories[categoryType].value}
                       onChange={handleOnCategoryFilterChange(categoryType)}
                     >
-                      <span className="mr-lg">{`${objectType(categoryType).text} (${
-                        filterCategories[categoryType].count
-                      })`}</span>
+                      {`${objectType(categoryType).text} (${filterCategories[categoryType].count})`}
                     </Checkbox>
                   ))}
                 </div>
-              </span>
-              {shownResults.length > 0 ? (
+              </div>
+              {shownResults.length > 0 ?
                 <div>
                   {shownResults.slice(startIndex, endIndex).map((result, i) => (
                     <SearchItem key={`${result.id}-${i}`} item={result} />
                   ))}
                   {Math.ceil(shownResults.length / pageSize) > 1 && (
-                    <Pagination
-                      pagesBefore={!windowSize.lg ? 0 : undefined}
-                      pagesAfter={!windowSize.lg ? 0 : undefined}
-                      className="mt-lg text-lg"
-                      pages={Math.ceil(shownResults.length / pageSize)}
-                      activePage={activePage}
-                      changePage={handlePageChange}
-                    />
+                    <div className="flex justify-center mt-lg">
+                      <Pagination
+                        pagesBefore={!windowSize.lg ? 0 : undefined}
+                        pagesAfter={!windowSize.lg ? 0 : undefined}
+                        pages={Math.ceil(shownResults.length / pageSize)}
+                        activePage={activePage}
+                        changePage={handlePageChange}
+                      />
+                    </div>
                   )}
                 </div>
-              ) : (
-                <div className="px-sm">Inga sökresultat</div>
-              )}
+              : <div className="px-sm">Inga sökresultat</div>}
             </div>
-          ) : (
-            <div className="px-sm">Laddar..</div>
-          )}
-        </div>
+          : <div className="flex justify-center pt-lg">
+              <Spinner size={3} aria-label="Laddar sökresultat" />
+            </div>
+          }
+        </section>
       </div>
     </div>
   );

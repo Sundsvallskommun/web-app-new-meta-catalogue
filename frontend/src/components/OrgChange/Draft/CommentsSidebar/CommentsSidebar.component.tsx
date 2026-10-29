@@ -1,7 +1,8 @@
 import { PostDraftCommentDto } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Comments, Modal, useMessage } from '@sk-web-gui/react';
+import { CommentData, Comments } from '@components/Comments/Comments.component';
+import { Modal, useSnackbar } from '@sk-web-gui/react';
 import { useEffect, useState } from 'react';
 
 interface ICommentsSidebar {
@@ -21,9 +22,9 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
 
   const patchMe = useUserStore((s) => s.patchMe);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
-  const [sidebarComments, setSidebarComments] = useState([]);
+  const [sidebarComments, setSidebarComments] = useState<CommentData[]>([]);
 
   useEffect(() => {
     const commentArr = [];
@@ -81,9 +82,9 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
   };
 
   //PUT draftComment
-  const editComment = (comment: string, id: string) => {
+  const editComment = async (comment: string, id: string) => {
     if (comment && id) {
-      editDraftComment(id, comment).then((res) => {
+      return editDraftComment(id, comment).then((res) => {
         if (!res.error) {
           setInput('');
           message({
@@ -96,8 +97,10 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
             status: 'error',
           });
         }
+        return !res.error;
       });
     }
+    return false;
   };
 
   //DELETE draftComment
@@ -121,13 +124,12 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
 
   return (
     <Modal
-      hideLabel
       label="Kommentarer"
-      className="max-w-[500px] mt-0 mb-[-24px] absolute right-0 h-screen overflow-hidden"
+      className="w-[calc(100%-32px)] max-w-[600px] my-16"
       show={commentsSidebarOpen}
       onClose={onClose}
     >
-      <div className="Comments-sidebar">
+      <div className="flex flex-col max-h-[50vh]">
         <Comments
           currentUserName={user.username}
           commentsData={sidebarComments}

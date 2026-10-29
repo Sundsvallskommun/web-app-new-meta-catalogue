@@ -1,3 +1,4 @@
+import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import CsvExporter from '@components/CsvExporter/CsvExporter.component';
 import { useAppContext } from '@contexts/app.context';
 import { OrganizationResponsibility } from '@data-contracts/backend/data-contracts';
@@ -7,13 +8,12 @@ import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organiz
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, Tag } from '@sk-web-gui/react';
-import { ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/table';
+import { Button, Label } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IResponsibilityinOrganizationListProps {
   searchQuery;
@@ -31,6 +31,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   // responsibilitystore
   const responsibilitiesByOrg = useResponsibilityStore((s) => s.responsibilitiesByOrg);
   const orgResponsibilityFilter = useResponsibilityStore((s) => s.orgResponsibilityFilter);
+  const setOrgResponsibilityFilter = useResponsibilityStore((s) => s.setOrgResponsibilityFilter);
 
   // userstore
   const user = useUserStore((s) => s.user);
@@ -48,11 +49,9 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     tableRef
   );
 
-  const windowSize = useWindowSize();
-
   //table header
-  const headers: ZebraTableHeader[] = orgResponsibilityHeaders.map((header) => ({
-    element: <span className="font-bold">{header.label}</span>,
+  const headers: DataTableHeader[] = orgResponsibilityHeaders.map((header) => ({
+    element: header.label,
     screenReaderOnly: header.screenReaderOnly,
     isColumnSortable: header.isColumnSortable,
     isShown: orgResponsibilityFilter.find((f) => f.id === header.filterId).value,
@@ -77,8 +76,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
               return columnSort(responsibilityA.responsibilityText, responsibilityB.responsibilityText, asc);
             case 1:
               return columnSort(
-                responsibilityType(responsibilityA.orgResponsibilityId).text,
-                responsibilityType(responsibilityB.orgResponsibilityId).text,
+                responsibilityType(responsibilityA.typeOfResponsibility).text,
+                responsibilityType(responsibilityB.typeOfResponsibility).text,
                 asc
               );
             case 2:
@@ -111,61 +110,34 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
   const pages = Math.ceil(responsibilityListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = responsibilityListRendered.map((r) => {
+  const rows: DataTableColumn[][] = responsibilityListRendered.map((r) => {
     const from = new Date(r.responsibilityValidFrom.toString()).toLocaleDateString('sv-SE');
-    const { bg: typeBg, text: typeText, border: border } = responsibilityType(r.typeOfResponsibility);
+    const { text: typeText, color: typeColor } = responsibilityType(r.typeOfResponsibility);
 
     return [
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Titel: </span>
-            <span className="lg:min-h-[48px] lg:flex items-center">
-              {r.orgId && !organization.isLeafLevel ? (
-                <Button
-                  variant="link"
-                  className="text-body text-left"
-                  onClick={() => handleShowInOrg(r.orgId, r.orgResponsibilityId)}
-                >
-                  {r.responsibilityText}
-                </Button>
-              ) : (
-                <span>{r.responsibilityText}</span>
-              )}
-            </span>
-          </Fragment>
-        ),
+        element:
+          r.orgId && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrg(r.orgId, r.orgResponsibilityId)}>
+              {r.responsibilityText}
+            </Button>
+          : r.responsibilityText,
         isShown: orgResponsibilityFilter.find((i) => i.id === 0).value,
       },
       {
         element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarstyp: </span>
-            <span>
-              <Tag variant="solid" className={`text-body ${typeBg} ${border}`}>
-                {typeText}
-              </Tag>
-            </span>
-          </Fragment>
+          <Label color={typeColor} rounded inverted className="whitespace-nowrap">
+            {typeText}
+          </Label>
         ),
         isShown: orgResponsibilityFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Ansvarskod: </span>
-            <span>{r.responsibilityCode}</span>
-          </Fragment>
-        ),
+        element: r.responsibilityCode,
         isShown: orgResponsibilityFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <span className="inline font-bold lg:hidden">Giltig från: </span>
-            <span>{from}</span>
-          </Fragment>
-        ),
+        element: from,
         isShown: orgResponsibilityFilter.find((i) => i.id === 3).value,
       },
     ];
@@ -200,12 +172,20 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
     orgFromName: r.orgFromName,
   }));
   return (
-    <div className="bg-white px-0 pb-16 pt-10">
-      <div className="lg:flex lg:justify-between mx-8 px-2 border-b-2 border-grey">
+    <div className="bg-background-content px-0 pb-40 pt-28">
+      <div className="flex mb-24">
+        <ColumnFilter
+          label="Visa/dölj kolumner i ansvar"
+          filterData={orgResponsibilityFilter}
+          onFilterChange={setOrgResponsibilityFilter}
+        />
+      </div>
+      <div className="flex flex-wrap justify-between items-center gap-16 min-h-32 mb-16">
         <h2
           id="org-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
-          className="table-header text-xl"
+          className="text-lead"
+          data-cy="table-header"
         >
           Kopplade ansvar &#40;{responsibilityListSearchFiltered.length}&#41;
         </h2>
@@ -219,14 +199,16 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           />
         )}
       </div>
-      {rows.length > 0 ? (
-        <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+      {rows.length > 0 ?
+        <div>
+          <DataTable
             ref={tableRef}
             highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            changePage={(page) => setPage(page)}
-            pages={0}
+            pages={pages}
+            page={page}
+            changePage={setPage}
+            onPageClick={() => setHighlightedTableRow({})}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -236,23 +218,8 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      ) : (
-        <div className="mt-sm mx-8 px-2">Inga ansvar att visa.</div>
-      )}
+      : <div className="mt-sm">Inga ansvar att visa.</div>}
     </div>
   );
 };

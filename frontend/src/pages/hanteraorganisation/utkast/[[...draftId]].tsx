@@ -1,4 +1,3 @@
-import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage.component';
 import LoaderFullScreen from '@components/Loader/LoaderFullScreen.component';
 import LoaderFullScreenModal from '@components/Loader/LoaderFullScreenModal.component';
 import ActionBottomDraft from '@components/OrgChange/Draft/ActionBottomDraft.component';
@@ -12,10 +11,10 @@ import DefaultLayout from '@layouts/DefaultLayout/DefaultLayout.component';
 import { Sidebar } from '@layouts/Sidebar/Sidebar.component';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { cx } from '@sk-web-gui/react';
+import { Alert, cx } from '@sk-web-gui/react';
+import { X } from 'lucide-react';
 import { shouldEditEmployees } from '@utils/shouldeditemployees';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import { useWindowSize } from '@utils/use-window-size.hook';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
@@ -33,7 +32,6 @@ export const Index: React.FC = () => {
   const [showEmployeeFocus, setShowEmployeeFocus] = useState(false);
   const employeesByOrg = useOrgChangeStore((s) => s.employeesByOrg);
   const { showFocus, mustEdit } = shouldEditEmployees();
-  const windowSize = useWindowSize();
 
   useEffect(() => {
     const loadDraft = async () => {
@@ -81,49 +79,54 @@ export const Index: React.FC = () => {
         <div
           className={cx(
             'DraftSection container relative flex flex-col grow',
-            lockedView && windowSize.lg && 'max-h-[50vh]',
             showEmployeeFocus ? 'space-y-md' : 'space-y-lg'
           )}
         >
-          <div className="relative lg:flex lg:space-x-lg">
+          <div className="flex flex-wrap items-start justify-between gap-md">
             <HeadInput />
             {!lockedView && (
-              <div className="flex-grow lg:flex lg:flex-col lg:justify-between mt-lg lg:mt-0 space-y-lg lg:space-y-0">
-                <div
-                  className={`lg:flex ${
-                    draft.draftId !== null && !draftIsReadOnly ? 'lg:justify-between' : 'lg:justify-end'
-                  } lg:min-h-[44px] `}
-                >
-                  {draft.draftId !== null && !draftIsReadOnly && <SavedChanges />}
-                  <ActionHeaderDraft />
-                </div>
-                <div>
-                  <Progressbar />
-                </div>
+              <div className="flex flex-wrap items-center gap-12">
+                {draft.draftId !== null && !draftIsReadOnly && <SavedChanges />}
+                <ActionHeaderDraft />
               </div>
             )}
           </div>
+          {draft.isArchived && !lockedView && <Progressbar />}
           {lockedView && (
-            <div className="w-full grow flex justify-center items-center">
-              <p className="text-md p-8 pt-[5rem] w-2xl text-gray-500 font-bold m-0">
-                Visningsläget är låst. Dölj exportinformationen för att visa utkastet
-              </p>
-            </div>
+            <Alert type="info">
+              <Alert.Icon />
+              <Alert.Content>
+                <Alert.Content.Description>
+                  Visningsläget är låst medan exportinformationen visas. Dölj exportinformationen för att visa utkastet.
+                </Alert.Content.Description>
+              </Alert.Content>
+            </Alert>
           )}
           {showEmployeeFocus && (
-            <>
-              {mustEdit ?
-                <FeedbackMessage severity="error" background removeCallback={() => setShowEmployeeFocus(false)}>
-                  {`PA-Team eller Verksamhet måste ändras för flyttade personer under Persondetaljer i Personerlistan.`}
-                </FeedbackMessage>
-              : <FeedbackMessage severity="info" background removeCallback={() => setShowEmployeeFocus(false)}>
-                  {`PA-Team & Verksamhet kan ändras för flyttade personer under Persondetaljer i Personerlistan.`}
-                </FeedbackMessage>
-              }
-            </>
+            <Alert type={mustEdit ? 'error' : 'info'}>
+              <Alert.Icon />
+              <Alert.Content>
+                <Alert.Content.Description id="employee-focus-message">
+                  {mustEdit ?
+                    'PA-Team eller Verksamhet måste ändras för flyttade personer under Persondetaljer i Personerlistan.'
+                  : 'PA-Team & Verksamhet kan ändras för flyttade personer under Persondetaljer i Personerlistan.'}
+                </Alert.Content.Description>
+              </Alert.Content>
+              <Alert.Button
+                iconButton
+                aria-label="Dölj meddelande tills sidomladdning"
+                aria-controls="employee-focus-message"
+                onClick={() => setShowEmployeeFocus(false)}
+              >
+                <X />
+              </Alert.Button>
+            </Alert>
           )}
           {!draft.isArchived && !lockedView && (
             <Sidebar aside={<SidebarOrgChange mainRef={mainRef} />} ref={mainRef}>
+              <div className="mb-32">
+                <Progressbar />
+              </div>
               {draft.draftId !== null && <OrganizationOrgChange />}
             </Sidebar>
           )}

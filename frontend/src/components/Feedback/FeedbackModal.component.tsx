@@ -1,15 +1,20 @@
-import { Dialog, Transition } from '@headlessui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, FormControl, FormErrorMessage, FormLabel, Textarea, useMessage } from '@sk-web-gui/react';
-import { Select } from '@sk-web-gui/forms';
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Modal,
+  Textarea,
+  useSnackbar,
+  Select,
+} from '@sk-web-gui/react';
 import WarnIfUnsavedChanges from '@utils/warnIfUnsavedChanges';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import isEqual from 'lodash/isEqual';
-import CloseIcon from '@mui/icons-material/Close';
 import { feedbackSelectTypes, sendFeedback } from '@services/feedback-service';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
 import { FeedbackDto } from '@data-contracts/backend/data-contracts';
 
 const formSchema = yup
@@ -25,10 +30,9 @@ export const FeedbackModal: React.FC<{
   closeModal: () => void;
   formData?: FeedbackDto;
 }> = ({ isOpen = false, closeModal, formData = { body: '', type: '', typeLabel: '' } }) => {
-  const initialFocus = useRef(null);
   const [submitError, setSubmitError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const message = useMessage();
+  const message = useSnackbar();
 
   const {
     control,
@@ -100,138 +104,81 @@ export const FeedbackModal: React.FC<{
   const selectTypeValue = feedbackSelectTypes.find((x) => x.type == watch().type);
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        open={isOpen}
-        as="div"
-        className="fixed inset-0 z-20 overflow-y-auto bg-opacity-50 bg-gray-500"
-        onClose={handleOnClose}
-      >
-        <div className="min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+    <Modal
+      show={isOpen}
+      label="Rapportera fel"
+      onClose={handleOnClose}
+      className="w-[calc(100%-32px)] max-w-screen-md my-16"
+    >
+      <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
+        <form id="feedback-modal-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
+          <FormControl id="type" className="w-full">
+            <FormLabel>Typ av fel</FormLabel>
+            <Select
+              placeholder="Välj typ"
+              className="w-full"
+              onChange={handleOnSelectTypeChange}
+              defaultValue={selectTypeValue?.type ? selectTypeValue.label : feedbackSelectTypes[0].label}
+            >
+              {feedbackSelectTypes.map((c) => (
+                <Select.Option data-cy="nav-li" key={`${c.label}`} value={c.label}>
+                  {c.label}
+                </Select.Option>
+              ))}
+            </Select>
+            {errors.type && <FormErrorMessage key={`type-errors`}>{errors.type?.message}</FormErrorMessage>}
+          </FormControl>
+          <FormControl id="body" className="w-full">
+            <FormLabel>Detaljbeskrivning</FormLabel>
+            <Controller
+              control={control}
+              name="body"
+              render={({ field: { onChange, value, ref } }) => (
+                <Textarea
+                  data-cy="nav-textArea"
+                  className="w-full"
+                  showCount={true}
+                  maxLength={4000}
+                  maxLengthWarningText="Max-antalet tecken är 4000"
+                  placeholder="Beskrivning"
+                  rows={6}
+                  onChange={onChange} // send value to hook form
+                  value={value}
+                  ref={ref}
+                />
+              )}
+            />
+            {errors.body && <FormErrorMessage key={`body-errors`}>{errors.body?.message}</FormErrorMessage>}
+          </FormControl>
+          {submitError && (
+            <FormErrorMessage key={`formData-errors`}>Det gick inte att skicka meddelandet</FormErrorMessage>
+          )}
+        </form>
+        <Modal.Footer>
+          <Button
+            data-cy="nav-button-avbryt"
+            onClick={handleOnClose}
+            type="button"
+            variant="secondary"
+            className="flex-1"
           >
-            <Dialog.Overlay className="fixed inset-0" />
-          </Transition.Child>
-
-          {/* This element is to trick the browser into centering the modal contents. */}
-          <span className="inline-block h-screen align-middle" aria-hidden="true">
-            &#8203;
-          </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            Avbryt
+          </Button>
+          <Button
+            data-cy="nav-button-rapportera"
+            type="submit"
+            form="feedback-modal-form"
+            variant="primary"
+            color="primary"
+            className="flex-1"
+            disabled={!formState.isDirty}
+            loading={isLoading}
+            loadingText="Skickar"
           >
-            <div className="inline-block w-full max-w-screen-md px-md py-lg sm:px-16 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded">
-              <div className="flex flex-between w-full mb-lg">
-                <Dialog.Title as="h4" className={`grow text-xl`}>
-                  Rapportera fel
-                </Dialog.Title>
-                <button
-                  className="p-4 -m-4"
-                  aria-label="Stäng feedback"
-                  ref={initialFocus}
-                  onClick={() => handleOnClose()}
-                >
-                  <CloseIcon className="material-icon" />
-                </button>
-              </div>
-
-              <WarnIfUnsavedChanges showWarning={!isEqual(formState.defaultValues, getValues())}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div>
-                    <fieldset>
-                      <FormLabel>
-                        <strong>Typ av fel</strong>
-                      </FormLabel>
-                      <Select
-                        placeholder="Välj typ"
-                        className="w-full mt-[6px]"
-                        onChange={handleOnSelectTypeChange}
-                        defaultValue={selectTypeValue?.type ? selectTypeValue.label : feedbackSelectTypes[0].label}
-                      >
-                        {feedbackSelectTypes.map((c) => (
-                          <Select.Option data-cy="nav-li" key={`${c.label}`} value={c.label}>
-                            {c.label}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </fieldset>
-                    {errors.type && <FormErrorMessage key={`type-errors`}>{errors.type?.message}</FormErrorMessage>}
-                  </div>
-                  <div className="flex my-md">
-                    <FormControl id="body">
-                      <FormLabel>
-                        <strong>Detaljbeskrivning</strong>
-                      </FormLabel>
-                      <Controller
-                        control={control}
-                        name="body"
-                        render={({ field: { onChange, value, ref } }) => (
-                          <Textarea
-                            data-cy="nav-textArea"
-                            showCount={true}
-                            maxLength={4000}
-                            maxLengthWarningText="Max-antalet tecken är 4000"
-                            placeholder="Beskrivning..."
-                            rows={6}
-                            onChange={onChange} // send value to hook form
-                            value={value}
-                            ref={ref}
-                          />
-                        )}
-                      />
-                      {errors.body && <FormErrorMessage key={`body-errors`}>{errors.body?.message}</FormErrorMessage>}
-                    </FormControl>
-                  </div>
-
-                  {submitError && (
-                    <div className="flex my-md">
-                      <FormErrorMessage key={`formData-errors`}>Det gick inte att skicka meddelandet</FormErrorMessage>
-                    </div>
-                  )}
-                  <LeadButtons className="pb-md">
-                    <Button
-                      data-cy="nav-button-avbryt"
-                      onClick={handleOnClose}
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      className="w-full"
-                    >
-                      Avbryt
-                    </Button>
-                    <Button
-                      data-cy="nav-button-rapportera"
-                      type="submit"
-                      variant="solid"
-                      size="lg"
-                      color="primary"
-                      className="w-full"
-                      disabled={!formState.isDirty}
-                      loading={isLoading}
-                      loadingText="Skickar"
-                    >
-                      Rapportera
-                    </Button>
-                  </LeadButtons>
-                </form>
-              </WarnIfUnsavedChanges>
-            </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition>
+            Rapportera
+          </Button>
+        </Modal.Footer>
+      </WarnIfUnsavedChanges>
+    </Modal>
   );
 };

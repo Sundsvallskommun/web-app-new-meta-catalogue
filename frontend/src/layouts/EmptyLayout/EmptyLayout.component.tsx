@@ -7,7 +7,7 @@ export default function EmptyLayout({ title, children }) {
         <title>{title}</title>
       </Head>
 
-      <div className="bg-gray-lighter min-h-screen">{children}</div>
+      <div className="bg-background-200 min-h-screen">{children}</div>
     </div>
   );
 }

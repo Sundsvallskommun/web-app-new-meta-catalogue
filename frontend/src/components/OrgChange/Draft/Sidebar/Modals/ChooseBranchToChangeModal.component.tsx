@@ -2,8 +2,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Organization, OrgnodeAddDto } from '@data-contracts/backend/data-contracts';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Combobox } from '@sk-web-gui/forms';
-import { Button, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormLabel, Modal, useSnackbar, Combobox } from '@sk-web-gui/react';
 import { useState } from 'react';
 
 export default function ChooseBranchToChangeModal(props) {
@@ -15,7 +14,7 @@ export default function ChooseBranchToChangeModal(props) {
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
   const [activeOrganization, setActiveOrganization] = useState<{ label: string; data: Organization } | undefined>();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onOrganizationSelectHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const val = e.target.value;
@@ -53,60 +52,63 @@ export default function ChooseBranchToChangeModal(props) {
   };
 
   return (
-    <Modal labelAs="h2" className="max-w-[800px]" show={true} onClose={onClose} label={'Välj gren att ändra'}>
-      <div>
-        <div className="pb-md">
-          <span>Bolag: {draft && draft.companyName}</span>
-        </div>
-
-        <FormLabel id="choosebranch">
-          <strong>Gren</strong>
-        </FormLabel>
-        <Combobox
-          data-cy="orgchange-choosebranch-searchnode"
-          className="w-full"
-          id="orgchange-choosebranch-searchnode"
-          aria-labelledby="choosebranch"
-          placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod..."
-          onChange={onOrganizationSelectHandler}
-          value={activeOrganization?.data?.id?.toString() ?? undefined}
-          defaultValue={activeOrganization?.data?.id?.toString() ?? undefined}
-        >
-          <Combobox.List>
-            {companyOrganizations.map((item, index) => (
-              <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                {`${item.label.trim()} ${
-                  item.concatAbbreviation || item.abbreviation ?
-                    `(${item.concatAbbreviation ? `${item.concatAbbreviation}` : ''}${
-                      item.abbreviation ?
-                        item.concatAbbreviation ?
-                          ` ${item.abbreviation}`
-                        : `${item.abbreviation}`
-                      : ''
-                    })`
-                  : ''
-                } - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`} `}
-              </Combobox.Option>
-            ))}
-          </Combobox.List>
-        </Combobox>
-        <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-          <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
-            Avbryt
-          </Button>
-          <Button
-            variant="solid"
-            onClick={onChooseOrganization}
-            size="lg"
-            color="primary"
-            className="my-sm sm:my-6 w-full"
-            loadingText="Sparar"
-            type="button"
+    <Modal
+      className="w-[calc(100%-32px)] max-w-[800px] my-16"
+      show={true}
+      onClose={onClose}
+      label={'Välj gren att ändra'}
+    >
+      <div className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">Bolag: {draft?.companyName}</p>
+        <FormControl id="orgchange-choosebranch-searchnode" className="w-full">
+          <FormLabel>Gren</FormLabel>
+          <Combobox
+            className="w-full"
+            id="orgchange-choosebranch-searchnode"
+            onChange={onOrganizationSelectHandler}
+            value={activeOrganization?.data?.id?.toString() ?? undefined}
+            defaultValue={activeOrganization?.data?.id?.toString() ?? undefined}
           >
-            Spara
-          </Button>
-        </div>
+            <Combobox.Input
+              data-cy="orgchange-choosebranch-searchnode"
+              className="w-full"
+              placeholder="Sök och välj gren med namn, förkortning, tillhörande ansvarskod"
+            />
+            <Combobox.List>
+              {companyOrganizations.map((item, index) => (
+                <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
+                  {`${item.label.trim()} ${
+                    item.concatAbbreviation || item.abbreviation ?
+                      `(${item.concatAbbreviation ? `${item.concatAbbreviation}` : ''}${
+                        item.abbreviation ?
+                          item.concatAbbreviation ?
+                            ` ${item.abbreviation}`
+                          : `${item.abbreviation}`
+                        : ''
+                      })`
+                    : ''
+                  } - ${item.level === 2 ? 'Förvaltning' : `Nivå ${item.level}`} `}
+                </Combobox.Option>
+              ))}
+            </Combobox.List>
+          </Combobox>
+        </FormControl>
       </div>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="flex-1"
+          variant="primary"
+          onClick={onChooseOrganization}
+          color="primary"
+          loadingText="Sparar"
+          type="button"
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
