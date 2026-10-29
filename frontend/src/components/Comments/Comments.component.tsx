@@ -14,7 +14,8 @@ interface CommentsProps {
   currentUserName: string;
   commentsData: CommentData[];
   onSubmitCallback: (comment: string) => void;
-  onEditCallback: (comment: string, id: string) => void;
+  /** Resolves to true when the edit was saved */
+  onEditCallback: (comment: string, id: string) => Promise<boolean>;
   onDeleteCallback: (id: string) => void;
   inputValue: string;
   setInputValue: (value: string) => void;
@@ -46,14 +47,14 @@ export const Comments = ({
     setInputValue(comment.commentText);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (editId) {
-      onEditCallback(inputValue, editId);
-      setEditId(undefined);
+      if (await onEditCallback(inputValue, editId)) {
+        setEditId(undefined);
+      }
     } else {
       onSubmitCallback(inputValue);
     }
-    setInputValue('');
     inputRef.current?.focus();
   };
 

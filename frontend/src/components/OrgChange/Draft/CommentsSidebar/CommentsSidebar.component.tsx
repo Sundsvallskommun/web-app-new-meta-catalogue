@@ -82,9 +82,9 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
   };
 
   //PUT draftComment
-  const editComment = (comment: string, id: string) => {
+  const editComment = async (comment: string, id: string) => {
     if (comment && id) {
-      editDraftComment(id, comment).then((res) => {
+      return editDraftComment(id, comment).then((res) => {
         if (!res.error) {
           setInput('');
           message({
@@ -97,8 +97,10 @@ export default function CommentsSidebar(props: ICommentsSidebar) {
             status: 'error',
           });
         }
+        return !res.error;
       });
     }
+    return false;
   };
 
   //DELETE draftComment
