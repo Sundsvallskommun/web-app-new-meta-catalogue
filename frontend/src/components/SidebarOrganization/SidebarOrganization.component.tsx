@@ -20,6 +20,8 @@ const SidebarOrganization = ({ mainRef }) => {
   });
 
   const onMenuChangeHandler = (menuIndex: MenuIndex) => {
+    // MenuVertical.Item calls setCurrent again once it becomes current, which would fetch the same branch twice
+    if (Number(menuIndex) === selectedOrganizationId) return;
     setSelectedOrganizationId(Number(menuIndex));
   };
 
