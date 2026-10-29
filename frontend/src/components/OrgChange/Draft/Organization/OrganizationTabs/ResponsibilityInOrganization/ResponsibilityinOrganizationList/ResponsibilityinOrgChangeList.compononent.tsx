@@ -64,7 +64,7 @@ export const ResponsibilityinOrgChangeList = (props: IResponsibilityinOrgChangeL
 
   //table header
   const headers: DataTableHeader[] = orgChangeResponsibilityHeaders
-    .filter((x) => (x.filterId == 7 ? user.permissions.canEditResponsibility : true))
+    .filter((x) => (x.filterId == 7 ? user.permissions.canEditResponsibility && !draftIsReadOnly : true))
     .map((header) => ({
       element: header.label,
       screenReaderOnly: header.screenReaderOnly,
