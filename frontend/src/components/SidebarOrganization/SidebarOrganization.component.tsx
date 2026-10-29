@@ -99,11 +99,13 @@ const SidebarOrganization = ({ mainRef }) => {
 
   return (
     <aside
-      className="SidebarOrganization flex flex-col relative overflow-hidden bg-background-content border-1 border-divider rounded-cards"
+      className="SidebarOrganization flex flex-col relative overflow-visible bg-background-content border-1 border-divider rounded-cards"
       style={{ maxHeight: sidebarHeight ? sidebarHeight + 'px' : undefined }}
     >
-      <div ref={asideRef} className="relative min-h-0 overflow-y-auto pt-24">
+      <div className="pt-24">
         <SideMenuHeadElement />
+      </div>
+      <div ref={asideRef} className="relative min-h-0 overflow-y-auto rounded-b-cards">
         <MenuVertical.Provider
           current={selectedOrganizationId}
           setCurrent={onMenuChangeHandler}
