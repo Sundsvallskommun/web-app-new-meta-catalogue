@@ -118,7 +118,7 @@ export default function SideMenuHeadElement() {
           </FormControl>
         </div>
       </form>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pb-20">
         <h2 className="text-h4">Organisation</h2>
         <div className="relative">
           <PopupMenu type="dialog" align="end" open={filterOpen} onToggleOpen={setFilterOpen}>
