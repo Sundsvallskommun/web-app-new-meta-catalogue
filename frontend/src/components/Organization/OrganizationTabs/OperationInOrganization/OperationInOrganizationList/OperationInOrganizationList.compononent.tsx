@@ -122,7 +122,7 @@ export const OperationInOrgChangeList = (props: IOperationInOrganizationListProp
       <h2
         id="org-tabs-operations-table-rowsstext"
         aria-label={`${operationListSearchFiltered.length} verksamheter i listan`}
-        className="text-lead mb-16"
+        className="flex items-center min-h-32 text-lead mb-16"
         data-cy="table-header"
       >
         Verksamheter &#40;{operationListSearchFiltered.length}&#41;

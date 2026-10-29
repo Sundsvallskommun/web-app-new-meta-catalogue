@@ -227,7 +227,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
       <h2
         id="org-tabs-people-table-rowsstext"
         aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-        className="text-lead mb-16"
+        className="flex items-center min-h-32 text-lead mb-16"
         data-cy="table-header"
       >
         Personer &#40;{employeeListSearchFiltered.length}&#41;

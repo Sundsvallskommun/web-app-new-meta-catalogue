@@ -332,7 +332,7 @@ export const PeopleInOrgChangeList = (props: IPeopleInOrgChange) => {
 
   return (
     <div className="w-full bg-background-content px-0 pb-40 pt-24">
-      <div className="flex flex-wrap items-center justify-between gap-md mb-16">
+      <div className="flex flex-wrap items-center justify-between gap-md min-h-32 mb-16">
         <h2
           id="orgchange-tabs-people-table-rowsstext"
           aria-label={`${employeeListSearchFiltered.length} personer i listan`}

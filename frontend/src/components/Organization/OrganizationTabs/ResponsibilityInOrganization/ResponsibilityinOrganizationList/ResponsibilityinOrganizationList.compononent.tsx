@@ -180,7 +180,7 @@ export const ResponsibilityinOrganizationList = (props: IResponsibilityinOrganiz
           onFilterChange={setOrgResponsibilityFilter}
         />
       </div>
-      <div className="flex flex-wrap justify-between items-center gap-16 mb-16">
+      <div className="flex flex-wrap justify-between items-center gap-16 min-h-32 mb-16">
         <h2
           id="org-tabs-responsibilities-table-rowsstext"
           aria-label={`${responsibilityListSearchFiltered.length} ansvar i listan`}
