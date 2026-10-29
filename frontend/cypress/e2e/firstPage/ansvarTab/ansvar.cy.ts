@@ -38,14 +38,14 @@ describe('/ansvar', () => {
   });
 
   it('Click on the "Rapportera fel" button', () => {
-    cy.contains('button:visible', 'Rapportera fel').click();
+    cy.contains('a:visible', 'Rapportera fel').click();
 
     // Check the close button
     cy.get('button[aria-label="Stäng Rapportera fel"]').click();
     cy.get('[aria-modal="true"]').should('not.exist');
 
     // Open the modal again
-    cy.contains('button:visible', 'Rapportera fel').click();
+    cy.contains('a:visible', 'Rapportera fel').click();
 
     // Select an option from the dropdown
     cy.contains('select', 'Felaktigt ansvar (Ekonomi)').should('be.visible').select('Felaktigt ansvar (Ekonomi)');

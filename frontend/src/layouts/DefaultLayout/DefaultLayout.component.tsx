@@ -55,11 +55,9 @@ export default function DefaultLayout({
         <meta name="description" content="Masterdata" />
       </Head>
 
-      <NextLink href="#content" legacyBehavior passHref>
-        <a onClick={setFocusToMain} accessKey="s" className="next-link-a" data-cy="systemMessage-a">
-          Hoppa till innehåll
-        </a>
-      </NextLink>
+      <a href="#content" onClick={setFocusToMain} accessKey="s" className="next-link-a" data-cy="systemMessage-a">
+        Hoppa till innehåll
+      </a>
 
       <AlertBannerEdit />
 

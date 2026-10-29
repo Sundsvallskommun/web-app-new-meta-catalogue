@@ -85,14 +85,13 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
         </div>
         <span className="flex flex-wrap justify-end gap-15">
           <NextLink
-            legacyBehavior
             href={{
               query: { ...router.query, feedback: 'RESPONSIBILITY' },
             }}
             shallow
             replace
           >
-            <Button variant="secondary" size="md">
+            <Button as="span" variant="secondary" size="md">
               Rapportera fel
             </Button>
           </NextLink>

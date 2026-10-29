@@ -97,14 +97,13 @@ const PersonEditor = (props: EmployeeEditorProps) => {
           </div>
           <div className="mt-lg">
             <NextLink
-              legacyBehavior
               href={{
                 query: { ...router.query, feedback: 'PERSONDETAILS' },
               }}
               shallow
               replace
             >
-              <Button type="button" variant="link" size="sm" leftIcon={<Flag />}>
+              <Button as="span" variant="link" size="sm" leftIcon={<Flag />}>
                 Rapportera fel
               </Button>
             </NextLink>

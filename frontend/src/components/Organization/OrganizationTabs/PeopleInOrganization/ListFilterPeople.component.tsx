@@ -96,14 +96,15 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
               </a>
             )}
             <NextLink
-              legacyBehavior
               href={{
                 query: { ...router.query, feedback: 'PERSON' },
               }}
               shallow
               replace
             >
-              <Button variant="secondary">Rapportera fel</Button>
+              <Button as="span" variant="secondary">
+                Rapportera fel
+              </Button>
             </NextLink>
           </span>
         )}
