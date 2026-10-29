@@ -8,7 +8,6 @@ import { Flag } from 'lucide-react';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
@@ -133,17 +132,16 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             )}
           </div>
           <div className="mt-lg">
-            <NextLink
-              href={{
-                query: { ...router.query, feedback: 'PERSONDETAILS' },
-              }}
-              shallow
-              replace
+            <Button
+              variant="link"
+              size="sm"
+              leftIcon={<Flag />}
+              onClick={() =>
+                router.replace({ query: { ...router.query, feedback: 'PERSONDETAILS' } }, undefined, { shallow: true })
+              }
             >
-              <Button as="span" variant="link" size="sm" leftIcon={<Flag />}>
-                Rapportera fel
-              </Button>
-            </NextLink>
+              Rapportera fel
+            </Button>
           </div>
           <Modal.Footer>
             <Button variant="primary" className="w-full" onClick={handleOnClose} type="button">

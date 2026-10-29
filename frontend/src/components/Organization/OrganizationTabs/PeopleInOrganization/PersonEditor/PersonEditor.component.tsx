@@ -1,6 +1,5 @@
 import { Button, Modal } from '@sk-web-gui/react';
 import { Flag } from 'lucide-react';
-import NextLink from 'next/link';
 
 // icons
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
@@ -96,17 +95,16 @@ const PersonEditor = (props: EmployeeEditorProps) => {
             )}
           </div>
           <div className="mt-lg">
-            <NextLink
-              href={{
-                query: { ...router.query, feedback: 'PERSONDETAILS' },
-              }}
-              shallow
-              replace
+            <Button
+              variant="link"
+              size="sm"
+              leftIcon={<Flag />}
+              onClick={() =>
+                router.replace({ query: { ...router.query, feedback: 'PERSONDETAILS' } }, undefined, { shallow: true })
+              }
             >
-              <Button as="span" variant="link" size="sm" leftIcon={<Flag />}>
-                Rapportera fel
-              </Button>
-            </NextLink>
+              Rapportera fel
+            </Button>
           </div>
           <Modal.Footer>
             <Button variant="primary" className="w-full" onClick={handleOnClose} type="button">
