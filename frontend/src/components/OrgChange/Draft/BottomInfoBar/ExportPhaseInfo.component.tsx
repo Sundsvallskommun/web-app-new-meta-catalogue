@@ -1,3 +1,4 @@
+import { RunbookStepsStateEnum } from '@data-contracts/backend/data-contracts';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useEffect } from 'react';
@@ -11,6 +12,20 @@ export default function ExportPhaseInfo() {
   const getRunbook = useOrgChangeStore((s) => s.getRunbook);
   const runbook = useOrgChangeStore((s) => s.runbook);
   const message = useSnackbar();
+
+  let severityBackground = 'bg-vattjom-background-100';
+  if (runbook?.currentStep > 0) {
+    const state = runbook.runner[runbook.currentStep - 1].state;
+    if (state === RunbookStepsStateEnum.Completed) {
+      severityBackground = 'bg-gronsta-background-100';
+    }
+    if (state === RunbookStepsStateEnum.Waiting) {
+      severityBackground = 'bg-warning-background-100';
+    }
+    if (state === RunbookStepsStateEnum.Fail) {
+      severityBackground = 'bg-error-background-100';
+    }
+  }
 
   const handleExpand = () => {
     setLockedView((lockedView) => !lockedView);
@@ -44,10 +59,13 @@ export default function ExportPhaseInfo() {
   }, [runbook?.currentStep]);
 
   return (
-    <div className="px-md md:px-lg pt-lg">
-      <section className="container flex flex-col gap-md p-24 bg-background-content border-1 border-divider rounded-cards">
-        <div className="flex flex-wrap items-center justify-between gap-md">
-          <h2 className="text-lead">Exportflöde</h2>
+    <div className={`px-md md:px-lg ${severityBackground}`}>
+      <div className="container flex flex-col-reverse lg:flex-row gap-md py-md">
+        <h2 className="sr-only">Exportflöde</h2>
+        <div className="flex flex-col flex-grow justify-center min-h-32">
+          <ExportMessages />
+        </div>
+        <div className="shrink-0">
           <Button
             onClick={handleExpand}
             size="sm"
@@ -61,8 +79,7 @@ export default function ExportPhaseInfo() {
             {lockedView ? 'Dölj exportinformation' : 'Visa exportinformation'}
           </Button>
         </div>
-        <ExportMessages />
-      </section>
+      </div>
     </div>
   );
 }
