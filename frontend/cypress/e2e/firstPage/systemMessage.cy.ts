@@ -11,7 +11,7 @@ describe('System', () => {
   it('has a skip to content link', () => {
     cy.get('[data-cy="systemMessage-a"]')
       .should('have.attr', 'accesskey', 's')
-      .should('have.attr', 'href', '/#content')
+      .should('have.attr', 'href', '#content')
       .contains('Hoppa till innehåll');
   });
 
