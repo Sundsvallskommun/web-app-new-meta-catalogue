@@ -10,16 +10,16 @@ export default function ExportVerifyInfo() {
   const { verifyHasErrors, needsNewVerify } = useVerifyState();
   const [showResults, setShowResults] = useState(verifyHasErrors);
 
-  let severityBackground = 'bg-info-background-200';
+  let severityBackground = 'bg-vattjom-background-100';
   if (verifyHasErrors) {
-    severityBackground = 'bg-error-background-200';
+    severityBackground = 'bg-error-background-100';
   }
   if (!verifyHasErrors) {
-    severityBackground = 'bg-success-background-200';
+    severityBackground = 'bg-gronsta-background-100';
   }
 
   if (needsNewVerify) {
-    severityBackground = 'bg-warning-background-200';
+    severityBackground = 'bg-warning-background-100';
   }
 
   const handleExpand = () => {
@@ -32,9 +32,7 @@ export default function ExportVerifyInfo() {
 
   return (
     <div className="relative flex flex-col justify-end">
-      <div
-        className={`bg-opacity-75 ${!showResults ? 'min-h-md' : ' min-h-100'} duration-300 px-md md:px-lg ${severityBackground}`}
-      >
+      <div className={`${!showResults ? 'min-h-md' : ' min-h-100'} duration-300 px-md md:px-lg ${severityBackground}`}>
         <div className="container transition-all flex flex-col-reverse lg:flex-row gap-md py-md">
           <h2 className="sr-only">Verifikationsresultat</h2>
           <div className="flex flex-col flex-grow gap-md">
