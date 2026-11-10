@@ -15,6 +15,6 @@ describe('Login', () => {
   it('failMessage shows', () => {
     cy.visit('/login?failMessage=SAML_MISSING_ATTRIBUTES');
     cy.wait('@getUser');
-    cy.get('.form-error-message').contains('Användaren saknar rätt attribut').should('be.visible');
+    cy.get('.sk-form-error-message').contains('Användaren saknar rätt attribut').should('be.visible');
   });
 });

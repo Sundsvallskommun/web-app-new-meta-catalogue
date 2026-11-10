@@ -77,12 +77,12 @@ const OrgNameEdit = ({ newItem, organization, isEdit = false, orgTree, orgChange
   };
 
   return (
-    <div className="px-8 pt-lg bg-white">
+    <div className="bg-background-content">
       {(!isEdit ||
         (isOrgChange && draftIsReadOnly) ||
         (isOrgChange && orgChangeOrg.structureChangeStatus === 'DELETED')) && (
         <h1
-          className={`text-2xl text-gray flex flex-col lg:flex-row ${
+          className={`text-h4 text-dark-secondary flex flex-col xl:flex-row ${
             orgChangeOrg && orgChangeOrg.structureChangeStatus === 'DELETED' && 'italic'
           }`}
         >
@@ -90,13 +90,13 @@ const OrgNameEdit = ({ newItem, organization, isEdit = false, orgTree, orgChange
             {organization && organization.orgName ? organization.orgName : 'Organizationsnamn'}
           </span>
           {organization && organization.orgNameShort ?
-            <span className=" px-sm border-l border-neutral-100 font-normal">{organization.orgNameShort}</span>
+            <span className=" px-sm border-l-1 border-divider font-normal">{organization.orgNameShort}</span>
           : ''}
           {organization && !organization.isLeafLevel && organization.abbreviation ?
-            <span className=" px-sm border-l border-neutral-100 font-normal">{organization.abbreviation}</span>
+            <span className=" px-sm border-l-1 border-divider font-normal">{organization.abbreviation}</span>
           : ''}
           {organization && organization.responsibilityCode && user.permissions.canViewDrafts ?
-            <span className=" px-sm border-l border-neutral-100 font-normal">{organization.responsibilityCode}</span>
+            <span className=" px-sm border-l-1 border-divider font-normal">{organization.responsibilityCode}</span>
           : ''}
           {orgChangeOrg && orgChangeOrg.structureChangeStatus === 'DELETED' && (
             <span className="font-normal">- &#91;Stängd&#93;</span>

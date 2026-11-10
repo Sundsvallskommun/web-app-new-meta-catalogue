@@ -1,8 +1,5 @@
-import { Button, ContextMenu } from '@sk-web-gui/react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import PersonPinCircleOutlinedIcon from '@mui/icons-material/PersonPinCircleOutlined';
-import DomainOutlinedIcon from '@mui/icons-material/DomainOutlined';
+import { Button, PopupMenu } from '@sk-web-gui/react';
+import { Building, ChevronDown, MapPinCheck, Users } from 'lucide-react';
 import MovePeopleModal from '@components/OrgChange/Draft/Modals/MovePeopleModal.component';
 import { useUserStore } from '@services/user-service/user-service';
 import ChangePaTeamModal from '@components/OrgChange/Draft/Modals/ChangePaTeamModal.component';
@@ -29,50 +26,49 @@ export default function HandleMarkedContextMenu({ peopleToHandle, className = ''
 
   return (
     <>
-      <ContextMenu classNameItems={`${className} right-0`}>
-        <ContextMenu.Button
-          rightIcon={<ExpandMoreIcon />}
-          disabled={peopleToHandle.length < 1}
-          variant="outline"
-          className="border-0 mr-sm mb-xs"
-        >
-          <span className={`${peopleToHandle.length < 1 && 'text-gray-500'} h-full w-full`}>Hantera Markerade</span>
-        </ContextMenu.Button>
-        <ContextMenu.Item>
-          <Button
-            id="move-people-button"
-            onClick={() => setEmploymentMovePeopleIsOpen(true)}
-            leftIcon={<PersonPinCircleOutlinedIcon />}
-          >
-            <span>Flytta markerade till annan gren</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditPaTeamIsOpen(true)} leftIcon={<PeopleOutlineOutlinedIcon />}>
-            <span>Ändra PA-Team</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditOperationIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra verksamhet</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra objekt</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra aktivitet</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra projekt</span>
-          </Button>
-        </ContextMenu.Item>
-      </ContextMenu>
+      <PopupMenu type="menu" align="end">
+        <PopupMenu.Button rightIcon={<ChevronDown />} disabled={peopleToHandle.length < 1} variant="tertiary" size="sm">
+          Hantera markerade
+        </PopupMenu.Button>
+        <PopupMenu.Panel className={className}>
+          <PopupMenu.Items>
+            <PopupMenu.Item>
+              <Button
+                id="move-people-button"
+                onClick={() => setEmploymentMovePeopleIsOpen(true)}
+                leftIcon={<MapPinCheck />}
+              >
+                <span>Flytta markerade till annan gren</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditPaTeamIsOpen(true)} leftIcon={<Users />}>
+                <span>Ändra PA-Team</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditOperationIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra verksamhet</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra objekt</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra aktivitet</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra projekt</span>
+              </Button>
+            </PopupMenu.Item>
+          </PopupMenu.Items>
+        </PopupMenu.Panel>
+      </PopupMenu>
       {employmentMovePeopleIsOpen && user.permissions.canEditOrganization && (
         <MovePeopleModal peopleToHandle={peopleToHandle} closeCallback={() => setEmploymentMovePeopleIsOpen(false)} />
       )}

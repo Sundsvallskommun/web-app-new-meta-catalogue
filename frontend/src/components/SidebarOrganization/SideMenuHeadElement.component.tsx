@@ -1,14 +1,10 @@
-import { Popover } from '@headlessui/react';
 import { IFilterDataMenu } from '@interfaces/organization';
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import { ChevronDown } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Combobox, Select } from '@sk-web-gui/forms';
-import { FilterItem, FormControl, FormLabel, IFilterData, Link } from '@sk-web-gui/react';
-import { useAriaKeyboard } from '@utils/use-ariakeyboard';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import Sticky from 'react-sticky-el';
+import { Checkbox, Combobox, FormControl, FormLabel, PopupMenu, Select } from '@sk-web-gui/react';
+import { useState } from 'react';
 
 interface TreeImage {
   id: number;
@@ -43,9 +39,6 @@ export default function SideMenuHeadElement() {
   const selectedCompanyOrgId = useOrganizationStore((s) => s.selectedCompanyOrgId);
   const treeImage = useOrganizationStore((s) => s.treeImage);
   const [filterOpen, setFilterOpen] = useState(false);
-  const initialFocus = useRef(null);
-  const sidemenuHeadMenuRef = useRef(null);
-  const panelRef = useRef(null);
   const [selectedTreeImage, setSelectedTreeImage] = useState<TreeImage>(treeImages[treeImageId]);
 
   const user = useUserStore((s) => s.user);
@@ -70,31 +63,6 @@ export default function SideMenuHeadElement() {
     setSelectedOrganizationId(parseInt(val));
   };
 
-  const setInitialFocus = () => {
-    setTimeout(() => {
-      if (initialFocus.current) {
-        initialFocus.current.focus();
-      }
-    });
-  };
-
-  const handleFilterMenuKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code === 'ArrowDown') {
-      e.preventDefault();
-      e.stopPropagation();
-      setFilterOpen(() => true);
-    } else if (e.code === 'Tab') {
-      setFilterOpen(() => false);
-    } else if (e.code === 'Escape') {
-      setFilterOpen(() => false);
-    } else if (e.code === 'Space' || e.code === 'Enter') {
-      setFilterOpen((open) => !open);
-    } else if (e.code === 'ArrowLeft') {
-      e.preventDefault();
-      setFilterOpen(() => false);
-    }
-  };
-
   /**
    * Sets the treeImageId
    */
@@ -109,45 +77,15 @@ export default function SideMenuHeadElement() {
     setSelectedCompanyOrgId(value);
   };
 
-  useEffect(() => {
-    if (filterOpen) {
-      setInitialFocus();
-    }
-  }, [filterOpen]);
-
-  useEffect(() => {
-    const onClickHandler = (e: MouseEvent) => {
-      if (filterOpen && !panelRef.current?.contains(e.target)) {
-        setFilterOpen(false);
-      }
-    };
-    if (filterOpen) {
-      window.addEventListener('click', onClickHandler);
-    }
-    return () => {
-      window.removeEventListener('click', onClickHandler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterOpen, panelRef?.current]);
-
-  useAriaKeyboard(sidemenuHeadMenuRef);
-
   return (
-    <Sticky
-      mode="top"
-      wrapperClassName="z-10 relative bg-primary px-md pt-md"
-      scrollElement="aside.SidebarOrganization"
-      hideOnBoundaryHit={false}
-    >
+    <div className="z-10 relative px-24">
       <form>
-        <div className="mb-md">
-          <FormControl id="sidemenu-image">
-            <FormLabel className="label-small">
-              <strong>Avbildning</strong>
-            </FormLabel>
+        <div className="flex flex-col gap-md mb-xl">
+          <FormControl id="sidemenu-image" className="w-full">
+            <FormLabel>Avbildning</FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
+              className="w-full"
               id="sidemenu-image"
               name="sidemenu-image"
               aria-labelledby="sidemenu-image-label"
@@ -161,13 +99,11 @@ export default function SideMenuHeadElement() {
               ))}
             </Select>
           </FormControl>
-          <FormControl className="my-[20px]" id="sidemenu-company">
-            <FormLabel className="label-small">
-              <strong>Bolag</strong>
-            </FormLabel>
+          <FormControl id="sidemenu-company" className="w-full">
+            <FormLabel>Bolag</FormLabel>
             <Select
               size="md"
-              className="w-full mt-[6px] focus-visible:!ring-black focus-visible:!ring-4"
+              className="w-full"
               id="sidemenu-company"
               name="sidemenu-company"
               onChange={onCompanyChange}
@@ -182,114 +118,56 @@ export default function SideMenuHeadElement() {
           </FormControl>
         </div>
       </form>
-      <div className="flex items-center justify-between">
-        <h2>Organisation</h2>
-        <ul
-          ref={sidemenuHeadMenuRef}
-          role="menubar"
-          aria-orientation="horizontal"
-          aria-label="Sidmeny-controller"
-          className={`flex flex-col lg:flex-row space-y-md lg:space-y-0 lg:justify-between py-8 px-md -mr-md box-content 
-       [&>li>*:focus-visible]:ring-white [&>li>*:focus-visible]:outline-white`}
-        >
-          <Popover as={Fragment}>
-            {({ close }) => (
-              <li>
-                <Popover.Button
-                  role="menuitem"
-                  className="link focus-visible:ring-4 focus-visible:ring-white focus-visible:outline-none"
-                  aria-haspopup="true"
-                  data-cy="orgchange-sidemenu-filter"
-                  onKeyDown={(e) => {
-                    handleFilterMenuKeyDown(e);
-                    if (filterOpen) {
-                      close();
-                    }
-                  }}
-                  onClick={() => setFilterOpen((open) => !open)}
-                >
-                  <Link as="span" className="text-white hover:text-white hover:no-underline">
-                    {user.permissions.canViewDrafts ? 'Visa/sök' : 'Sök'}
-                    <ArrowDropDownOutlinedIcon
-                      className={`!text-2xl !ml-[4px] ${filterOpen ? 'rotate-180 transform' : ''}`}
-                    />
-                  </Link>
-                </Popover.Button>
-                {filterOpen && (
-                  <Popover.Panel
-                    ref={panelRef}
-                    static
-                    id="sideMenuSearchFilters"
-                    className="absolute left-0 right-0 z-10 mt-[2.1rem] rounded-[.2rem] p-md bg-primary text-white"
-                  >
-                    <ul aria-label="Sökfilter" role="menu" aria-orientation="vertical">
-                      {user.permissions.canViewDrafts ?
-                        <li>
-                          <div className="dropdown-filter" style={{ all: 'unset' }}>
-                            <ul
-                              aria-label="Ändra sidomenyn"
-                              role="listbox"
-                              aria-orientation="vertical"
-                              className="filter-container [&>.filter-item]:!border-primary-active [&>.filter-item]:!px-0"
-                              style={{ all: 'unset' }}
-                            >
-                              {sideMenuShowFiltersFiltered.map((filter: IFilterData, i) => (
-                                <FilterItem
-                                  key={`${filter.id}`}
-                                  className={`!border-t-0 select-none [&>label>.form-checkbox-label]:text-white [&.disabled>label>.form-checkbox-label]:text-svartvik-100 [&>label>input]:bg-white [&>label>input:focus-within]:outline-none ${
-                                    filter.disabled ? '!disabled' : ''
-                                  } ${i == sideMenuShowFiltersFiltered.length - 1 ? '!border-b !border-solid' : ''}`}
-                                  item={filter}
-                                  itemChange={handleSideMenuShowFilterChange}
-                                  size={'sm'}
-                                />
-                              ))}
-                            </ul>
-                          </div>
-                        </li>
-                      : <></>}
-                      <li
-                        onKeyDown={(e: React.KeyboardEvent) => {
-                          if (e.code === 'Tab' && !e.shiftKey) {
-                            e.target.dispatchEvent(
-                              new KeyboardEvent('keydown', {
-                                key: 'Tab',
-                              })
-                            );
-                            setTimeout(() => {
-                              setFilterOpen(false);
-                            });
-                          }
-                        }}
+      <div className="flex items-center justify-between pb-20">
+        <h2 className="text-h4">Organisation</h2>
+        <div className="relative">
+          <PopupMenu type="dialog" align="end" open={filterOpen} onToggleOpen={setFilterOpen}>
+            <PopupMenu.Button
+              variant="tertiary"
+              size="sm"
+              data-cy="orgchange-sidemenu-filter"
+              rightIcon={<ChevronDown />}
+            >
+              {user.permissions.canViewDrafts ? 'Visa/sök' : 'Sök'}
+            </PopupMenu.Button>
+            <PopupMenu.Panel id="sideMenuSearchFilters">
+              {user.permissions.canViewDrafts && (
+                <PopupMenu.Items autoFocus={false} aria-label="Ändra sidomenyn">
+                  {sideMenuShowFiltersFiltered.map((filter) => (
+                    <PopupMenu.Item key={filter.id}>
+                      <Checkbox
+                        checked={filter.value}
+                        disabled={filter.disabled}
+                        onChange={() => handleSideMenuShowFilterChange({ ...filter, value: !filter.value })}
                       >
-                        <Combobox
-                          ref={initialFocus}
-                          className="w-full"
-                          aria-label="Sök gren i menyn"
-                          placeholder="Sök gren.."
-                          onChange={(e) => {
-                            handleSearchSelect(e);
-                            close();
-                            setFilterOpen(false);
-                          }}
-                        >
-                          <Combobox.List>
-                            {orgTreeOrganizations.map((item, index) => (
-                              <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
-                                {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
-                              </Combobox.Option>
-                            ))}
-                          </Combobox.List>
-                        </Combobox>
-                      </li>
-                    </ul>
-                  </Popover.Panel>
-                )}
-              </li>
-            )}
-          </Popover>
-        </ul>
+                        {filter.name}
+                      </Checkbox>
+                    </PopupMenu.Item>
+                  ))}
+                </PopupMenu.Items>
+              )}
+              <div className="p-8">
+                <Combobox
+                  className="w-full"
+                  onChange={(e) => {
+                    handleSearchSelect(e);
+                    setFilterOpen(false);
+                  }}
+                >
+                  <Combobox.Input className="w-full" aria-label="Sök gren i menyn" placeholder="Sök gren" />
+                  <Combobox.List>
+                    {orgTreeOrganizations.map((item, index) => (
+                      <Combobox.Option key={`item-${index}`} value={item.id.toString()}>
+                        {`${item.label.trim()} - Kod: ${item.responsibilityCode} - Nivå: ${item.level}`}
+                      </Combobox.Option>
+                    ))}
+                  </Combobox.List>
+                </Combobox>
+              </div>
+            </PopupMenu.Panel>
+          </PopupMenu>
+        </div>
       </div>
-    </Sticky>
+    </div>
   );
 }

@@ -9,15 +9,17 @@ export default function Organization({ isEdit = false }) {
   return (
     <>
       {organization && organization?.id !== null ? (
-        <section className="bg-white h-full">
-          <OrgNameEdit
-            newItem={false}
-            organization={organization}
-            orgChangeOrg={undefined}
-            orgTree={orgTree}
-            isEdit={isEdit}
-          />
-          <OrganizationTabs organization={organization} />
+        <section className="bg-background-content border-1 border-divider rounded-cards h-full">
+          <div className="flex flex-col gap-32 p-24">
+            <OrgNameEdit
+              newItem={false}
+              organization={organization}
+              orgChangeOrg={undefined}
+              orgTree={orgTree}
+              isEdit={isEdit}
+            />
+            <OrganizationTabs organization={organization} />
+          </div>
         </section>
       ) : (
         <div className="w-full pt-lg h-full flex justify-center">

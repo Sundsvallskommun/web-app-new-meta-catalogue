@@ -1,9 +1,7 @@
-import { LeadButtons } from '@layouts/ButtonGroup/LeadButtons';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { getRootOrg } from '@services/mdviewer/api-calls/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Modal } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Modal, Select } from '@sk-web-gui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -67,20 +65,18 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
 
   return (
     <Modal
-      className="max-w-[500px]"
+      className="w-[calc(100%-32px)] max-w-[600px] my-16"
       show={modalIsOpen}
       onClose={onCloseHandler}
       label={'Välj vilket bolag som du vill göra förändringar i'}
     >
-      <div>
-        <FormControl id="orgchange-choose-company">
-          <FormLabel id="choosecompany">
-            <strong>Välj bolag</strong>
-          </FormLabel>
+      <div className="flex flex-col gap-16">
+        <FormControl id="orgchange-choose-company" className="w-full">
+          <FormLabel id="choosecompany">Välj bolag</FormLabel>
           <Select
-            size="lg"
+            size="md"
             placeholder="Välj bolag"
-            className="w-full mt-[6px]"
+            className="w-full"
             data-cy="orgchange-choose-company"
             id="orgchange-choose-company"
             aria-labelledby="choosecompany"
@@ -94,32 +90,24 @@ const ChooseCompanyForDraft = (props: IChooseCompanyForDraftProps) => {
             )) || []}
           </Select>
         </FormControl>
+        {error && <FormErrorMessage>{errorMessage || 'Det gick inte att spara åtgärd'}</FormErrorMessage>}
       </div>
-
-      <LeadButtons>
-        <Button variant="solid" size="lg" onClick={onCloseHandler} className="my-sm sm:my-6 w-full" type="button">
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" onClick={onCloseHandler} type="button">
           {'Avbryt'}
         </Button>
         <Button
+          className="flex-1"
           onClick={() => filterGoToDraft()}
-          variant="solid"
-          size="lg"
+          variant="primary"
           type="submit"
           color="primary"
-          className="my-sm sm:my-6 w-full"
           loading={isLoading}
           loadingText="Sparar"
         >
           Välj och fortsätt
         </Button>
-      </LeadButtons>
-      {error && (
-        <div className="w-full flex justify-between space-x-2 my-lg">
-          <FormErrorMessage>
-            <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-          </FormErrorMessage>
-        </div>
-      )}
+      </Modal.Footer>
     </Modal>
   );
 };

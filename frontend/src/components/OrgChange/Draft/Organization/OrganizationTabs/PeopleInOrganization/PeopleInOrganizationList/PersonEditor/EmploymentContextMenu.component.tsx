@@ -1,7 +1,5 @@
-import { Badge, Button, ContextMenu } from '@sk-web-gui/react';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import DomainOutlinedIcon from '@mui/icons-material/DomainOutlined';
+import { Button, PopupMenu, Icon } from '@sk-web-gui/react';
+import { Building, CircleAlert, EllipsisVertical, Info, Users } from 'lucide-react';
 import { shouldEditEmployment } from '@utils/shouldeditemployment';
 import { useEffect, useState } from 'react';
 import ChangePaTeamModal from '@components/OrgChange/Draft/Modals/ChangePaTeamModal.component';
@@ -47,66 +45,59 @@ export default function EmploymentContextMenu({
     setEmployee(employeesByOrg.find((x) => x.personId === employeeDetails.personId));
   }, [employeeDetails, employeesByOrg]);
 
+  const getButtonColor = () => {
+    if (mustEdit) return 'error';
+    if (showFocus) return 'vattjom';
+    return undefined;
+  };
+
   return (
     <>
-      <ContextMenu classNameItems={`${className} right-0`}>
-        <ContextMenu.Button
+      <PopupMenu type="menu" align="end" autoAlign={false}>
+        <PopupMenu.Button
           title={`Redigera anställning${mustEdit ? ', justeringar behövs' : ''}`}
-          variant={windowSize.lg ? 'outline' : 'solid'}
-          color={`primary`}
-          className="border-0"
+          variant={showFocus ? 'primary' : 'tertiary'}
+          size="sm"
+          color={getButtonColor()}
           iconButton={windowSize.lg || undefined}
-          rightIcon={
-            <span className="relative">
-              <MoreVertIcon />
-              {showFocus && (
-                <Badge
-                  className="absolute -right-[0.5rem] top-[0.15rem]"
-                  size="sm"
-                  variant="solid"
-                  color={mustEdit ? 'error' : 'primary'}
-                  position={'super-overlap'}
-                />
-              )}
-            </span>
-          }
+          rightIcon={<EllipsisVertical />}
         >
           <span className="lg:hidden">Redigera anställning</span>
-        </ContextMenu.Button>
-        <ContextMenu.Item>
-          <Button onClick={handleOpenPA} leftIcon={<PeopleOutlineOutlinedIcon />}>
-            <span>Ändra PA-Team {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-            {showFocus && !mustEditPaTeam && (
-              <Badge className="ml-sm min-h-[12px] min-w-[12px]" variant="solid" color="primary" />
-            )}
-            {mustEditPaTeam && <Badge className="ml-sm min-h-[12px] min-w-[12px]" variant="solid" color="error" />}
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={handleOpenOperation} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra verksamhet {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
-            {showFocus && !mustEditOperation && (
-              <Badge className="ml-sm min-h-[12px] min-w-[12px]" variant="solid" color="primary" />
-            )}
-            {mustEditOperation && <Badge className="ml-sm min-h-[12px] min-w-[12px]" variant="solid" color="error" />}
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra objekt</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra aktivitet</span>
-          </Button>
-        </ContextMenu.Item>
-        <ContextMenu.Item>
-          <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<DomainOutlinedIcon />}>
-            <span>Ändra projekt</span>
-          </Button>
-        </ContextMenu.Item>
-      </ContextMenu>
+        </PopupMenu.Button>
+        <PopupMenu.Panel className={className}>
+          <PopupMenu.Items>
+            <PopupMenu.Item>
+              <Button onClick={handleOpenPA} leftIcon={<Users />}>
+                <span>Ändra PA-Team {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
+                {showFocus && !mustEditPaTeam && <Icon size={16} color="vattjom" icon={<Info />} />}
+                {mustEditPaTeam && <Icon size={16} color="error" icon={<CircleAlert />} />}
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={handleOpenOperation} leftIcon={<Building />}>
+                <span>Ändra verksamhet {mustEdit && <span className="sr-only">Justeringar behövs</span>}</span>
+                {showFocus && !mustEditOperation && <Icon size={16} color="vattjom" icon={<Info />} />}
+                {mustEditOperation && <Icon size={16} color="error" icon={<CircleAlert />} />}
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditObjectIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra objekt</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditActivityIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra aktivitet</span>
+              </Button>
+            </PopupMenu.Item>
+            <PopupMenu.Item>
+              <Button onClick={() => setEmploymentEditProjectIsOpen(true)} leftIcon={<Building />}>
+                <span>Ändra projekt</span>
+              </Button>
+            </PopupMenu.Item>
+          </PopupMenu.Items>
+        </PopupMenu.Panel>
+      </PopupMenu>
       {employmentEditPaTeamIsOpen && (
         <ChangePaTeamModal peopleToHandle={[employee]} closeCallback={() => setEmploymentEditPaTeamIsOpen(false)} />
       )}

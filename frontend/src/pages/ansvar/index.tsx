@@ -26,10 +26,10 @@ export const Index: React.FC = () => {
     <SubmenuLayout preTitle="Ansvar">
       <div className="main-padding">
         <Main>
-          <div className="shadow-md">
+          <section className="bg-background-content border-1 border-divider rounded-cards p-24">
             <ResponsibilityListFilter searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <ResponsibilityList searchQuery={searchQuery} />
-          </div>
+          </section>
         </Main>
       </div>
     </SubmenuLayout>

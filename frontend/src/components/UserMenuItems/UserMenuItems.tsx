@@ -1,7 +1,6 @@
-import { Link } from '@sk-web-gui/react';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Button } from '@sk-web-gui/react';
+import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/router';
-import NextLink from 'next/link';
 import { useUserStore } from '@services/user-service/user-service';
 
 export const useMenuItems = () => {
@@ -11,67 +10,53 @@ export const useMenuItems = () => {
   const menuItems = [
     {
       label: 'Main',
-      showLabel: false,
-      showOnDesktop: true,
-      showOnMobile: true,
       elements: [
         {
           label: 'Rapportera fel',
-          element: (active: boolean) => (
-            <NextLink
+          element: () => (
+            <Button
               key={'feedback'}
-              href={{
-                query: { ...router.query, feedback: 'OTHER' },
-              }}
-              shallow
-              replace
-              className={`usermenu-item ${active ? 'active' : ''}`}
+              onClick={() =>
+                router.replace({ query: { ...router.query, feedback: 'OTHER' } }, undefined, { shallow: true })
+              }
             >
-              <span className="inline">Rapportera fel</span>
-            </NextLink>
+              Rapportera fel
+            </Button>
           ),
         },
         !router.pathname.includes('/hanteraorganisation') && {
           label: 'Hantera organisation',
           permissions: user.permissions.canViewDrafts,
-          element: (active: boolean) => (
-            <NextLink
-              key={'hanteraorganisation'}
-              href={`/hanteraorganisation`}
-              className={`usermenu-item ${active ? 'active' : ''}`}
-            >
-              <span className="inline">Hantera organisation</span>
-            </NextLink>
+          element: () => (
+            <Button key={'hanteraorganisation'} onClick={() => router.push('/hanteraorganisation')}>
+              Hantera organisation
+            </Button>
           ),
         },
         router.pathname.includes('/hanteraorganisation') && {
           label: 'Masterdata',
-          element: (active: boolean) => (
-            <NextLink key={'masterdata'} href={`/`} className={`usermenu-item ${active ? 'active' : ''}`}>
-              <span className="inline">Masterdata</span>
-            </NextLink>
+          element: () => (
+            <Button key={'masterdata'} onClick={() => router.push('/')}>
+              Masterdata
+            </Button>
           ),
         },
       ],
     },
     {
       label: 'Logga ut',
-      showLabel: true,
-      showOnDesktop: true,
-      showOnMobile: true,
       elements: [
         {
           label: 'Logga ut',
-          element: (active: boolean) => (
-            <Link
+          element: () => (
+            <Button
               data-cy="nav-span-loggaUt"
               key={'logout'}
-              href={`/logout`}
-              className={`usermenu-item ${active ? 'active' : ''}`}
+              leftIcon={<LogOut />}
+              onClick={() => router.push('/logout')}
             >
-              <LogoutOutlinedIcon className="material-icon mr-sm" aria-hidden="true" />
-              <span className="inline">Logga ut</span>
-            </Link>
+              Logga ut
+            </Button>
           ),
         },
       ],

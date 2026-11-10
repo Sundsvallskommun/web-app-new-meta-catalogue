@@ -5,9 +5,9 @@ import {
   RunbookStepsActionEnum,
   RunbookStepsStateEnum,
 } from '@data-contracts/backend/data-contracts';
-import ErrorIcon from '@mui/icons-material/Error';
+import { CircleAlert } from 'lucide-react';
 import { draftListEntry, useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Button, cx, useConfirm } from '@sk-web-gui/react';
+import { Button, useConfirm } from '@sk-web-gui/react';
 import { MessageStatusIcon } from '../Draft/BottomInfoBar/ExportMessages.component';
 import { useUserStore } from '@services/user-service/user-service';
 
@@ -39,36 +39,17 @@ export default function DraftListEntryPhaseMessage({ draft }: { draft: Draft }) 
       }
     };
     return (
-      <Button
-        size="sm"
-        variant="outline"
-        className="bg-white text-body [&>.btn-has-icon-right]:text-warning [&:hover>.btn-has-icon-right]:text-white"
-        rightIcon={<ErrorIcon />}
-        onClick={handleCloseNodes}
-      >
-        <span>Slutför stängning av grenar</span>
+      <Button size="sm" variant="secondary" color="warning" rightIcon={<CircleAlert />} onClick={handleCloseNodes}>
+        Slutför stängning av grenar
       </Button>
     );
   }
 
   if (phaseRunbookStep) {
     return (
-      <span className={`flex items-center space-x-[1rem]`}>
-        <span
-          className={cx(
-            `inline-flex text-xs leading-[1.6rem] max-w-[20rem]`,
-            phaseRunbookStep.state === RunbookStepsStateEnum.Queued && 'text-primary',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Running && 'text-primary',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Waiting && 'text-warning',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Completed && 'text-success',
-            phaseRunbookStep.state === RunbookStepsStateEnum.Fail && 'text-error'
-          )}
-        >
-          {phaseRunbookStep.result || phaseRunbookStep.description}
-        </span>
-        <span className="inline-flex">
-          <MessageStatusIcon className="!text-xl" status={phaseRunbookStep.state} />
-        </span>
+      <span className="flex items-center gap-8">
+        <MessageStatusIcon className="shrink-0" status={phaseRunbookStep.state} />
+        <span className="text-small">{phaseRunbookStep.result || phaseRunbookStep.description}</span>
       </span>
     );
   }

@@ -15,14 +15,14 @@ export const getAccountStatus = (fromDate, toDate, isPassive) => {
   const from = new Date(fromDate).toLocaleDateString('sv-SE');
   const to = new Date(toDate).toLocaleDateString('sv-SE');
   let status;
-  let dot: 'primary' | 'error' | 'warning' | 'neutral';
+  let dot: 'vattjom' | 'error' | 'warning' | 'tertiary';
   if (
     now > dayjs(from).add(-1, 'day').format('YYYY-MM-DD') &&
     now < dayjs(to).add(-2, 'day').format('YYYY-MM-DD') &&
     !isPassive
   ) {
     status = 'Aktiv';
-    dot = 'primary';
+    dot = 'vattjom';
   } else if (now === dayjs(from).add(-1, 'day').format('YYYY-MM-DD')) {
     status = 'Aktiveras snart';
     dot = 'warning';
@@ -31,7 +31,7 @@ export const getAccountStatus = (fromDate, toDate, isPassive) => {
     dot = 'warning';
   } else {
     status = 'Inaktiv';
-    dot = 'neutral';
+    dot = 'tertiary';
   }
   return { status: status, dot: dot };
 };

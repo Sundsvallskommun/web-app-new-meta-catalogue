@@ -1,16 +1,16 @@
 import { OrgnodeMoveDto } from '@data-contracts/backend/data-contracts';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
+import { DraftTreeOrganization } from '@interfaces/orgchange';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useSnackbar } from '@sk-web-gui/react';
+import { ArrowRight } from 'lucide-react';
 
 interface IDragAndDropFormModal {
-  onClose;
-  draggedItem;
-  newParent;
-  oldParent;
+  onClose: () => void;
+  draggedItem: DraftTreeOrganization;
+  newParent: DraftTreeOrganization;
+  oldParent?: DraftTreeOrganization;
 }
 
 export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
@@ -19,7 +19,7 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const onSubmit = () => {
     const dataBody: OrgnodeMoveDto = {
@@ -30,10 +30,10 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
     moveNode(dataBody).then((res) => {
       if (!res.error) {
         message({
-          message: `Grenen flyttas från ${oldParent.label} nivå ${oldParent.level} till ${newParent.label} nivå ${newParent.level}`,
+          message: `Grenen flyttas${oldParent ? ` från ${oldParent.label} nivå ${oldParent.level}` : ''} till ${newParent.label} nivå ${newParent.level}`,
           status: 'success',
         });
-        setSelectedOrganizationId(dataBody.orgId as number);
+        setSelectedOrganizationId(draggedItem.id);
       } else {
         message({
           message: res.message,
@@ -44,47 +44,38 @@ export default function DragAndDropFormModal(props: IDragAndDropFormModal) {
       setIsSaving(false);
     });
   };
+
   return (
     <Modal
-      className="max-w-[600px] w-full"
-      show={true}
+      className="w-[calc(100%-32px)] max-w-[600px] my-16"
+      show
       onClose={onClose}
       label={`Flyttar ${draggedItem.label} nivå ${draggedItem.level}`}
     >
-      <div>
-        <div>
-          <div className="w-full">
-            <ul className="flex items-center gap-8 justify-evenly">
-              <li className="text-gray-400 text-lg font-bold max-w-[200px] w-full">
-                Förälder: {oldParent.label} Nivå {oldParent.level}
-              </li>
-              <li>
-                <ArrowForwardSharpIcon className="!text-3xl" />
-              </li>
-
-              <li className="max-w-[200px] w-full text-lg font-bold">
-                Förälder: {newParent.label} Nivå {newParent.level}
-              </li>
-            </ul>
-          </div>
-          <LeadButtons>
-            <Button variant="solid" size="lg" onClick={onClose} className="my-sm sm:my-6 w-full" type="button">
-              {'Avbryt'}
-            </Button>
-            <Button
-              variant="solid"
-              size="lg"
-              color="primary"
-              className="my-sm sm:my-6 w-full"
-              type="submit"
-              loadingText="Sparar"
-              onClick={onSubmit}
-            >
-              Spara
-            </Button>
-          </LeadButtons>
-        </div>
-      </div>
+      <ul className="flex items-center justify-evenly gap-16">
+        {oldParent && (
+          <>
+            <li className="w-full max-w-[200px] text-base md:text-lead text-dark-disabled">
+              Förälder: {oldParent.label} Nivå {oldParent.level}
+            </li>
+            <li>
+              <span className="sr-only">flyttas till</span>
+              <ArrowRight className="w-24 h-24 md:w-32 md:h-32" aria-hidden="true" />
+            </li>
+          </>
+        )}
+        <li className="w-full max-w-[200px] text-base md:text-lead">
+          Förälder: {newParent.label} Nivå {newParent.level}
+        </li>
+      </ul>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
+          Avbryt
+        </Button>
+        <Button variant="primary" className="flex-1" type="button" loadingText="Sparar" onClick={onSubmit}>
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

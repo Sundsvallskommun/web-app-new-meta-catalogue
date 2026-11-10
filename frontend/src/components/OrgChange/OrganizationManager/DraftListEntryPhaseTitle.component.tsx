@@ -11,9 +11,7 @@ export default function DraftListEntryPhaseTitle({ draft }) {
 
   return (
     <NextLink aria-label={`${draft.name}, utkast`} href={`/hanteraorganisation/utkast/${draft.draftId}`} passHref>
-      <Link as="span" className="font-bold">
-        {draft.name}
-      </Link>
+      <Link as="span">{draft.name}</Link>
     </NextLink>
   );
 }

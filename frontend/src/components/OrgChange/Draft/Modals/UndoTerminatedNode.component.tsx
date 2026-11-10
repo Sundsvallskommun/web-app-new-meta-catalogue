@@ -1,7 +1,7 @@
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useConfirm, useMessage } from '@sk-web-gui/react';
-import UndoIcon from '@mui/icons-material/Undo';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
+import { Undo2 } from 'lucide-react';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 
 export default function UndoTerminatedNode() {
@@ -9,7 +9,7 @@ export default function UndoTerminatedNode() {
   const organization = useOrganizationStore((s) => s.organization);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const { showConfirmation } = useConfirm();
-  const message = useMessage(); //FIX ME: Needs api call function for undo
+  const message = useSnackbar(); //FIX ME: Needs api call function for undo
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
   const onUndoTerminateBranch = () => {
@@ -44,10 +44,9 @@ export default function UndoTerminatedNode() {
   return (
     <Button
       onClick={onUndoTerminateBranch}
-      role="menuitem"
-      variant="link"
-      leftIcon={<UndoIcon />}
-      className="text-primary border-primary"
+      variant="secondary"
+      size="sm"
+      leftIcon={<Undo2 />}
     >
       Ångra stäng gren
     </Button>

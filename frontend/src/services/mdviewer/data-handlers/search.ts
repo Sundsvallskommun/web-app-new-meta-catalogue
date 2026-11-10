@@ -2,24 +2,21 @@ import { SearchResult } from '@data-contracts/backend/data-contracts';
 import { ApiResponse } from '@services/api-service';
 
 export const objectType = (type: string) => {
-  let bg, text, border;
+  let text, color;
   if (type == 'RESPONSIBILITY') {
     text = 'Ansvar';
-    bg = 'bg-[#D7DBF2]';
-    border = 'border-[#5B1F78]';
+    color = 'bjornstigen';
   } else if (type == 'ORGANIZATION') {
     text = 'Organisation';
-    bg = 'bg-[#E4E4E5]';
-    border = 'border-[#4b4b4b]';
+    color = 'tertiary';
   } else if (type == 'PERSON') {
     text = 'Person';
-    bg = 'bg-[#FEDFE2]';
-    border = 'border-[#A90000]';
+    color = 'error';
   } else {
     text = 'Annat';
-    bg = 'bg-transparent';
+    color = 'tertiary';
   }
-  return { bg: bg, text: text, border: border };
+  return { text: text, color: color };
 };
 
 export const handleGetSearchResults: (res: ApiResponse<SearchResult[]>) => SearchResult[] = (res) => {

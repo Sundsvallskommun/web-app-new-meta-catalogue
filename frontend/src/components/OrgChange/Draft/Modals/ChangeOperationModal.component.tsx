@@ -5,15 +5,13 @@ import {
 } from '@data-contracts/backend/data-contracts';
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import UndoIcon from '@mui/icons-material/Undo';
+import { Undo2 } from 'lucide-react';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
-import { Select } from '@sk-web-gui/forms';
-import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useMessage } from '@sk-web-gui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Modal, useSnackbar, Select } from '@sk-web-gui/react';
 import { renderNewOrOld } from '@utils/render-new-or-old';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { MarkedPeopleList } from './components/MarkedPeopleList.component';
@@ -64,7 +62,7 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
     mode: 'onChange',
   });
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const handleOnClose = async () => {
     if (formState.isDirty) {
@@ -107,39 +105,31 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationsByOrg, peopleToHandle]);
 
-  const label = (
-    <div>
-      <h3>Ändra verksamhet</h3>
-      <h4 className="font-normal">
-        För {`${peopleToHandle.length} personer`} under gren {organization.orgName} &#40;nivå 6&#41;
-      </h4>
-    </div>
-  );
-
   const resetButton = (
     <Button
-      className="border-0 float-right"
       type="button"
-      size="md"
-      variant="link"
+      size="sm"
+      variant="tertiary"
       onClick={resetPa}
       aria-label={`Återställ verksamhet`}
-      leftIcon={<UndoIcon className="material-icon !text-2xl" aria-hidden="true" />}
+      leftIcon={<Undo2 />}
     >
       Ångra och återställ
     </Button>
   );
 
   return (
-    <Modal className="max-w-[900px]" show onClose={handleOnClose} label={label}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Modal className="w-[calc(100%-32px)] max-w-[900px] my-16" show onClose={handleOnClose} label="Ändra verksamhet">
+      <form id="change-operation-modal-form" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
+        </p>
         <FormControl
           invalid={formState.errors.operationCode !== undefined ? true : false}
           id="orgchange-employment-operation"
+          className="w-full"
         >
-          <FormLabel id="chooseoperation">
-            <strong>Välj verksamhet</strong>
-          </FormLabel>
+          <FormLabel id="chooseoperation">Verksamhet</FormLabel>
           <Select
             {...register('operationCode')}
             className="w-full"
@@ -158,44 +148,39 @@ export default function ChangeOperationModal(props: IChangeOperationProps) {
             render={({ message }) => <FormErrorMessage>{message}</FormErrorMessage>}
           />
         </FormControl>
-        {formState.isDirty && <div className="w-full py-sm">{resetButton}</div>}
-        {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
+        {formState.isDirty && <div>{resetButton}</div>}
+        {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         {peopleToHandle.length !== 0 && (
           <MarkedPeopleList
             peopleToHandle={peopleToHandle}
             contextColumn={{
               header: 'Verksamhet',
               element: (p) => (
-                <Fragment>
-                  <span className="inline font-bold lg:hidden">Verksamhet: </span>
-                  <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-sm lg:float-left">
-                      {renderNewOrOld(p.newOperationCode, p.operationCode)}
-                    </span>
-                    <br />
-                    <span className="inline font-bold lg:hidden">Verksamhet-namn: </span>
-                    <span>{renderNewOrOld(p.newOperationName, p.operationName)}</span>
-                  </span>
-                </Fragment>
+                <>
+                  {renderNewOrOld(p.newOperationCode, p.operationCode)}
+                  <br />
+                  {renderNewOrOld(p.newOperationName, p.operationName)}
+                </>
               ),
             }}
           />
         )}
-        <LeadButtons>
-          <Button type="button" onClick={handleOnClose}>
-            Stäng
-          </Button>
-          <Button variant="solid" type="submit" color="primary" aria-disabled={!formState.isDirty ? 'true' : undefined}>
-            Spara
-          </Button>
-        </LeadButtons>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={handleOnClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="flex-1"
+          variant="primary"
+          type="submit"
+          form="change-operation-modal-form"
+          color="primary"
+          aria-disabled={!formState.isDirty ? 'true' : undefined}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

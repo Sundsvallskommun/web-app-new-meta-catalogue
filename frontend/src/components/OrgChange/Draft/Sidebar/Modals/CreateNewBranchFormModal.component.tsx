@@ -1,9 +1,9 @@
 import { OrgnodeCreateDto } from '@data-contracts/backend/data-contracts';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
+import { FilePlus } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, useConfirm, useSnackbar } from '@sk-web-gui/react';
 
 export default function CreateNewBranchFormModal() {
   const { showConfirmation } = useConfirm();
@@ -12,7 +12,7 @@ export default function CreateNewBranchFormModal() {
   const draft = useOrgChangeStore((s) => s.draft);
   const organization = useOrganizationStore((s) => s.organization);
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
-  const message = useMessage();
+  const message = useSnackbar();
 
   const CallCreateBranch = () => {
     const dataBody: OrgnodeCreateDto = {
@@ -46,7 +46,7 @@ export default function CreateNewBranchFormModal() {
     const message = `En ny gren nivå ${organization.level + 1} kommer att skapas under ${organization.orgName} nivå ${
       organization.level
     }`;
-    showConfirmation(title, message, 'Ja skapa gren', 'Avbryt', undefined, undefined, 'h2').then((result) => {
+    showConfirmation(title, message, 'Ja, skapa gren', 'Avbryt', undefined, undefined, 'h2').then((result) => {
       if (result) {
         CallCreateBranch();
       }
@@ -55,14 +55,13 @@ export default function CreateNewBranchFormModal() {
 
   return (
     <Button
-      role="menuitem"
       aria-haspopup="true"
       data-cy="orgchange-sidemenu-createnode"
       onClick={!draft.draftId || !organization?.id ? undefined : NodeOnSubmit}
       aria-disabled={!draft.draftId || !organization?.id ? 'true' : undefined}
-      variant="link"
-      className="flex text-white hover:text-white hover:no-underline focus-visible:ring-white"
-      leftIcon={<NoteAddOutlinedIcon className="!text-2xl !mr-[4px]" />}
+      variant="secondary"
+      size="sm"
+      leftIcon={<FilePlus />}
     >
       Skapa ny gren
     </Button>

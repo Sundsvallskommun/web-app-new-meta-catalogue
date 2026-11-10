@@ -24,31 +24,32 @@ export const OrgNameEditFormShortName: React.FC<OrgNameEditFormShortNameProps> =
   } förkortningar automatiskt läggs till från grenens föräldrar.`;
 
   return (
-    <FormControl id="orgshortname" invalid={!!errors?.orgNameShort}>
+    <FormControl id="orgshortname" className="w-full min-w-0" invalid={!!errors?.orgNameShort}>
       <FormLabel>
-        <strong>Kortnamn</strong>
+        Kortnamn
         <HelpTooltip aria-hidden="true" tabIndex={-1} onlyIcon={true}>
           {helpText}
         </HelpTooltip>
       </FormLabel>
-      <Input.Group
+      <Input.InnerGroup
         size="sm"
+        className="w-full"
         invalid={errors.orgNameShort?.message ? true : undefined}
         aria-invalid={errors.orgNameShort?.message ? true : undefined}
       >
         <Input
           {...register('orgNameShort')}
+          className="min-w-0"
           onFocus={() => watch().orgNameShort === 'Ny gren' && setValue('orgNameShort', '')}
           title="Tillåtna tecken: a-Ö, 0-9, mellanslag eller följande tecken ,.-_"
           pattern="^[a-zA-Z0-9åäöÅÄÖ\s,\._\-]*$"
           placeholder={newItem ? 'Ny gren' : ''}
           // maxLength={textLengthMax}
-          className="lg:min-w-[26.5rem] border-r-0"
         />
         <Input.RightAddin>
           {watch().orgNameShort.length}/{orgNameShortMaxLength}
         </Input.RightAddin>
-      </Input.Group>
+      </Input.InnerGroup>
       <span className="sr-only" id="orgshortname-helptext">
         {helpText}
       </span>

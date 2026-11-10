@@ -1,6 +1,5 @@
-import { Disclosure, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
-import { Fragment } from 'react';
 import { OrgChangeOrganizationEmployee } from '@data-contracts/backend/data-contracts';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface ContextColumn {
   header: string;
@@ -13,60 +12,37 @@ interface MarkedPeopleListProps {
 }
 
 export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeopleListProps) => {
-  const headers: ZebraTableHeader[] = [
-    { element: <span className="font-bold">Namn</span> },
-    { element: <span className="font-bold">Anställning</span> },
-    ...(contextColumn ? [{ element: <span className="font-bold">Nuvarande {contextColumn.header}</span> }] : []),
+  const headers: DataTableHeader[] = [
+    { element: 'Namn' },
+    { element: 'Anställning' },
+    ...(contextColumn ? [{ element: `Nuvarande ${contextColumn.header}` }] : []),
   ];
 
-  const peopleRows: ZebraTableColumn[][] = peopleToHandle.map((p) => {
+  const peopleRows: DataTableColumn[][] = peopleToHandle.map((p) => {
     return [
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[170px] break-words">
-              <span className="inline font-bold lg:hidden">Namn: </span>
-              <span className="lg:min-h-[48px] inline-flex items-center">
-                <span>
-                  {p.givenname} {p.lastname}
-                </span>
-              </span>
-            </div>
-          </Fragment>
-        ),
+        element: `${p.givenname} ${p.lastname}`,
         isShown: true,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[180px] break-words">
-              <span className="inline font-bold lg:hidden">Anställning: </span>
-              <span>{p.title}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.title,
         isShown: true,
       },
-      ...(contextColumn
-        ? [
-            {
-              element: contextColumn.element(p),
-              isShown: true,
-            },
-          ]
-        : []),
+      ...(contextColumn ?
+        [
+          {
+            element: contextColumn.element(p),
+            isShown: true,
+          },
+        ]
+      : []),
     ];
   });
 
   return (
-    <Disclosure
-      initalOpen={peopleToHandle.length === 1}
-      noMargin
-      className="mt-lg"
-      variant="outline"
-      header={`Valda personer (${peopleToHandle.length})`}
-    >
-      <ZebraTable
+    <section className="flex flex-col gap-8">
+      <h3 className="text-lead">{`Valda personer (${peopleToHandle.length})`}</h3>
+      <DataTable
         pageSize={4}
         captionBody=""
         captionTitle=""
@@ -75,6 +51,6 @@ export const MarkedPeopleList = ({ peopleToHandle, contextColumn }: MarkedPeople
         tableSortable={false}
         summary=""
       />
-    </Disclosure>
+    </section>
   );
 };

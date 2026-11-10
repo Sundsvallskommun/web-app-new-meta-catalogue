@@ -1,26 +1,17 @@
 .SubmenuLayout {
   .main-container {
-    @apply flex pt-10 bg-gray-lighter pb-20 md:px-lg;
+    @apply flex pt-24 pb-50 md:px-lg;
 
     .container {
-      @apply mx-auto flex gap-x-10;
+      @apply mx-auto flex gap-x-24;
     }
 
     main {
-      @apply flex-grow border border-gray-middle overflow-x-hidden;
+      @apply flex-grow border-1 border-divider overflow-x-hidden;
     }
   }
 
   .next-link-a {
-    @apply sr-only focus:not-sr-only bg-primary-light border-2 border-black p-4 text-black inline-block focus:absolute focus:top-0 focus:left-0 focus:right-0 focus:m-auto focus:w-80 text-center;
-  }
-
-  .TabMenu {
-    .SearchBar {
-      margin-left: auto;
-      margin-top: auto;
-      margin-bottom: auto;
-      max-width: 460px;
-    }
+    @apply sr-only focus:not-sr-only bg-vattjom-background-200 border-2 border-dark-primary p-10 text-dark-primary inline-block focus:absolute focus:top-0 focus:left-0 focus:right-0 focus:m-auto focus:w-80 text-center;
   }
 }

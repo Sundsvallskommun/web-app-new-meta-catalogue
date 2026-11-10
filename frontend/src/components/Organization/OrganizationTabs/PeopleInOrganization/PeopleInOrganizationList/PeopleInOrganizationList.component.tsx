@@ -1,19 +1,19 @@
 import PersonEditor from '@components/Organization/OrganizationTabs/PeopleInOrganization/PersonEditor/PersonEditor.component';
 import { useAppContext } from '@contexts/app.context';
 import { MDVEmployee } from '@data-contracts/backend/data-contracts';
-import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
+import { ListCollapse } from 'lucide-react';
 import { getEmployeeDetails } from '@services/mdviewer/api-calls/employment';
 import { employeeHeaders } from '@services/mdviewer/defaults/employment';
 import { useEmployeesStore } from '@services/mdviewer/employment-service';
 import { orgHighlightedTableRowProperty } from '@services/mdviewer/enums/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import { Button, Pagination, ZebraTable, ZebraTableColumn, ZebraTableHeader } from '@sk-web-gui/react';
+import { Button } from '@sk-web-gui/react';
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useWindowSize } from '@utils/use-window-size.hook';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface IPeopleInOrganization {
   searchQuery?;
@@ -50,8 +50,6 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
     employeeList,
     tableRef
   );
-
-  const windowSize = useWindowSize();
 
   const [page, setPage] = useState<number>(highlightedItemIndex ? Math.floor(highlightedItemIndex / pageSize) : 1);
 
@@ -90,11 +88,11 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   }, [highlightedItemIndex, highlightedTableRow.clickFingerPrint]);
 
   //table header
-  const headers: ZebraTableHeader[] = employeeHeaders
+  const headers: DataTableHeader[] = employeeHeaders
     // persondetaljer
     .filter((x) => (x.filterId == 4 ? user.permissions.canViewEmployeeDetails : true))
     .map((header) => ({
-      element: <span className="font-bold">{header.label}</span>,
+      element: header.label,
       screenReaderOnly: header.screenReaderOnly,
       isColumnSortable: header.isColumnSortable,
       isShown: orgEmployeeFilter.find((f) => f.id === header.filterId)?.value,
@@ -134,28 +132,28 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   const sortHandler = useCallback((sortColumn: number, sortAscending: boolean) => {
     const asc = sortAscending ? 1 : -1;
     setEmployeeList((employees) =>
-      employees.length > 0
-        ? [
-            ...employees.sort((employeeA: MDVEmployee, employeeB: MDVEmployee) => {
-              switch (sortColumn) {
-                case 0:
-                  return columnSort(
-                    employeeA.givenname + employeeA.lastname,
-                    employeeB.givenname + employeeB.lastname,
-                    asc
-                  );
-                case 1:
-                  return columnSort(employeeA.personNumber, employeeB.personNumber, asc);
-                case 2:
-                  return columnSort(employeeA.title, employeeB.title, asc);
-                case 3:
-                  return columnSort(employeeA.loginname, employeeB.loginname, asc);
-                default:
-                  return asc;
-              }
-            }),
-          ]
-        : []
+      employees.length > 0 ?
+        [
+          ...employees.sort((employeeA: MDVEmployee, employeeB: MDVEmployee) => {
+            switch (sortColumn) {
+              case 0:
+                return columnSort(
+                  employeeA.givenname + employeeA.lastname,
+                  employeeB.givenname + employeeB.lastname,
+                  asc
+                );
+              case 1:
+                return columnSort(employeeA.personNumber, employeeB.personNumber, asc);
+              case 2:
+                return columnSort(employeeA.title, employeeB.title, asc);
+              case 3:
+                return columnSort(employeeA.loginname, employeeB.loginname, asc);
+              default:
+                return asc;
+            }
+          }),
+        ]
+      : []
     );
   }, []);
 
@@ -165,7 +163,7 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   const pages = Math.ceil(employeeListSearchFiltered.length / pageSize);
 
   //table columns n rows
-  const rows: ZebraTableColumn[][] = employeeListRendered.map((p) => {
+  const rows: DataTableColumn[][] = employeeListRendered.map((p) => {
     const getADName = (loginname) => {
       const split = loginname.split('\\');
       return split[split.length - 1];
@@ -177,82 +175,38 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
 
     return [
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[170px] break-words pr-2.5">
-              <span className="inline font-bold lg:hidden">Namn: </span>
-              <span className="lg:min-h-[48px] lg:flex lg:items-center">
-                {p.orgId !== undefined && p.orgId !== null && !organization.isLeafLevel ? (
-                  <Button
-                    variant="link"
-                    className="text-body text-left"
-                    onClick={() => handleShowInOrgAndPerson(p.orgId, p.personId)}
-                  >
-                    {p.givenname} {p.lastname}
-                  </Button>
-                ) : (
-                  <span>
-                    {p.givenname} {p.lastname}
-                  </span>
-                )}
-              </span>
-            </div>
-          </Fragment>
-        ),
+        element:
+          p.orgId !== undefined && p.orgId !== null && !organization.isLeafLevel ?
+            <Button variant="link" onClick={() => handleShowInOrgAndPerson(p.orgId, p.personId)}>
+              {p.givenname} {p.lastname}
+            </Button>
+          : `${p.givenname} ${p.lastname}`,
         isShown: orgEmployeeFilter.find((i) => i.id === 0).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[100px] break-words pr-2.5">
-              <span className="inline font-bold lg:hidden">Personnummer: </span>
-              <span>{p.personNumber}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.personNumber,
         isShown: orgEmployeeFilter.find((i) => i.id === 1).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[180px] break-words pr-2.5">
-              <span className="inline font-bold lg:hidden">Anställning: </span>
-              <span className="inline">{p.title}</span>
-            </div>
-          </Fragment>
-        ),
+        element: p.title,
         isShown: orgEmployeeFilter.find((i) => i.id === 2).value,
       },
       {
-        element: (
-          <Fragment>
-            <div className="lg:w-[140px] pr-2.5">
-              <span className="inline font-bold lg:hidden">Användarnamn: </span>
-              <span>{getADName(p.loginname)}</span>
-            </div>
-          </Fragment>
-        ),
+        element: getADName(p.loginname),
         isShown: orgEmployeeFilter.find((i) => i.id === 3).value,
       },
       {
         element: (
-          <Fragment>
-            <div className="mt-4 lg:mt-0 relative">
-              <Button
-                variant={windowSize.lg ? 'outline' : 'solid'}
-                color={`primary`}
-                className="border-0"
-                iconButton={windowSize.lg || undefined}
-                title="Öppna persondetaljer"
-                aria-label={`${p.givenname} ${p.lastname}`}
-                size="md"
-                onClick={() => openEditModal(p)}
-                leftIcon={<ReadMoreOutlinedIcon className="material-icon !text-2xl" aria-hidden="true" />}
-              >
-                <span className="lg:hidden">Öppna persondetaljer</span>
-              </Button>
-            </div>
-          </Fragment>
+          <Button
+            iconButton
+            variant="tertiary"
+            size="sm"
+            title="Öppna persondetaljer"
+            aria-label={`Öppna persondetaljer för ${p.givenname} ${p.lastname}`}
+            onClick={() => openEditModal(p)}
+          >
+            <ListCollapse />
+          </Button>
         ),
         isShown: orgEmployeeFilter.find((i) => i.id === 4)?.value && user.permissions.canViewEmployeeDetails,
       },
@@ -269,21 +223,25 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
   }, [employeesByOrgMemo, sortHandler, defaultSort.idx, defaultSort.sortMode]);
 
   return (
-    <div className="w-full bg-white px-0 pb-16 pt-10">
+    <div className="w-full bg-background-content px-0 pb-40 pt-24">
       <h2
         id="org-tabs-people-table-rowsstext"
         aria-label={`${employeeListSearchFiltered.length} personer i listan`}
-        className="table-header text-xl mx-8 px-2 border-b-2 border-grey"
+        className="flex items-center min-h-32 text-lead mb-16"
+        data-cy="table-header"
       >
         Personer &#40;{employeeListSearchFiltered.length}&#41;
       </h2>
-      {rows.length > 0 ? (
-        <div className={'overflow-x-auto custom-scroll'}>
-          <ZebraTable
+      {rows.length > 0 ?
+        <div>
+          <DataTable
             ref={tableRef}
-            highlightedItemIndex={highlightedItemIndex !== undefined ? highlightedItemIndex % pageSize : undefined}
+            highlightedItemIndex={highlightedItemIndex}
             sortHandler={sortHandler}
-            pages={0}
+            pages={pages}
+            page={page}
+            changePage={setPage}
+            onPageClick={() => setHighlightedTableRow({})}
             pageSize={pageSize}
             defaultSort={defaultSort}
             captionBody=""
@@ -293,23 +251,8 @@ export const PeopleInOrganizationList = (props: IPeopleInOrganization) => {
             tableSortable={true}
             summary=""
           />
-          {pages > 1 && (
-            <Pagination
-              className="mt-lg px-lg"
-              pages={pages}
-              activePage={page}
-              pagesBefore={!windowSize.lg ? 0 : undefined}
-              pagesAfter={!windowSize.lg ? 0 : undefined}
-              changePage={(page) => {
-                setPage(page);
-                setHighlightedTableRow({});
-              }}
-            />
-          )}
         </div>
-      ) : (
-        <div className="mt-sm mx-8 px-2">Inga personer att visa.</div>
-      )}
+      : <div className="mt-sm">Inga personer att visa.</div>}
       {isOpen && selectedEmployeeDetails && user.permissions.canViewEmployeeDetails && (
         <PersonEditor isOpen={isOpen} closeCallback={closeModal} employeeDetails={selectedEmployeeDetails} />
       )}

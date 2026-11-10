@@ -43,10 +43,10 @@ describe('/hanteraorganisation - main - Tabs - People - Disconnect Activity', ()
   });
 
   it('Disconnect Activity via person detail', () => {
-    cy.get('button').contains('[title]', 'Öppna persondetaljer').first().click();
-    cy.get('div[aria-modal="true"]').find('button').contains('[title]', 'Redigera anställning').click();
+    cy.get('button[title^="Öppna persondetaljer"]').first().click();
+    cy.get('div[aria-modal="true"]').find('button[title^="Redigera anställning"]').first().click();
 
-    cy.contains('button', 'Ändra aktivitet').click();
+    cy.get('div[aria-modal="true"]').contains('button', 'Ändra aktivitet').click();
 
     cy.wait('@getActivities');
 
@@ -58,7 +58,7 @@ describe('/hanteraorganisation - main - Tabs - People - Disconnect Activity', ()
 
   it('Disconnect Activity via selecting 1 person', () => {
     cy.get('input[aria-label="Bob Miller"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
 
     cy.contains('button', 'Ändra aktivitet').click();
 
@@ -72,7 +72,7 @@ describe('/hanteraorganisation - main - Tabs - People - Disconnect Activity', ()
 
   it('Disconnect Activity via choose all people', () => {
     cy.get('input[aria-label="Välj alla personer"]').click({ force: true });
-    cy.get('button').contains('Hantera Markerade').click();
+    cy.get('button').contains('Hantera markerade').click();
 
     cy.contains('button', 'Ändra aktivitet').click();
 

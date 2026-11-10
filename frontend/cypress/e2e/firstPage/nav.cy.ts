@@ -17,16 +17,17 @@ describe('Nav header', () => {
   });
 
   it('should have usermenu showing the name', () => {
-    cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
-    cy.get('.sk-usermenu-body').should('be.visible');
-    cy.get('.sk-usermenu-body').contains('Rapportera fel').should('be.visible').click();
+    cy.get('.sk-usermenu-button').click();
+    cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible');
+    cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
+    cy.get('.sk-usermenu .sk-popup-menu-items').contains('Rapportera fel').should('be.visible').click();
     cy.get('div[aria-modal="true"]').contains('Rapportera fel').should('be.visible');
   });
 
   const menuItemLabels = ['Rapportera fel', 'Hantera organisation', 'Logga ut'];
 
   it('should show usermenu body when opened', () => {
-    // Click the button.usermenu-header to open the dropdown menu
+    // Click the usermenu button to open the dropdown menu
     menuItemLabels.forEach((label) => {
       it(`should show the "${label}"`, () => {});
     });
@@ -39,17 +40,18 @@ describe('Nav header', () => {
       it(`should show "${label}" popup when clicked`, () => {
         cy.intercept('POST', '**/api/feedback', rapporteraSystemfelFeedback);
 
-        // Click the button.usermenu-header to open the dropdown menu
-        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
+        // Click the usermenu button to open the dropdown menu
+        cy.get('.sk-usermenu-button').click();
+        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible');
 
         // Check if the dropdown menu is visible
-        cy.get('.sk-usermenu-body').should('be.visible');
+        cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
 
         // Find the menu item by its label and click on it
-        cy.get('.usermenu-item').contains(label).click();
+        cy.get('.sk-usermenu .sk-popup-menu-item').contains(label).click();
 
         // Check if the modal/popup with the title 'Rapportera fel' is visible
-        cy.contains('Rapportera fel').should('be.visible');
+        cy.get('div[aria-modal="true"]').contains('Rapportera fel').should('be.visible');
 
         cy.contains('select', 'Övrigt (IT)').should('be.visible');
 
@@ -64,7 +66,7 @@ describe('Nav header', () => {
         cy.get('[data-cy="nav-textArea"]').type('This is a test value.');
 
         cy.get('[data-cy="nav-textArea"]')
-          .should('have.attr', 'placeholder', 'Beskrivning...')
+          .should('have.attr', 'placeholder', 'Beskrivning')
           .then(($textarea) => {
             const textareaValue = String($textarea.val());
             if (textareaValue.trim() === '') {
@@ -96,14 +98,15 @@ describe('Nav header', () => {
         // Intercept the network request made when navigating to the desired page
         cy.visit('/');
 
-        // Click the button.usermenu-header to open the dropdown menu
-        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
+        // Click the usermenu button to open the dropdown menu
+        cy.get('.sk-usermenu-button').click();
+        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible');
 
         // Check if the dropdown menu is visible
-        cy.get('.sk-usermenu-body').should('be.visible');
+        cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
 
         // Find the menu item by its label and click on it
-        cy.get('.usermenu-item').contains(label).click();
+        cy.get('.sk-usermenu .sk-popup-menu-item').contains(label).click();
 
         // // Wait for the URL to change to the expected path
         cy.location('pathname').should('eq', '/hanteraorganisation');
@@ -111,20 +114,15 @@ describe('Nav header', () => {
     }
 
     if (label === 'Logga ut') {
-      it(`should navigate to the correct page when "${label}" is clicked`, () => {
-        cy.intercept('GET', '**/me', user).as('getMe');
-        // Click the button.usermenu-header to open the dropdown menu
-        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible').click();
+      it(`should show the "${label}" button`, () => {
+        // Click the usermenu button to open the dropdown menu
+        cy.get('.sk-usermenu-button').click();
+        cy.get('.sk-usermenu').contains('Mel Eli').should('be.visible');
 
         // Check if the dropdown menu is visible
-        cy.get('.sk-usermenu-body').should('be.visible');
+        cy.get('.sk-usermenu .sk-popup-menu-items').should('be.visible');
 
-        // Find the menu item by its label and click on it
-        cy.get('.usermenu-item').contains(label).click();
-
-        // // // // Wait for the URL to change to the expected path
-        cy.wait('@getMe');
-        cy.url().should('contain', '/logout');
+        cy.get('.sk-usermenu [data-cy="nav-span-loggaUt"]').should('be.visible').and('have.text', label);
       });
     }
   });

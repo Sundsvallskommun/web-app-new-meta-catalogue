@@ -29,41 +29,44 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
   });
 
   it('Search operations', () => {
-    cy.get('#sk-tab-panel-2-operations').find('table tbody tr').should('have.length', 4);
+    cy.get('[data-cy="tab-panel-operations"]').find('table tbody tr').should('have.length', 4);
 
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]');
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]').click();
-    cy.get('#sk-tab-panel-2-operations').find('input[placeholder="Sök i listan"]').type('Test Description 63');
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]');
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]').click();
+    cy.get('[data-cy="tab-panel-operations"]').find('input[placeholder="Sök i listan"]').type('Test Description 63');
 
-    cy.get('#sk-tab-panel-2-operations').find('table tbody tr').should('have.length', 1);
+    cy.get('[data-cy="tab-panel-operations"]').find('table tbody tr').should('have.length', 1);
   });
 
   it('Filter table columns', () => {
-    cy.get('#sk-tab-panel-2-operations').contains('Visa/dölj kolumner i verksamheter').click();
+    cy.get('[data-cy="tab-panel-operations"]').contains('Visa/dölj kolumner i verksamheter').click();
 
     // Click the "Dölj alla" button
-    cy.get('button[type="button"]').contains('Dölj alla').click();
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"] button').contains('Dölj alla').click();
     // Check if zebratable header and content have disappeared
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('not.exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
     // And if the appers again..
-    cy.get('button[type="button"]').contains('Visa alla').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('exist');
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"] button').contains('Visa alla').click();
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
     // All visible
 
-    cy.get('.dropdown-filter').contains('label', 'Titel').find('input').should('have.attr', 'aria-disabled', 'true');
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]')
+      .contains('label', 'Titel')
+      .find('input')
+      .should('have.attr', 'aria-disabled', 'true');
 
     // checking Bob Miller
-    cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('not.exist');
-    cy.get('.dropdown-filter').contains('label', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
-    cy.get('.sk-zebratable-tbody td').filter(':visible').contains('87').should('exist');
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('not.exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('not.exist');
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]').contains('label', 'Verksamhetskod').click();
+    cy.get('.sk-table-thead th').filter(':visible').contains('Verksamhetskod').should('exist');
+    cy.get('.sk-table-tbody td').filter(':visible').contains('87').should('exist');
 
-    cy.get('.dropdown-filter')
+    cy.get('[data-cy="tab-panel-operations"] [data-cy="column-filter"]')
       .contains('label', 'Ta bort verksamhet')
       .find('input')
       .should('have.attr', 'aria-disabled', 'true');
@@ -71,14 +74,14 @@ describe('/hanteraorganisation - main - Tabs - Operations', () => {
 
   it('Sort table columns', () => {
     // default sorted by Titel
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Test Description 20').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Titel').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('Test Description 95').should('exist');
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Test Description 20').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Titel').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('Test Description 95').should('exist');
 
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('25').should('exist');
-    cy.get('.sk-zebratable-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
-    cy.get('.sk-zebratable-tbody tr').filter(':visible').first().contains('87').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('25').should('exist');
+    cy.get('.sk-table-thead th').filter(':visible').contains('button', 'Verksamhetskod').click();
+    cy.get('.sk-table-tbody tr').filter(':visible').first().contains('87').should('exist');
   });
 
   it('Connect operation', () => {

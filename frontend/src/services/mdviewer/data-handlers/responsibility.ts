@@ -5,21 +5,18 @@ import {
 import { ApiResponse } from '@services/api-service';
 
 export const responsibilityType = (type) => {
-  let bg, text, border;
+  let text, color;
   if (type == OrganizationResponsibilityTypeOfResponsibilityEnum.LONEANSVAR) {
     text = 'Löneansvar';
-    bg = 'bg-[#E0F6DE]';
-    border = 'border-[#00733B]';
+    color = 'success';
   } else if (type == OrganizationResponsibilityTypeOfResponsibilityEnum.PSEUDOANSVAR) {
     text = 'Pseudoansvar';
-    bg = 'bg-[#f9e9ca]';
-    border = 'border-[#C16A03]';
+    color = 'warning';
   } else {
     text = 'Ansvar';
-    bg = 'bg-[#D7DBF2]';
-    border = 'border-[#5B1F78]';
+    color = 'bjornstigen';
   }
-  return { bg: bg, text: text, border: border };
+  return { text: text, color: color };
 };
 
 export const handleGetAllResponsibilities: (

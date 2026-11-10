@@ -1,7 +1,7 @@
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSaveStore } from '@services/save-service/save-service';
-import { Button, Modal, useConfirm, useMessage } from '@sk-web-gui/react';
+import { Button, Modal, useConfirm, useSnackbar } from '@sk-web-gui/react';
 
 interface ITerminateNodeProps {
   onClose;
@@ -14,7 +14,7 @@ export default function TerminateNode(props: ITerminateNodeProps) {
   const organization = useOrganizationStore((s) => s.organization);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const { showConfirmation } = useConfirm();
-  const message = useMessage();
+  const message = useSnackbar();
   const setIsSaving = useSaveStore((s) => s.setIsSaving);
 
   const onTerminateBranch = () => {
@@ -52,27 +52,26 @@ export default function TerminateNode(props: ITerminateNodeProps) {
   };
 
   return (
-    <Modal className="max-w-[800px]" show onClose={onClose} label={'Stäng gren'}>
-      <span className="mb-md block">
+    <Modal className="w-[calc(100%-32px)] max-w-[800px] my-16" show onClose={onClose} label={'Stäng gren'}>
+      <p className="text-small text-dark-secondary">
         Gren: {organization.orgName} nivå {organization.level}
-      </span>
+      </p>
 
-      <div className="mt-16 flex flex-col sm:flex-row sm:grid sm:grid-cols-2 sm:gap-10">
-        <Button variant="solid" size="lg" className="my-sm sm:my-6 w-full" type="button" onClick={onClose}>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={onClose}>
           Avbryt
         </Button>
         <Button
-          size="lg"
-          variant="solid"
+          className="flex-1"
+          variant="primary"
           color="primary"
-          className="my-sm sm:my-6 w-full"
           loadingText="Sparar"
           type="button"
           onClick={onTerminateBranch}
         >
           Stäng gren
         </Button>
-      </div>
+      </Modal.Footer>
     </Modal>
   );
 }

@@ -1,38 +1,33 @@
-import RectangleIcon from '@mui/icons-material/Rectangle';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import { Button } from '@sk-web-gui/react';
+import { List, Square } from 'lucide-react';
 
 const DraftViewAs = (props) => {
   const { setView, view } = props;
 
-  const handleOnClick = (view) => {
-    setView(view);
-  };
-
   return (
-    <div className="flex">
-      <label className="py-md mr-4" id="show-as-liststyle">
-        Visa som:
-      </label>
-      <span className="mr-4">
-        <button
-          title="Kort"
-          aria-labelledby="show-as-liststyle"
-          onClick={() => handleOnClick('card')}
-          className={`${view === `card` ? `activecard` : `text-neutral-500`} draftShowAs`}
-        >
-          <RectangleIcon sx={{ fontSize: '2.5rem' }}></RectangleIcon>
-        </button>
-      </span>
-      <span>
-        <button
-          title="Lista"
-          aria-labelledby="show-as-liststyle"
-          onClick={() => handleOnClick('list')}
-          className={`${view === `list` ? `activelist` : `text-neutral-500`} draftShowAs`}
-        >
-          <FormatListBulletedIcon sx={{ fontSize: '2.5rem' }}></FormatListBulletedIcon>
-        </button>
-      </span>
+    <div className="flex gap-8">
+      <Button
+        iconButton
+        rounded
+        variant={view === 'card' ? 'primary' : 'tertiary'}
+        title="Kort"
+        aria-label="Visa som kort"
+        aria-pressed={view === 'card'}
+        onClick={() => setView('card')}
+      >
+        <Square />
+      </Button>
+      <Button
+        iconButton
+        rounded
+        variant={view === 'list' ? 'primary' : 'tertiary'}
+        title="Lista"
+        aria-label="Visa som lista"
+        aria-pressed={view === 'list'}
+        onClick={() => setView('list')}
+      >
+        <List />
+      </Button>
     </div>
   );
 };

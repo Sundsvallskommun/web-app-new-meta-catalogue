@@ -3,23 +3,23 @@ import {
   OrgChangeActivity,
   OrgChangeOrganizationEmployee,
 } from '@data-contracts/backend/data-contracts';
-import LeadButtons from '@layouts/ButtonGroup/LeadButtons';
-import UndoIcon from '@mui/icons-material/Undo';
+import { Undo2 } from 'lucide-react';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { changeEmployment } from '@services/mdbuilder/api-calls/employment';
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
-import { Combobox } from '@sk-web-gui/forms';
 import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormLabel,
   Modal,
-  OptionValueType,
   useConfirm,
-  useMessage,
+  useSnackbar,
+  Combobox,
 } from '@sk-web-gui/react';
+import { OptionValueType } from '@interfaces/option-value';
 import { renderNewOrOld } from '@utils/render-new-or-old';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { MarkedPeopleList } from './components/MarkedPeopleList.component';
 
 interface IChangeActivityProps {
@@ -37,7 +37,7 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
   const [errorMessage, setErrorMessage] = useState('');
   const { showConfirmation } = useConfirm();
 
-  const message = useMessage();
+  const message = useSnackbar();
 
   const peopleToHandleWithActivityCode = peopleToHandle.filter((x) =>
     renderNewOrOld(x.newActivityCode, x.activityCode)
@@ -146,115 +146,103 @@ export default function ChangeActivityModal(props: IChangeActivityProps) {
     setActiveActivity(initialActivity);
   };
 
-  const labelHeading = (
-    <div>
-      <h1 className="text-xl">
-        <label id="search-activity">Sök och välj aktivitet</label>
-      </h1>
-      <h2 className=" block font-normal text-lg leading-tight">
-        {' '}
-        För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
-      </h2>
-    </div>
-  );
-
   const resetButton = (
     <Button
-      className="border-0 float-right"
       type="button"
-      size="md"
-      variant="link"
+      size="sm"
+      variant="tertiary"
       onClick={resetPa}
       aria-label={`Återställ aktivitet`}
-      leftIcon={<UndoIcon className="material-icon !text-2xl" aria-hidden="true" />}
+      leftIcon={<Undo2 />}
     >
       Ångra och återställ
     </Button>
   );
 
   return (
-    <Modal className="max-w-[900px]" show onClose={handleOnClose} label={labelHeading}>
-      <FormControl id="activity-edit-dropdown">
-        <Combobox
-          className="w-full"
-          id="activity-edit-dropdown"
-          placeholder="Sök på aktivitetkod eller beskrivning"
-          onChange={onActivitySelectHandler}
-          value={activeActivity?.label ?? []}
-          defaultValue={activeActivity?.label ?? []}
-        >
-          <Combobox.List>
-            {activitiesByCompany.map((item, index) => (
-              <Combobox.Option key={`item-${index}`} value={item.activityCode}>
-                {`${item.activityCode.trim()} - ${item.description.trim()}`}
-              </Combobox.Option>
-            ))}
-          </Combobox.List>
-        </Combobox>
-      </FormControl>
-      <form onSubmit={onSubmit}>
+    <Modal className="w-[calc(100%-32px)] max-w-[900px] my-16" show onClose={handleOnClose} label="Ändra aktivitet">
+      <form id="change-activity-modal-form" onSubmit={onSubmit} className="flex flex-col gap-16">
+        <p className="text-small text-dark-secondary">
+          För {`${peopleToHandle.length} personer`} under gren {organization.orgName} nivå 6
+        </p>
+        <FormControl id="activity-edit-dropdown" className="w-full">
+          <FormLabel>Aktivitet</FormLabel>
+          <Combobox
+            className="w-full"
+            id="activity-edit-dropdown"
+            onChange={onActivitySelectHandler}
+            value={activeActivity?.label ?? []}
+            defaultValue={activeActivity?.label ?? []}
+          >
+            <Combobox.Input className="w-full" placeholder="Sök på aktivitetkod eller beskrivning" />
+            <Combobox.List>
+              {activitiesByCompany.map((item, index) => (
+                <Combobox.Option key={`item-${index}`} value={item.activityCode}>
+                  {`${item.activityCode.trim()} - ${item.description.trim()}`}
+                </Combobox.Option>
+              ))}
+            </Combobox.List>
+          </Combobox>
+        </FormControl>
         {activeActivity &&
           activeActivity?.data?.activityId !== initialActivity?.data?.activityId &&
-          peopleToHandle.length === 1 && <div className="w-full py-sm">{resetButton}</div>}
-        {errorMessage && (
-          <div className="w-full flex justify-between space-x-2 my-lg">
-            <FormErrorMessage>
-              <span>{errorMessage ? errorMessage : 'Det gick inte att spara åtgärd'}</span>
-            </FormErrorMessage>
-          </div>
-        )}
+          peopleToHandle.length === 1 && <div>{resetButton}</div>}
+        {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         {peopleToHandle.length !== 0 && (
           <MarkedPeopleList
             peopleToHandle={peopleToHandle}
             contextColumn={{
               header: 'Aktivitet',
               element: (p) => (
-                <Fragment>
-                  <span className="inline font-bold lg:hidden">Aktivitet: </span>
-                  <span className="lg:float-left">
-                    <span className="lg:font-bold lg:text-sm lg:float-left">
-                      {renderNewOrOld(p.newActivityCode, p.activityCode)}
-                    </span>
-                    <br />
-                    <span className="inline font-bold lg:hidden">Aktivitet-namn: </span>
-                    <span>{renderNewOrOld(p.newActivityName, p.activityName)}</span>
-                  </span>
-                </Fragment>
+                <>
+                  {renderNewOrOld(p.newActivityCode, p.activityCode)}
+                  <br />
+                  {renderNewOrOld(p.newActivityName, p.activityName)}
+                </>
               ),
             }}
           />
         )}
         {peopleToHandleWithActivityCode.length > 0 && (
-          <div className="mt-lg gap-sm">
+          <div className="flex flex-col items-start gap-8">
             <Button
-              className="text-error border-error hover:border-error hover:bg-error focus-within:bg-error focus-within:text-white"
+              type="button"
+              color="error"
               size="sm"
-              variant="outline"
+              variant="tertiary"
               aria-describedby="activity-modal-disconnect-text"
               onClick={handleDisconnectActivity}
             >
               Koppla bort nuvarande aktivitet
             </Button>
             {peopleToHandle.length > 1 ?
-              <p id="activity-modal-disconnect-text">{`Väljer du att koppla bort nuvarande aktivitet kommer inget aktivitet finnas knutet till valda personer.`}</p>
-            : <p id="activity-modal-disconnect-text">{`Väljer du att koppla bort nuvarande aktivitet ${initialActivity.data.description} ${initialActivity.data.activityCode} kommer inget aktivitet finnas knutet till den valda personen.`}</p>
+              <p
+                id="activity-modal-disconnect-text"
+                className="text-small"
+              >{`Väljer du att koppla bort nuvarande aktivitet kommer inget aktivitet finnas knutet till valda personer.`}</p>
+            : <p
+                id="activity-modal-disconnect-text"
+                className="text-small"
+              >{`Väljer du att koppla bort nuvarande aktivitet ${initialActivity.data.description} ${initialActivity.data.activityCode} kommer inget aktivitet finnas knutet till den valda personen.`}</p>
             }
           </div>
         )}
-        <LeadButtons>
-          <Button type="button" onClick={handleOnClose}>
-            Stäng
-          </Button>
-          <Button
-            variant="solid"
-            type="submit"
-            color="primary"
-            aria-disabled={!activeActivity?.data?.activityId ? 'true' : undefined}
-          >
-            Spara
-          </Button>
-        </LeadButtons>
       </form>
+      <Modal.Footer>
+        <Button variant="secondary" className="flex-1" type="button" onClick={handleOnClose}>
+          Avbryt
+        </Button>
+        <Button
+          className="flex-1"
+          variant="primary"
+          type="submit"
+          form="change-activity-modal-form"
+          color="primary"
+          aria-disabled={!activeActivity?.data?.activityId ? 'true' : undefined}
+        >
+          Spara
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
