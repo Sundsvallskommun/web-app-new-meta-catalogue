@@ -6,6 +6,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   output: 'standalone',
   images: {
+    // Closes the /_next/image endpoint (Next 16.2.x RCE/SSRF advisories); remove once Next >= 16.4.1 can run on the servers.
+    unoptimized: true,
     remotePatterns: [{ hostname: process.env.DOMAIN_NAME || 'localhost' }],
     formats: ['image/avif', 'image/webp'],
   },
