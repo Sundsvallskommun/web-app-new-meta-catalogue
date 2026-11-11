@@ -30,9 +30,9 @@ export default function Logout() {
     resetResponsibility();
     resetOrgChange();
     localStorage.clear();
-    window.location.assign(
-      `${process.env.NEXT_PUBLIC_API_URL}/saml/logout?${new URLSearchParams({ successRedirect: `${appURL()}/login?loggedout` })}`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/saml/logout`);
+    url.searchParams.set('successRedirect', `${appURL()}/login?loggedout`);
+    window.location.assign(url.toString());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

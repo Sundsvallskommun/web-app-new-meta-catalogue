@@ -31,9 +31,9 @@ export default function Start() {
   const onLogin = () => {
     // NOTE: send user to login with SSO
     const path = new URLSearchParams(window.location.search).get('path') || '';
-    window.location.assign(
-      `${process.env.NEXT_PUBLIC_API_URL}/saml/login?${new URLSearchParams({ successRedirect: `${appURL()}${path}` })}`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/saml/login`);
+    url.searchParams.set('successRedirect', appURL() + path);
+    window.location.assign(url.toString());
   };
 
   useEffect(() => {
@@ -41,17 +41,15 @@ export default function Start() {
     setTimeout(() => setMounted(true), 500); // to not flash the login-screen on autologin
     if (isLoggedOut) {
       router.push('/login');
-    } else {
-      if (!failMessage && autoLogin) {
-        // autologin
-        onLogin();
-      } else if (failMessage === 'SAML_MISSING_GROUP') {
-        setErrorMessage('Användaren saknar rätt grupper');
-      } else if (failMessage === 'SAML_MISSING_ATTRIBUTES') {
-        setErrorMessage('Användaren saknar rätt attribut');
-      } else if (failMessage === 'MISSING_PERMISSIONS') {
-        setErrorMessage('Användaren saknar rättigheter');
-      }
+    } else if (!failMessage && autoLogin) {
+      // autologin
+      onLogin();
+    } else if (failMessage === 'SAML_MISSING_GROUP') {
+      setErrorMessage('Användaren saknar rätt grupper');
+    } else if (failMessage === 'SAML_MISSING_ATTRIBUTES') {
+      setErrorMessage('Användaren saknar rätt attribut');
+    } else if (failMessage === 'MISSING_PERMISSIONS') {
+      setErrorMessage('Användaren saknar rättigheter');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

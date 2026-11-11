@@ -47,15 +47,13 @@ export const Index: React.FC = () => {
         if (error) {
           router.push('/hanteraorganisation');
         }
-      } else {
-        if (!draft.companyId) {
-          setSelectedOrganizationId(null);
-          router.push('/hanteraorganisation');
-        }
+      } else if (!draft.companyId) {
+        setSelectedOrganizationId(null);
+        router.push('/hanteraorganisation');
       }
     };
 
-    loadDraft();
+    void loadDraft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draftId, draft.companyId]);
 
