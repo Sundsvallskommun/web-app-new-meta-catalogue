@@ -1,10 +1,13 @@
 import { Button } from '@sk-web-gui/react';
 import { LogOut } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 import { useUserStore } from '@services/user-service/user-service';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 
 export const useMenuItems = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const feedbackHref = useFeedbackHref();
   const { user } = useUserStore();
 
   const menuItems = [
@@ -17,14 +20,14 @@ export const useMenuItems = () => {
             <Button
               key={'feedback'}
               onClick={() =>
-                router.replace({ query: { ...router.query, feedback: 'OTHER' } }, undefined, { shallow: true })
+                router.replace(feedbackHref('OTHER'))
               }
             >
               Rapportera fel
             </Button>
           ),
         },
-        !router.pathname.includes('/hanteraorganisation') && {
+        !pathname.includes('/hanteraorganisation') && {
           label: 'Hantera organisation',
           permissions: user.permissions.canViewDrafts,
           element: () => (
@@ -33,7 +36,7 @@ export const useMenuItems = () => {
             </Button>
           ),
         },
-        router.pathname.includes('/hanteraorganisation') && {
+        pathname.includes('/hanteraorganisation') && {
           label: 'Masterdata',
           element: () => (
             <Button key={'masterdata'} onClick={() => router.push('/')}>

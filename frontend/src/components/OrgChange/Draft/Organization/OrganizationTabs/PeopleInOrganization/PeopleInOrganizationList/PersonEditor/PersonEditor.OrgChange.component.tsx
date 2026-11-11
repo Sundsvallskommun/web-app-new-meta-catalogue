@@ -8,7 +8,8 @@ import { Flag } from 'lucide-react';
 import { renderNewOrOld } from '@utils/render-new-or-old';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTable/DataTable.component';
 
 interface EmployeeEditorProps {
@@ -26,6 +27,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
   const user = useUserStore((s) => s.user);
 
   const router = useRouter();
+  const feedbackHref = useFeedbackHref();
   const { draftIsReadOnly } = useDraftPhaseState();
 
   const handleOnClose = async () => {
@@ -137,7 +139,7 @@ const PersonEditor = (props: EmployeeEditorProps) => {
               size="sm"
               leftIcon={<Flag />}
               onClick={() =>
-                router.replace({ query: { ...router.query, feedback: 'PERSONDETAILS' } }, undefined, { shallow: true })
+                router.replace(feedbackHref('PERSONDETAILS'))
               }
             >
               Rapportera fel

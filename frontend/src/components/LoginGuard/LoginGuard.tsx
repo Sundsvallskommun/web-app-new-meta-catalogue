@@ -1,7 +1,7 @@
 import LoaderFullScreen from '@components/Loader/LoaderFullScreen.component';
 import { useAppContext } from '@contexts/app.context';
 import { useUserStore } from '@services/user-service/user-service';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export const LoginGuard: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
@@ -11,7 +11,14 @@ export const LoginGuard: React.FC<{ children?: React.ReactNode }> = ({ children 
   const getMe = useUserStore((s) => s.getMe);
 
   const router = useRouter();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+
+  // Routes by permissions
+  const isForbiddenRoute =
+    !!user.name &&
+    ((pathname == '/hanteraorganisation' && !user.permissions.canViewDrafts) ||
+      (pathname == '/hanteraorganisation/utkast' && !user.permissions.canEditOrganizationStructure));
 
   useEffect(() => {
     setMounted(true);
@@ -27,24 +34,21 @@ export const LoginGuard: React.FC<{ children?: React.ReactNode }> = ({ children 
 
   // Set isOrgChange based on route
   useEffect(() => {
-    if (router.pathname.includes('hanteraorganisation')) {
+    if (pathname.includes('hanteraorganisation')) {
       setIsOrgChange(true);
     } else {
       setIsOrgChange(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.pathname]);
+  }, [pathname]);
 
-  if (!mounted || (!user.name && !router.pathname.includes('/login'))) {
-    return <LoaderFullScreen />;
-  }
+  useEffect(() => {
+    if (isForbiddenRoute) {
+      router.push('/');
+    }
+  }, [isForbiddenRoute, router]);
 
-  // Routes by permissions
-  if (
-    (router.pathname == '/hanteraorganisation' && !user.permissions.canViewDrafts) ||
-    (router.pathname == '/hanteraorganisation/utkast' && !user.permissions.canEditOrganizationStructure)
-  ) {
-    router.push('/');
+  if (!mounted || (!user.name && !pathname.includes('/login')) || isForbiddenRoute) {
     return <LoaderFullScreen />;
   }
 

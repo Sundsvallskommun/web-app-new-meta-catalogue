@@ -5,10 +5,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   output: 'standalone',
-  i18n: {
-    locales: ['sv'],
-    defaultLocale: 'sv',
-  },
   images: {
     remotePatterns: [{ hostname: process.env.DOMAIN_NAME || 'localhost' }],
     formats: ['image/avif', 'image/webp'],

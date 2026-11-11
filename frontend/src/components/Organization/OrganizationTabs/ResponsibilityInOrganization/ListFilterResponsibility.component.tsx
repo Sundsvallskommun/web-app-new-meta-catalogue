@@ -7,7 +7,7 @@ import { useUserStore } from '@services/user-service/user-service';
 import { Button, FormControl, SearchField } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import React, { useState } from 'react';
 
 interface IListFiter {
@@ -20,7 +20,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
   const user = useUserStore((s) => s.user);
   const orgChangeOrg = useOrganizationStore((s) => s.organization) as OrgChangeOrganizationTree;
   const { draftIsReadOnly } = useDraftPhaseState();
-  const router = useRouter();
+  const feedbackHref = useFeedbackHref();
   const [isOpen, setIsOpen] = useState(false);
 
   const openModalHandler = () => {
@@ -57,7 +57,6 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
                   'orgchange-tabs-responsibilities-table-rowsstext'
                 : 'org-tabs-responsibilities-table-rowsstext'
               }
-              rounded
               placeholder="Sök i listan"
               value={searchQuery}
               onReset={onSearchCloseHandler}
@@ -72,13 +71,7 @@ const ListFilterResponsibility = ({ searchQuery, setSearchQuery }: IListFiter) =
                 Skapa nytt ansvar
               </Button>
             )}
-            <NextLink
-              href={{
-                query: { ...router.query, feedback: 'RESPONSIBILITY' },
-              }}
-              shallow
-              replace
-            >
+            <NextLink href={feedbackHref('RESPONSIBILITY')} replace>
               <Button as="span" variant="secondary" size="md">
                 Rapportera fel
               </Button>

@@ -1,3 +1,5 @@
+'use client';
+
 import ResponsibilityList from '@components/Responsibilities/ResponsibilityList/ResponsibilityList';
 import ResponsibilityListFilter from '@components/Responsibilities/ResponsibilityListFilter/ResponsibilityListFilter';
 import Main from '@layouts/Main/Main.component';

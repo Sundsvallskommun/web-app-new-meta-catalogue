@@ -5,9 +5,8 @@ import { FeedbackModalWrapper } from '@components/Feedback/FeedbackModalWrapper.
 import { useMenuItems } from '@components/UserMenuItems/UserMenuItems';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useUserStore } from '@services/user-service/user-service';
-import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface DefaultLayoutProps {
   children: React.ReactElement | React.ReactElement[];
@@ -50,10 +49,8 @@ export default function DefaultLayout({
 
   return (
     <div className="DefaultLayout full-page-layout">
-      <Head>
-        <title>{title ? title : fullTitle}</title>
-        <meta name="description" content="Masterdata" />
-      </Head>
+      <title>{title ? title : fullTitle}</title>
+      <meta name="description" content="Masterdata" />
 
       <a href="#content" onClick={setFocusToMain} accessKey="s" className="next-link-a" data-cy="systemMessage-a">
         Hoppa till innehåll

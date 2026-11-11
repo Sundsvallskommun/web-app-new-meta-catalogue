@@ -13,7 +13,7 @@ import { DataTable, DataTableColumn, DataTableHeader } from '@components/DataTab
 import { columnSort } from '@utils/columnSort';
 import { searchFilter } from '@utils/search';
 import { useHighlightedTableRow } from '@utils/use-highlightedtablerow';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IResponsibilityListProps {
@@ -56,21 +56,14 @@ export const ResponsibilityList = (props: IResponsibilityListProps) => {
     }));
 
   const handleShowInOrg = (orgId, orgResponsibilityId) => {
-    router
-      .push('/')
-      .then(() => {
-        setSelectedOrganizationId(orgId);
-      })
-      .then(() => {
-        setOrganizationTabIndex(orgTabIndex['RESPONSIBILITY']);
-      })
-      .then(() => {
-        setHighlightedTableRow({
-          property: orgHighlightedTableRowProperty['RESPONSIBILITY'],
-          value: orgResponsibilityId,
-          clickFingerPrint: new Date(),
-        });
-      });
+    router.push('/');
+    setSelectedOrganizationId(orgId);
+    setOrganizationTabIndex(orgTabIndex['RESPONSIBILITY']);
+    setHighlightedTableRow({
+      property: orgHighlightedTableRowProperty['RESPONSIBILITY'],
+      value: orgResponsibilityId,
+      clickFingerPrint: new Date(),
+    });
   };
 
   const sortHandler = useCallback((sortColumn: number, sortAscending: boolean) => {

@@ -5,7 +5,7 @@ import { useSearchStore } from '@services/mdviewer/search-service';
 import { useUserStore } from '@services/user-service/user-service';
 import { NavigationBar } from '@sk-web-gui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 export default function SubmenuLayout({
   title = '',
@@ -15,7 +15,7 @@ export default function SubmenuLayout({
   children,
   ...rest
 }) {
-  const router = useRouter();
+  const pathname = usePathname();
   const user = useUserStore((s) => s.user);
   const searchTerm = useSearchStore((s) => s.searchTerm);
   return (
@@ -27,7 +27,7 @@ export default function SubmenuLayout({
       tabMenu={
         <div className="bg-background-100 px-md md:px-lg">
           <div data-cy="tabMenu" className="container mx-auto pt-24 pb-sm lg:pb-0 lg:flex lg:items-center">
-            <NavigationBar current={router.pathname.startsWith('/ansvar') ? 1 : 0} className="-ml-8 mb-md lg:mb-0">
+            <NavigationBar current={pathname.startsWith('/ansvar') ? 1 : 0} className="-ml-8 mb-md lg:mb-0">
               <NavigationBar.Item>
                 <NextLink href="/">Organisation</NextLink>
               </NavigationBar.Item>

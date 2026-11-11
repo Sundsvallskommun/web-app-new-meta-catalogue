@@ -1,3 +1,5 @@
+'use client';
+
 import SubmenuLayout from '@layouts/SubmenuLayout/SubmenuLayout.component';
 import { Sidebar } from '@layouts/Sidebar/Sidebar.component';
 import SidebarOrganization from '@components/SidebarOrganization/SidebarOrganization.component';

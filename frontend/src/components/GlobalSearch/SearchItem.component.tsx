@@ -6,7 +6,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useSearchStore } from '@services/mdviewer/search-service';
 import { Button, Label } from '@sk-web-gui/react';
 import { findIdInTree } from '@utils/findIdInTree';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
   const router = useRouter();
@@ -17,74 +17,50 @@ export const SearchItem: React.FC<{ item: SearchResult }> = ({ item }) => {
 
   const handleShowOrg = () => {
     setSearchTerm('');
-    router
-      .push('/')
-      .then(() => {
-        // find and set company to fix sidebar tree when org is not within the selected company
-      })
-      .then(() => {
-        const org = findIdInTree(orgTree, item.id, 'subItems', 'organizationId');
-        if (org) {
-          setSelectedOrganizationId(org.id);
-        } else {
-          setSelectedOrganizationId(null);
-        }
-      });
+    router.push('/');
+    // find and set company to fix sidebar tree when org is not within the selected company
+    const org = findIdInTree(orgTree, item.id, 'subItems', 'organizationId');
+    if (org) {
+      setSelectedOrganizationId(org.id);
+    } else {
+      setSelectedOrganizationId(null);
+    }
   };
 
   const handleShowInOrg = () => {
     setSearchTerm('');
-    router
-      .push('/')
-      .then(() => {
-        // find and set company to fix sidebar tree when org is not within the selected company
-      })
-      .then(() => {
-        setSelectedOrganizationId(item.subId);
-      })
-      .then(() => {
-        setOrganizationTabIndex(orgTabIndex[item.objectType]);
-      })
-      .then(() => {
-        setHighlightedTableRow({
-          property: orgHighlightedTableRowProperty[item.objectType],
-          value: item.id,
-          clickFingerPrint: new Date(),
-        });
-      });
+    router.push('/');
+    // find and set company to fix sidebar tree when org is not within the selected company
+    setSelectedOrganizationId(item.subId);
+    setOrganizationTabIndex(orgTabIndex[item.objectType]);
+    setHighlightedTableRow({
+      property: orgHighlightedTableRowProperty[item.objectType],
+      value: item.id,
+      clickFingerPrint: new Date(),
+    });
   };
 
   const handleShowInOrgAndPerson = () => {
     setSearchTerm('');
-    router
-      .push('/')
-      .then(() => {
-        // find and set company to fix sidebar tree when org is not within the selected company
-      })
-      .then(() => {
-        setSelectedOrganizationId(item.subId);
-      })
-      .then(() => {
-        setOrganizationTabIndex(orgTabIndex[item.objectType]);
-      })
-      .then(() => {
-        setHighlightedTableRow({
-          property: orgHighlightedTableRowProperty[item.objectType],
-          value: item.id,
-          showPersonDetails: true,
-          clickFingerPrint: new Date(),
-        });
-      });
+    router.push('/');
+    // find and set company to fix sidebar tree when org is not within the selected company
+    setSelectedOrganizationId(item.subId);
+    setOrganizationTabIndex(orgTabIndex[item.objectType]);
+    setHighlightedTableRow({
+      property: orgHighlightedTableRowProperty[item.objectType],
+      value: item.id,
+      showPersonDetails: true,
+      clickFingerPrint: new Date(),
+    });
   };
 
   const handleShowInResponsibility = () => {
     setSearchTerm('');
-    router.push('/ansvar').then(() => {
-      setHighlightedTableRow({
-        property: orgHighlightedTableRowProperty[item.objectType],
-        value: item.id,
-        clickFingerPrint: new Date(),
-      });
+    router.push('/ansvar');
+    setHighlightedTableRow({
+      property: orgHighlightedTableRowProperty[item.objectType],
+      value: item.id,
+      clickFingerPrint: new Date(),
     });
   };
 
