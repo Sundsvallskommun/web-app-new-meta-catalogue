@@ -27,10 +27,11 @@ describe('System', () => {
   });
 
   it('Creates a new system message', () => {
-    cy.intercept('GET', '**/api/alert', { statusCode: 404, body: { message: 'Not Found' } });
+    cy.intercept('GET', '**/api/alert', { statusCode: 404, body: { message: 'Not Found' } }).as('getAlert');
     cy.intercept('POST', '**/api/alert', { data: true, message: 'ok' }).as('postAlert');
     cy.visit('/');
 
+    cy.wait('@getAlert');
     cy.get('[data-cy="alert-banner"]').contains('button', 'Nytt systemmeddelande').should('be.visible').click();
 
     cy.get('[aria-modal="true"]').contains('Nytt systemmeddelande').should('be.visible');
