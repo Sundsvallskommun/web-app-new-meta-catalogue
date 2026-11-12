@@ -1,3 +1,5 @@
+'use client';
+
 import LoaderFullScreen from '@components/Loader/LoaderFullScreen.component';
 import LoaderFullScreenModal from '@components/Loader/LoaderFullScreenModal.component';
 import ActionBottomDraft from '@components/OrgChange/Draft/ActionBottomDraft.component';
@@ -15,11 +17,13 @@ import { Alert, cx } from '@sk-web-gui/react';
 import { X } from 'lucide-react';
 import { shouldEditEmployees } from '@utils/shouldeditemployees';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import { useRouter } from 'next/router';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export const Index: React.FC = () => {
   const router = useRouter();
+  const routerDraftId = useParams<{ draftId?: string[] }>().draftId;
+  const draftId = routerDraftId?.length ? routerDraftId[routerDraftId.length - 1] : null;
   const getCompanyOrganizations = useOrganizationStore((s) => s.getCompanyOrganizations);
   const setSelectedOrganizationId = useOrganizationStore((s) => s.setSelectedOrganizationId);
   const getDraft = useOrgChangeStore((s) => s.getDraft);
@@ -35,30 +39,23 @@ export const Index: React.FC = () => {
 
   useEffect(() => {
     const loadDraft = async () => {
-      const routerDraftId = router.query['draftId'];
-      const draftId = routerDraftId && Array.isArray(routerDraftId) ? routerDraftId.pop() : null;
       if (draft.companyId !== null) {
         getCompanyOrganizations(draft.companyId);
       }
       if (draftId) {
-        if (router.pathname.includes(draftId)) return;
         const { error } = await getDraft(draftId);
         if (error) {
           router.push('/hanteraorganisation');
         }
-      } else {
-        if (!draft.companyId) {
-          setSelectedOrganizationId(null);
-          router.push('/hanteraorganisation');
-        }
+      } else if (!draft.companyId) {
+        setSelectedOrganizationId(null);
+        router.push('/hanteraorganisation');
       }
     };
 
-    if (router.isReady) {
-      loadDraft();
-    }
+    void loadDraft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query, router.isReady, draft.companyId]);
+  }, [draftId, draft.companyId]);
 
   useEffect(() => {
     setShowEmployeeFocus(showFocus);

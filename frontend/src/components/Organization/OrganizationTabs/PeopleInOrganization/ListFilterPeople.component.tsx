@@ -9,7 +9,7 @@ import { Button, FormControl, SearchField } from '@sk-web-gui/react';
 import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import React from 'react';
 interface IListFiter {
   searchQuery?: string;
@@ -33,7 +33,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
 
   const { isOrgChange } = useAppContext();
   const { draftIsReadOnly } = useDraftPhaseState();
-  const router = useRouter();
+  const feedbackHref = useFeedbackHref();
 
   const dropDownFilter =
     isOrgChange ?
@@ -69,7 +69,6 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
           <FormControl id="org-people-listfilter-searchbar" className="w-full">
             <SearchField
               size="md"
-              rounded
               aria-live="polite"
               aria-controls={isOrgChange ? 'orgchange-tabs-people-table-rowsstext' : 'org-tabs-people-table-rowsstext'}
               aria-describedby={
@@ -95,13 +94,7 @@ const ListFilterPeople = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 </Button>
               </a>
             )}
-            <NextLink
-              href={{
-                query: { ...router.query, feedback: 'PERSON' },
-              }}
-              shallow
-              replace
-            >
+            <NextLink href={feedbackHref('PERSON')} replace>
               <Button as="span" variant="secondary">
                 Rapportera fel
               </Button>

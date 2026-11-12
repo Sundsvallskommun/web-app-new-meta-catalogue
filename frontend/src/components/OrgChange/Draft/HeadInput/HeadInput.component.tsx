@@ -6,7 +6,7 @@ import { Button, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import { useSaveState } from '@utils/use-save-service.hook';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';

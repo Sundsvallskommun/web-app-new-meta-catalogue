@@ -2,7 +2,7 @@ import { ChevronDown, Download, EllipsisVertical, Share2, Trash } from 'lucide-r
 import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { Button, PopupMenu, cx, useConfirm, useSnackbar } from '@sk-web-gui/react';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ShareModal from './Draft/Modals/ShareModal.component';
 import { Draft } from '@data-contracts/backend/data-contracts';
@@ -22,6 +22,7 @@ interface IDraftContextMenu {
 
 export default function DraftContextmenu(props: IDraftContextMenu) {
   const { draft: _draft, className, dense = false, menuSide } = props;
+  const router = useRouter();
   const deleteDraft = useOrgChangeStore((s) => s.deleteDraft);
   const draftFromStore = useOrgChangeStore((s) => s.draft);
   const draft = _draft ? _draft : draftFromStore;

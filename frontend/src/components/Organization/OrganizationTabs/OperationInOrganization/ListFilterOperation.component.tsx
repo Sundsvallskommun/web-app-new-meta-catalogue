@@ -11,7 +11,7 @@ import { ColumnFilter } from '@components/ColumnFilter/ColumnFilter.component';
 import { IFilterData } from '@interfaces/filter-data';
 import { useDraftPhaseState } from '@utils/use-draft-phase-state';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import React, { useState } from 'react';
 interface IListFiter {
   searchQuery?: string;
@@ -35,7 +35,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
 
   const { isOrgChange } = useAppContext();
   const { draftIsReadOnly } = useDraftPhaseState();
-  const router = useRouter();
+  const feedbackHref = useFeedbackHref();
   const [isOpen, setIsOpen] = useState(false);
 
   const dropDownFilter =
@@ -83,7 +83,6 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
               aria-describedby={
                 isOrgChange ? 'orgchange-tabs-operations-table-rowsstext' : 'org-tabs-operations-table-rowsstext'
               }
-              rounded
               placeholder="Sök i listan"
               value={searchQuery}
               onReset={onSearchCloseHandler}
@@ -98,13 +97,7 @@ const ListFilterOperation = ({ searchQuery, setSearchQuery }: IListFiter) => {
                 Koppla på verksamhet
               </Button>
             )}
-            <NextLink
-              href={{
-                query: { ...router.query, feedback: 'OPERATION' },
-              }}
-              shallow
-              replace
-            >
+            <NextLink href={feedbackHref('OPERATION')} replace>
               <Button as="span" variant="secondary" size="md">
                 Rapportera fel
               </Button>

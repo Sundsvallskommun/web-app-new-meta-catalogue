@@ -1,12 +1,14 @@
-import type { AppProps } from 'next/app';
+'use client';
+
 import { defaultTheme, GuiProvider, extendTheme, ConfirmationDialogContextProvider } from '@sk-web-gui/react';
-import { useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AppWrapper } from '@contexts/app.context';
+import { registerNavigator } from '@services/api-service';
 import dayjs from 'dayjs';
 import 'dayjs/locale/sv';
 import utc from 'dayjs/plugin/utc';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import '@styles/tailwind.scss';
 import LoginGuard from '@components/LoginGuard/LoginGuard';
 
 dayjs.extend(utc);
@@ -30,8 +32,13 @@ dayjs.updateLocale('sv', {
   monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function AppLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const router = useRouter();
   const [colorScheme] = useState('light');
+
+  useEffect(() => {
+    registerNavigator((path) => router.push(path));
+  }, [router]);
 
   const theme = useMemo(
     () =>
@@ -47,12 +54,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AppWrapper>
         <LoginGuard>
           <ConfirmationDialogContextProvider>
-            <Component {...pageProps} />
+            {children}
           </ConfirmationDialogContextProvider>
         </LoginGuard>
       </AppWrapper>
     </GuiProvider>
   );
 }
-
-export default MyApp;

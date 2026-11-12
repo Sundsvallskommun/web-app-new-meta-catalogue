@@ -147,7 +147,7 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>((props, re
         {shownRows.map((cols, rowIndex) => (
           <Table.Row
             key={`row-${rowIndex}`}
-            className={isHighlighted(rowIndex) ? 'bg-vattjom-background-200' : undefined}
+            className={isHighlighted(rowIndex) ? 'bg-background-100' : undefined}
           >
             {cols.map(({ element, isShown = true, allowOverflow = false, alignEnd = false }, colIndex) =>
               isShown ?

@@ -1,11 +1,7 @@
-import Head from 'next/head';
-
 export default function EmptyLayout({ title, children }) {
   return (
     <div className="EmptyLayout">
-      <Head>
-        <title>{title}</title>
-      </Head>
+      <title>{title}</title>
 
       <div className="bg-background-200 min-h-screen">{children}</div>
     </div>

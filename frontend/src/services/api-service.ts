@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Router from 'next/router';
 import { apiURL } from '@utils/api-url';
 
 export interface ApiResponse<T> {
@@ -7,18 +6,16 @@ export interface ApiResponse<T> {
   message: string;
 }
 
+// next/navigation has no router singleton, so AppLayout registers router.push here for use outside React.
+let navigate: ((path: string) => void) | null = null;
+
+export const registerNavigator = (fn: (path: string) => void) => {
+  navigate = fn;
+};
+
 export const handleError = (error) => {
-  if (error?.response?.status === 401 && !Router.pathname.includes('login')) {
-    Router.push(
-      {
-        pathname: `/login?path=${window.location.pathname}`,
-        query: {
-          path: window.location.pathname,
-          failMessage: error,
-        },
-      },
-      `/login?path=${window.location.pathname}`
-    );
+  if (error?.response?.status === 401 && !window.location.pathname.includes('login')) {
+    navigate?.(`/login?path=${window.location.pathname}`);
   }
 
   throw error;

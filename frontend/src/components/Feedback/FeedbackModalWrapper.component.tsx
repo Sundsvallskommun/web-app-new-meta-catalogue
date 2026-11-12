@@ -1,5 +1,6 @@
-import { useRouter } from 'next/dist/client/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import { FeedbackModal } from './FeedbackModal.component';
 import { FeedbackDto } from '@data-contracts/backend/data-contracts';
 import { feedbackSelectTypes } from '@services/feedback-service';
@@ -14,35 +15,29 @@ export const FeedbackModalWrapper = ({ type = '', open = false }: FeedbackModalW
   const [feedbackType, setFeedbackType] = useState(type);
 
   const router = useRouter();
+  const pathname = usePathname();
+  const feedback = useSearchParams().get('feedback');
+  const feedbackHref = useFeedbackHref();
 
   const setQueryParam = (type: string) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: type ? { feedback: type } : '',
-      },
-      undefined,
-      { scroll: false }
-    );
+    router.push(type ? `${pathname}?feedback=${type}` : pathname, { scroll: false });
   };
 
   /** Control open or not by feedback query parameter */
   const handleModalClose = () => {
     setIsOpen(false);
-    const query = { ...router.query };
-    delete query.feedback;
-    router.replace({ query }, undefined, { shallow: true });
+    router.replace(feedbackHref());
   };
 
   /** Control open or not by feedback query parameter */
   useEffect(() => {
-    setFeedbackType(router.query.feedback ? (router.query.feedback as FeedbackDto['type']) : '');
-    if (router.query.feedback) {
+    setFeedbackType(feedback ? (feedback as FeedbackDto['type']) : '');
+    if (feedback) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
     }
-  }, [router.query]);
+  }, [feedback]);
 
   useEffect(() => {
     if (open) {

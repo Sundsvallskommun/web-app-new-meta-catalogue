@@ -3,7 +3,7 @@ import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { useResponsibilityStore } from '@services/mdviewer/responsibility-service';
 import { Button, FormControl, SearchField, Select } from '@sk-web-gui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useFeedbackHref } from '@utils/use-feedback-href.hook';
 import React, { useEffect, useState } from 'react';
 interface IResponsibilityListFilter {
   searchQuery?: string;
@@ -14,7 +14,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
   const { treeImage, getTreeImage } = useOrganizationStore();
   const { selectedCompanyId, setSelectedCompanyId } = useResponsibilityStore();
   const [searchTerm, setSearchTerm] = useState(searchQuery);
-  const router = useRouter();
+  const feedbackHref = useFeedbackHref();
 
   const setDelayQuery = useDebouncedCallback(
     (query: string) => {
@@ -59,7 +59,6 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
               id="responsibilities-listfilter-company"
               onChange={onCompanyChange}
               value={selectedCompanyId.toString() ?? ''}
-              defaultValue={selectedCompanyId.toString() ?? ''}
             >
               {treeImage?.map((c) => (
                 <Select.Option key={`${c.orgName}`} value={c.companyId}>
@@ -72,7 +71,6 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
             <FormControl id="responsibilities-listfilter-searchbar">
               <SearchField
                 size="md"
-                rounded
                 aria-label="Sök i listan över ansvar"
                 placeholder="Sök i listan"
                 value={searchTerm}
@@ -84,13 +82,7 @@ const ResponsibilityListFilter = ({ searchQuery, setSearchQuery }: IResponsibili
           </span>
         </div>
         <span className="flex flex-wrap justify-end gap-15">
-          <NextLink
-            href={{
-              query: { ...router.query, feedback: 'RESPONSIBILITY' },
-            }}
-            shallow
-            replace
-          >
+          <NextLink href={feedbackHref('RESPONSIBILITY')} replace>
             <Button as="span" variant="secondary" size="md">
               Rapportera fel
             </Button>

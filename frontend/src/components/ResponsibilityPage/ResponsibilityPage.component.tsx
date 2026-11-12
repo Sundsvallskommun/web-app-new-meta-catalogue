@@ -1,3 +1,5 @@
+'use client';
+
 import ResponsibilityList from '@components/Responsibilities/ResponsibilityList/ResponsibilityList';
 import ResponsibilityListFilter from '@components/Responsibilities/ResponsibilityListFilter/ResponsibilityListFilter';
 import Main from '@layouts/Main/Main.component';
@@ -8,12 +10,10 @@ import { useEffect, useState } from 'react';
 export const Index: React.FC = () => {
   const { getResponsibilities, selectedCompanyId } = useResponsibilityStore();
   const [searchQuery, setSearchQuery] = useState('');
-  const [, setIsLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     if (selectedCompanyId) {
-      setIsLoading(true);
       getResponsibilities(selectedCompanyId, controller.signal);
     }
     return () => {

@@ -1,5 +1,7 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Button, FormErrorMessage } from '@sk-web-gui/react';
 import EmptyLayout from '@layouts/EmptyLayout/EmptyLayout.component';
 import LoaderFullScreen from '@components/Loader/LoaderFullScreen.component';
@@ -28,41 +30,29 @@ export default function Start() {
 
   const onLogin = () => {
     // NOTE: send user to login with SSO
-    const path = new URLSearchParams(window.location.search).get('path') || router.query.path || '';
-    router.push({
-      pathname: `${process.env.NEXT_PUBLIC_API_URL}/saml/login`,
-      query: {
-        successRedirect: `${appURL()}${path}`,
-      },
-    });
+    const path = new URLSearchParams(window.location.search).get('path') || '';
+    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/saml/login`);
+    url.searchParams.set('successRedirect', appURL() + path);
+    window.location.assign(url.toString());
   };
 
   useEffect(() => {
     setInitalFocus();
-    if (!router.isReady) return;
     setTimeout(() => setMounted(true), 500); // to not flash the login-screen on autologin
     if (isLoggedOut) {
-      router.push(
-        {
-          pathname: '/login',
-        },
-        '/login',
-        { shallow: true }
-      );
-    } else {
-      if (!failMessage && autoLogin) {
-        // autologin
-        onLogin();
-      } else if (failMessage === 'SAML_MISSING_GROUP') {
-        setErrorMessage('Användaren saknar rätt grupper');
-      } else if (failMessage === 'SAML_MISSING_ATTRIBUTES') {
-        setErrorMessage('Användaren saknar rätt attribut');
-      } else if (failMessage === 'MISSING_PERMISSIONS') {
-        setErrorMessage('Användaren saknar rättigheter');
-      }
+      router.push('/login');
+    } else if (!failMessage && autoLogin) {
+      // autologin
+      onLogin();
+    } else if (failMessage === 'SAML_MISSING_GROUP') {
+      setErrorMessage('Användaren saknar rätt grupper');
+    } else if (failMessage === 'SAML_MISSING_ATTRIBUTES') {
+      setErrorMessage('Användaren saknar rätt attribut');
+    } else if (failMessage === 'MISSING_PERMISSIONS') {
+      setErrorMessage('Användaren saknar rättigheter');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
+  }, []);
 
   if (!mounted && !failMessage) {
     // to not flash the login-screen on autologin

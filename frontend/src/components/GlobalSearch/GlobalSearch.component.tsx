@@ -28,7 +28,6 @@ export const GlobalSearch: React.FC = () => {
         <SearchField
           size="md"
           ref={refSearchBar}
-          rounded
           data-cy="search"
           aria-label="Sök i all data"
           placeholder="Sök i all data"

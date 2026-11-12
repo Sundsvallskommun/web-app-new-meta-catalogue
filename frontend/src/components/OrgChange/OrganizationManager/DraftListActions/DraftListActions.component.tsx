@@ -179,7 +179,6 @@ export default function DraftListActions(props: DraftListActions) {
         <SearchField
           size="md"
           {...register('query')}
-          rounded
           aria-label="Sök organisationsförändringar"
           placeholder="Sök organisationsförändringar"
           aria-live="polite"

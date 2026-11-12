@@ -2,7 +2,7 @@ import { useOrgChangeStore } from '@services/mdbuilder/orgchange-service';
 import { getRootOrg } from '@services/mdviewer/api-calls/organization';
 import { useOrganizationStore } from '@services/mdviewer/organization-service';
 import { Button, FormControl, FormErrorMessage, FormLabel, Modal, Select } from '@sk-web-gui/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface IChooseCompanyForDraftProps {
